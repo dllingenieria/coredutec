@@ -1,0 +1,52 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.encFac1, .encFac3
+{
+	font-family: Verdana;
+	font-size: 3.2mm;			/* size 2 */
+}
+.encFac1
+{
+	font-weight: bold;
+}
+.encFac2
+{
+	
+}
+.encFac2, .encFac4, .encFac5
+{
+	font-family: Verdana;
+	font-size: 2.5mm;				/* size 1 */
+}
+.encFac4
+{
+	font-weight: bold;
+}
+.encFac5
+{
+	color: #808080;
+	
+}
+.encFacFin1
+{
+	font-family: Verdana;
+	font-size: 1.7mm;				/* size 1 */
+}
+.encFacFin2
+{
+	font-family: Verdana;
+	font-size: 1.9mm;				/* size 1 */
+}
+.tabCli td
+{
+	border:1px solid black;
+	border-collapse: separate;
+    border-spacing: 7px 1px 2px 1px; 
+}
+.encFrase
+{
+	font-family: Verdana;
+	font-size: 2.7mm;				/* size 1 */
+}

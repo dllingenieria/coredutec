@@ -1,0 +1,214 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Planeacion</title>
+	<link rel="stylesheet" href="../css/template.css" type="text/css">
+	<link rel="stylesheet" href="../css/fuentes.css" type="text/css" />
+	<link rel="stylesheet" href="../css/planeacion.css" type="text/css" />
+	<link rel="stylesheet" href="../css/tabla.css">
+	<link rel="shortcut icon" href="../images/favicon.ico" />
+	
+	<link rel="stylesheet" type="text/css" href="../../includes/jquery-ui-1.11.4.custom/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/popups.css"/> 
+	<script src="../../includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
+	<script src="../../includes/jquery-ui-1.11.4.custom/jquery-ui.js" type="text/javascript" ></script>
+	
+	
+	 <link rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.3.2/css/colReorder.dataTables.min.css">
+	 <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js" type="text/javascript"></script>
+	<script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+	<script src="../js/sesion.js" type="text/javascript" ></script>
+	<script src="../js/planeacion1.js" type="text/javascript"></script>
+	
+	
+	
+</head>
+<body>
+	<!-- ENCABEZADO -->
+	<section class="encabezado">
+		<!-- CABECERA -->
+		<section class="cabecera">
+			<div class="contenedorLogo">
+				<img class="imgLogo" src="../images/logocet2.png" alt="">
+			</div>
+			<div class="contenedorTitulo">
+				<div class="titulo1">Mecanismo De Control</div>
+				<div class="titulo2">De La Formación</div>
+			</div>
+			<div class="contenedorSesion">
+				<div class="loginTexto">Bienvenido (a) <span id="nombre"></span></div>
+				<button type="button" id="cambiarRol" class="boton cerrarSesion">Cambiar Rol</button>
+				<button type="button" id="cerrarSesion" class="boton cerrarSesion">Cerrar Sesión</button>
+			</div>
+		</section>
+		<!-- FIN CABECERA -->
+		<!-- BARRA DE NAVEGACIÓN -->
+		<nav class="barraNavegacion"></nav>
+		<!-- FIN BARRA DE NAVEGACIÓN -->
+	</section>
+	<!-- FIN ENCABEZADO -->
+
+	<!-- CUERPO -->
+	<section class="cuerpo">
+
+		<label class="titulo">PROGRAMA DE CAPACITACIÓN PARA INSERCIÓN LABORAL</label>
+		<table class="tablaInformacion">
+			<tr>
+				<th style="width: 17%">Nombre del Servicio Educativo</th>
+				<td colspan="3" id="nombreServicio"></td>
+				<th style="width: 10%">Inscritos</th>
+				<td id="inscritos"></td>
+			</tr>
+			<tr>
+				<th>Centro de Sercios / Sede / Lugar de Servicio</th>
+				<td id="lugar"></td>
+				<th>Fecha de Inicio</th>
+				<td id="fechaInicial"></td>
+				<th>Fecha de Finalización</th>
+				<td id="fechaFinal"></td>
+			</tr>
+			<tr>
+				<th>Horario</th>
+				<td id="horario"></td>
+				<th>Código</th>
+				<td id="codigo"></td>
+				<th>Duración del Módulo</th>
+				<td id="duracion"></td>
+			</tr>
+		</table>
+		<br>
+	
+	<div id="element_to_pop_upCon2" class="element_to_pop_upMensaje mensaje1">
+
+    <div>
+
+        <table id="tblPopup" width="300" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoConfirmacion2" class="popup"></label>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+	<div id="element_to_pop_upCon" class="element_to_pop_upMensaje mensaje">
+
+    <div>
+
+        <table id="tblPopup" width="300" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoConfirmacion1" class="popup"></label>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+		<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="410" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoError" class="popup"></label>
+
+                    <br><br>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+		<!-- div nuevo para confirm-->
+		<div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+		<div id="element_to_pop_upCon3" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="300" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoConfirmacion3" class="popup"></label>
+					
+					<input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAceptar" class="b-close botonAceptar" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+					
+                    <input type="button" name="element_to_pop_upConf" value="Cerrar" id="btnCerrar"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+		<!-- -->
+	<div id="divListar" class="display">
+	<table id="tablaPlaneacion" class="display" cellspacing="0" width="100%"></table>
+		<div class="botones">
+			<button id="nuevaPlaneacion" type="button" class="boton" onclick="">Nuevo</button>
+			<button id="verDetalle" type="button" class="boton" onclick="">Ver Detalle</button>
+			<button id="eliminarPlaneacion"type="button" class="boton" onclick="">Eliminar</button>
+			<button id="volverListar" type="button" class="boton" onclick="">Volver</button>
+		</div>
+	</div>
+	
+	
+		
+		<div id="divEditar">
+		
+		</div>
+		<div id="divBoton" style="display:none">
+		<button id="editarPlaneacion" type="button" class="boton" onclick="">Actualizar</button>
+		<button id="cerrarEditar" type="button" class="boton" onclick="">Cancelar</button>
+		</div>
+		<br><br><br>
+	</section>	
+	<!-- FIN CUERPO -->
+	<!-- FOOTER -->
+	<footer>
+		<img class="imgRedesSociales" src="../images/redessociales.png" alt="">
+		<img class="imgLogos" src="../images/barraLogos.png" alt="">
+		<!-- <div class="RedesSociales">Facebook</div>
+		<div class="RedesSociales">Twitter</div>
+		<div class="RedesSociales">YouTube</div> -->
+	</footer>
+	<!-- FIN FOOTER -->
+</body>
+</html>

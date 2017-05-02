@@ -1,0 +1,192 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Notas</title>
+	<link rel="stylesheet" href="../css/template.css" type="text/css">
+	<link rel="stylesheet" href="../css/notas.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="../css/fuentes.css"/>
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/tabla.css"/>
+	<link rel="shortcut icon" href="../images/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="../css/popups.css"/> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js" type="text/javascript"></script>
+	<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>
+	<script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+	<script src="../js/sesion.js" type="text/javascript" ></script>
+	<script src="../js/notas.js" type="text/javascript"></script>	
+</head>
+<body>
+	<!-- ENCABEZADO -->
+	<section class="encabezado">
+		<!-- CABECERA -->
+		<section class="cabecera">
+			<div class="contenedorLogo">
+				<img class="imgLogo" src="../images/logocet2.png" alt="">
+			</div>
+			<div class="contenedorTitulo">
+				<div class="titulo1">Mecanismo De Control</div>
+				<div class="titulo2">De La Formación</div>
+			</div>
+			<div class="contenedorSesion">
+				<div class="loginTexto">Bienvenido (a) <span id="nombre"></span></div>
+				<button type="button" id="cambiarRol" class="boton cerrarSesion">Cambiar Rol</button>
+				<button type="button" id="cerrarSesion" class="boton cerrarSesion">Cerrar Sesión</button>
+			</div>
+		</section>
+		<!-- FIN CABECERA -->
+		<!-- BARRA DE NAVEGACIÓN -->
+		<nav class="barraNavegacion">
+		</nav>
+		<!-- FIN BARRA DE NAVEGACIÓN -->
+	</section>
+	<!-- FIN ENCABEZADO -->
+	<!-- CUERPO -->
+	<section class="cuerpo">
+		<label class="titulo">PROGRAMA DE CAPACITACIÓN PARA INSERCIÓN LABORAL</label>
+		<table class="tablaInformacion">
+			<tr>
+				<th style="width: 17%">Nombre del Servicio Educativo</th>
+				<td colspan="3" id="nombreServicio"></td>
+				<th style="width: 10%">Inscritos</th>
+				<td id="inscritos"></td>
+			</tr>
+			<tr>
+				<th>Centro de Sercios / Sede / Lugar de Servicio</th>
+				<td id="lugar"></td>
+				<th>Fecha de Inicio</th>
+				<td id="fechaInicial"></td>
+				<th>Fecha de Finalización</th>
+				<td id="fechaFinal"></td>
+			</tr>
+			<tr>
+				<th>Horario</th>
+				<td id="horario"></td>
+				<th>Código</th>
+				<td id="codigo"></td>
+				<th>Duración del Módulo</th>
+				<td id="duracion"></td>
+			</tr>
+		</table>
+		<br>
+		
+	</section>
+        <div id="DivNotas">
+            <table id="tablaNotas" class="display compact nowrap tablaNotas" cellspacing="0" width="100%">
+                <thead>
+	            <tr>
+	            	<th rowspan="2">N°</th>
+	                <th rowspan="2">Estudiante</th>
+	                <th colspan="3">Saber</th>
+	                <th colspan="3">Hacer</th>
+	                <th colspan="3">Ser</th>
+	                <th rowspan="2">Total</th>
+	            </tr>
+	            <tr>
+	                <th>Nota1</th>
+	                <th>Nota2</th>
+	                <th>Nota3</th>
+	                <th>Nota1</th>
+	                <th>Nota2</th>
+	                <th>Nota3</th>
+	                <th>Nota1</th>
+	                <th>Nota2</th>
+	                <th>Nota3</th>
+	            </tr>
+        	</thead>
+		</table>
+            <div class="botones">
+			<button id="volverNotas" type="button" class="boton">Volver</button>
+			<button id="guardarNotas" type="button" class="boton">Guardar</button>
+			<button id="cerrarCurso" type="button" class="boton">Cerrar Curso</button>
+			<br><br><br><br>
+			<!--<button id="reporteAsistencia" type="button" class="boton">Reporte Asistencia</button>-->
+		</div>
+        </div>
+		
+		<div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="300" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoConfirmacion1" class="popup"></label>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+		
+		<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="410" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoError" class="popup"></label>
+
+                    <br><br>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>  
+		<!-- div nuevo para confirm-->
+		<div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+		<div id="element_to_pop_upCon1" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="300" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoConfirmacion2" class="popup"></label>
+					<br><br>
+					<input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAceptar" class="b-close botonAceptar" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+					
+                    <input type="button" name="element_to_pop_upConf" value="Cerrar" id="btnCerrar"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+		<!-- -->
+		
+	<!-- FIN CUERPO -->
+	<!-- FOOTER -->
+	<footer>
+		<img class="imgRedesSociales" src="../images/redessociales.png" alt="">
+		<img class="imgLogos" src="../images/barraLogos.png" alt="">
+	</footer>
+	<!-- FIN FOOTER -->
+</body>
+</html>

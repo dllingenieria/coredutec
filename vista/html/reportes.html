@@ -1,0 +1,169 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Reportes</title>
+	<link rel="stylesheet" href="../css/template.css" type="text/css">
+	<link rel="stylesheet" href="../css/fuentes.css" type="text/css">
+	<link rel="stylesheet" href="../css/tabla.css">
+	<link rel="stylesheet" href="../css/reportes.css" type="text/css">
+	<link rel="stylesheet" href="../../includes/sweetAlert/sweetalert.css">
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+	<link rel="shortcut icon" href="../images/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="../css/popups.css"/> 
+	<link rel="stylesheet" type="text/css" href="../../includes/jquery-ui-1.11.4.custom/jquery-ui.css"/>
+	<!--JS-->
+ 	
+	<!--<script src="../../includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
+	<script src="../../includes/jquery-ui-1.11.4.custom/jquery-ui.js" type="text/javascript" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>	<script src="../js/reportes.js" type="text/javascript"></script>
+		
+
+	<script src="../../includes/sweetAlert/sweetalert.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+	<script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+	<script src="../js/sesion.js" type="text/javascript" ></script>-->
+
+	<script src="../../includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
+	<script src="../../includes/jquery-ui-1.11.4.custom/jquery-ui.js" type="text/javascript" ></script>
+	<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>	
+	<script src="../js/reportes.js" type="text/javascript"></script>
+	<!--<script src="../js/facturacion.js" type="text/javascript"></script>-->
+	<script src="../../includes/sweetAlert/sweetalert.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+	<script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+	<script src="../js/sesion.js" type="text/javascript" ></script>
+
+</head>
+<body>
+    <input type="hidden" id="reporteexcel">
+	<!-- ENCABEZADO -->
+	<section class="encabezado">
+		<!-- CABECERA -->
+		<section class="cabecera">
+			<div class="contenedorLogo">
+				<img class="imgLogo" src="../images/logocet2.png" alt="">
+			</div>
+			<div class="contenedorTitulo">
+				<div class="titulo1">Mecanismo De Control</div>
+				<div class="titulo2">De La Formación</div>
+			</div>
+			<div class="contenedorSesion">
+				<div class="loginTexto">Bienvenido (a) <span id="nombre"></span></div>
+				<button type="button" id="cambiarRol" class="boton cerrarSesion">Cambiar Rol</button>
+				<button type="button" id="cerrarSesion" class="boton cerrarSesion">Cerrar Sesión</button>
+			</div>
+		</section>
+		<!-- FIN CABECERA -->
+
+		<!-- BARRA DE NAVEGACIÓN -->
+		<nav class="barraNavegacion"></nav>
+		<!-- FIN BARRA DE NAVEGACIÓN -->
+	</section>
+	<!-- FIN ENCABEZADO -->
+
+	<!-- CUERPO -->
+	<section class="cuerpo">
+		<div class="top">
+			<span class="filtros ">
+				<label class="titulo">Seleccionar Reporte</label>
+				<select class="lista" id="reportes">
+					<option value="0" selected>Seleccione reporte</option>
+					<!--<option value="1">Reporte Convocados Asistencia</option>
+					<option value="2">Reporte de Inicio de Módulo</option>
+					<option value="3">Reporte de Inasistencias Diarias</option>
+					<option value="4">Reporte de Ausentismo</option>
+					<option value="5">Imprimir Certificaciones</option>
+					<option value="6">Reporte Terminación de Módulo</option>-->
+					<option value="7">Estudiantes por salón</option>
+					<option value="10">Matriculados a la fecha</option>
+					<option value="9">Preprogramación a la fecha</option>
+				</select>
+			</span>
+			<span id="spanFechaInicial" class="filtros derecha">
+				<label class="titulo">Fecha Inicial</label>
+				<input type="date" id="txtFechaInicial" size="14">
+			</span>
+			<span id="spanFechaFinal" class="filtros derecha">
+				<label class="titulo">Fecha Final</label>
+				<input type="date" id="txtFechaFinal" size="14">
+			</span>
+			<span id="spanJornadas" class="filtros derecha">
+				<label class="titulo">Seleccionar Jornada:</label>
+				<select id="jornadas"></select>
+			</span>
+			<span id="spanFecha" class="filtros derecha">
+				<label class="titulo">Seleccionar Fecha:</label>
+				<input id="fecha" type="date">		
+			</span>
+			<span id="spanSalones" class="filtros derecha">
+				<label class="titulo">Código de Salón</label>
+				<input type="text" name="codigo_salon" id="codigo_salon">
+				<button id="buscarSalon" type="button" class="boton abajo">Buscar</button>
+			</span>
+			<span id="spanMatriculados" class="filtros derecha">
+				<label class="titulo">Fecha de inicio</label>
+				<input type="date" name="fecha_matriculados" id="fecha_matriculados">
+				<button id="buscarMatriculados" type="button" class="boton abajo">Buscar</button>
+			</span>
+			<span id="spanTotal" class="filtros total">
+				<label class="titulo">Total Estudiantes</label>
+				<b><label id="numero_estudiantes"></label></b>
+			</span>
+		</div>
+		<div id="contenedorTabla" class="contenedorTabla">
+			<table id="tablaDinamica" class="display" cellspacing="0" width="100%"></table>
+		</div>
+		<div id="contenedorDiagrama" class="contenedorTabla"></div>
+
+		<!-- BOTONERA -->
+		<div class="botonera">
+			<button id="imprimir" type="button" class="boton abajo">Imprimir</button>
+			
+		</div>
+		<div class="botonera izquierda">
+			<button id="verDetalle" type="button" class="boton abajo">Ver Detalle</button>
+			<button id="verConsolidado" type="button" class="boton abajo">Ver Consolidado</button>
+			<button id="descargar" type="button"  class="boton abajo">Descargar Excel</button>
+		</div>
+		<!-- FIN BOTONERA -->
+	</section>
+
+	<!-- FIN CUERPO -->	
+	<div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
+    <div>
+        <table id="tblPopup" width="300" align="left" border="0">
+            <tr>
+                <td align="center">
+                    <label id="textoConfirmacion1" class="popup"></label>
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                </td>
+            </tr>
+        </table>
+    </div>
+		</div>
+		<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+    <div>
+
+        <table id="tblPopup" width="410" align="left" border="0">
+            <tr>
+                <td align="center">
+                    <label id="textoError" class="popup"></label>
+                    <br><br>
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+		</div> 
+	<!-- FOOTER -->
+	<footer>
+		<img class="imgRedesSociales" src="../images/redessociales.png" alt="">
+		<img class="imgLogos" src="../images/barraLogos.png" alt="">
+	</footer>
+	<!-- FIN FOOTER -->
+</body>
+</html>
+</html>

@@ -1,0 +1,196 @@
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+   <title>Formato Asistencia Firmas</title>
+     <meta http-equiv="cache-control" content="max-age=0" />
+     <meta http-equiv="cache-control" content="no-cache" />
+     <meta http-equiv="expires" content="0" />
+     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+     <meta http-equiv="pragma" content="no-cache" />
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+     <link rel="stylesheet" type="text/css" href="../css/formatoFirmas.css"/>
+     <link rel="stylesheet" type="text/css" href="../css/fuentes.css"/>
+     <link rel="shortcut icon" href="../images/favicon.ico"/>
+     <script src="../../includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
+     <script src="../../includes/jquery.cookie.js" type="text/javascript" ></script>
+     <script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+     <script src="../../vista/js/nav_log.js" type="text/javascript" ></script>
+     <script src="../../vista/js/formatoFirmas.js" type="text/javascript" ></script>
+     <script src="../../vista/js/sesion.js" type="text/javascript" ></script>
+  </head>
+  <body id="formatoFirmas1">
+  <section>
+      <table width="1450" border="1"  id="tablaDatos"> 
+    <tr>
+    <td width="300" rowspan="2" class="imagenes-formato"><img src="../images/logo-colsubsidio.png" class="imagenes-formato"/></td>
+    <td width="900" align="center">
+      <div class="titulo-formato">
+        <label>
+        MECANISMO DE PROTECCIÓN AL CESANTE
+        <br />
+        PROGRAMA DE CAPACITACIÓN PARA INSERCIÓN LABORAL
+        <br />
+        FORMATO LISTA DE ASISTENCIA
+        </label>
+      </div>
+    </td>
+    <td width="300" rowspan="2" class="imagenes-formato"><img src="../images/logo-airbus.png" class="imagenes-formato" /></td>
+    </tr>
+    <tr>
+    <td class="imagenes-formato"><img src="../images/logo-cet.png" width="240" height="53" class="imagenes-formato1"/></td>
+    </tr>
+  </table>
+  </section>
+  <table width="1450" border="1"  id="tablaPolitica">
+    <tr>
+    <td>
+    Mediante el registro de sus datos personales en el presente formato usted autoriza a la Corporación de Educación Tecnológica Colsubsidio AIRBUS GROUP, para la recolección, almacenamiento y uso de los mismos con la finalidad de adelantar el trámite de inscripción al presente evento de formación, para el ejercicio de las actividades académicas, culturales, comerciales o laborales que de ésta se deriven. Usted como titular de la información tiene derecho a conocer, actualizar y rectificar sus datos personales, solicitar nuevas pruebas de la autorización otorgada para su tratamiento, ser informado sobre el uso que se ha dado a los mismos, presentar quejas ante la SIC (superintendencia de industria y comercio) por infracción a la ley, revocar a la autorización y/o solicitar la supresión de los datos en los casos en que sea procedente y acceder en forma gratuita a los mismos.
+    </td>
+    </tr>
+  </table>
+     <table id="tablaDatos" width="1450" border="1">
+      <tr>
+        <th width="257" nowrap="nowrap" class="formato-firmas">SERVICIO EDUCATIVO: (Cód. y Nom. Sistema)</th>
+        <td colspan="5"><input id="txtNombreServicioEducativo" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="80" type="text"/></td>
+        <th colspan="2" nowrap="nowrap" class="formato-firmas">MÓDULO (Cód.y Nom.Sistema)</th>
+        <td colspan="6"><input name="text2" type="text" id="txtModulo" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="70"/></td>
+       </tr>
+      <tr>
+        <th width="257" nowrap="nowrap" class="formato-firmas">HORARIO: (DíasCurso, HoraInicial, HoraFinal)</th>
+        <td colspan="5"><input id="txtHorario" style="border:none;font-family: 'Roboto-Light'; font-size:13px" size="80" type="text"/></td>
+        <th colspan="2" nowrap="nowrap" class="formato-firmas">SEDE PRESTACIÓN DEL SERVICIO</th>
+        <td colspan="6"><input name="text3" type="text" id="txtSede" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="70"/></td>
+       </tr>
+      <tr>
+        <th width="257" nowrap="nowrap" class="formato-firmas">FECHA INICIAL</th>
+        <td width="128"><input id="txtFechaInicial" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="20" type="text"/></td>
+        <th width="98" nowrap="nowrap" class="formato-firmas">FECHA FINAL</th>
+        <td colspan="3"><input name="text" type="text" id="txtFechaFinal" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="20"/></td>
+        <th colspan="2" nowrap="nowrap" class="formato-firmas">PROVEEDOR DE SERVICIOS: </th>
+        <td colspan="6"><input name="text4" type="text" id="txtDocente" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="70"/></td>
+       </tr>
+      <tr>
+        <th width="257" nowrap="nowrap" class="formato-firmas">CÓDIGO SALÓN: (Sistema)</th>
+        <td width="128"><input id="txtSalon" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="20" type="text"/></td>
+        <th width="98" nowrap="nowrap" class="formato-firmas">RUTA</th>
+        <td width="41"><input id="txtRuta" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="5" type="text"/></td>
+        <th width="103" nowrap="nowrap" class="formato-firmas">No. SESIONES</th>
+      <td width="39"><input id="txtNoSessiones" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="5" type="text"/></td>
+        <th width="161" nowrap="nowrap" class="formato-firmas">DURACIÓN MÓDULO</th>
+        <td width="31"><input id="txtDuracion" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="5" type="text"/></td>
+        <th width="68" class="formato-firmas">INSCRITOS</th>
+        <td width="29"><input id="txtInscritos" style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="5" type="text"/></td>
+        <th width="75" class="formato-firmas">ASISTENTES</th>
+        <td width="29"><input style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="5" type="text"/></td>
+        <th width="76" class="formato-firmas">APROBADOS</th>
+        <td width="29"><input style="border:none;font-family: 'Roboto-Light'; font-size:12px" size="5" type="text"/></td>
+      </tr>
+    </table>
+    <div class="tablaAsistenciaIn">
+    <table id="tablaAsistencia1" width="1450" border="1">
+      <tr>
+        <td colspan="6" class="sin-borde"></td>
+        <th colspan="4" class="formato-firmas1">Control de Asistencia (Registre firma del estudiante por sesión)</th>
+        <th width="63" class="formato-firmas">HOJA</th>
+        <th width="63" >&nbsp;</th>
+        <th width="63" class="formato-firmas">DE</th>
+        <th width="63">&nbsp;</th>
+      </tr>
+      <tr>
+        <th width="16" rowspan="3" class="formato-firmas" id="No">No</th>
+        <th width="168" rowspan="3" class="formato-firmas" id="Apellidos">Apellidos</th>
+        <th width="155" rowspan="3" class="formato-firmas" id="Nombres">Nombres</th>
+        <th width="142" rowspan="3" class="formato-firmas" id="Identificacion">No. Identificación</th>
+        <th colspan="2"class="formato-firmas">Teléfono (s)</th>
+        <th width="36" class="formato-firmas" id="Firmas">Sesión</th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+        <th width="63" class="formato-firmas" id="Firmas"></th>
+      </tr>
+      <tr>
+        <th width="79" rowspan="2" class="formato-firmas" id="telefono1">Teléfono 1 </th>
+        <th width="78" rowspan="2" class="formato-firmas" id="telefono2">Teléfono 2 </th>
+        <th class="formato-firmas" id="Firmas">Fecha</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+      </tr>
+      <tr>
+        <th class="formato-firmas" id="Firmas">Día</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+        <th class="formato-firmas" id="Firmas">&nbsp;</th>
+      </tr>
+  </table>
+  </div>
+  <table width="1450" border="1" id="tablaImportante">
+  <tr>
+    <td class="formato-firmas"><strong>IMPORTANTE: </strong><br />
+      1. Es responsabilidad del participante registrar sus datos de manera clara, completa y correcta (como aparece en su documento de identidad), ya que, desde este listado se expedirá la constancia de asistencia correspondiente.<br />
+    2. La firma del estudiante valida la participación en el proceso de formación y el recibido de la alimentación.</span></td>
+  </tr>
+</table>
+  <table width="1450" border="1"  id="tablaAsistencia">
+  <tr>
+    <td>Novedades del Servicio:
+  <br />
+  <br />
+  <br />
+  </td>
+  </tr>
+</table>
+  <table width="1450" border="1" id="tablaFirmas">
+  <tr>
+    <td colspan="2" align="center" class="formato-firmas"><strong>ENTREGA</strong></td>
+    <td width="100" rowspan="7" class="sin-borde-4">&nbsp;</td>
+    <td colspan="2" align="center" class="formato-firmas"><strong>VERIFICACIÓN ACADÉMICA Y/O ADMINISTRATIVA</strong></td>
+    </tr>
+  <tr>
+    <td width="75" class="sin-borde-1"><strong>FIRMA:</strong></td>
+    <td width="536" class="sin-borde-2"><hr class="linea-firma"/></td>
+    <td width="62" class="sin-borde-1"><strong>FIRMA:</strong></td>
+    <td width="547" class="sin-borde-2"><hr class="linea-firma"/></td>
+  </tr>
+  <tr>
+    <td class="sin-borde-1"><strong>NOMBRE:</strong></td>
+    <td class="sin-borde-2"><hr class="linea-firma"/></td>
+    <td class="sin-borde-1"><strong>NOMBRE:</strong></td>
+    <td class="sin-borde-2"><hr class="linea-firma"/></td>
+  </tr>
+  <tr>
+    <td class="sin-borde-1"><strong>CARGO:</strong></td>
+    <td class="sin-borde-2"><hr class="linea-firma"/></td>
+    <td class="sin-borde-1"><strong>CARGO:</strong></td>
+    <td class="sin-borde-2"><hr class="linea-firma"/></td>
+  </tr>
+  <tr>
+    <td class="sin-borde-3"><strong>FECHA:</strong></td>
+    <td><hr class="linea-firma"/></td>
+    <td class="sin-borde-3"><strong>FECHA:</strong></td>
+    <td><hr class="linea-firma"/></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="text-firma">La firma en este espacio de verificación, valida el seguimiento al proceso de formación y el diligenciamiento adecuado del formato. (Responsables: Docente y/o Monitor Académico)</td>
+    <td colspan="2" class="text-firma">La firma en este espacio de verificación, valida el seguimiento académico y/o administrativo. Y cumplimiento a las políticas de calidad de la institución.  (Responsables: Promotor, Monitor y/o Análista Académico).</td>
+    </tr>
+</table>
+<table width="1450" border="0" id="tablaCalidad" align="center">
+  <tr>
+    <td align="center">Proceso Relacionamiento con el Sector Externo - Código: REX-FT-028 - Versión: 02 </td>
+  </tr>
+</table>
+<div id="Terminado1" class="Termidado"></div>  
+  </body>
+  </html>
