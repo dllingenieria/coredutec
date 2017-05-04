@@ -1,7 +1,8 @@
 var pop_err = '<div id="element_to_pop_upError" class="element_to_pop_upError"><div><label id="textoError" class="popup" style="margin-left: 174px; font-family: \'Roboto-Light\'; font-size: 18px;"> </label></div><br><br><div><label id="textoError1" class="popup" style="margin-left: 174px; font-family: \'Roboto-Light\'; font-size: 18px;"> </label></div></div>';
  
 var vistas = {
-    0:{"nombre":"Captura Base de Datos","url":"captura.html"}, 
+    // 0:{"nombre":"Captura Base de Datos","url":"captura.html"}, 
+    0:{"nombre":"Cargas Masivas","url":"captura.html"}, 
     1:{"nombre":"Buscar por Documento","url":"busqueda.html"}, 
     2:{"nombre":"Preprogramación","url":"preprogramacionNueva.html"}, 
     3:{"nombre":"Novedades","url":"novedades.html"}, 
