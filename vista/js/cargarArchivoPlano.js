@@ -11,6 +11,9 @@ $(function() {
 //});
     var nom_arc = '';
     var idJornada='';
+	
+	CargarListaCargasMasivas();
+	obtenerFechaActual();
 
     function CargarArchivoPlano() {
         console.log("cargarArchivoPlano()");
@@ -50,12 +53,24 @@ $(function() {
         }
     }
 
+	/*
+	* Se agrega validacion del checkbox para saber
+	*si se actualizan los terceros
+	*/
     function EvaluarArchivo() {
+		if( $('#txtCheck').prop('checked') ) {
+			actualizarTercero=true;
+		}
+		else{
+			actualizarTercero=false;
+		}
+		
         $.post("../../controlador/fachada.php", {
             clase: 'clsGestorBDPlanas',
             oper: 'CargarArchivoPlano',
             nom_arc: nom_arc.replace('"',"").replace('"',""),
-            pIdJornada:idJornada
+            pIdJornada:idJornada,
+			actualizarTercero:actualizarTercero
         }, function(data) {
             $("#circulo").hide();
             $("#xerror").hide();
@@ -88,12 +103,14 @@ $(function() {
 
 
     function insertarConvocatoria() {
+		
         $.post("../../controlador/fachada.php", {
             clase: 'clsConvocatoria',
             oper: 'insertarJornadaConvocatoria',
             pJornada:$("#txtDescripcion").val(),
             pDireccion:$("#txtDireccion").val(),
             pFecha:$("#txtFecha").val()
+			
         }, function(data) {
             idJornada=data[0].IdTabla;
         }, "json"
@@ -151,8 +168,120 @@ function jsShowWindowLoad(mensaje) {
  
         //centramos el div del texto
         $("#WindowLoad").html(imgCentro);
- 
+	
 }
+
+	$( "#selCarga" ).change(function() { 
+			var valorSeleccionado = $("#selCarga").val(); 
+			$("#fondoerrores").html("");
+			// $( "input", $(".form") ).val("");
+			$( "input[id!=txtFecha]", $(".form") ).val("");
+			switch (valorSeleccionado) {
+				case "00":
+					$(".form").hide();
+					mostrarPopUpError("Debe seleccionar una opción");
+					break;
+				case "289":
+					$(".form").hide();
+				     $("#cargaAsignacion").show();
+					// guardarAsignaciones();
+					break;
+				case "290":
+					$(".form").hide();
+					$("#soporteMatriculas").show();
+					guardarSoporteMatriculas();
+					break;
+				case "291":
+					$(".form").hide();
+					$("#soporteFirmas").show();
+					guardarSoporteFirmas();
+					break;
+				case "292":
+					$(".form").hide();
+					$("#cambioEstados").show();
+					guardarCambioEstado();
+					break;
+				case "293":
+					$(".form").hide();
+					$("#soporteRefrigerios").show();
+					guardarSoporteRefrigerios();
+					break;
+				case "294":
+					$(".form").hide();
+					$("#informeAgencia").show();
+					guardarInformeAgencia();
+			}
+	});
+	
+	function popUpConfirmacion(msj){
+    $("#textoConfirmacion1").text(msj);
+    $('#element_to_pop_upCon').bPopup({
+        speed: 450,
+        transition: 'slideDown'
+    });
+}
+
+	function mostrarPopUpError(err_men) {
+		$("#textoError").text(err_men);
+		$('#element_to_pop_upMen').bPopup({
+			speed: 450,
+			transition: 'slideDown'
+		});
+}
+
+	function obtenerFechaActual(){
+		var hoy = new Date();
+		var dd = hoy.getDate();
+		var mm = hoy.getMonth()+1; //hoy es 0!
+		var yyyy = hoy.getFullYear();
+
+		if(dd<10) {
+			dd='0'+dd
+		} 
+
+		if(mm<10) {
+			mm='0'+mm
+		} 
+
+		// hoy = mm+'/'+dd+'/'+yyyy;
+		hoy = yyyy+'/'+mm+'/'+dd;
+		
+		$(".fecha").val(hoy);
+		$('.fecha').prop('readonly', true);
+	}
+	
+	function CargarListaCargasMasivas() {  
+    $.post("../../controlador/fachada.php", {
+         clase: 'clsGestorBDPlanas',
+         oper: 'CargarListaCargasMasivas',
+    }, function(data) { 
+        if (data !== 0) {
+            FormarOptionValueLista(data);
+        }
+        else {
+            mostrarPopUpError('No se pudo cargar la lista de cargas, intentelo nuevamente');
+        }
+    }, "json");
+}
+
+function FormarOptionValueLista(data) {
+    $('#selCarga').find('option').remove();
+    SetParametroCursoPorDefecto("#selCarga", '00', 'Seleccione...');
+    for (i = 0; i < data.length; i++) {
+        $('#selCarga').append($('<option>', {
+            value: data[i].Id,
+            text: data[i].Nombre
+        }))
+    }
+}
+
+function SetParametroCursoPorDefecto(atributo, valor, texto) {
+    $(atributo).append($('<option>', {
+        value: valor,
+        text: texto
+    }));
+}
+	
 
 
 });
