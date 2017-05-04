@@ -188,8 +188,13 @@ class clsParticipante {
         echo json_encode($array);
     }
 
-    public function InscribirParticipante($numInsercion,$lin_inf, $conexion,$pIdJornada) { //26
-        header("Content-Type: text/html;charset=utf-8");  
+	/*
+	*Se agrega el parametro actualizarTercero
+	*/
+    public function InscribirParticipante($numInsercion,$lin_inf, $conexion,$pIdJornada,$actualizarTercero) { //26
+        
+		
+		header("Content-Type: text/html;charset=utf-8");  
         //session_start(); 
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
@@ -197,7 +202,7 @@ class clsParticipante {
         $apellidos =($registro[2]);
         $nombres = $registro[3];
         $correo = $this->evalString(($registro[9]));
-        @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha', $registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],$registro[25], $registro[26], $registro[27], $registro[28], '$registro[29]',".$IdUsuario.",$pIdJornada);";
+        @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha', $registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],$registro[25], $registro[26], $registro[27], $registro[28], '$registro[29]',".$IdUsuario.",$pIdJornada, $actualizarTercero);";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
         if ($rs = $conexion->getPDO()->query($sql)) {
