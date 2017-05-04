@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    	<title>Captura Base De Datos</title>
+    	<title>Cargas Masivas</title>
         <meta http-equiv="cache-control" content="max-age=0" />
 		<meta http-equiv="cache-control" content="no-cache" />
 		<meta http-equiv="expires" content="0" />
@@ -42,7 +42,7 @@
         
         <!-- Sección Botones -->
         
-        <div ><input id="btnCapturar" class="BotonCapturar" name="btnCapturar" type="button" value="Capturar Base De Datos" /></div>
+        <div ><input id="btnCapturar" class="BotonCapturar" name="btnCapturar" type="button" value="Cargas Masivas" /></div>
         <div ><input id="btnBuscar" class="BotonBuscar" name="btnBuscar" type="button" value="Buscar Por Documento" /></div>
         <div ><input id="btnPreprogramacion" class="BotonPreprogramacion" name="btnPreprogramacion" type="button" value="Preprogramación" /></div>
         <div ><input id="btnNovedades" class="BotonNovedades" name="btnNovedades" type="button" value="Novedades" /></div>
@@ -53,7 +53,74 @@
         <div ><input id="btnAdministracion" class="BotonAdministracion" name="" type="button" value="Administración" /></div>
         <div ><input id="btnCerrar" class="BotonCerrar" name="btnCerrar" type="button" value="Cerrar Sesión" /></div>
         
+		 <div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="300" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoConfirmacion1" class="popup"></label>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div>
+		
+		<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+
+    <div>
+
+        <table id="tblPopup" width="410" align="left" border="0">
+
+            <tr>
+
+                <td align="center">
+
+                    <label id="textoError" class="popup"></label>
+
+                    <br><br>
+
+                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+		</div> 
         <!-- Sección Cuerpo Página -->
+		
+		<div id="seleccionCarga">
+		<div class="LblCaptura">Seleccione la carga</div>
+        <select id="selCarga" class="selectCarga">
+		<!--<option value="00">Seleccione...</option>
+		<option value="01">Carga Asignación</option>
+		<option value="02">Soporte Mátriculas</option>
+		<option value="03">Soporte Firmas</option>
+		<option value="04">Cambio Estado</option>
+		<option value="05">Soporte Refrigerios</option>
+		<option value="06">Informe Agencia</option>-->
+		
+		<select/><br><br>
+		
+		
+		</div>
+		
+		<div id="cargaAsignacion" style="display:none" class="form">
         <div class="LblCaptura">Descripción</div>
         <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
         
@@ -61,10 +128,88 @@
         <input type="text" id="txtDireccion" class="TxtCaptura"/>
 
         <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura"/>
+        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
         <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
         <input id="subir" type="file" value="Cargar"/>
+		
+		<div id="lblCheck" class="LblCaptura">Actualizar Terceros</div>
+        <input type="checkbox" id="txtCheck" class="TxtCheck"/>
+		</div>
+		
+		<div id="soporteMatriculas" style="display:none" class="form">
+        <div class="LblCaptura">Descripción</div>
+        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        
+        <div class="LblCaptura">Ubicación archivo</div>
+        <input type="text" id="txtDireccion" class="TxtCaptura"/>
 
+        <div id="lblFecha" class="LblCaptura">Fecha</div>
+        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input id="subir" type="file" value="Cargar"/>
+		
+		
+		</div>
+		
+		<div id="soporteFirmas" style="display:none" class="form">
+        <div class="LblCaptura">Descripción</div>
+        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        
+        <div class="LblCaptura">Ubicación archivo</div>
+        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+
+        <div id="lblFecha" class="LblCaptura">Fecha</div>
+        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input id="subir" type="file" value="Cargar"/>
+		
+		
+		</div>
+		
+		<div id="cambioEstados" style="display:none" class="form">
+        <div class="LblCaptura">Descripción</div>
+        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        
+        <div class="LblCaptura">Ubicación archivo</div>
+        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+
+        <div id="lblFecha" class="LblCaptura">Fecha</div>
+        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input id="subir" type="file" value="Cargar"/>
+		
+		
+		</div>
+		
+		<div id="soporteRefrigerios" style="display:none" class="form">
+        <div class="LblCaptura">Descripción</div>
+        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        
+        <div class="LblCaptura">Ubicación archivo</div>
+        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+
+        <div id="lblFecha" class="LblCaptura">Fecha</div>
+        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input id="subir" type="file" value="Cargar"/>
+		
+		
+		</div>
+		
+		<div id="informeAgencia" style="display:none" class="form">
+        <div class="LblCaptura">Descripción</div>
+        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        
+        <div class="LblCaptura">Ubicación archivo</div>
+        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+
+        <div id="lblFecha" class="LblCaptura">Fecha</div>
+        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input id="subir" type="file" value="Cargar"/>
+		
+		
+		</div>
         
         <div id="response">
             <div id="fondoerrores" style="display: show"></div>
