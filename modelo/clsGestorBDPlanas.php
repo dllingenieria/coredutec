@@ -55,7 +55,8 @@ class clsGestorBDPlanas {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
                     $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
-                    $con = $con + $participante->InscribirParticipante($numInsercion,$lin_txt, $conexion,$pIdJornada);
+					//se agrega parametro $actualizarTercero
+                    $con = $con + $participante->InscribirParticipante($numInsercion,$lin_txt, $conexion,$pIdJornada,$actualizarTercero);
                     $numInsercion ++;
                 }
                 
@@ -214,6 +215,23 @@ class clsGestorBDPlanas {
             echo '$array[' . $i . '] : ' . $var . '<br>';
             $i++;
         }
+    }
+	
+	public function CargarListaCargasMasivas($param) {
+        extract($param);
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCARGARLISTACARGAMASIVAS();";        
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+		
+        echo json_encode($array);
     }
 
 
