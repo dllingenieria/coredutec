@@ -202,13 +202,18 @@ function obtenerGradoEscolaridad(){
         pIdMatricula:$("#cmbMatriculadoEnMatricula").val(),
         pIdCarga : $.cookie("pIdCarga")
     }, function(data) {
-        if (data !== 0) {
+
+        if (data != 0) {
             $.cookie("id_mat", data);
             $.cookie("pEstadoMatricula",'Guardada');
             PopUpConfirmacion("Matrícula guardada satisfactoriamente.");   
         }else{
-            PopUpError("No se pudo guardar la matrícula");
-        }         
+            if(data=='-1'){
+                PopUpError("No se pudo guardar la matrícula");
+            }else{
+             PopUpError("Este tercero ya se encuentra matriculado");
+            } 
+        }   
     }, "json");
 }
 
