@@ -119,10 +119,6 @@ class clsGestorBDPlanas {
         $men_err .= $this->EsEntero($aux_lin[22],22);
         $men_err .= $this->EsEntero($aux_lin[23],23);
         $men_err .= $this->EsEntero($aux_lin[24],24);
-        $men_err .= $this->EsEntero($aux_lin[25],25);
-        $men_err .= $this->EsEntero($aux_lin[26],26);
-        $men_err .= $this->EsEntero($aux_lin[27],27);
-        $men_err .= $this->EsEntero($aux_lin[28],28);
         return $men_err;
     }
 
