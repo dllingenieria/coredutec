@@ -202,7 +202,9 @@ class clsParticipante {
         $apellidos =($registro[2]);
         $nombres = $registro[3];
         $correo = $this->evalString(($registro[9]));
-        @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha', $registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],".$IdUsuario.", $pIdJornada, $actualizarTercero);";
+        @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha', $regisholajaja
+		tro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],".$IdUsuario.", $pIdJornada, $actualizarTercero);";
+		
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
         if ($rs = $conexion->getPDO()->query($sql)) {
