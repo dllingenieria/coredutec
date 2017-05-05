@@ -244,10 +244,10 @@ function jsShowWindowLoad(mensaje) {
 		} 
 
 		// hoy = mm+'/'+dd+'/'+yyyy;
-		hoy = yyyy+'/'+mm+'/'+dd;
+		hoy = dd+'/'+mm+'/'+yyyy;
 		
 		$(".fecha").val(hoy);
-		$('.fecha').prop('readonly', true);
+		//$('.fecha').prop('readonly', true);
 	}
 	
 	function CargarListaCargasMasivas() {  
