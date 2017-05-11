@@ -50,7 +50,7 @@ class clsGestorBDPlanas {
         $err_arc = $this->ValidarArchivo($inf_arc);
         $con = 0;
         $numInsercion = 1;
-        $aux = '';
+        $aux = ''; print_r($err_arc);
         if (strlen($err_arc) === 0) {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
@@ -80,6 +80,7 @@ class clsGestorBDPlanas {
         $men_err = '';
         $num_reg = 1;
         $flag = true;
+		array_pop($inf_arc);
         foreach ($inf_arc as $lin_txt) {
             $res_eva = $this->EvaluarRegistro($lin_txt);
             if (strlen($res_eva) > 0) {
@@ -91,7 +92,7 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-    private function EvaluarRegistro($lin_txt) {
+    private function EvaluarRegistro($lin_txt) { 
         $persona = new clsPersona();
         $participante = new clsParticipante();
         $aux_lin = explode(';', $lin_txt);

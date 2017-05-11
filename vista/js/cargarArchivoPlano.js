@@ -57,7 +57,7 @@ $(function() {
 	* Se agrega validacion del checkbox para saber
 	*si se actualizan los terceros
 	*/
-    function EvaluarArchivo() {
+    function EvaluarArchivo() { 
 		if( $('#txtCheck').prop('checked') ) {
 			actualizarTercero=true;
 		}

@@ -40,8 +40,14 @@ class clsConvocatoria {
         session_start(); 
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
+		$fecha = explode("/",$pFecha);
+		$dia = $fecha[0];
+		$mes = $fecha[1];
+		$anio = $fecha[2];
+		$pFecha = $anio."-".$mes."-".$dia;
         $sql = "CALL SPAGREGARJORNADACONVOCATORIA('$pJornada','$pFecha','$pDireccion',".$IdUsuario.");";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        
+		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
@@ -49,7 +55,7 @@ class clsConvocatoria {
                 }
             }
         } else {
-            $array = 0;
+            $array = 0;print_r($conexion->getPDO()->errorInfo()); die();
         }
         echo json_encode($array);
     }

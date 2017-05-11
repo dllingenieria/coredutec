@@ -197,13 +197,22 @@ class clsParticipante {
 		header("Content-Type: text/html;charset=utf-8");  
         //session_start(); 
         $IdUsuario = $_SESSION['idUsuario'];  
+		// print_r("usuario...".$IdUsuario); 
         $registro = explode(";", $lin_inf);
         $auxFecha = $this->obtenerFecha($registro[14]);
         $apellidos =($registro[2]);
         $nombres = $registro[3];
-        $correo = $this->evalString(($registro[9]));
-        @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha',
-		$registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],".$IdUsuario.", $pIdJornada, $actualizarTercero);";
+        $correo = $this->evalString(($registro[9])); 
+		$fecha = explode("/",$registro[10]);
+		$dia = $fecha[0];
+		$mes = $fecha[1];
+		$anio = $fecha[2];
+		$pFecha = $anio."-".$mes."-".$dia;
+        @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$pFecha', $registro[11],$registro[12],  $registro[13], '$auxFecha',
+		$registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],$IdUsuario, ".$pIdJornada.", $actualizarTercero);";
+		
+		// @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha',
+		// $registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24], $actualizarTercero);";
 		
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
@@ -223,7 +232,7 @@ class clsParticipante {
                 echo $numInsercion.' 2--- '. $sql."<br>";
             }
         } else {
-            echo $numInsercion.' --- '. $sql."<br>";
+            echo $numInsercion.' --- '. $sql."<br>"; print_r($conexion->getPDO()->errorInfo()); die();
 			
             $response = 0;
         }
