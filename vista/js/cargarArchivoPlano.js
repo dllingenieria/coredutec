@@ -11,6 +11,7 @@ $(function() {
 //});
     var nom_arc = '';
     var idJornada='';
+	archivo="";
 	
 	CargarListaCargasMasivas();
 	obtenerFechaActual();
@@ -26,8 +27,12 @@ $(function() {
         });
     }
 
-    function GuardarArchivo() {
-        var archivos = document.getElementById("txtexaminararchivos");
+    function GuardarArchivo(archivo) { 
+		var valorSeleccionado = $("#selCarga").val(); 
+		var ubicacion = $("#txtDireccion"+archivo).val(); 
+		
+        var archivos = document.getElementById("txtexaminararchivos"+archivo);
+        // var archivos = $("[id^='txtexaminararchivos']").val();
         var archivo = archivos.files;
         if (typeof archivo[0] !== "undefined") {
             if (archivo[0].size < 1048576) {
@@ -35,20 +40,28 @@ $(function() {
                 data.append('vid', archivo[0]);
                 $.ajax({
                     type: 'POST',
-                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano",
+                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
                     data: data, //Le pasamos el objeto que creamos con los archivos
                     contentType: false, //Debe estar en false para que pase el objeto sin procesar
                     processData: false, //Debe estar en false para que JQuery no procese los datos a enviar
                     cache: false //Para que el formulario no guarde cache
-                }).done(function(msg) {
-                    nom_arc = msg;
-                }).success(function() {
-                    EvaluarArchivo();
+                }).done(function(data) { 
+					popUpConfirmacion("Archivo cargado correctamente");
+					if (data.error != 1){
+						nom_arc = "Archivo "+data.nombreArchivo+" subido correctamente.";
+					}
+					else {
+						mostrarPopUpError(data.mensaje);
+					}
+                     
+                }).success(function() { 
+                    if (valorSeleccionado=="289"){EvaluarArchivo();}
+					
 					jsRemoveWindowLoad();
                 });
             } else
             {
-                alert('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR LA IMAGEN ASEGURESE QUE SU TAMAÑO SEA MENOR.');
+                mostrarPopUpError('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR EL DOCUMENTO ASEGURESE QUE SU TAMAÑO SEA MENOR.');
             }
         }
     }
@@ -86,30 +99,89 @@ $(function() {
         );
    }
 
-    $("#txtexaminararchivos").change(function() {
+    $("[id^='txtexaminararchivos']").change(function() { 
         
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
+		var valorSeleccionado = $("#selCarga").val(); 
+			switch (valorSeleccionado) {
+				case "289":
+					if($("[id^='txtDescripciona']").val()!='' && $("[id^='txtFechaa']").val()!='' && $("[id^='txtDirecciona']").val()!=''){ 
+						archivo ="a"; alert(archivo);
+						insertarConvocatoria();
+						GuardarArchivo(archivo); 
+					}
+					else{
+						mostrarPopUpError("Falta diligenciar campos")
+					}
+					break;
+				case "290":
+					if($("[id^='txtDescripcionm']").val()!='' && $("[id^='txtFecham']").val()!='' && $("[id^='txtDireccionm']").val()!=''){ 
+						archivo ="m";
+						GuardarArchivo(archivo); 
+					}
+					else{
+						mostrarPopUpError("Falta diligenciar campos")
+					}
+					
+					break;
+				case "291":
+					if($("[id^='txtDescripcionf']").val()!='' && $("[id^='txtFechaf']").val()!='' && $("[id^='txtDireccionf']").val()!=''){ 
+						archivo ="f";
+						GuardarArchivo(archivo); 
+					}
+					else{
+						mostrarPopUpError("Falta diligenciar campos")
+					}
+					
+					break;
+				case "292":
+					if($("[id^='txtDescripcione']").val()!='' && $("[id^='txtFechae']").val()!='' && $("[id^='txtDireccione']").val()!=''){ 
+						archivo ="e";
+						GuardarArchivo(archivo); 
+					}
+					else{
+						mostrarPopUpError("Falta diligenciar campos")
+					}
+					
+					break;
+				case "293":
+					if($("[id^='txtDescripcionr']").val()!='' && $("[id^='txtFechar']").val()!='' && $("[id^='txtDireccionr']").val()!=''){ 
+						archivo ="r";
+						GuardarArchivo(archivo); 
+					}
+					else{
+						mostrarPopUpError("Falta diligenciar campos")
+					}
+					
+					break;
+				case "294":
+					if($("[id^='txtDescripcionag']").val()!='' && $("[id^='txtFechaag']").val()!='' && $("[id^='txtDireccionag']").val()!=''){ 
+						archivo ="ag";
+						GuardarArchivo(archivo);  
+					}
+					else{
+						mostrarPopUpError("Falta diligenciar campos")
+					}
+					
+			}
 		
-        if($("#txtDescripcion").val()!='' && $("#txtFecha").val()!='' && $("#txtDireccion").val()!=''){
-            insertarConvocatoria();
-            GuardarArchivo(); 
+			
+            
 				
-        }
-        else{
-            alert("Falta diligenciar campos")
-        }
+        
+        
     });
-
-
+	
+	
     function insertarConvocatoria() {
 		
         $.post("../../controlador/fachada.php", {
             clase: 'clsConvocatoria',
             oper: 'insertarJornadaConvocatoria',
-            pJornada:$("#txtDescripcion").val(),
-            pDireccion:$("#txtDireccion").val(),
-            pFecha:$("#txtFecha").val()
+            pJornada:$("#txtDescripciona").val(),
+            pDireccion:$("#txtDirecciona").val(),
+            pFecha:$("#txtFechaa").val()
 			
         }, function(data) {
             idJornada=data[0].IdTabla;
@@ -175,7 +247,9 @@ function jsShowWindowLoad(mensaje) {
 			var valorSeleccionado = $("#selCarga").val(); 
 			$("#fondoerrores").html("");
 			// $( "input", $(".form") ).val("");
-			$( "input[id!=txtFecha]", $(".form") ).val("");
+			
+			// $( "input[id!=txtFecha]", $(".form") ).val("");
+			$( "input[id^='txtDescripcionf']", $(".form") ).val("");
 			switch (valorSeleccionado) {
 				case "00":
 					$(".form").hide();
@@ -184,32 +258,34 @@ function jsShowWindowLoad(mensaje) {
 				case "289":
 					$(".form").hide();
 				     $("#cargaAsignacion").show();
-					// guardarAsignaciones();
+					 
 					break;
 				case "290":
 					$(".form").hide();
 					$("#soporteMatriculas").show();
-					guardarSoporteMatriculas();
+					
+					
 					break;
 				case "291":
 					$(".form").hide();
 					$("#soporteFirmas").show();
-					guardarSoporteFirmas();
+					
+					
 					break;
 				case "292":
 					$(".form").hide();
 					$("#cambioEstados").show();
-					guardarCambioEstado();
+					
 					break;
 				case "293":
 					$(".form").hide();
 					$("#soporteRefrigerios").show();
-					guardarSoporteRefrigerios();
+					
 					break;
 				case "294":
 					$(".form").hide();
 					$("#informeAgencia").show();
-					guardarInformeAgencia();
+					
 			}
 	});
 	

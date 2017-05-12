@@ -28,24 +28,102 @@ class clsArchivo {
 
     //Clase GuardarArchivoPlano()
     function GuardarArchivoPlano() {
-        $fileTMP = $_FILES['vid']['tmp_name'];
+        $array = array('error'=>0,'mensaje'=>'','nombreArchivo'=>'');
+		$valorSeleccionado=$_GET['valorSeleccionado'];
+		$ubicacion=$_GET['ubicacion'];
+		
+		$fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
-        $uploadDir = '../anexos/Formatos/';
+        $array = "";
+		switch ($valorSeleccionado) {
+				case "289":
+					$uploadDir = '../anexos/Formatos/';
+					break;
+				case "290":
+					$uploadDir = '../anexos/soporteMatriculas/'.$ubicacion.'/';
+					if(!mkdir($uploadDir, 0777, true)) {
+						$array[ 'error' ]=1;
+						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						echo json_encode(str_replace('"', "", $array));
+					}
+					break;
+				case "291":
+					$uploadDir = '../anexos/soporteFirmas/'.$ubicacion.'/';
+					if(!mkdir($uploadDir, 0777, true)) {
+						$array[ 'error' ]=1;
+						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						echo json_encode(str_replace('"', "", $array));
+					}
+					break;
+				case "292":
+					$uploadDir = '../anexos/cambioEstados/'.$ubicacion.'/';
+					if(!mkdir($uploadDir, 0777, true)) {
+						$array[ 'error' ]=1;
+						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						echo json_encode(str_replace('"', "", $array));
+					}
+					break;
+				case "293":
+					$uploadDir = '../anexos/soporteRefrigerios/'.$ubicacion.'/';
+					if(!mkdir($uploadDir, 0777, true)) {
+						$array[ 'error' ]=1;
+						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						echo json_encode(str_replace('"', "", $array));
+					}
+					break;
+				case "294":
+					$uploadDir = '../anexos/informeAgencia/'.$ubicacion.'/';
+					if(!mkdir($uploadDir, 0777, true)) {
+						$array[ 'error' ]=1;
+						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						echo json_encode(str_replace('"', "", $array));
+					}
+					
+			}
         $array1 = explode(".", $file);
         $ext = $array1[count($array1) - 1];
-        $array = "";
-        if ($ext == 'CSV' || $ext == 'csv') {
+        
+        if ($ext == 'CSV' || $ext == 'csv' || $ext == 'PDF' || $ext == 'pdf') {
             $fullPath = $uploadDir . $file;
             if (move_uploaded_file($fileTMP, $fullPath)) {
-                $array = $file;
-            } else {
-                $array = "Error al cargar, intente nuevamente 1";
+                $array[ 'nombreArchivo' ] = $file;
+				$guardarArchivo=guardarUbicacion($valorSeleccionado, $uploadDir, $file);
+				if ($guardarArchivo == 0){
+					$array[ 'error' ]=1;
+					$array[ 'mensaje ']= 'No se guardo la ubicación del archivo, intente nuevamente' ]; 
+				}
+				
+           } else {
+                $array[ 'error' ]=1;
+				$array[ 'mensaje ']= 'Error al cargar, intente nuevamente' ]; 
             }
         } else {
-            $array = "Error al cargar, archivo no es formato CSV";
-        }
+            $array[ 'error' ]=1;
+			$array[ 'mensaje ']= "Error al cargar, archivo no es formato CSV o PDF";
+        } print_r($array);
+		
         echo json_encode(str_replace('"', "", $array));
     }
+	
+	function guardarUbicacion($tipoSoporte, $ubicacionArchivo,$nombreaArchivo){
+		
+        
+        $array=array();
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPGUARDARUBICACION($tipoSoporte,$ubicacionArchivo,$nombreaArchivo);";
+        //print_r($sql);
+		if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        } //print_r($array); die();
+        return($array);
+    
+	}
 
 }
 
