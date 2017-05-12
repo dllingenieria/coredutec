@@ -27,11 +27,12 @@ class clsArchivo {
     }
 
     //Clase GuardarArchivoPlano()
-    function GuardarArchivoPlano() {
-        $array = array('error'=>0,'mensaje'=>'','nombreArchivo'=>'');
+    function GuardarArchivoPlano($param) {
+        $array = array('error'=>0,'mensaje'=>'','html'=>'');
 		$valorSeleccionado=$_GET['valorSeleccionado'];
 		$ubicacion=$_GET['ubicacion'];
-		
+		print_r($ubicacion);
+		//print_r($params);
 		$fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $array = "";
@@ -42,40 +43,35 @@ class clsArchivo {
 				case "290":
 					$uploadDir = '../anexos/soporteMatriculas/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
-						$array[ 'error' ]=1;
-						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
 				case "291":
 					$uploadDir = '../anexos/soporteFirmas/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
-						$array[ 'error' ]=1;
-						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
 				case "292":
 					$uploadDir = '../anexos/cambioEstados/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
-						$array[ 'error' ]=1;
-						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
 				case "293":
 					$uploadDir = '../anexos/soporteRefrigerios/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
-						$array[ 'error' ]=1;
-						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
 				case "294":
 					$uploadDir = '../anexos/informeAgencia/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
-						$array[ 'error' ]=1;
-						$array[ 'mensaje' ]='Fallo al crear las carpetas...';
+						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					
@@ -86,22 +82,15 @@ class clsArchivo {
         if ($ext == 'CSV' || $ext == 'csv' || $ext == 'PDF' || $ext == 'pdf') {
             $fullPath = $uploadDir . $file;
             if (move_uploaded_file($fileTMP, $fullPath)) {
-                $array[ 'nombreArchivo' ] = $file;
+                $array = $file;
 				$guardarArchivo=guardarUbicacion($valorSeleccionado, $uploadDir, $file);
-				if ($guardarArchivo == 0){
-					$array[ 'error' ]=1;
-					$array[ 'mensaje ']= 'No se guardo la ubicación del archivo, intente nuevamente' ]; 
-				}
 				
            } else {
-                $array[ 'error' ]=1;
-				$array[ 'mensaje ']= 'Error al cargar, intente nuevamente' ]; 
+                $array = "Error al cargar, intente nuevamente 1";
             }
         } else {
-            $array[ 'error' ]=1;
-			$array[ 'mensaje ']= "Error al cargar, archivo no es formato CSV o PDF";
-        } print_r($array);
-		
+            $array = "Error al cargar, archivo no es formato CSV o PDF";
+        }
         echo json_encode(str_replace('"', "", $array));
     }
 	

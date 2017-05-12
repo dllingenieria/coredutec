@@ -47,12 +47,9 @@ $(function() {
                     cache: false //Para que el formulario no guarde cache
                 }).done(function(data) { 
 					popUpConfirmacion("Archivo cargado correctamente");
-					if (data.error != 1){
-						nom_arc = "Archivo "+data.nombreArchivo+" subido correctamente.";
-					}
-					else {
-						mostrarPopUpError(data.mensaje);
-					}
+					
+						nom_arc = data;
+					
                      
                 }).success(function() { 
                     if (valorSeleccionado=="289"){EvaluarArchivo();}
