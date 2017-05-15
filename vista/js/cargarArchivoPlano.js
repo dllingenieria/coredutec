@@ -52,7 +52,7 @@ $(function() {
 					
                      
                 }).success(function() { 
-                    if (valorSeleccionado=="289"){EvaluarArchivo();}
+                    if (valorSeleccionado=="1"){EvaluarArchivo();}
 					
 					jsRemoveWindowLoad();
                 });
@@ -102,9 +102,9 @@ $(function() {
 		jsShowWindowLoad(mensaje);
 		var valorSeleccionado = $("#selCarga").val(); 
 			switch (valorSeleccionado) {
-				case "289":
+				case "1":
 					if($("[id^='txtDescripciona']").val()!='' && $("[id^='txtFechaa']").val()!='' && $("[id^='txtDirecciona']").val()!=''){ 
-						archivo ="a"; alert(archivo);
+						archivo ="a"; 
 						insertarConvocatoria();
 						GuardarArchivo(archivo); 
 					}
@@ -112,7 +112,7 @@ $(function() {
 						mostrarPopUpError("Falta diligenciar campos")
 					}
 					break;
-				case "290":
+				case "2":
 					if($("[id^='txtDescripcionm']").val()!='' && $("[id^='txtFecham']").val()!='' && $("[id^='txtDireccionm']").val()!=''){ 
 						archivo ="m";
 						GuardarArchivo(archivo); 
@@ -122,7 +122,7 @@ $(function() {
 					}
 					
 					break;
-				case "291":
+				case "3":
 					if($("[id^='txtDescripcionf']").val()!='' && $("[id^='txtFechaf']").val()!='' && $("[id^='txtDireccionf']").val()!=''){ 
 						archivo ="f";
 						GuardarArchivo(archivo); 
@@ -132,7 +132,7 @@ $(function() {
 					}
 					
 					break;
-				case "292":
+				case "4":
 					if($("[id^='txtDescripcione']").val()!='' && $("[id^='txtFechae']").val()!='' && $("[id^='txtDireccione']").val()!=''){ 
 						archivo ="e";
 						GuardarArchivo(archivo); 
@@ -142,7 +142,7 @@ $(function() {
 					}
 					
 					break;
-				case "293":
+				case "5":
 					if($("[id^='txtDescripcionr']").val()!='' && $("[id^='txtFechar']").val()!='' && $("[id^='txtDireccionr']").val()!=''){ 
 						archivo ="r";
 						GuardarArchivo(archivo); 
@@ -152,7 +152,7 @@ $(function() {
 					}
 					
 					break;
-				case "294":
+				case "6":
 					if($("[id^='txtDescripcionag']").val()!='' && $("[id^='txtFechaag']").val()!='' && $("[id^='txtDireccionag']").val()!=''){ 
 						archivo ="ag";
 						GuardarArchivo(archivo);  
@@ -252,34 +252,34 @@ function jsShowWindowLoad(mensaje) {
 					$(".form").hide();
 					mostrarPopUpError("Debe seleccionar una opción");
 					break;
-				case "289":
+				case "1":
 					$(".form").hide();
 				     $("#cargaAsignacion").show();
 					 
 					break;
-				case "290":
+				case "2":
 					$(".form").hide();
 					$("#soporteMatriculas").show();
 					
 					
 					break;
-				case "291":
+				case "3":
 					$(".form").hide();
 					$("#soporteFirmas").show();
 					
 					
 					break;
-				case "292":
+				case "4":
 					$(".form").hide();
 					$("#cambioEstados").show();
 					
 					break;
-				case "293":
+				case "5":
 					$(".form").hide();
 					$("#soporteRefrigerios").show();
 					
 					break;
-				case "294":
+				case "6":
 					$(".form").hide();
 					$("#informeAgencia").show();
 					

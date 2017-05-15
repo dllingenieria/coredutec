@@ -37,39 +37,39 @@ class clsArchivo {
         $file = $_FILES['vid']['name'];
         $array = "";
 		switch ($valorSeleccionado) {
-				case "289":
-					$uploadDir = '../anexos/Formatos/';
+				case "1":
+					$uploadDir = '../anexos/CargasMasivas/Asignaciones/';
 					break;
-				case "290":
-					$uploadDir = '../anexos/soporteMatriculas/'.$ubicacion.'/';
+				case "2":
+					$uploadDir = '../anexos/CargasMasivas/SoporteMatriculas/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
 						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
-				case "291":
-					$uploadDir = '../anexos/soporteFirmas/'.$ubicacion.'/';
+				case "3":
+					$uploadDir = '../anexos/CargasMasivas/SoporteFirmas/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
 						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
-				case "292":
-					$uploadDir = '../anexos/cambioEstados/'.$ubicacion.'/';
+				case "4":
+					$uploadDir = '../anexos/CargasMasivas/CambioEstados/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
 						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
-				case "293":
-					$uploadDir = '../anexos/soporteRefrigerios/'.$ubicacion.'/';
+				case "5":
+					$uploadDir = '../anexos/CargasMasivas/SoporteRefrigerios/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
 						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
 					}
 					break;
-				case "294":
-					$uploadDir = '../anexos/informeAgencia/'.$ubicacion.'/';
+				case "6":
+					$uploadDir = '../anexos/CargasMasivas/InformeAgencia/'.$ubicacion.'/';
 					if(!mkdir($uploadDir, 0777, true)) {
 						$array='Fallo al crear las carpetas...';
 						echo json_encode(str_replace('"', "", $array));
