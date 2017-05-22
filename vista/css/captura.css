@@ -161,8 +161,8 @@ body {
 
 .TxtCheck{
 	position:absolute;
-	margin-top: 229px;
-	margin-left: 685px;
+	margin-top: 179px;
+	margin-left: 985px;
 }
 
 .selectCarga{
@@ -181,14 +181,44 @@ body {
 	
 }
 
-#lblFecha, #txtFecha {
+#lblFecha, #txtFecha{
 	margin-top: 189px;
 
 }
 
 #lblCheck {
-	margin-top: 199px;
+	margin-top: 179px;
 
+}
+
+#lblAutorizacion{
+	margin-top: 259px;
+}
+
+#txtexaminararchivosAutorizacion{
+	margin-top: 259px;
+	margin-left: 965px;
+}
+
+#lblFuente, #txtexaminararchivosFuente{
+	margin-top: 289px;
+
+}
+
+#txtexaminararchivosFuente{
+	margin-top: 289px;
+	margin-left: 965px;
+
+}
+
+#lblEscaneado, #txtexaminararchivosEscaneado{
+	margin-top: 329px;
+
+}
+
+#txtexaminararchivosEscaneado{
+	margin-top: 329px;
+	margin-left: 965px;
 }
 
 
@@ -200,7 +230,7 @@ body {
 	background:#f1f1f1;
 	border-radius: 5px 5px 5px 5px;
 	margin-left: 744px;
-	margin-top: 274px;
+	margin-top: 340px;
 }
 
 .TxtCarga {

@@ -11,28 +11,59 @@ $(function(){
 	var seleccionado = false;
 	nombreArchivo = "";
 	obtenerIdTercero(function(idDocente){
+		idDocenteG = idDocente; 
+		
+	});
+	
+	$("#btnConsularSalon").click(function(){ 
+		var salon = $("#txtSalon").val();
+		if (salon == ""){
+		PopUpError("Por favor ingrese un Salón");	
+		}
+		else{
+			obtenerIdTerceroModulos(salon);
+		}
+	});
+	
+	
+	
+	function obtenerIdTerceroModulos(salon){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsDocente',
 			oper: 'ConsultarModulosPorDocente',
-			IdDocente: idDocente
+			IdDocente: idDocenteG,
+			salon: salon
 		}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
+					$("#sectCuerpo").show();
+					
+					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					$("#formatoFirmas").css("display","");
 					$("#formatoAsistencias").css("display","");
 					$("#formatoNotas").css("display","");
 					$("#planeacion").css("display","");
-				}else{alert("error 1");}             
-			}else {alert("error 2");}
+				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
+			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
-	});
+	};
 
 	function cargarInformacionEnTabla(data){
+		
+		$("#botonera").hide();
+		//se destruye el datatable al inicio
+	if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaModulos').empty();
+        }
+		
+		$(".cuerpoEstudiantes").hide();
+		
 		$("#regresar").hide();
 		 table = $('#tablaModulos').DataTable({
 			"data": data,
@@ -101,11 +132,12 @@ $(function(){
 				sessionStorage.Inscritos = table.row(this).data()[13];
 				sessionStorage.Ruta = table.row(this).data()[14];
 			} else {
-				alert("Por favor actualice su navegador o utilice otro: SessionStorage");
+				PopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");
 			}
 		} );
 	}
 
+	
 	$("#formatoFirmas").click(function(){			
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined") {
 			$.post("../../controlador/fachada.php", {
@@ -123,7 +155,7 @@ $(function(){
 				//alert(sessionStorage.NoSession);
 
 		}else{
-			alert("Por favor seleccione un módulo");
+			PopUpError("Por favor seleccione un módulo");
 		}
 	});
 
@@ -131,7 +163,7 @@ $(function(){
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
 			window.location.href = "asistencia.html";
 		}else{
-			alert("Por favor seleccione un módulo");
+			PopUpError("Por favor seleccione un módulo");
 		}
 	});
 
@@ -139,7 +171,7 @@ $(function(){
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
 			window.location.href = "notas.html";
 		}else{
-			alert("Por favor seleccione un módulo");
+			PopUpError("Por favor seleccione un módulo");
 		}
 	});
 
@@ -147,7 +179,7 @@ $(function(){
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
 			window.location.href = "listarPlaneacion.html";
 		}else{
-		alert("Por favor seleccione un módulo");
+		PopUpError("Por favor seleccione un módulo");
 		}
 	});
 	
@@ -176,18 +208,21 @@ $(function(){
 			sessionStorage.id_tpar= data[0];
 			if(data[0]!=""){
 				var mensaje="Procesando la información<br>Espere por favor";
+
 				jsShowWindowLoad(mensaje);
-				$(".cuerpo").fadeOut('slow', function(){  
-				$(".cuerpo").fadeIn('slow');
-				$(".cuerpo").load('reporteExcelAsistencias.html');
-				
+
+					$(".cuerpo").fadeOut('slow', function(){  
+					$(".cuerpo").fadeIn('slow');
+					$(".cuerpo").load('reporteExcelAsistencias.html');
 				})
 				//cargarReporteEstudiantesSalon(data[2]);
 					$("#formatoFirmas").hide();
 					$("#formatoAsistencias").hide();
 					$("#formatoNotas").hide();
 					$("#planeacion").hide();
-					$("#regresar").show();					
+					$("#regresar").show();	
+					$(".filtro").hide();		
+
 					cantidadSesiones();
 			 	jsRemoveWindowLoad();
 			}
@@ -229,10 +264,14 @@ $(function(){
 					else if(data.error == 2){
 						jsRemoveWindowLoad();
 						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+						setTimeout(function(){
+						location.reload();},2000);
 					}
 					else{
 						jsRemoveWindowLoad();
 						mostrarPopUpError("No se ha generado el reporte");
+						setTimeout(function(){
+						location.reload();},2000);
 					}		
 				}, "json");				
 
@@ -266,6 +305,9 @@ function popUpConfirmacion(msj){
 
 $(document).on('click', '#descargar', function() {
 			window.location.href = "../"+nombreArchivo;
+			setTimeout(function(){
+			location.reload();},2000);
+			
      });
 
 $(document).on('click', '#regresar', function() {
@@ -294,6 +336,7 @@ function cargarReporteEstudiantesSalon(salon){
 
 function formatearReporteEstudiantesSalon(data){
 		$('.cuerpo').hide();
+		$(".cuerpoEstudiantes").show();
         table = $('#tablaasistentes').DataTable({
 			"data": data,
 			columns: [
@@ -306,11 +349,11 @@ function formatearReporteEstudiantesSalon(data){
 			{ title: "CorreoElectronico" }
 			],
 			"paging":   false,
-			"pageLength": 8,
+			"pageLength": 7,
 			"bLengthChange": false,
 			"bDestroy": true,
 			"info":     false,
-			"scrollY": "300px",
+			"scrollY": "240px",
 			"scrollX": true,
 			"scrollCollapse": true,
 			"columnDefs": [
@@ -384,5 +427,22 @@ function jsShowWindowLoad(mensaje) {
         //centramos el div del texto
         $("#WindowLoad").html(imgCentro);
  
+}
+
+
+	function PopUpError(msj){
+    $("#textoError").text(msj);
+    $('#element_to_pop_upMen').bPopup({
+       speed: 450,
+       transition: 'slideDown'
+   });
+}
+
+	function popUpConfirmacion(msj){
+		$("#textoConfirmacion1").text(msj);
+		$('#element_to_pop_upCon').bPopup({
+		   speed: 450,
+		   transition: 'slideDown'
+	   });
 }
 });

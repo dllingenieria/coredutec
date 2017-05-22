@@ -6,13 +6,13 @@ body {
 .cuerpo{
 	padding-left: 4rem;
 	padding-right: 4rem;
-    padding-top: 2rem !important;
+    padding-top: 0rem !important;
 }
 
 .cuerpoEstudiantes{
     padding-left: 4rem;
     padding-right: 4rem;
-    padding-top: 2rem !important;
+    padding-top: 0rem !important;
 }
 
 #spanTotal {
@@ -45,4 +45,53 @@ body {
 .dataTable td, .dataTable th{
 	/*font-size: 0.8rem;*/
 	font-size: x-small !important; 
+}
+
+.boton{
+	border: 1px solid #f7ea32;
+	font-family: "Roboto-Regular";
+	font-size: 17px;
+	border-radius: 6px 6px 6px 6px;
+	border-width: 0;
+	background-color: #f7ea32;
+	cursor: pointer;
+	margin-right: 0.5rem;
+	padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.tituloSalon{ 
+	color: #ffffff;
+	font-size: 17px;
+	/*background: #f7ea32;*/
+	padding-left: 0.6rem;
+	padding-right: 0.6rem;
+	font-family: "Roboto-Bold";
+	border-radius: 3px 3px 3px 3px;
+}
+
+.filtro {
+  /*background-color: #fafafa;*/
+  margin: 1rem;
+  padding: 1rem;
+  /*border: 2px solid #ccc;*/
+  /* IMPORTANTE */
+  text-align: center;
+  width: 600px;
+  margin: 0 auto;
+}
+.buscar-salon {
+    float: left;
+    /* margin: 0 auto; */
+    text-align: center;
+    margin-right: 20px;
+
+}
+.botonesDown {
+    float: right;
+}
+input#txtSalon {
+    margin-right: 20px;
 }

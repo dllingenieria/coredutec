@@ -18,6 +18,9 @@
         <script src="../../vista/js/sesion.js" type="text/javascript" ></script>
         <script src="../../vista/js/nav_log.js" type="text/javascript" ></script>
         <script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+        <!-- Inicio Manejo de sesión -->
+        <script type="text/javascript" src="../../includes/jquery.idle.js"></script>
+        <!-- Fin Manejo de sesión -->
    </head>
    
     <body>
@@ -75,8 +78,28 @@
 
     </div>
 
+
 		</div>
 		
+
+ <!-- Inicio Mensaje de sesion-->
+        <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+        <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
+
+          <table id="tblPopup" width="350" align="left" border="0">
+            <tr>
+                <td align="center">
+                    <label id="textoConfirmacionSesion" class="popup"></label>
+                    <br><br>
+                    <input type="button" name="element_to_pop_upConf" value="Seguir Logueado" id="btnAceptar" class="b-close botonAceptar" style="width: 150px; height: 27px;       background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                    
+                    <input type="button" name="element_to_pop_upConf" value="Cerrar Sesión" id="btnCerrar"  class="b-close" style="width: 120px; height: 27px;      background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                </td>
+            </tr>
+        </table>
+        </div>
+        <!-- Fin Mensaje de sesion-->
+        
 		<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
 
     <div>
@@ -107,110 +130,135 @@
 		<div id="seleccionCarga">
 		<div class="LblCaptura">Seleccione la carga</div>
         <select id="selCarga" class="selectCarga">
-		<!--<option value="00">Seleccione...</option>
-		<option value="01">Carga Asignación</option>
-		<option value="02">Soporte Mátriculas</option>
-		<option value="03">Soporte Firmas</option>
-		<option value="04">Cambio Estado</option>
-		<option value="05">Soporte Refrigerios</option>
-		<option value="06">Informe Agencia</option>-->
-		
 		<select/><br><br>
 		
 		
 		</div>
 		
-		<div id="cargaAsignacion" style="display:none" class="form">
-        <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
-        
-        <div class="LblCaptura">Dirección</div>
-        <input type="text" id="txtDireccion" class="TxtCaptura"/>
-
-        <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
-        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
-        <input id="subir" type="file" value="Cargar"/>
 		
-		<div id="lblCheck" class="LblCaptura">Actualizar Terceros</div>
-        <input type="checkbox" id="txtCheck" class="TxtCheck"/>
+		<div id="formBasico" style="display:none" class="form">
+			<div class="LblCaptura">Descripción</div>
+			<input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+			
+			<div class="LblCaptura">Ubicación Archivo</div>
+			<input type="text" id="txtDireccion" class="TxtCaptura"/>
+
+			<div id="lblFecha" class="LblCaptura">Fecha</div>
+			<input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+		</div>
+		<div id="Autorizacion" style="display:none" class="form">
+			<div id="lblAutorizacion" class="LblCaptura">Autorización</div>
+			<input type="file"  id="txtexaminararchivosAutorizacion" class="TxtCarga" />
+			<input id="subir" type="file" value="Cargar"/><br>
+		</div>
+		<div id="Fuente" style="display:none" class="form">
+			<div id="lblFuente" class="LblCaptura">Fuente</div>
+			<input type="file"  id="txtexaminararchivosFuente" class="TxtCarga" />
+			<input id="subirFuente" type="file" value="Cargar"/>
+		</div>
+		<div id="Escaneo" style="display:none" class="form">
+			<div id="lblEscaneado" class="LblCaptura">Escaneado</div>
+			<input type="file"  id="txtexaminararchivosEscaneado" class="TxtCarga" />
+			<input id="subirEscaneado" type="file" value="Cargar"/>
 		</div>
 		
-		<div id="soporteMatriculas" style="display:none" class="form">
+		<div id="ActualizarTercero" style="display:none" class="form">
+			<div id="lblCheck" class="LblCaptura">Actualizar Terceros</div>
+			<input type="checkbox" id="txtCheck" class="TxtCheck"/>
+		</div>
+		
+		
+		<!--<div id="soporteMatriculas" style="display:none" class="form">
         <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        <input type="text" id="txtDescripcionm" class="TxtCaptura"/><br><br>
         
         <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+        <input type="text" id="txtDireccionm" class="TxtCaptura"/>
 
         <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
-        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input type="date" id="txtFecham" class="TxtCaptura fecha"/>
+		
+        <input type="file"  id="txtexaminararchivosmFuente" class="TxtCarga" />
         <input id="subir" type="file" value="Cargar"/>
+		<input type="file"  id="txtexaminararchivosmEscaneado" class="TxtCarga" />
+        <input id="subirEscaneado" type="file" value="Cargar"/>
 		
 		
 		</div>
 		
 		<div id="soporteFirmas" style="display:none" class="form">
         <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        <input type="text" id="txtDescripcionf" class="TxtCaptura"/><br><br>
         
         <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+        <input type="text" id="txtDireccionf" class="TxtCaptura"/>
 
         <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
-        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input type="date" id="txtFechaf" class="TxtCaptura fecha"/>
+		
+        <input type="file"  id="txtexaminararchivosfFuente" class="TxtCarga" />
         <input id="subir" type="file" value="Cargar"/>
+		<input type="file"  id="txtexaminararchivosfEscaneado" class="TxtCarga" />
+        <input id="subirEscaneado" type="file" value="Cargar"/>
+		
 		
 		
 		</div>
 		
 		<div id="cambioEstados" style="display:none" class="form">
         <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        <input type="text" id="txtDescripcione" class="TxtCaptura"/><br><br>
         
         <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+        <input type="text" id="txtDireccione" class="TxtCaptura"/>
 
         <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
-        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input type="date" id="txtFechae" class="TxtCaptura fecha"/>
+		
+        <input type="file"  id="txtexaminararchivoseAutorizacion" class="TxtCarga" />
         <input id="subir" type="file" value="Cargar"/>
+		<input type="file"  id="txtexaminararchivoseFuente" class="TxtCarga" />
+        <input id="subirFuente" type="file" value="Cargar"/>
 		
 		
 		</div>
 		
 		<div id="soporteRefrigerios" style="display:none" class="form">
         <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        <input type="text" id="txtDescripcionr" class="TxtCaptura"/><br><br>
         
         <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+        <input type="text" id="txtDireccionr" class="TxtCaptura"/>
 
         <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
-        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input type="date" id="txtFechar" class="TxtCaptura fecha"/>
+		
+        <input type="file"  id="txtexaminararchivosrFuente" class="TxtCarga" />
         <input id="subir" type="file" value="Cargar"/>
+		<input type="file"  id="txtexaminararchivosrEscaneado" class="TxtCarga" />
+        <input id="subirEscaneado" type="file" value="Cargar"/>
 		
 		
 		</div>
 		
 		<div id="informeAgencia" style="display:none" class="form">
         <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
+        <input type="text" id="txtDescripcionag" class="TxtCaptura"/><br><br>
         
         <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccion" class="TxtCaptura"/>
+        <input type="text" id="txtDireccionag" class="TxtCaptura"/>
 
         <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecha" class="TxtCaptura fecha"/>
-        <input type="file"  id="txtexaminararchivos" class="TxtCarga" />
+        <input type="date" id="txtFechaag" class="TxtCaptura fecha"/>
+		
+        <input type="file"  id="txtexaminararchivosagFuente" class="TxtCarga" />
         <input id="subir" type="file" value="Cargar"/>
+		<input type="file"  id="txtexaminararchivosagEscaneado" class="TxtCarga" />
+        <input id="subirEscaneado" type="file" value="Cargar"/>
 		
 		
 		</div>
-        
+        -->
         <div id="response">
             <div id="fondoerrores" style="display: show"></div>
         </div>

@@ -559,11 +559,13 @@ class clsAsistencia {
 							$count=0;
 								if ($filasNotas = $rs5->fetchAll(PDO::FETCH_ASSOC)) {
 										foreach ($filasNotas as $filanot) {
+
 											$idTercero = $filanot['IdTercero'];
 											$notaHacer = explode(',',$filanot['NotaHacer']);
 											$notaSaber = explode(',',$filanot['NotaSaber']);
 											$notaSer = explode(',',$filanot['NotaSer']);
 											
+										
 											$totalNotas[] =  $notaHacer[0];
 											$totalNotas[] =  $notaHacer[1];
 											$totalNotas[] =  $notaHacer[2];
@@ -581,15 +583,16 @@ class clsAsistencia {
 													$numeroNotas = $numeroNotas + 1;
 												}
 											}
-											//echo json_encode($numeroNotas);
-										if($notaHacer[0]!="" && $notaSaber[0]!="" && $notaSer[0]!=""){
-											$notaDef =  ($notaHacer[0]+$notaHacer[1]+$notaHacer[2]+
-														$notaSaber[0]+$notaSaber[1]+$notaSaber[2]+
-														$notaSer[0]+$notaSer[1]+$notaSer[2]) / $numeroNotas;
-											$notaDef = number_format($notaDef, 2);
-										 }else{
-										 	$notaDef="";
-										 }
+									$notaDef = 0;
+									$notaDef = number_format($notaDef, 2);
+									
+									if ($numeroNotas != 0 || $numeroNotas != ""){
+									//echo json_encode($numeroNotas);
+										$notaDef =  ($notaHacer[0]+$notaHacer[1]+$notaHacer[2]+
+													$notaSaber[0]+$notaSaber[1]+$notaSaber[2]+
+													$notaSer[0]+$notaSer[1]+$notaSer[2]) / $numeroNotas;
+										$notaDef = number_format($notaDef, 2);
+									}
 										
 										//$count++;
 										

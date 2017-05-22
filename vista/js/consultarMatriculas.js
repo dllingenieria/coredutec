@@ -16,7 +16,7 @@ $(function(){
 					//console.log(JSON.stringify(data[0]));
 					cargarInformacionEnTabla(data, identificacion);
 					jsRemoveWindowLoad();
-					$('#imprimir').show();
+					$('#imprimir').hide();
 				}else{alert("error 1");}             
 			}else {alert("error 2");}
 		}, "json");
@@ -114,6 +114,10 @@ $(function(){
 
 
 		$('#tablaMatriculas tbody').on('click', 'tr', function () {
+					var mensaje="Procesando la información<br>Espere por favor";
+       				 jsShowWindowLoad(mensaje);
+
+					$('#imprimir').hide();
 					if ($(this).hasClass('selected')) {
 						$(this).removeClass('selected');
 					}else{
@@ -153,20 +157,24 @@ $(function(){
 					matriculaSeleccionada=true;
 					//setTimeout(function(){swal.close();}, 1000)				
 
-				var idMatricula= table.row(this).data()[29];
-				$.post("../../controlador/fachada.php", {
-					clase: 'clsMatricula',
-					oper: 'consultarFechaMatricula',
-					idMatricula : idMatricula
-				}, function(data1) {
-					if (data1 !== 0) {
-						if(data1 !== null){
-							$.cookie("fec_matr", data1);
-						}else{alert("error 1");}             
-					}else {alert("error 2");}
-				}, "json");	
-				
-		} );
+					var idMatricula= table.row(this).data()[29];				
+
+					$.post("../../controlador/fachada.php", {
+						clase: 'clsMatricula',
+						oper: 'consultarFechaMatricula',
+						idMatricula : idMatricula
+					}, function(data1) {
+						if (data1 !== 0) {
+							if(data1 !== null){
+								$.cookie("fec_matr", data1);
+								jsRemoveWindowLoad();
+								$('#imprimir').show();								
+							}else{alert("error 1");}             
+						}else {alert("error 2");}
+					}, "json");					
+					
+			
+				} );			
 	}
         
    function dateDiff(dateold, datenew){

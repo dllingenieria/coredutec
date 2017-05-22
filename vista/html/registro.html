@@ -28,6 +28,10 @@
             }, "json");
         </script>
         
+
+        <!-- Inicio Manejo de sesión -->
+        <script type="text/javascript" src="../../includes/jquery.idle.js"></script>
+        <!-- Fin Manejo de sesión -->
     </head>
     
     <body>
@@ -67,6 +71,24 @@
         <div id="imgContrasena1"><img src="../images/contrasena.png" height="35" alt="contrasena" /></div>
         <div id="imgContrasena2"><img src="../images/contrasena.png" height="35" alt="contrasena" /></div>
         <div ><input id="btnRegistrarse" class="BotonRegistrarse" name="btnRegistrarse" type="button" value="Registrarse" /></div>
+
+          <!-- Inicio Mensaje de sesion-->
+        <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+        <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
+
+          <table id="tblPopup" width="350" align="left" border="0">
+            <tr>
+                <td align="center">
+                    <label id="textoConfirmacionSesion" class="popup"></label>
+                    <br><br>
+                    <input type="button" name="element_to_pop_upConf" value="Seguir Logueado" id="btnAceptar" class="b-close botonAceptar" style="width: 150px; height: 27px;       background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                    
+                    <input type="button" name="element_to_pop_upConf" value="Cerrar Sesión" id="btnCerrar"  class="b-close" style="width: 120px; height: 27px;      background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                </td>
+            </tr>
+        </table>
+        </div>
+        <!-- Fin Mensaje de sesion-->
         
         <div id="element_to_pop_upCon" class="element_to_pop_upConfirmacion">
             <div>

@@ -218,7 +218,7 @@ class clsGestorBDPlanas {
 	public function CargarListaCargasMasivas($param) {
         extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCARGARLISTACARGAMASIVAS();";        
+        $sql = "CALL SPCARGARTIPOCARGAMASIVA();";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -232,6 +232,22 @@ class clsGestorBDPlanas {
         echo json_encode($array);
     }
 
+	public function cargarOpcionesArchivos($param) {
+        extract($param);
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTAROPCIONESARCHIVOS($valor);"; 
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+		
+        echo json_encode($array);
+    }
 
 }
 

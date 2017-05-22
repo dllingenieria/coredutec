@@ -1,5 +1,6 @@
 <?php
 // Report all errors
+set_time_limit(0);
 error_reporting(E_ALL);
 
 /*
@@ -25,9 +26,10 @@ class clsParticipante {
 		$usuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARNOTASPORID($IdPreprogramacion);";
+
         if ($rs = $conexion->getPDO()->query($sql)) {
            if (!$filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //si no hay notas para la preprogramación
-				
+				echo "entre";
 			  // $usuario = $_SESSION['idUsuario'];
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPAGREGARNOTA($IdPreprogramacion,33.33,33.33,33.33,$usuario);"; //Se agregan nota por defecto para la preprogramación
@@ -61,10 +63,11 @@ class clsParticipante {
                     }
                 }
             }else{
-				
+				  echo "SPCONSULTARIDNOTAPORPREPROGRAMACION";
+
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPCONSULTARIDNOTAPORPREPROGRAMACION($IdPreprogramacion);";
-                if ($rs = $conexion->getPDO()->query($sql)) {
+                              if ($rs = $conexion->getPDO()->query($sql)) {
                     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                         $idNota = $filas[0]['IdNota'];
                     }
@@ -232,7 +235,7 @@ class clsParticipante {
                 echo $numInsercion.' 2--- '. $sql."<br>";
             }
         } else {
-            echo $numInsercion.' --- '. $sql."<br>"; print_r($conexion->getPDO()->errorInfo()); die();
+            echo $numInsercion.' --- '. $sql."<br>"; //print_r($conexion->getPDO()->errorInfo()); die();
 			
             $response = 0;
         }

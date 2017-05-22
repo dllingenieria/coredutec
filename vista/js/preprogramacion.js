@@ -456,6 +456,7 @@ location.reload(true);
     $('#cmbConvocatorias').change(function() { //arma el codigo de la matricula
 	formarCodigoMatricula($("#cmbConvocatorias option:selected").val(),$("#cmbConvocatorias option:selected").text());
     });
+
     $('#cmbModulo').change(function() {
         var aux_dur = $(this).val().split("$$");
         $('#txtDuracionModulo').val(aux_dur[1]);
@@ -465,7 +466,9 @@ location.reload(true);
 
 function guardarAuxCodigo(aux){
     var aux_cod = aux.split(".");
-    cod_mod_aux = aux_cod[2];
+    total_array= (aux_cod.length)-1;
+    cod_mod_aux = aux_cod[total_array];
+    //console.log("cod_mod_aux"+cod_mod_aux);
 }
 
 function CargarCursosPorRuta(pIdRuta) {

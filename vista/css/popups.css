@@ -165,3 +165,8 @@
     color: #003265;
 	margin-top: 30px;
 }
+
+.jc-bs3-container.container {
+    width: 30%;
+    margin: 0 auto;
+}

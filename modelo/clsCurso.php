@@ -150,7 +150,7 @@ class clsCurso {
 		$array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARSALONES3('$pCodigoCurso','$pCodigoModulo','$pModalidad');";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;

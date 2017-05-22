@@ -83,6 +83,7 @@ class clsProgramacion {
 
     public function obtenerUltimaMatricula($param) {
         extract($param);
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARULTIMAMATRICULA();";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -142,6 +143,7 @@ class clsProgramacion {
 
     public function consultarMatriculaPorCodigo($param) {
         extract($param);
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPBUSCARPREPROGRAMACIONPORMATRICULA('$mat_cod');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -191,9 +193,11 @@ class clsProgramacion {
 
     public function CargarPreprogramacionPorId($param) {
         extract($param);
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARPREPROGRAMACIONPORID($pIdPreprogramacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
@@ -203,6 +207,7 @@ class clsProgramacion {
         }
         echo json_encode($array);
     }
+
 
     public function eliminarPreprogramacion($param) {
         $res = '';
@@ -242,7 +247,7 @@ class clsProgramacion {
 	  public function cargarCuposFaltantes($param) {
         extract($param); 
         $sql = "CALL SPCONSULTARCUPOSFALTANTES ($preprogramacion);";
-        $conexion->getPDO()->query("SET NAMES 'utf8'");
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -253,6 +258,23 @@ class clsProgramacion {
             $array = "";
         }
 		// print_r($array);
+        echo json_encode($array);
+    }
+	
+	public function consultarCupos($param) {
+        extract($param); 
+        $sql = "CALL SPCARGARCUPOS();";
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = "";
+        }
+		
         echo json_encode($array);
     }
 }

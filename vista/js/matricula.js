@@ -10,6 +10,7 @@ var grado;
 var ciudades;
 var localidades;
 var estadoParticipante="";
+
 $(function() {
 	//alert($.cookie("pIdTercero"));
 	//se oculta el boton de actualizar temporalmente
@@ -31,6 +32,7 @@ $(function() {
 		changeYear: true
 		
     };
+	cuposSalones="";
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtfechaNacimiento").datepicker();
     obtenerEstadoCivil();
@@ -39,6 +41,7 @@ $(function() {
     obtenerLocalidades();
     
     LimpiarCampos();
+	consultarCupos();
     if($.cookie("pEstadoMatricula") === 'SinMatricular'){
             CargarDatosMatricula();
             CargartipoServicio();
@@ -320,7 +323,7 @@ function CargarModalidades() {
     }, "json");
 }
 
-function CargarMatriculasPre() {
+function CargarMatriculasPre() { 
     $.post("../../controlador/fachada.php", {
         clase: 'clsCurso',
         oper: 'ConsultarMatriculasPre',
@@ -332,12 +335,12 @@ function CargarMatriculasPre() {
             FormarOptionValueMatriculasPre(data);
         }
 		else{
-			mostrarPopUpError("No se encontraron datos de preprogramación");
+			mostrarPopUpError("No se encontraron datos de preprogramación.");
 		}
     }, "json");
 }
 
-function CargarMatriculasPre2() {
+function CargarMatriculasPre2() { 
     $.post("../../controlador/fachada.php", {
         clase: 'clsCurso',
         oper: 'ConsultarMatriculasPre2',
@@ -710,7 +713,7 @@ function FormarOptionValueModulos(modulos) {
     }
 }
 
-function FormarOptionValueMatriculasPre(pMatriculas) {
+function FormarOptionValueMatriculasPre(pMatriculas) { 
     if (pMatriculas!== null) {
         setTimeout(function() {
             $('#cmbMatriculadoEnMatricula').find('option').remove();
@@ -731,15 +734,21 @@ function FormarOptionValueMatriculasPre(pMatriculas) {
     }
 }
 
-function validarCantidadInscritos(element){
-    var inscritos = element.options[element.selectedIndex].getAttribute("data-matriculados");
+function validarCantidadInscritos(element){ 
+	
+    var inscritos = element.options[element.selectedIndex].getAttribute("data-matriculados"); 
     var salon = element.options[element.selectedIndex].text;
     inscritos = parseInt(inscritos);
     if(inscritos > 24){
-        var cuposLibres = 30-inscritos;
-        swal({title: "Sólo quedan " + cuposLibres + " cupos libres en salón "+salon+" - Recuerde preprogramar",   
+        // var cuposLibres = 30-inscritos;
+        var cuposLibres = cuposSalones-inscritos;
+		//a la fecha existen tantos inscritos en el salon tal
+		swal({title: "Actualmente existen " + inscritos + " inscritos en salón "+salon+" - Recuerde preprogramar",   
                         showConfirmButton: true,
                         type: "warning"});
+        // swal({title: "Sólo quedan " + cuposLibres + " cupos libres en salón "+salon+" - Recuerde preprogramar",   
+                        // showConfirmButton: true,
+                        // type: "warning"});
     }
 }
 
@@ -902,8 +911,12 @@ function cargarCupos(preprogramacion){
 			
 		}, function(data) { console.log(data);
 			if (data !== "") {
-				 if (data[0].CuposFaltantes <=5){
+				 if (data[0].CuposFaltantes <=5 && data[0].CuposFaltantes >= 0){
 				mostrarPopUpError("Faltan "+data[0].CuposFaltantes+" cupos para llenar el cupo total del salón");
+				 }
+				 else if (data[0].CuposFaltantes < 0){
+					 var valor = data[0].CuposFaltantes*(-1); 
+					mostrarPopUpError("Tiene un sobrecupo de "+valor+" inscritos en el salón");
 				 }
 			}
 			// else 
@@ -913,3 +926,20 @@ function cargarCupos(preprogramacion){
 			// }
 			}, "json");
 	}
+	
+	function consultarCupos() {
+		//cuposSalones=25; 
+        $.post("../../controlador/fachada.php", {
+            clase: 'clsProgramacion',
+            oper: 'consultarCupos'
+            
+        }, function(data) {
+            if (data !== 0) {
+               cuposSalones=data[0].Nombre; 
+            }
+            else {
+                alert('No se consultaron los cupos');
+            }
+        }, "json");
+    
+}

@@ -161,7 +161,8 @@ $(function(){
 									curCodigo: $("#txtCodigoCurso").val(),
 									curNombre:$("#txtNombreCurso").val(),
 									curDuracion:$("#selectDuracionCurso").val(),
-							        curRuta:$("#selectRutaCurso").val()
+							        curRuta:$("#selectRutaCurso").val(),
+							        curEstado:$("#txtEstadoCurso").val()
 								};
 			break;	
 			//Adiciona nuevos registros para Modulos
@@ -169,11 +170,17 @@ $(function(){
 					parametros = {
 									clase: 'clsConfiguracion',
 									oper: 'AgregarCurso',
-									curCodigo: $("#txtCodigoCurso").val(),
-									curNombre:$("#txtNombreCurso").val(),
-									curDuracion:$("#selectDuracionCurso").val(),
-							        curRuta:$("#selectRutaCurso").val(),
-							        curEstado:$("#txtEstadoCurso").val()
+									modCodigo: $("#txtCodigoModulo").val(),
+									modNombre:$("#txtNombreModulo").val(),
+									modDuracion:$("#selectDuracionModulo").val(),
+							        modFormacion:$("#selectTipoFormacionModulo").val(),
+							        modArea:$("#selectAreaOcupacionalModulo").val(),
+							        modMaximo:$("#txtCupoMinimoModulo").val(),
+							        modMinimo:$("#txtCupoMaximoModulo").val(),
+							        modCapacitacion:$("#selectTipoCapacitacionModulo").val(),
+							        modEstadoAsistencia:$("#selectEstadoAsistenciaModulo").val(),
+							        modCertificacion:$("#selectCertificacionEmitidaModulo").val(),
+							        modEstado:$("#txtEstadoModulo").val()
 								};
 			break;	
 			//Adiciona nuevos registros para Usuario

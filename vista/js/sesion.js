@@ -1,8 +1,50 @@
+ $(document).on('ready',function(){
+     //Inicio Cerrar Sesion
+      $(document).idle({
+          onIdle: function(){
+                popUpConfirmacionSesion("Su sesión se va a cerrar por inactividad!     Desea cerrar sesión?",1,cerrarSesion);
+              },
+              onActive: function(){
+                //$('#status').toggleClass('idle').html('Active!');
+              },
+              idle: 3600000,
+              keepTracking: true
+            });    
+            //Fin Cerrar Sesion   
+
+    });
+
+
+//para el confirm
+function popUpConfirmacionSesion(msj, fn, fn1){
+    //contenedor vacion
+     var contenedor = $("#contenedor");
+     //se le envia a contenedor el contenido de element_to_pop_upCon1
+    contenedor.html( $("#element_to_pop_upConSesion").html() );
+    /*como el id textoConfirmacion2 esta dos veces (en contenedor y en element_to_pop_upCon1)
+    * se esta poniendo el texto en el de contenedor
+    */
+    $("#textoConfirmacionSesion", contenedor ).text(msj);
+    $("[id=btnAceptar]:button", contenedor ).click(function(){ 
+        if( fn ) fn(); 
+    } );
+    
+    $("[id=btnCerrar]:button", contenedor ).click(function(){ 
+        if( fn1 ) fn1(); 
+    } );
+    
+    //se muestra el conetenedor 
+    $('#contenedor').bPopup({
+        speed: 450,
+        transition: 'slideDown'
+    });
+
+}
+
 var pop_err = '<div id="element_to_pop_upError" class="element_to_pop_upError"><div><label id="textoError" class="popup" style="margin-left: 174px; font-family: \'Roboto-Light\'; font-size: 18px;"> </label></div><br><br><div><label id="textoError1" class="popup" style="margin-left: 174px; font-family: \'Roboto-Light\'; font-size: 18px;"> </label></div></div>';
  
 var vistas = {
-    // 0:{"nombre":"Captura Base de Datos","url":"captura.html"}, 
-    0:{"nombre":"Cargas Masivas","url":"captura.html"}, 
+    0:{"nombre":"Captura Base de Datos","url":"captura.html"}, 
     1:{"nombre":"Buscar por Documento","url":"busqueda.html"}, 
     2:{"nombre":"Preprogramación","url":"preprogramacionNueva.html"}, 
     3:{"nombre":"Novedades","url":"novedades.html"}, 
