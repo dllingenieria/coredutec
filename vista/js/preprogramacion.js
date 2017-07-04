@@ -20,7 +20,7 @@
     calendarioEspanol();
     CargarConvocatoria();
     CargarRutas();
-    CargarDocentes();
+    // CargarDocentes();
     CargarSedes();
     CargarModalidades();
     CargarEntregables();
@@ -53,6 +53,9 @@
         cargarMatriculaExistente();
     });
 })
+
+// $('#cmbModulo').change(function() { alert("ddd");
+			   // });
 
  function cargarMatriculaExistente(){
     var cod_mat_aux = prompt("Ingrese codigo matricula ", "");
@@ -423,6 +426,7 @@ location.reload(true);
             var valorNuevo=$("#cmbEstado").val();
             $("#cmbEstado option[value="+ valorNuevo +"]").attr("selected",true);
         });
+		  
 
     $('#cmbRutaDeFormacion').change(function() {
         $('#cmbCurso').find('option').remove();
@@ -457,10 +461,18 @@ location.reload(true);
 	formarCodigoMatricula($("#cmbConvocatorias option:selected").val(),$("#cmbConvocatorias option:selected").text());
     });
 
-    $('#cmbModulo').change(function() {
+    $('#cmbModulo').change(function() { 
+		$('#cmbDocente').html('');
         var aux_dur = $(this).val().split("$$");
         $('#txtDuracionModulo').val(aux_dur[1]);
         guardarAuxCodigo(aux_dur[0]);
+		if ($('#cmbModulo').val() == ""){ 
+			$('#cmbDocente').html('');
+		}
+		else{ 
+			CargarDocentes(); 
+		}
+		
     });
 });
 
@@ -1339,10 +1351,15 @@ function CargarEntregables() {
     }, "json");
 }
 
-function CargarDocentes() {
-    $.post("../../controlador/fachada.php", {
+function CargarDocentes() { 
+    
+	var moduloSel = $("#cmbModulo").val();
+	var codModuSel = moduloSel.split('$$');
+	// alert(codModuSel[0]);
+	$.post("../../controlador/fachada.php", {
         clase: 'clsDocente',
-        oper: 'ConsultarDocentes'
+        oper: 'ConsultarDocentes',
+		codModuSel:codModuSel[0]
     }, function(data) {
         if (data !== 0) {
             FormarOptionValueDocentes(data);
@@ -1446,3 +1463,5 @@ function jsShowWindowLoad(mensaje) {
         $("#WindowLoad").html(imgCentro);
  
 }
+
+
