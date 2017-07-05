@@ -115,6 +115,7 @@
 	z-index:1;
 	margin-left: 975px;
 	margin-top:117px;
+	height:650px !important;
 }
 
 /* Seccion Cuerpo Página */	
@@ -145,7 +146,7 @@
 	height:25px;
 	z-index:9;
 	margin-left: 41px;
-	margin-top: 180px; /*190*/
+	margin-top: 200px; /*190*/
 	font-size: small !important; 
 	/*font-size: 0.95rem;*/
 
@@ -167,7 +168,7 @@
 	margin-left: 41px;
 	margin-top: 220px;
 	font-family: "Roboto-Light";
-	font-size: 14px;
+	font-size: 12px;
 	color: #ffffff;
 	padding-left: 12px;
 	padding-top: 3px;
@@ -183,7 +184,7 @@
 	margin-left: 220px;
 	margin-top: 220px;
 	font-family: "Roboto-Regular";
-	font-size: 14px;
+	font-size: 12px;
 	color: #2d4191;
 	padding-left: 5px;
 	padding-top: 1px;
@@ -398,13 +399,95 @@
 	padding-left: 1px;
 }
 
-#lblEstado {
+#lblCodCurso {
 	margin-top: 540px;
 	margin-left: 530px;
 }
 
-#cmbEstado {
+#txtCodCurso {
 	margin-top: 540px;
+	margin-left: 709px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
+
+#lblCodSalon {
+	margin-top: 580px;
+	
+}
+
+#txtCodSalon {
+	margin-top: 580px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
+
+#lblCanSesiones {
+	margin-top: 580px;
+	margin-left: 530px;
+}
+
+#txtCanSesiones {
+	margin-top: 580px;
+	margin-left: 709px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
+
+#lblCapSalon {
+	margin-top: 620px;
+	
+}
+
+#txtCapSalon {
+	margin-top: 620px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
+
+
+#lblInteHoraria {
+	margin-top: 620px;
+	margin-left: 530px;
+}
+
+#txtInteHoraria {
+	margin-top: 620px;
+	margin-left: 709px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
+
+#lblEstado {
+	margin-top: 660px;
+	
+}
+
+#cmbEstado {
+	margin-top: 660px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
+
+#lblObservacion {
+	margin-top: 660px;
+	margin-left: 530px;
+}
+
+#txtObservacion {
+	margin-top: 660px;
 	margin-left: 709px;
 	width:259px;
 	height:24px;
@@ -543,7 +626,7 @@
 
 .BotonGuardar {
     position:absolute;
-	margin-top: 538px;
+	margin-top: 630px;
 	margin-left: 999px;
 	width:90px;
 	height:27px;
@@ -574,7 +657,7 @@
 
 .BotonConsultar {
     position:absolute;
-	margin-top: 538px;
+	margin-top: 630px;
 	margin-left: 1100px;
 	width:90px;
 	height:27px;
@@ -605,7 +688,7 @@
 
 .BotonCancelar {
     position:absolute;
-	margin-top: 538px;
+	margin-top: 630px;
 	margin-left: 1202px;
 	width:90px;
 	height:27px;
