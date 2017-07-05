@@ -303,7 +303,14 @@ function guardarPreprogramacion() {
                 tip_cer: $("#cmbTipoDeCertificacion").val(),
                 pre_est : $("#cmbEstado").val(),
                 //mat_num : $.cookie("pre_id"),
-				matriculaExistente: matriculaExistente
+				matriculaExistente: matriculaExistente,
+				codCurso : $("#txtCodCurso").val(),
+				codSalon : $("#txtCodSalon").val(),
+				canSesiones : $("#txtCanSesiones").val(),
+				capSalon : $("#txtCapSalon").val(),
+				inteHoraria : $("#txtInteHoraria").val(),
+				observacion : $("#txtObservacion").val()
+				
             }, function(data) {
                 if (data === 1) {
                     //alert($("#txtCodigoMatricula").val() + " guardado satisfactoriamente.");
@@ -926,6 +933,24 @@ function validarCamposFormulario() {
     if ($("#cmbEstado").val() === '') {
         cam_vac += 'Estado ';
     }
+	if ($("#txtCodCurso").val() === '') {
+        cam_vac += 'Código curso ';
+    }
+	if ($("#txtCodSalon").val() === '') {
+        cam_vac += 'Código salón ';
+    }
+	if ($("#txtCanSesiones").val() === '') {
+        cam_vac += 'Cantidad sesiones ';
+    }
+	if ($("#txtCapSalon").val() === '') {
+        cam_vac += 'Capacidad salón ';
+    }
+	if ($("#txtInteHoraria").val() === '') {
+        cam_vac += 'Intensidad horaria ';
+    }
+	// if ($("#txtObservacion").val() === '') {
+        // cam_vac += 'Observaciíon ';
+    // }
     
     return cam_vac;
 }

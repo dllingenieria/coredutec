@@ -33,10 +33,11 @@ class clsProgramacion {
 
     public function AgregarPreprogramacion($param) { 
         extract($param);
+		
         $IdUsuario = $_SESSION['idUsuario'];
         $sql = "CALL SPAGREGARPREPROGRAMACION('$cod_mat', '$cod_sal',$tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin, '$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
-            $tip_cer,".$IdUsuario.",$pre_est);";
+            $tip_cer,".$IdUsuario.",$pre_est,'$codCurso','$codSalon','$canSesiones','$capSalon','$inteHoraria','$observacion');";
         
         $buscar=array(chr(13).chr(10), "\r\n", "\n", "\r");
         $reemplazar=array("", "", "", "");
