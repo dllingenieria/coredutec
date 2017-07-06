@@ -304,8 +304,8 @@ function guardarPreprogramacion() {
                 pre_est : $("#cmbEstado").val(),
                 //mat_num : $.cookie("pre_id"),
 				matriculaExistente: matriculaExistente,
-				codCurso : $("#txtCodCurso").val(),
-				codSalon : $("#txtCodSalon").val(),
+				// codCurso : $("#txtCodCurso").val(),
+				// codSalon : $("#txtCodSalon").val(),
 				canSesiones : $("#txtCanSesiones").val(),
 				capSalon : $("#txtCapSalon").val(),
 				inteHoraria : $("#txtInteHoraria").val(),
@@ -358,7 +358,13 @@ function modificarPreprogramacion() {
                 pro_ent: $("#cmbEntregables").val(),
                 ///pro_par: $("#participantes2").val(),
                 tip_cer: $("#cmbTipoDeCertificacion").val(),
-                pre_est : $("#cmbEstado").val()
+                pre_est : $("#cmbEstado").val(),
+				// codCurso : $("#txtCodCurso").val(),
+				// codSalon : $("#txtCodSalon").val(),
+				canSesiones : $("#txtCanSesiones").val(),
+				capSalon : $("#txtCapSalon").val(),
+				inteHoraria : $("#txtInteHoraria").val(),
+				observacion : $("#txtObservacion").val()
             }, function(data) {
                 console.log("DEBUGING DATA");
                 console.log(data);
@@ -449,6 +455,8 @@ location.reload(true);
         $('#txtDuracionModulo').val("");
         $('#cmbModulo').find('option').remove();
         CargarDatosCursoPorCodigo($(this).val());
+		$("#txtCodCurso").val($("#cmbCurso").val());
+		
     });
     $('#cmbHoraInicio').change(function() {
         hin_id = $(this).val();
@@ -477,7 +485,8 @@ location.reload(true);
 			$('#cmbDocente').html('');
 		}
 		else{ 
-			CargarDocentes(); 
+			CargarDocentes();
+			$("#txtCodSalon").val($("#txtCodigoMatricula").val()+'.'+cod_mod_aux);
 		}
 		
     });
@@ -1203,7 +1212,13 @@ function cargarInformacionEnTabla(data){
 			{ title: "Docente" }, 
 			{ title: "FechaInicial" }, 
 			{ title: "Fechafinal" }, 
-            { title: "Estado" }],
+            { title: "Estado" },
+			{ title: "Curso" },
+			{ title: "Salon" },
+			{ title: "CantidadSesiones" },
+			{ title: "CapacidadSalon" },
+			{ title: "IntensidadHorariaDiaria" },
+			{ title: "Observaciones" }],
             "paging":   true,
             "info":     false,
             "order": [[ 3, "desc" ]],
@@ -1213,7 +1228,8 @@ function cargarInformacionEnTabla(data){
 			"pageLength": 9,
             "lengthMenu": [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
             "columnDefs": [
-            {"targets": [ 0 ],"visible": false,"searchable": false} ],
+            {"targets": [ 0 ],"visible": false,"searchable": false},
+			{"targets": [ 19 ],"visible": false,"searchable": false}],
             "language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
                 "sProcessing":     "Procesando...",
@@ -1307,6 +1323,14 @@ function cargarDatosPreprogramacion(res) {
     $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
     $("#cmbEntregables").val(res[0].Entregables);
     obtenerSede(res[0].Sede);
+	
+	//se agregan campos nuevos de preprogramación
+	 $("#txtCodCurso").val(res[0].Curso);
+	 $("#txtCodSalon").val(res[0].Salon);
+	 $("#txtCanSesiones").val(res[0].CantidadSesiones);
+	 $("#txtCapSalon").val(res[0].CapacidadSalon);
+	 $("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
+	 $("#txtObservacion").val(res[0].Observaciones);
 
 
     //obtenerDocente(res[0].Docente);
