@@ -116,7 +116,7 @@ class clsProgramacion {
 					array_push($resultado, $registro);
                     $registro = array(); 
                 }
-            } //print_r($resultado);
+            } 
         } else {
             $array = 0;
         }
@@ -234,6 +234,7 @@ class clsProgramacion {
             $array = 1;
         } else {
             $array = 0;
+			print_r($conexion->getPDO()->errorInfo()); die();
         }
             // echo $sql;
         echo json_encode($array);

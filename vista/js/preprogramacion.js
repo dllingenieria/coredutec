@@ -529,11 +529,11 @@ function FormarOptionValueCursos(pCursos) {
     }
 }
 
-function CargarConvocatoria() {
+function CargarConvocatoria() { 
     $.post("../../controlador/fachada.php", {
         clase: 'clsConvocatoria',
         oper: 'ConsultarConvocatorias'
-    }, function(data) {
+    }, function(data) { 
         if (data !== 0) {
             FormarOptionValueConvocatorias(data);
         }
@@ -945,9 +945,9 @@ function validarCamposFormulario() {
 	if ($("#txtCodCurso").val() === '') {
         cam_vac += 'Código curso ';
     }
-	if ($("#txtCodSalon").val() === '') {
-        cam_vac += 'Código salón ';
-    }
+	// if ($("#txtCodSalon").val() === '') {
+        // cam_vac += 'Código salón ';
+    // }
 	if ($("#txtCanSesiones").val() === '') {
         cam_vac += 'Cantidad sesiones ';
     }
@@ -1213,11 +1213,9 @@ function cargarInformacionEnTabla(data){
 			{ title: "FechaInicial" }, 
 			{ title: "Fechafinal" }, 
             { title: "Estado" },
-			{ title: "Curso" },
-			{ title: "Salon" },
-			{ title: "CantidadSesiones" },
-			{ title: "CapacidadSalon" },
 			{ title: "IntensidadHorariaDiaria" },
+			{ title: "CapacidadSalon" },
+			{ title: "CantidadSesiones" },
 			{ title: "Observaciones" }],
             "paging":   true,
             "info":     false,
@@ -1229,7 +1227,7 @@ function cargarInformacionEnTabla(data){
             "lengthMenu": [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
             "columnDefs": [
             {"targets": [ 0 ],"visible": false,"searchable": false},
-			{"targets": [ 19 ],"visible": false,"searchable": false}],
+			{"targets": [ 17 ],"visible": false,"searchable": false}],
             "language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
                 "sProcessing":     "Procesando...",
@@ -1309,6 +1307,10 @@ function cargarDatosPreprogramacion(res) {
         if (res[0].Modulo !== '') {
             setTimeout(function() {
                 obtenerModulo(res[0].Modulo);
+				CargarDocentes();
+				setTimeout(function() {
+				$("#cmbDocente").val(res[0].Docente);
+				}, 1000);
             }, 2000);
         }
     }, 1500);    
@@ -1319,13 +1321,13 @@ function cargarDatosPreprogramacion(res) {
     $("#cmbDiasDelCurso").val(res[0].DiasCurso);
     $("#cmbEstado").val(res[0].Estado);
     $("#cmbModalidadMatricula").val(res[0].Modalidad);
-    $("#cmbDocente").val(res[0].Docente);
+    
     $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
     $("#cmbEntregables").val(res[0].Entregables);
     obtenerSede(res[0].Sede);
 	
 	//se agregan campos nuevos de preprogramación
-	 $("#txtCodCurso").val(res[0].Curso);
+	 $("#txtCodCurso").val(res[0].IdCurso);
 	 $("#txtCodSalon").val(res[0].Salon);
 	 $("#txtCanSesiones").val(res[0].CantidadSesiones);
 	 $("#txtCapSalon").val(res[0].CapacidadSalon);

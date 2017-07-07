@@ -15,6 +15,7 @@ class clsConvocatoria {
     public function ConsultarConvocatorias($param) {
         extract($param);
         $sql = "CALL SPCARGARCONVOCATORIAS();";
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {

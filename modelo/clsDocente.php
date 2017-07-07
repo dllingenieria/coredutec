@@ -30,7 +30,7 @@ class clsDocente {
 		
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         // $sql = "CALL SPCARGARDOCENTES();"; 
-        $sql = "CALL SPCARGARDOCENTES('codModuSel');";
+        $sql = "CALL SPCARGARDOCENTES('$codModuSel');"; 
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
