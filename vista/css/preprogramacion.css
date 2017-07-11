@@ -210,11 +210,12 @@
 	margin-left: 709px;
 }
 
-#lblRutaDeFormacion {
+#lblCodCurso {
 	margin-top: 260px;
+	
 }
 
-#cmbRutaDeFormacion {
+#txtCodCurso {
 	margin-top: 260px;
 	width:259px;
 	height:24px;
@@ -236,13 +237,19 @@
 	padding-left: 1px;
 }
 
-#lblDuracionDelCurso {
+#lblRutaDeFormacion {
 	margin-top: 300px;
+	
 }
 
-#txtDuracionDelCurso {
+#cmbRutaDeFormacion {
 	margin-top: 300px;
+	width:259px;
+	height:24px;
+	padding-top: 0px;
+	padding-left: 1px;
 }
+
 
 #lblDiasDelCurso {
 	margin-top: 300px;
@@ -284,27 +291,28 @@
 	padding-left: 1px;
 }
 
-#lblModulo {
-	margin-top: 380px;
-}
+ #lblDuracionDelCurso { 
+	 margin-top: 380px; 
+ } 
 
-#cmbModulo {
-	margin-top: 380px;
-	width:259px;
-	height:24px;
-	padding-top: 0px;
-	padding-left: 1px;
-}
+ #txtDuracionDelCurso { 
+	 margin-top: 380px; 
+ } 
 
-#lblDuracionModulo {
-	margin-top: 380px;
+ #lblModulo { 
+	margin-top: 380px; 
 	margin-left: 530px;
-}
+ } 
 
-#txtDuracionModulo {
-	margin-top: 380px;
-	margin-left: 709px;
-}
+ #cmbModulo { 
+	 margin-top: 380px; 
+	 margin-left: 709px;
+	 width:259px; 
+	 height:24px; 
+	 padding-top: 0px; 
+	 padding-left: 1px; 
+ } 
+
 
 #lblModalidadMatricula {
 	margin-top: 420px;
@@ -363,55 +371,67 @@
 	padding-left: 1px;
 }
 
+ #lblDuracionModulo { 
+	 margin-top: 500px; 
+	 margin-left: 530px; 
+ } 
+
+ #txtDuracionModulo { 
+	 margin-top: 500px; 
+	 margin-left: 709px; 
+ } 
+
 #lblEntregables {
-	margin-top: 500px;
-	margin-left: 530px;
+	margin-top: 540px;
+	/* margin-left: 530px; */
 }
 
 #cmbEntregables {
-	margin-top: 500px;
-	margin-left: 709px;
+	margin-top: 540px;
+	/* margin-left: 709px; */
 	width:259px;
 	height:24px;
 	padding-top: 0px;
 	padding-left: 1px;
 }
 
-#lblParticipantes {
-	margin-top: 500px;
-	margin-left: 530px;
-}
+/* #lblParticipantes { */
+	/* margin-top: 500px; */
+	/* margin-left: 530px; */
+/* } */
 
-#txtParticipantes {
-	margin-top: 500px;
-	margin-left: 709px;
-}
+/* #txtParticipantes { */
+	/* margin-top: 500px; */
+	/* margin-left: 709px; */
+/* } */
 
 #lblTipoDeCertificacion {
 	margin-top: 540px;
+	margin-left: 530px;
 }
 
 #cmbTipoDeCertificacion {
 	margin-top: 540px;
-	width:259px;
-	height:24px;
-	padding-top: 0px;
-	padding-left: 1px;
-}
-
-#lblCodCurso {
-	margin-top: 540px;
-	margin-left: 530px;
-}
-
-#txtCodCurso {
-	margin-top: 540px;
 	margin-left: 709px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
 	padding-left: 1px;
 }
+
+/* #lblCodCurso { */
+	/* margin-top: 540px; */
+	/* margin-left: 530px; */
+/* } */
+
+/* #txtCodCurso { */
+	/* margin-top: 540px; */
+	/* margin-left: 709px; */
+	/* width:259px; */
+	/* height:24px; */
+	/* padding-top: 0px; */
+	/* padding-left: 1px; */
+/* } */
 
 #lblCodSalon {
 	margin-top: 580px;

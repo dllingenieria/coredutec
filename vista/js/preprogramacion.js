@@ -19,14 +19,14 @@
     $.cookie("pre_id", 1);
     calendarioEspanol();
     CargarConvocatoria();
-    CargarRutas();
+    // CargarRutas();
     // CargarDocentes();
     CargarSedes();
     CargarModalidades();
     CargarEntregables();
     CargarDiasCurso();
     cargarHorarios();
-    CargarEstados();
+    // CargarEstados();
     CargarTipoCertificacion();
     SetParametroCursoPorDefecto("#tiposdeservicio2", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#cmbRutaDeFormacion", '', 'Seleccione...');
@@ -45,11 +45,27 @@
 });
 
  $(function(){
-    $("#btnMatNue").click(function(){
-     //cargarUltimaMatricula();
+    $("#btnMatNue").click(function(){ 
+     //cargarUltimaMatricula(); 
+	 //se habilita solo el estado inactivo para preprogramaciones nuevas
+		$('#cmbEstado')
+			.find('option')
+			.remove()
+			.end()
+			.append('<option value="2">Inactivo</option>')
+			.val('2');
+	
  });
+ 
     $("#btnMatExi").click(function(){
 		matriculaExistente = true;
+		 //se habilita solo el estado inactivo para preprogramaciones nuevas
+		$('#cmbEstado')
+		.find('option')
+		.remove()
+		.end()
+		.append('<option value="2">Inactivo</option>')
+		.val('2');
         cargarMatriculaExistente();
     });
 })
@@ -65,7 +81,7 @@
 }
 
 
-function consultarMatricula(mat){  
+function consultarMatricula(mat){  alert("2");
     var mensaje="Procesando la información<br>Espere por favor";
 	jsShowWindowLoad(mensaje);
 	modo_modificar === false;
@@ -78,13 +94,16 @@ function consultarMatricula(mat){
 		if (data != null){
 			$("#cmbConvocatorias").val(data[0].TipoConvocatoria);
 			$("#txtCodigoMatricula").val(data[0].Matricula);
-			//$('#tiposdeservicio2 option[value='+data[0].tip_ser+']').attr('selected','selected');
-			$('#cmbRutaDeFormacion option[value='+data[0].Ruta+']').attr('selected','selected');  
-			// console.log("consultarMatricula");   
-			// console.log(consultarMatricula);   
-			// console.log("$(#cmbRutaDeFormacion).val()");   
-			// console.log($("#cmbRutaDeFormacion").val());   
-			CargarCursosPorRuta($("#cmbRutaDeFormacion").val());
+			
+			$("#txtCodCurso").val(data[0].Curso);
+			
+			//cargarRutas
+			setTimeout(function() {CargarRutas(data[0].Curso) 
+				setTimeout(function() {obtenerRuta(data[0].Ruta);  }, 800);  
+			}, 500); 
+			// $('#cmbRutaDeFormacion option[value='+data[0].Ruta+']').attr('selected','selected');  
+			   
+			
 			$("#txtDuracionDelCurso").val(data[0].DiasCurso);
           
 			
@@ -106,7 +125,7 @@ function consultarMatricula(mat){
 			//$('#txtFechaInicio').val(data[0].FechaInicial); 
 			//$('#txtFechaFinal').val(data[0].FechaFinal); 
 			$('#cmbSede option[value='+data[0].Sede+']').attr('selected','selected'); 
-			$('#cmbDocente option[value='+data[0].Docente+']').attr('selected','selected');   
+			// $('#cmbDocente option[value='+data[0].Docente+']').attr('selected','selected');   
 			$('#cmbEntregables option[value='+data[0].Entregables+']').attr('selected','selected'); 
 			
 			/*setTimeout(function() { //no se usa
@@ -128,58 +147,28 @@ function consultarMatricula(mat){
 					obtenerModulo(data[0].Modulo); //recorre opciones del modulo y selecciona la del id modulo
 				}, 4000); //llena txtDuracionModulo
 			}
-			
-			//------------ //ocultar opciones de los modulos que ya tienen preprogramacion en esa matricula
-			
-           /* setTimeout(function() {
-				   var opciones = [];
-				   var cont=0;
-				   var aux_nom = ''; 
-					$("#cmbModulo option").each(function() { 
-					
-						//se quita la opcion selected
-						this.selected = false;
-						aux_nom = $(this).attr('value').split('$$'); //value del modulo 
-						
-						var a = modulo.indexOf(aux_nom[0]); //alert(aux_nom[0]);
-						if (a >= 0) { 
 				
-							//$("#cmbModulo option option[value^=" + aux_nom[0] + "]").hide();  //$("[title^='Tom']")  
-							$("#cmbModulo option[value^='" + aux_nom[0] + "'']").hide();  //$("[title^='Tom']")  
-							//se oculta la opcion que esta en el array modulo porque ya tiene preprogramacion en esa matricula
-							$( this ).hide();
-							 
-						} 
-						//se llena un array con los valores de las opciones para saber si es solo una y el value es vacio solo con elementos visibles
-							if( $(this).is(":visible") ){  //alert(cont+"cont");
-							//if( $(this).css('display') == '' ){  alert(cont);
-								opciones[cont] = $(this).attr('value'); 
-								cont++;	
-							}
-						
-					});
-						//alert(opciones.length+"posiciones"); //alert(opciones+"total");
-						if(opciones.length == 1 && opciones[0] == "" ){ 
-							mostrarPopUpError("No existen mas módulos para asignar");
-							//se recarga la pagina
-							setTimeout(function() {
-								location.reload(true);
-							}, 3000);
-						}
-					
-						
-				}, 4000);*/
-			
-			//------------
-			
-           
-			
-		
 			
 			$('#cmbModalidadMatricula option[value='+data[0].Modalidad+']').attr('selected','selected');
 			$('#cmbTipoDeCertificacion option[value='+data[0].Certificacion+']').attr('selected','selected');
 			//$('#cmbEstado option[value='+data[0].Estado+']').attr('selected','selected');
 			//$('#cmbEstado option[value=1]').attr('selected','selected');
+			//se habilita solo el inactivo en estado
+			$('#cmbEstado')
+			.find('option')
+			.remove()
+			.end()
+			.append('<option value="2">Inactivo</option>')
+			.val('2');
+			
+			//se llenan los campos nuevos
+			 
+			 $("#txtCodSalon").val(data[0].Salon);
+			 $("#txtCanSesiones").val(data[0].CantidadSesiones);
+			 $("#txtCapSalon").val(data[0].CapacidadSalon);
+			 $("#txtInteHoraria").val(data[0].IntensidadHorariaDiaria);
+			 $("#txtObservacion").val(data[0].Observaciones);
+			 CargarCursosPorCodigo($("#txtCodCurso").val());
 		}
 		else{
 			mostrarPopUpError("No se encontro la preprogramación o verifique el estado");
@@ -439,23 +428,27 @@ location.reload(true);
             var valorNuevo=$("#cmbEstado").val();
             $("#cmbEstado option[value="+ valorNuevo +"]").attr("selected",true);
         });
-		  
+	  $('#txtCodCurso').change(function() {
+        CargarCursosPorCodigo($("#txtCodCurso").val());
+		CargarRutas($("#txtCodCurso").val());
+		
+    });	  
 
     $('#cmbRutaDeFormacion').change(function() {
-        $('#cmbCurso').find('option').remove();
+        // $('#cmbCurso').find('option').remove();
         $('#txtDuracionModulo').val("");
-        $('#cmbCurso').find('option').remove();
-        CargarCursosPorRuta($("#cmbRutaDeFormacion").val());
-        SetParametroCursoPorDefecto("#cmbCurso", '', 'Seleccione...');
-        $('#codigocmbModulo').val("");
-        $('#duraciondelcurso2').val("");
-        $('#estado2').val("");
+        // $('#cmbCurso').find('option').remove();
+        // CargarCursosPorRuta($("#cmbRutaDeFormacion").val());
+        // SetParametroCursoPorDefecto("#cmbCurso", '', 'Seleccione...');
+        // $('#codigocmbModulo').val("");
+        // $('#duraciondelcurso2').val("");
+        // $('#estado2').val("");
     });
     $('#cmbCurso').change(function() {
         $('#txtDuracionModulo').val("");
         $('#cmbModulo').find('option').remove();
         CargarDatosCursoPorCodigo($(this).val());
-		$("#txtCodCurso").val($("#cmbCurso").val());
+		// $("#txtCodCurso").val($("#cmbCurso").val());
 		
     });
     $('#cmbHoraInicio').change(function() {
@@ -499,21 +492,38 @@ function guardarAuxCodigo(aux){
     //console.log("cod_mod_aux"+cod_mod_aux);
 }
 
-function CargarCursosPorRuta(pIdRuta) {
-    // console.log("pIdRuta");
-    // console.log(pIdRuta);
+// function CargarCursosPorRuta(pIdRuta) {
+    // // console.log("pIdRuta");
+    // // console.log(pIdRuta);
+    // $.post("../../controlador/fachada.php", {
+        // clase: 'clsCurso',
+        // oper: 'CargarCursosPorRuta',
+        // pIdRuta: pIdRuta
+    // }, function(data) {
+        // // console.log("pasa");
+        // // console.log(data);
+        // if (data !== 0) {
+            // FormarOptionValueCursos(data);
+        // }
+        // else {
+            // alert('error CargarCursosPorRuta');
+        // }
+    // }, "json");
+// }
+
+function CargarCursosPorCodigo(codCurso) {
+    
     $.post("../../controlador/fachada.php", {
         clase: 'clsCurso',
-        oper: 'CargarCursosPorRuta',
-        pIdRuta: pIdRuta
+        oper: 'CargarCursosPorCodigo',
+        codCurso: codCurso
     }, function(data) {
-        // console.log("pasa");
-        // console.log(data);
+       
         if (data !== 0) {
             FormarOptionValueCursos(data);
         }
         else {
-            alert('error CargarCursosPorRuta');
+             mostrarPopUpError('No se cargaron los cursos por código');
         }
     }, "json");
 }
@@ -625,16 +635,17 @@ function formarOptionValueDiasCurso(horarios) {
     }
 }
 
-function CargarRutas() {
+function CargarRutas(codCurso) {
     $.post("../../controlador/fachada.php", {
         clase: 'clsCurso',
-        oper: 'CargarRutas'
+        oper: 'CargarRutas',
+		codCurso:codCurso
     }, function(data) {
         if (data !== 0) {
             formarOptionValueRutas(data);
         }
         else {
-            alert('error CargarRutas');
+            mostrarPopUpError('No se cargaron las rutas');
         }
     }, "json");
 }
@@ -682,7 +693,7 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
 }
 
 
-function CargarDatosCursoPorCodigo(pCodigoCurso) {
+function CargarDatosCursoPorCodigo(pCodigoCurso) { 
     $.getJSON("../../controlador/fachada.php", {
         format: 'json',
         clase: 'clsCurso',
@@ -1077,7 +1088,7 @@ function obtenerRuta(rut) {
     });
     // console.log("obtenerRuta");
     // console.log($("#cmbRutaDeFormacion").val());
-    CargarCursosPorRuta($("#cmbRutaDeFormacion").val());
+    // CargarCursosPorRuta($("#cmbRutaDeFormacion").val());
 }
 
 function obtenerCurso(cur) {
@@ -1295,13 +1306,19 @@ var flag_car_mod = false;
 //:"2016-05-26","HoraInicial":"134","HoraFinal":"138","Modulo":"1.01.T1","Entregables":"86","Estado":"1"
 //,"Certificacion":"86"}]
 //FUNCION ECARGADA DE RECIBIR EL RESPONSE CON INFORMACIÃ’N DE LA 
-function cargarDatosPreprogramacion(res) {
+function cargarDatosPreprogramacion(res) { alert("1");
     //alert('res[0].id_rut: '+res[0].id_rut);
     flag_car_mod = false;
     $("#txtCodigoMatricula").val(res[0].Matricula);
     $("#cmbConvocatorias").val(res[0].Convocatoria);
     //cmbHoraFinal
-    obtenerRuta(res[0].Ruta); //alert(res[0].Modulo);
+	$("#txtCodCurso").val(res[0].IdCurso);
+	//cargarRuras
+	setTimeout(function() {CargarRutas(res[0].IdCurso); 
+		setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 800);  
+	}, 500); 
+	//cargar cursos
+    CargarCursosPorCodigo(res[0].IdCurso);
     setTimeout(function() {
         obtenerCurso(res[0].Curso);
         if (res[0].Modulo !== '') {
@@ -1313,13 +1330,15 @@ function cargarDatosPreprogramacion(res) {
 				}, 1000);
             }, 2000);
         }
-    }, 1500);    
+    }, 1500); 
+    
+		
     obtenerHora('cmbHoraInicio', res[0].HoraInicial);
     obtenerHora('cmbHoraFinal', res[0].HoraFinal);
     $("#txtFechaInicio").val(res[0].FechaInicial);
     $("#txtFechaFinal").val(res[0].FechaFinal);
     $("#cmbDiasDelCurso").val(res[0].DiasCurso);
-    $("#cmbEstado").val(res[0].Estado);
+    
     $("#cmbModalidadMatricula").val(res[0].Modalidad);
     
     $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
@@ -1327,7 +1346,7 @@ function cargarDatosPreprogramacion(res) {
     obtenerSede(res[0].Sede);
 	
 	//se agregan campos nuevos de preprogramación
-	 $("#txtCodCurso").val(res[0].IdCurso);
+	 
 	 $("#txtCodSalon").val(res[0].Salon);
 	 $("#txtCanSesiones").val(res[0].CantidadSesiones);
 	 $("#txtCapSalon").val(res[0].CapacidadSalon);
@@ -1337,6 +1356,10 @@ function cargarDatosPreprogramacion(res) {
 
     //obtenerDocente(res[0].Docente);
    // obtenerEntregable(res[0].Entregables);
+   //cargar los estados
+	setTimeout(function() {CargarEstados(); 
+		setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
+	}, 1000);
    modoModificarOn();
 }
 
