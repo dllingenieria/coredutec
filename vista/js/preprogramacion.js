@@ -81,7 +81,7 @@
 }
 
 
-function consultarMatricula(mat){  alert("2");
+function consultarMatricula(mat){  //alert("2"+matriculaExistente);
     var mensaje="Procesando la información<br>Espere por favor";
 	jsShowWindowLoad(mensaje);
 	modo_modificar === false;
@@ -172,6 +172,7 @@ function consultarMatricula(mat){  alert("2");
 		}
 		else{
 			mostrarPopUpError("No se encontro la preprogramación o verifique el estado");
+			matriculaExistente = false;
 			jsRemoveWindowLoad();	
 		}
         
@@ -349,7 +350,7 @@ function modificarPreprogramacion() {
                 tip_cer: $("#cmbTipoDeCertificacion").val(),
                 pre_est : $("#cmbEstado").val(),
 				// codCurso : $("#txtCodCurso").val(),
-				// codSalon : $("#txtCodSalon").val(),
+				codSalon : $("#txtCodSalon").val(),
 				canSesiones : $("#txtCanSesiones").val(),
 				capSalon : $("#txtCapSalon").val(),
 				inteHoraria : $("#txtInteHoraria").val(),
@@ -363,7 +364,7 @@ function modificarPreprogramacion() {
                         location.reload(true);
                     }, 1500); 
                 } else {
-                    alert("Error modificarPreprogramacion.");
+                    mostrarPopUpError("No se modifico la Preprogramación.");
                 }
             }, "json");
         }
@@ -548,7 +549,7 @@ function CargarConvocatoria() {
             FormarOptionValueConvocatorias(data);
         }
         else {
-            alert('error CargarConvocatoria');
+            mostrarPopUpError('error CargarConvocatoria');
         }
     }, "json");
 }
@@ -562,7 +563,7 @@ function CargarEstados() {
             formarOptionValueEstados(data);
         }
         else {
-            alert('error CargarEstados');
+            mostrarPopUpError('error CargarEstados');
         }
     }, "json");
 }
@@ -576,7 +577,7 @@ function CargarSedes() {
             formarOptionValueSedes(data);
         }
         else {
-            alert('error CargarSedes');
+            mostrarPopUpError('error CargarSedes');
         }
     }, "json");
 }
@@ -592,7 +593,7 @@ function CargarDiasCurso() {
             formarOptionValueDiasCurso(data);
         }
         else {
-            alert('error CargarDiasCurso');
+            mostrarPopUpError('error CargarDiasCurso');
         }
     }, "json");
 }
@@ -738,7 +739,7 @@ function CargarDatosCursoPorCodigoB(cod_cur,data) {
 
           }
         else {
-            alert('error CargarDatosCursoPorCodigoB');
+            mostrarPopUpError('error CargarDatosCursoPorCodigoB');
         }
     }, "json");
     setTimeout(
@@ -756,7 +757,7 @@ function CargarModulosCurso(cur_id) {
             formarOptionValueModulos(data);
         }
         else {
-            alert('error CargarModulosCurso');
+            mostrarPopUpError('error CargarModulosCurso');
         }
     }, "json");
 }
@@ -792,7 +793,7 @@ function CargarTipoCertificacion() {
             formarOptionValueTipoCertificacion(data);
         }
         else {
-            alert('error CargarTipoCertificacion');
+            mostrarPopUpError('error CargarTipoCertificacion');
         }
     }, "json");
 }
@@ -835,7 +836,7 @@ function cargarHorarios() {
             formarOptionValueHorario(data);
         }
         else {
-            alert('error cargarHorarios');
+            mostrarPopUpError('error cargarHorarios');
         }
     }, "json");
 }
@@ -1137,8 +1138,8 @@ function cargarGridMatriculas() { //alert("entro");
 							cargarInformacionEnTabla(data); //si es la primera vez se carga la tabla
                             jsRemoveWindowLoad();
 						}
-                     }else{alert("error 1");}             
-                 }else {alert("error 2");}
+                     }else{mostrarPopUpError("error 1");}             
+                 }else {mostrarPopUpError("error 2");}
             }, "json");
 			
 			
@@ -1293,7 +1294,7 @@ function mostrarMatricula(pIdPreprogramacion) {
             cargarDatosPreprogramacion(data);
         }
         else {
-            alert('error');
+            mostrarPopUpError('error');
         }
     }, "json");
     //$("#ins_dat").show();
@@ -1306,8 +1307,11 @@ var flag_car_mod = false;
 //:"2016-05-26","HoraInicial":"134","HoraFinal":"138","Modulo":"1.01.T1","Entregables":"86","Estado":"1"
 //,"Certificacion":"86"}]
 //FUNCION ECARGADA DE RECIBIR EL RESPONSE CON INFORMACIÃ’N DE LA 
-function cargarDatosPreprogramacion(res) { alert("1");
-    //alert('res[0].id_rut: '+res[0].id_rut);
+//viene de la lista del data table
+function cargarDatosPreprogramacion(res) { //alert("1"+matriculaExistente);
+    //para que cargue todos los modulos a editar
+	matriculaExistente=false;
+	//alert('res[0].id_rut: '+res[0].id_rut);
     flag_car_mod = false;
     $("#txtCodigoMatricula").val(res[0].Matricula);
     $("#cmbConvocatorias").val(res[0].Convocatoria);
@@ -1315,7 +1319,7 @@ function cargarDatosPreprogramacion(res) { alert("1");
 	$("#txtCodCurso").val(res[0].IdCurso);
 	//cargarRuras
 	setTimeout(function() {CargarRutas(res[0].IdCurso); 
-		setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 800);  
+		setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
 	}, 500); 
 	//cargar cursos
     CargarCursosPorCodigo(res[0].IdCurso);
@@ -1420,7 +1424,7 @@ function CargarEntregables() {
             formarOptionValueEntregables(data);
         }
         else {
-            alert('error');
+            mostrarPopUpError('error');
         }
     }, "json");
 }
@@ -1463,7 +1467,7 @@ function CargarModalidades() {
             FormarOptionValueModalidades(data);
         }
         else {
-            alert('error');
+            mostrarPopUpError('error');
         }
     }, "json");
 }

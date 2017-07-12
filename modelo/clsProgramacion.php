@@ -223,12 +223,12 @@ class clsProgramacion {
     }
     
     public function ActualizarPreprogramacion($param) {
-        extract($param);
+        extract($param); 
         $IdUsuario = $_SESSION['idUsuario'];
         // $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARPREPROGRAMACION($pre_id, $tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin,'$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
-            $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion');";
+            $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion','$codSalon');";
         // echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {          
             $array = 1;
