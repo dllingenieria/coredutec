@@ -42,6 +42,24 @@
     SetParametroCursoPorDefecto("#participantes2", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#cmbTipoDeCertificacion", '', 'Seleccione...');
     setTimeout( mostrarPopUpPregunta(),1000);
+	
+	//validacion campos numericos
+	 
+	 
+	  $("#txtCanSesiones, #txtInteHoraria, #txtCapSalon").keydown(function (e) {  
+               if (e.shiftKey || e.ctrlKey || e.altKey) {  
+                   e.preventDefault();  
+               } else {  
+                   var key = e.keyCode;  
+                   //alert(key)  
+                   if (!((key == 8) || (key == 46) ||  (key == 9)  ||
+					(key >= 35 && key <= 40)  
+					|| (key >= 48 && key <= 57)  
+					|| (key >= 96 && key <= 105))) {  
+										   e.preventDefault();  
+									   }  
+								   }  
+           }); 
 });
 
  $(function(){
@@ -80,7 +98,7 @@
     }
 }
 
-
+//cuando se consulta matriculaExistente
 function consultarMatricula(mat){  //alert("2"+matriculaExistente);
     var mensaje="Procesando la información<br>Espere por favor";
 	jsShowWindowLoad(mensaje);
@@ -1332,7 +1350,7 @@ function cargarDatosPreprogramacion(res) { //alert("1"+matriculaExistente);
 				setTimeout(function() {
 				$("#cmbDocente").val(res[0].Docente);
 				}, 1000);
-            }, 2000);
+            }, 2300);
         }
     }, 1500); 
     
