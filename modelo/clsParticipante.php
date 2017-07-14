@@ -29,7 +29,7 @@ class clsParticipante {
 
         if ($rs = $conexion->getPDO()->query($sql)) {
            if (!$filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //si no hay notas para la preprogramación
-				echo "entre";
+				
 			  // $usuario = $_SESSION['idUsuario'];
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPAGREGARNOTA($IdPreprogramacion,33.33,33.33,33.33,$usuario);"; //Se agregan nota por defecto para la preprogramación
@@ -63,7 +63,7 @@ class clsParticipante {
                     }
                 }
             }else{
-				  echo "SPCONSULTARIDNOTAPORPREPROGRAMACION";
+				  
 
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPCONSULTARIDNOTAPORPREPROGRAMACION($IdPreprogramacion);";
