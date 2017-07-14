@@ -45,15 +45,21 @@ $(function() {
     
     function recuperarDatos() { 
 	
-        $("#nombreServicio").html(sessionStorage.Curso + " - " + sessionStorage.Modulo);
+        $("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
+		$("#txtModulo").html(sessionStorage.IdModulo + "   " + sessionStorage.Modulo);
         $("#inscritos").html(sessionStorage.Inscritos);
-        $("#horario").html(sessionStorage.Horario);
+        $("#horario").html(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria );
         $("#fechaInicial").html(sessionStorage.FechaInicial);
         $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
         $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
         $("#fechaFinal").html(sessionStorage.FechaFinal);
         $("#duracion").html(sessionStorage.Duracion);
-        //alert(sessionStorage.IdPreprogramacion);
+		$("#txtSalon").html(sessionStorage.Salon);
+        $("#txtSede").html(sessionStorage.Sede); 
+		$("#txtDocente").html(sessionStorage.Docente);
+		$("#txtRuta").html(sessionStorage.Ruta);
+		$("#txtNoSessiones").html(sessionStorage.NoSession);
+		//alert(sessionStorage.IdPreprogramacion);
         $.post("../../controlador/fachada.php", {
             clase: 'clsParticipante',
             oper: 'consultarEstudiantesPorSalon',

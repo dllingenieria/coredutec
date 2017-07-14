@@ -4,9 +4,15 @@ body {
 }
 
 .cuerpo{
-	padding-left: 4rem;
-	padding-right: 4rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
 	padding-top: 1.5rem;
+	
+}
+
+.cuerpo th{
+	font-size: 0.7rem;
+	font-family: "Roboto-Bold";
 }
 
 .tablaInformacion{
@@ -45,7 +51,7 @@ body {
     max-height: 100%;
     position:relative; 
     z-index: 3;
-    left:4rem;
+    left:3rem;
 }
 
 .datatable{
@@ -86,4 +92,8 @@ body {
     opacity:0.65;
     background:#999;
 }
+
+
+
+
     
