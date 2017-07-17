@@ -11,6 +11,9 @@ $(function() {
 	if (sessionStorage.esCallCenter==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",4).text("Call Center"));
 	}
+	if (sessionStorage.esAlimentacion==="1") {
+		$("#usuarios").append($("<option></option>").attr("value",5).text("Alimentación"));
+	}
 
 	$("#continuar").click(function(){
 		sessionStorage.rolSeleccionado = $("#usuarios").val();
@@ -26,6 +29,9 @@ $(function() {
 			break;
 			case "4":
 			window.location = "callCenter.html";
+			break;
+			case "5":
+			window.location = "alimentacion.html";
 			break;
 		}
 	});

@@ -17,6 +17,7 @@ class clsMatricula {
          }
     } else {
         $array = 0;
+		print_r($conexion->getPDO()->errorInfo());
     }
     echo json_encode($array);
 }

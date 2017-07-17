@@ -26,6 +26,7 @@
                 sessionStorage.esDocente=roles[1];
                 sessionStorage.esMatriculador=roles[2];
                 sessionStorage.esCallCenter=roles[3];
+				sessionStorage.esAlimentacion=roles[4];
                 var rolesDisponibles=0;
                 for (var i = 0; i < roles.length; i++) {
                     if (roles[i] === "1") {
@@ -46,6 +47,9 @@
                     }
                     if (sessionStorage.esCallCenter==="1") {
                         window.location = "vista/html/callCenter.html";
+                    }
+					if (sessionStorage.esAlimentacion==="1") {
+                        window.location = "vista/html/alimentacion.html";
                     }
                 }
             }else {
