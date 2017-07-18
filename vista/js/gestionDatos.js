@@ -48,6 +48,42 @@ $(function() {
         $("#btn-view1").hide();
     }
 
+      //Cargar datos en el formulario de Curso//
+    function recuperarDatosCurso() {
+        cargarCombos1('clsConfiguracion','SPCARGARRUTAS','#selectRutaCurso');
+        cargarCombos1('clsConfiguracion','SPCARGARDURACIONCURSO', '#selectDuracionCurso');
+        $("#txtCodigoCurso").val(sessionStorage.cod_cur);
+        $("#txtNombreCurso").val(sessionStorage.nom_cur);
+        $("#SelectEstadoCurso").val(sessionStorage.est_cur);        
+        $("#btn-save").hide();
+        $("#btn-view1").hide();
+        cargarValorSelected('#selectDuracionCurso',sessionStorage.dur_cur,2000); 
+        cargarValorSelected('#selectRutaCurso',sessionStorage.rut_cur,2500);   
+    }
+
+      //Cargar datos en el formulario de Modulo//
+    function recuperarDatosModulo() {
+        cargarCombos1('clsConfiguracion','SPCARGARTIPOFORMACION','#selectTipoFormacionModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARAREAOCUPACIONAL', '#selectAreaOcupacionalModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARTIPOCAPACITACION', '#selectTipoCapacitacionModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARESTADOASISTENCIA', '#selectEstadoAsistenciaModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARTIPOCERTIFICACION', '#selectCertificacionEmitidaModulo');    
+
+        $("#SelectEstadoModulo").val(sessionStorage.est_mod);     
+        $("#txtCodigoModulo").val(sessionStorage.cod_mod);
+        $("#txtNombreModulo").val(sessionStorage.nom_mod);
+        $("#txtDuracionModulo").val(sessionStorage.dur_mod);
+        $("#txtCupoMinimoModulo").val(sessionStorage.max_mod);
+        $("#txtCupoMaximoModulo").val(sessionStorage.min_mod);
+        $("#btn-save").hide();
+        $("#btn-view1").hide();
+        cargarValorSelected('#selectTipoFormacionModulo',sessionStorage.for_mod,2000); 
+        cargarValorSelected('#selectAreaOcupacionalModulo',sessionStorage.are_mod,2500);   
+        cargarValorSelected('#selectTipoCapacitacionModulo',sessionStorage.cap_mod,3000);   
+        cargarValorSelected('#selectEstadoAsistenciaModulo',sessionStorage.esa_mod,3500);   
+        cargarValorSelected('#selectCertificacionEmitidaModulo',sessionStorage.cer_mod,4000);   
+    }
+
     //Oculta los campos en el formulario convocatoria//
     function ocultarCamposConvocatoria(){
         $("#btn-add").hide();
@@ -67,8 +103,23 @@ $(function() {
         $("#btn-edit").hide();
         $("#btn-view1").hide();
         $("#ContentEstadoCurso").hide();
-        cargarCombos('clsCurso','SPCARGARRUTAS','#selectRutaCurso');
-        cargarCombos('clsCurso','SPCARGARDURACIONCURSO', '#selectDuracionCurso');
+        cargarCombos1('clsConfiguracion','SPCARGARRUTAS','#selectRutaCurso');
+        cargarCombos1('clsConfiguracion','SPCARGARDURACIONCURSO', '#selectDuracionCurso');
+    }
+
+    //Oculta los campos en el formulario curso//
+    function ocultarCamposModulo(){
+        $("#btn-add").hide();
+        $("#btn-view").show();
+        $("#btn-save").show();
+        $("#btn-edit").hide();
+        $("#btn-view1").hide();
+        $("#ContentEstadoModulo").hide();
+        cargarCombos1('clsConfiguracion','SPCARGARTIPOFORMACION','#selectTipoFormacionModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARAREAOCUPACIONAL', '#selectAreaOcupacionalModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARTIPOCAPACITACION', '#selectTipoCapacitacionModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARESTADOASISTENCIA', '#selectEstadoAsistenciaModulo');
+        cargarCombos1('clsConfiguracion','SPCARGARTIPOCERTIFICACION', '#selectCertificacionEmitidaModulo');    
     }
 
 
@@ -174,6 +225,15 @@ $(function() {
             case '9':
                  recuperarDatosUsuario();
             break;
+            case '10':
+                 recuperarDatosCurso();
+            break;
+            case '11':
+                 ocultarCamposModulo();
+            break;
+            case '12':
+                 recuperarDatosModulo();
+            break;
         }
         
     }
@@ -195,7 +255,7 @@ $(function() {
     }
 
 
-       //Carga Información Combos desplegables
+      //Carga Información Combos desplegables
     function cargarCombos1(clase,procedimiento,objeto) {
         $.post("../../controlador/fachada.php", {
             clase: clase,
@@ -212,6 +272,7 @@ $(function() {
             }
         });
     }
+
 
 
   

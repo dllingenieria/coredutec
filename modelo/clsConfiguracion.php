@@ -321,6 +321,7 @@ class clsConfiguracion {
         $IdUsuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPAGREGARCONVOCATORIA('$conNombre','$conNombreCorto','$conEstado','$conSerie','$IdUsuario');";
+        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
@@ -368,7 +369,7 @@ class clsConfiguracion {
                         }else{
                             $value="Inactivo";
                         }
-                        array_push($registro, $fila['Id'],$fila['Codigo'],$fila['Nombre'],$fila['Duracion'], $fila['Ruta'],$value);
+                        array_push($registro, $fila['Id'],$fila['Codigo'],$fila['Nombre'],$fila['Duracion'], $fila['DuracionId'],$fila['Ruta'], $fila['RutaId'],$value);
                     }
                     array_push($resultado, $registro);
                        $registro = array();
@@ -405,8 +406,8 @@ class clsConfiguracion {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPMODIFICARCONVOCATORIA ($idConvocatoria, '$conNombre', '$conNombreCorto' , '$conEstado', '$IdUsuario');";
-        echo ($sql);
+        $sql = "CALL SPMODIFICARCURSO ($idCurso, '$txtCodigoCurso', '$txtNombreCurso' , '$selectDuracionCurso', '$selectRutaCurso', '$txtEstadoCurso', '$IdUsuario');";
+        //echo $sql;
         if ($rs = $conexion->getPDO()->query($sql)) {
              if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
@@ -435,7 +436,7 @@ class clsConfiguracion {
                         }else{
                             $value="Inactivo";
                         }
-                        array_push($registro, $fila['Id'],$fila['Codigo'],$fila['Nombre'],$fila['Duracion'], $fila['TipoFormacion'], $fila['AreaOcupacional'], $fila['CupoMinimo'],$fila['CupoMaximo'],$fila['Curso'],$value);
+                        array_push($registro, $fila['Id'],$fila['Codigo'],$fila['Nombre'],$fila['Duracion'], $fila['TipoFormacion'], $fila['TipoFormacionNombre'], $fila['AreaOcupacional'], $fila['AreaOcupacionalNombre'],  $fila['TipoCapacitacionR4547'], $fila['TipoCapacitacionR4547Nombre'], $fila['EstadoAsistenciaR4547'], $fila['EstadoAsistenciaR4547Nombre'],$fila['CertificacionEmitida'], $fila['CertificacionEmitidaNombre'], $fila['CupoMinimo'],$fila['CupoMaximo'],$value);
                     }
                     array_push($resultado, $registro);
                        $registro = array();
@@ -444,6 +445,7 @@ class clsConfiguracion {
         } else {
             $registro = 0;
         }
+            array($resultado);
             echo json_encode($resultado);
     }
 
@@ -453,8 +455,8 @@ class clsConfiguracion {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPAGREGARCONVOCATORIA('$conNombre','$conNombreCorto','$conSerie','$conEstado','$IdUsuario');";
-         echo ($sql);
+        $sql = "CALL SPAGREGARMODULO('$modCodigo','$modNombre','$modDuracion','$modFormacion','$modArea','$modCapacitacion','$modEstadoAsistencia','$modCertificacion','$modMaximo','$modMinimo','$modCurso','$IdUsuario');";
+         //echo ($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
@@ -472,8 +474,8 @@ class clsConfiguracion {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPMODIFICARCONVOCATORIA ($idConvocatoria, '$conNombre', '$conNombreCorto' , '$conEstado', '$IdUsuario');";
-        echo ($sql);
+        $sql = "CALL SPMODIFICARMODULO ($idModulo, '$modCodigo','$modNombre','$modDuracion','$modFormacion','$modArea','$modCapacitacion','$modEstadoAsistencia','$modCertificacion','$modMaximo','$modMinimo', '$modCurso','$modEstado','$IdUsuario');";
+        //echo ($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
              if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
@@ -486,5 +488,24 @@ class clsConfiguracion {
         echo json_encode($array);
     }
 
+
+    public function cargarListas1($param) {
+        extract($param);
+        $opciones="";
+        $sql = "CALL ".$procedimiento."();";
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            $opciones.='<option value="0">Seleccionar</option>';
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                   // $array[] = $fila;
+                    $opciones.='<option value="'.$fila["Id"].'">'.$fila["Nombre"].'</option>';
+                }
+            }
+        } 
+        //mysql_free_result($rs);
+        echo $opciones;
+        //echo json_encode($array);
+    }
 }
 ?>
