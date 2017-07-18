@@ -21,7 +21,7 @@ $(function(){
 				}else{
 					sessionStorage.pFechaInicial=FechaInicial;
 					sessionStorage.pFechaFinal=FechaFinal;
-					window.location.href = "callcentergestionpreprogramacion.html";
+					window.location.href = "callCenterGestionPreprogramacion.html";
 				}
 		
 			}else{
