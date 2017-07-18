@@ -279,5 +279,41 @@ class clsProgramacion {
 		
         echo json_encode($array);
     }
+
+public function consultarGestionPreprogramacion($param) {
+       extract($param); 
+       echo $sql = "CALL SPCONSULTARGESTIONPREPROGRAMACION($IdPreprogramacion);";
+       $conexion->getPDO()->query("SET NAMES 'utf8'");
+       if ($rs = $conexion->getPDO()->query($sql)) {
+           if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+               foreach ($filas as $fila) {
+                   $array[] = $fila;
+               }
+           }
+       } else {
+           $array = "";
+       }
+       
+       echo json_encode($array);
+   }
+
+
+    public function AgregarGestionPreprogramacion($param) {
+       session_start();
+       extract($param);
+       $fechaHoy=date("Y-m-d");
+       $IdUsuario = $_SESSION['idUsuario'];
+       $conexion->getPDO()->query("SET NAMES 'utf8'");
+       $sql = "CALL SPAGREGARGESTIONPREPROGRAMACION($IdPreprogramacion,$IdTercero,'".$IdTipificacion."','".$Observaciones."', '".$fechaHoy."', $IdUsuario);";
+       if ($rs = $conexion->getPDO()->query($sql)) {
+           if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+               $array = 1;
+           }
+       } else {
+           $array = 0;
+       }
+       echo json_encode($array);
+   }
+
 }
 ?>
