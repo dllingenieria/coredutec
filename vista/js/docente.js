@@ -84,6 +84,8 @@ $(function(){
 			{ title: "IntensidadHorariaDiaria" },
 			{ title: "Inscritos" },
 			{ title: "Ruta" },
+			{ title: "Modalidad" },
+			{ title: "cantidadSesiones" },
 			
 			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
 			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
@@ -101,7 +103,10 @@ $(function(){
 			{"targets": [ 3 ],"visible": false,"searchable": false},
 			{"targets": [ 5 ],"visible": false,"searchable": false},
 			{"targets": [ 15 ],"visible": false,"searchable": false},
-			{"targets": [ 13 ],"visible": false,"searchable": false}],
+			{"targets": [ 13 ],"visible": false,"searchable": false},
+			{"targets": [ 16 ],"visible": false,"searchable": false},
+			{"targets": [ 17 ],"visible": false,"searchable": false}
+			],
 			"language": {
 				"sSearch": "Filtrar:",
 				"zeroRecords": "Ningún resultado encontrado",
@@ -135,6 +140,8 @@ $(function(){
 				sessionStorage.IntensidadHorariaDiaria = table.row(this).data()[13];
 				sessionStorage.Inscritos = table.row(this).data()[14];
 				sessionStorage.Ruta = table.row(this).data()[15];
+				sessionStorage.Modalidad = table.row(this).data()[16];
+				sessionStorage.cantidadSesiones = table.row(this).data()[17]; 
 				
 			} else {
 				PopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");

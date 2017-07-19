@@ -1,11 +1,17 @@
-$(function() {
+$(function() { 
 	//para quitar posiciones repetidas
 	Array.prototype.unique=function(a){
 			 return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 		 });
 	
     if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
-        window.location.href = "docente.html";
+        window.location.href = "alimentacion.html";
+    }
+	//validacion si la modalidad es virtual no hay refrigerio
+	if (typeof(sessionStorage.Modalidad) === 73) {
+        mostrarPopUpError("El módulo es virtual, no posee refrigerio");
+		setTimeout(function() {	window.location.href = "alimentacion.html";},2000);
+		
     }
 	
 	var ultimaSesion = 0;
@@ -17,7 +23,7 @@ $(function() {
         { title: "Estudiante" },
         { title: "Identificación" },
         { title: "Teléfono" });
-	opcionesNoAsistencia = "";
+	opcionesNoalimentacion = "";
 	
 	
 	fechaA = new Array();
@@ -25,19 +31,19 @@ $(function() {
 	idTerceroHorasTotales = new Array();
 	observaciones = new Array(); 
 	motivos = new Array(); 
-	asistencia = new Array(); 
-	asistenciaGeneral = new Array(); 
+	alimentacion = new Array(); 
+	alimentacionGeneral = new Array(); 
 	
 	
-	CargarMotivosNoAsistencia();
+	// CargarMotivosNoalimentacion();
     consultarUltimaSesionPorSalon(sessionStorage.IdPreprogramacion);
-    //consultarAsistenciaPorSalon();
+    //consultaralimentacionPorSalon();
 	//cargarHorasTotales();
     agregarFechasTabla();
 	
-	asistenciaDetalle =true;
-	asistenciaObservacion=true;
-	asistenciaMotivo=true;
+	alimentacionDetalle =true;
+	// alimentacionObservacion=true;
+	// alimentacionMotivo=true;
 	
 	
 	
@@ -80,9 +86,9 @@ $(function() {
                         array.push(data[i].Telefono);
 						idTerceroHorasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las horas totales 
                         
-                        for (var j = 0; j < columnas.length-8; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
+                        for (var j = 0; j < columnas.length-4; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
 							
-							array.push('<input type="text" size="5" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
+							array.push('<input type="text" size="5" value="NA" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
                             // if(j < ultimaSesion){
                                 // if(data[i] !== null){ //alert([data[i].IdTercero]);
                                     // sesionHoras = horas[j][data[i].IdTercero]; 
@@ -92,53 +98,36 @@ $(function() {
                                     // sesionHoras = 0;
                                 // }
                                 
-                                // array.push('<input required type="number" min="0" max="8"  size="5" value="'+horas[j][data[i].IdTercero]+'" class="asistenciaInput" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">' );       
+                                // array.push('<input required type="number" min="0" max="8"  size="5" value="'+horas[j][data[i].IdTercero]+'" class="alimentacionInput" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">' );       
                             // }else if (j==ultimaSesion) { 
-                                // array.push('<input required type="number" min="0" max="8"  size="5" value="" class="asistenciaInput enabled" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">');
+                                // array.push('<input required type="number" min="0" max="8"  size="5" value="" class="alimentacionInput enabled" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">');
                             // }else if(j > ultimaSesion && j < columnas.length -7 ){ 
-                                // array.push('<input type="number" min="0" max="8"  value="" size="5" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');
+                                // array.push('<input type="number" min="0" max="8"  value="" size="5" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');
                             // }else{ 
-                                // array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');       
+                                // array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');       
                                 
                             // }
                         }
-						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');   
-                        array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');
-						array.push('<select id="selInasistencia_'+data[i].IdTercero+'" class="motivo"></select>'); 
-						array.push('<input type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly>');
+						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');   
+                        // array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');
+						// array.push('<select id="selInalimentacion_'+data[i].IdTercero+'" class="motivo"></select>'); 
+						// array.push('<input type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly>');
                         dataSet.push(array);
                     }
                     cargarInformacionEnTabla(dataSet);
 					
 					
-					//codigo para poner el evento onchage a las cajas de texto para calcular horas totales
-					$( ".asistenciaInput" ).change(function() {
-						cargarHorasTotales(this);
-					});
-					
+									
 					//codigo para poner el evento onfocus a las cajas de texto para que solo envia los datos que tuvieron foco
-					$( ".asistenciaInput" ).focus(function() { 
+					$( ".alimentacionInput" ).focus(function() { 
 						ponerFoco(this);
 					});
 					
-					//codigo para poner el evento onfocus a las cajas de texto para que solo envia los datos que tuvieron foco
-					$( ".obs" ).change(function() { 
-						ponerFocoTextArea(this);
-					});
-					
-					//codigo para poner el evento onchange a los select para que solo envia los datos que tuvieron change
-					$( ".motivo" ).change(function() { 
-						ponerFocoSelect(this);
-					});
-					
-					
+									
 					
 					//llamar a llenar cajas de texto
-					llenarCajasTexto();
-					llenarTextArea();
-					formarOptionValue(opcionesNoAsistencia, "motivo");
-					llenarSelects();
-					llenarNotas();
+					// llenarCajasTexto();   PENDIENTE --------------------------
+					
 					jsRemoveWindowLoad();
 					
                  }else{
@@ -150,7 +139,7 @@ $(function() {
     }
 
     function cargarInformacionEnTabla(data){ //alert(data);
-        var table = $('#tablaAsistencias').DataTable({
+        var table = $('#tablaAlimentacion').DataTable({
             "data": data,
             columns: columnas,
             "paging":   false,
@@ -174,41 +163,7 @@ $(function() {
 		
     }
 	
-	//se crea esta funcion para cargar las horas totales de asistencias
-	function cargarHorasTotales(cajaDeTexto){ 
-		 
-		var idCaja = cajaDeTexto.id;
-		var res = idCaja.split("_");
-		res= res[3];
-		/*se recorre el array que tiene todos los id de estudiantes y se recorren cada
-		caja de texto que termine en ese id para garantizar que sea esa fila y se captura el valor
-		y se va sumando a lo que ya se traia y se pone el la caja de texto de horas totales
-		*/
-		
-		
-		// for (var i = 0; i < idTerceroHorasTotales.length; i++) { 
-		 var totalHoras=0; 
-			$("input[id$="+res+"]").each(function(){  
-				if ($( this ).val() > 0 && $( this ).val() <= 8 ) { 
-					if ($( this ).val() !=  '' && this.id != "txtA_undefined_undefined_"+res && $( this ).val() !=  'NA' && this.id != "textNotas_"+res){ 
-						totalHoras=(totalHoras*1)+($(this).val()*1);   
-					}
-					
-				 } 
-			
-			});
-			
-			// if ($("input[id=txtA_undefined_undefined_"+res+"]")){ 
-				$("#txtA_undefined_undefined_"+res).val(totalHoras);
-				totalHoras=0;
-				//se aumenta el valor maximo de la caja de texto
-				$("#txtA_undefined_undefined_"+res).prop('max', 500);
-				
-			
-			// }
-		// }
-		
-	}
+
 	
 	function ponerFoco(cajaTexto){ 
 		var id = cajaTexto.id;  
@@ -217,20 +172,6 @@ $(function() {
 		
 	}
 	
-	
-	function ponerFocoTextArea(cajaObs){ 
-		var id = cajaObs.id;  
-		//se agrega atributo para saber si ese campo es para guardar o editar
-		$("#"+id).attr("modificado",true);
-		
-	}
-	
-	function ponerFocoSelect(selectNoAsistencia){ 
-		var id = selectNoAsistencia.id;  
-		//se agrega atributo para saber si ese campo es para guardar o editar
-		$("#"+id).attr("modificado",true);
-		
-	}
 
     function agregarFechasTabla(){ 
 		var mensaje="Procesando la información<br>Espere por favor";
@@ -346,10 +287,10 @@ $(function() {
 					// sesionA.splice((totalSesion-1),1);
 					// var total=columnas.length;
 					// columnas.splice((total-1),1);
-                    columnas.push({'title':'Total Horas'});
-                    columnas.push({'title':'Observaciones'});
-					columnas.push({'title':'Motivo no asistencia'});
-					columnas.push({'title':'Nota'});
+                    // columnas.push({'title':'Total Horas'});
+                    // columnas.push({'title':'Observaciones'});
+					// columnas.push({'title':'Motivo no alimentacion'});
+					// columnas.push({'title':'Nota'});
 					recuperarDatos();
 					
 					
@@ -359,20 +300,20 @@ $(function() {
         }, "json");
     }
 
-    $("#guardarAsistencia").click(function(){ 
+    $("#guardarAlimentacion").click(function(){ 
         if (!validarInformacion()) {
-            mostrarPopUpError("Por favor llene todos los campos con valores de 0 a 8");
+            mostrarPopUpError("Por favor llene todos los campos con valores de RB o RR");
         }else{
-            agregarAsistenciaGeneral();
+            agregarAlimentacioGeneral();
         }
     });
-    $("#reporteAsistencia").click(function(){
-        window.location.href = "filtroReporteAsistencia.html";
-    });
+    // $("#reportealimentacion").click(function(){
+        // window.location.href = "filtroReportealimentacion.html";
+    // });
 
     function validarInformacion(){
         var valido=true;
-        $(".asistenciaInput").each(function(e){
+        $(".alimentacionInput").each(function(e){
 			id=$( this ).attr( "id" ); 
 			var res = id.split("_");
 			var valor = $("#"+id).val();
@@ -380,7 +321,7 @@ $(function() {
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
 				if( valor != "NA" ){
-					if (valor < 0 || valor > 8 ) {
+					if (valor != 'RR' || valor != 'RB' ) {
 					valido=false;
 					}
 				}
@@ -393,13 +334,13 @@ $(function() {
         return valido;
     }
 
-    function agregarAsistenciaGeneral(){ 
+    function agregarAlimentacioGeneral(){ 
 	var mensaje="Procesando la información<br>Espere por favor";
 	jsShowWindowLoad(mensaje);
 	// $('#cargando').css("display","");
 	// $('#cargando').html('<div><img src="../images/carga.gif"/></div>');
 	
-	// var asistencia = new Array(); 
+	// var alimentacion = new Array(); 
 	var cont=0;
 	//se recorren las cajas de texto que no esten vacias para guardar los datos
 	$("input[id^=txtA_]").each(function(){    
@@ -415,8 +356,8 @@ $(function() {
 				var res = id.split("_");
 				 
 				var noEsta= true;
-				//recorrer el array asistencia para saber si la sesion ya esta
-				$.each( asistencia, function() {
+				//recorrer el array alimentacion para saber si la sesion ya esta
+				$.each( alimentacion, function() {
 					//alert(this['sesion']);
 					if( this['sesion'] == res[1]){
 						noEsta= false;
@@ -427,28 +368,28 @@ $(function() {
 				
 				if (noEsta){ 
 					//llenar un array con preprogramacion, sesion, fecha
-					asistencia[cont] = {};
-					asistencia[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
-					asistencia[cont]['sesion']=res[1]; 
-					asistencia[cont]['fecha']=res[2];		
-					asistencia[cont]['idTercero']=res[3];		
-					asistencia[cont]['idCaja']=idCaja;
-
-					asistenciaGeneral[cont] = {};
-					asistenciaGeneral[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
-					asistenciaGeneral[cont]['sesion']=res[1]; 
-					asistenciaGeneral[cont]['fecha']=res[2];
+					alimentacion[cont] = {};
+					alimentacion[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
+					alimentacion[cont]['sesion']=res[1]; 
+					alimentacion[cont]['fecha']=res[2];		
+					alimentacion[cont]['idTercero']=res[3];		
+					alimentacion[cont]['idCaja']=idCaja;
+					
+					alimentacionGeneral[cont] = {};
+					alimentacionGeneral[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
+					alimentacionGeneral[cont]['sesion']=res[1]; 
+					alimentacionGeneral[cont]['fecha']=res[2];
 				cont++;
 				}
 			}
 				
     }); 
 	
-	var serializedAsistencia = JSON.stringify( asistenciaGeneral );
+	var serializedAlimentacion = JSON.stringify( alimentacionGeneral );
 	
 	
-	//alert(serializedAsistencia);
-	//$.each( asistencia, function() {
+	//alert(serializedalimentacion);
+	//$.each( alimentacion, function() {
 			//alert(this['sesion']);				
 		
 		// var idTerceroA=this['idTercero'];
@@ -456,9 +397,9 @@ $(function() {
 		// var sesionA=this['sesion'];
 		
 		$.post("../../controlador/fachada.php", {
-			clase: 'clsAsistencia',
-			oper: 'agregarAsistenciaGeneral',
-			serializedAsistencia: serializedAsistencia
+			clase: 'clsAlimentacion',
+			oper: 'agregarAlimentacioGeneral',
+			serializedAlimentacion: serializedAlimentacion
 		},
 		
 		
@@ -468,9 +409,9 @@ $(function() {
 				// dataType: 'json)',
 				// async : false,
 				// data: {
-					// clase: 'clsAsistencia',
-					// oper: 'agregarAsistenciaGeneral',
-					// serializedAsistencia: serializedAsistencia
+					// clase: 'clsAlimentacion',
+					// oper: 'agregarAlimentacioGeneral',
+					// serializedalimentacion: serializedalimentacion
 					
 					
 				// } 
@@ -479,19 +420,19 @@ $(function() {
 			
 			if (data !== 0) {
 				if(data !== null){ 
-					//se devuelve array con todos los id insertados de asistencia general data
-					//se tiene el array de asistencias a este se la va agregar la posicion de el id asistencia general
-					//alert(data[0]['IdAsistencia']);
-					for (i=0;i<asistencia.length;i++){
+					//se devuelve array con todos los id insertados de alimentacion general data
+					//se tiene el array de alimentacions a este se la va agregar la posicion de el id alimentacion general
+					//alert(data[0]['Idalimentacion']);
+					for (i=0;i<alimentacion.length;i++){
 						
-						asistencia[i]['IdAsistencia']=data[i].IdAsistencia;	
+						alimentacion[i]['Idalimentacion']=data[i].Idalimentacion;	
 						
 					}
 					
-					agregarAsistenciaDetalle(asistencia);
-					agregarAsistenciaObservacion(asistencia);
-					agregarMotivoNoAsistencia(asistencia);
-					if(asistenciaDetalle == true || asistenciaObservacion== true || asistenciaMotivo==true){
+					agregaralimentacionDetalle(alimentacion);
+					// agregaralimentacionObservacion(alimentacion);
+					// agregarMotivoNoalimentacion(alimentacion);
+					if(alimentacionDetalle == true ){
 						
 				           
 						jsRemoveWindowLoad();
@@ -531,92 +472,26 @@ $(function() {
 	
  }
 
- // function agregarAsistenciaDetalle(asistencia){ 
-    // var asistenciaD = new Array(); 
-    // var conta=0;
-    // $("input[id^=txtA_]").each(function(e){
-		
-		// var idCaja = $( this ).attr( "id" ); //alert(idCaja);
-		// var idCajasub = idCaja.substring(5, 14); 
-		// var res = idCaja.split("_");
-		// var valorSesion = res[1];
-		// var atributoIdAsistencia = "";
-		// var idAsistenciaDetalle = 0;
-		// var valor = $( this ).val();
-		
-		
-		// //preguntar si esa caja de texto tiene el atributo IdAsistencia
-		// if ($( this ).attr("IdAsistencia") != undefined){  
-			// atributoIdAsistencia =$(this).attr("IdAsistencia");
-			// var res1 = atributoIdAsistencia.split("_");
-			// idAsistenciaDetalle = res1[1];
-			
-		// }
-		
-		// //preguntar si esa caja de texto tiene el atributo modificado
-		// if ($( this ).attr("modificado") != undefined){
-			// modificado =true;
-		// }
-		// else{
-			// modificado =false;
-		// }
-		
-		
-		// //if ($( this ).val() !=  '' && idCajasub != "undefined" && res[1]==sesionA && modificado == true){
-		// // if (idCajasub != "undefined" && res[1]==sesionA && modificado == true && valor != "NA"){ alert("lll");
-		// if (idCajasub != "undefined" && modificado == true && valor != "NA"){ 
-		
-			
-			// asistenciaD[conta] = {};
-			// asistenciaD[conta]['IdAsistencia']=asistencia[conta]['IdAsistencia']; 
-			// asistenciaD[conta]['idTercero']=$(this).attr("data-sesion");	
-			// asistenciaD[conta]['valorAsistencia']=$(this).val(); 
-			// asistenciaD[conta]['idAsistenciaDetalle']=idAsistenciaDetalle;		
-					
-		// conta++;
-			
-			
-			
-		// }  
-    // });
-	// var serializedAsistenciaD = JSON.stringify( asistenciaD );alert(serializedAsistenciaD);
-	// $.ajax({
-				// url: '../../controlador/fachada.php',
-				// type: 'POST',
-				// dataType: 'json)',
-				// async : true,
-				// data: {
-					// clase: 'clsAsistencia',
-					// oper: 'agregarAsistenciaDetalle',
-					// serializedAsistenciaD: serializedAsistenciaD,
-					
-					
-				// }
-			// }).done(function() {
-				// console.log("success");
-			// });
-	
-    
-// }
 
-function agregarAsistenciaDetalle(asistencia){
-   var asistenciaD = new Array();
+
+function agregaralimentacionDetalle(alimentacion){
+   var alimentacionD = new Array();
    var conta=0;    $("input[id^=txtA_]").each(function(e){
        
        var idCaja = $( this ).attr( "id" ); //alert(idCaja);
        var idCajasub = idCaja.substring(5, 14);
        var res = idCaja.split("_");
        var valorSesion = res[1];
-       var atributoIdAsistencia = "";
-       var idAsistenciaDetalle = 0;
+       var atributoIdalimentacion = "";
+       var idalimentacionDetalle = 0;
        var valor = $( this ).val();
-       var sesionAsistencia=0;
+       var sesionalimentacion=0;
        
-       //preguntar si esa caja de texto tiene el atributo IdAsistencia
-       if ($( this ).attr("IdAsistencia") != undefined){  
-           atributoIdAsistencia =$(this).attr("IdAsistencia");
-           var res1 = atributoIdAsistencia.split("_");
-           idAsistenciaDetalle = res1[1];            
+       //preguntar si esa caja de texto tiene el atributo Idalimentacion
+       if ($( this ).attr("Idalimentacion") != undefined){  
+           atributoIdalimentacion =$(this).attr("Idalimentacion");
+           var res1 = atributoIdalimentacion.split("_");
+           idalimentacionDetalle = res1[1];            
        }
        
        //preguntar si esa caja de texto tiene el atributo modificado
@@ -635,209 +510,52 @@ function agregarAsistenciaDetalle(asistencia){
            if (idCajasub != "undefined" && modificado == true && valor != "NA"){    
        
              
-               /* asistenciaD[conta]['IdAsistencia']=asistencia[sesionAsistencia]['IdAsistencia'];
-               asistenciaD[conta]['idTercero']=$(this).attr("data-sesion");    
-               asistenciaD[conta]['valorAsistencia']=$(this).val();
-               asistenciaD[conta]['idAsistenciaDetalle']=idAsistenciaDetalle; */
-               sesionAsistencia=valorSesion-1;
+               /* alimentacionD[conta]['Idalimentacion']=alimentacion[sesionalimentacion]['Idalimentacion'];
+               alimentacionD[conta]['idTercero']=$(this).attr("data-sesion");    
+               alimentacionD[conta]['valoralimentacion']=$(this).val();
+               alimentacionD[conta]['idalimentacionDetalle']=idalimentacionDetalle; */
+               sesionalimentacion=valorSesion-1;
                valor=$(this).val();  
                sesion= $(this).attr("data-sesion");
-               sesionAsistenciass=asistencia[sesionAsistencia]['IdAsistencia'];      
-			   asistenciaD.push({"IdAsistencia":sesionAsistenciass,"idTercero":sesion,"valorAsistencia":valor,"idAsistenciaDetalle":idAsistenciaDetalle});
-               //alert(sesionAsistencia);
+               sesionalimentacions=alimentacion[sesionalimentacion]['Idalimentacion'];      
+			   alimentacionD.push({"Idalimentacion":sesionalimentacions,"idTercero":sesion,"valoralimentacion":valor,"idalimentacionDetalle":idalimentacionDetalle});
+               //alert(sesionalimentacion);
                conta++;
                        
            }  
      
      
   });
-   var serializedAsistenciaD = JSON.stringify( asistenciaD );//alert(serializedAsistenciaD);
+   var serializedalimentacionD = JSON.stringify( alimentacionD );//alert(serializedalimentacionD);
    $.ajax({
                url: '../../controlador/fachada.php',
                type: 'POST',
                dataType: 'json)',
                async : true,
                data: {
-                   clase: 'clsAsistencia',
-                   oper: 'agregarAsistenciaDetalle',
-                   serializedAsistenciaD: serializedAsistenciaD,
+                   clase: 'clsAlimentacion',
+                   oper: 'agregaralimentacionDetalle',
+                   serializedalimentacionD: serializedalimentacionD,
                    
                    
                }
            }).done(function(data) { //alert(data);
-				if (data.array =1){asistenciaDetalle =true;}
-				else {asistenciaDetalle =false;}
+				if (data.array =1){alimentacionDetalle =true;}
+				else {alimentacionDetalle =false;}
                
 				
            })
 		    .fail(function() {
-			asistenciaDetalle =false;
+			alimentacionDetalle =false;
 	
 		  });
    
  
 }
 
-function agregarAsistenciaObservacion(asistencia){ 
-   
-   var asistenciaO = new Array(); 
-   var contaO=0;
-   var noEsta= true; 
-   
-		$("[id^=textArea_]").each(function(e){ 
-    
-				var idObs = $( this ).attr( "id" ); //alert(idCaja);
-								
-				var res = idObs.split("_");
-				var IdTerceroObservacion = res[1];
-				
-				// var atributoIdAsistencia = "";
-				// var idAsistenciaObservacion = "";
-				
-				//preguntar si esa caja de texto tiene el atributo modificado
-				if ($( this ).attr("modificado") != undefined){
-					modificado =true;
-				}
-				else{
-					modificado =false;
-				}
-				
-						//recorrer el array de observaciones para saber si ese tercero ya esta
-							var a = observaciones.indexOf(IdTerceroObservacion); //alert("a"+a);
-								if (a > -1){
-									noEsta= false;
-								}
-								
-				if (noEsta){ 
-							//llenar un array con el tercero
-							observaciones.push(IdTerceroObservacion);   
-							
-							//se hace todo el proceso de guardado de la observacion
-							var observacion= $(this).val();
-								//modificado == true
-								
-								// if (observacion !=  ''){ 
-								if (modificado ==  true){ 
-									
-									asistenciaO[contaO] = {};
-									// asistenciaO[contaO]['IdAsistencia']=asistencia[conta]['IdAsistencia']; 
-									asistenciaO[contaO]['IdAsistencia']=asistencia[0]['IdAsistencia']; 
-									asistenciaO[contaO]['idTercero']=IdTerceroObservacion; 
-									asistenciaO[contaO]['observacion']=observacion;		
-									asistenciaO[contaO]['idPreprogramacion']=sessionStorage.IdPreprogramacion;		
-										
-									
-									contaO++;
-									
-								}
-									
-							
-						} //console.log(observaciones);	
-			}); 
-			var serializedAsistenciaO = JSON.stringify( asistenciaO ); //alert(serializedAsistenciaO);
-				if (asistenciaO.length != 0){
-					$.ajax({
-							url: '../../controlador/fachada.php',
-							type: 'POST',
-							dataType: 'json)',
-							async : true,
-							data: {
-								clase: 'clsAsistencia',
-								oper: 'agregarAsistenciaObservacion',
-								serializedAsistenciaO: serializedAsistenciaO
-								
-								
-							}
-						}).done(function() {
-							asistenciaObservacion=true;
-						})
-						.fail(function() {
-							asistenciaObservacion =false;
-						});
-				}
-   //alert("Guardado Satisfactoriamente observacion");
-    //window.location.href = 'asistencia.html';
-}
 
-function agregarMotivoNoAsistencia(asistencia){ 
-   
-   var asistenciaM = new Array(); 
-   var contaM=0;
-   var noEsta= true; 
-   
-		$("[id^=selInasistencia_]").each(function(e){ 
-    
-				var idSel = $( this ).attr( "id" ); //alert(idCaja);
-								
-				var res = idSel.split("_");
-				var IdTerceroNoAsistencia = res[1];
-				
-				// var atributoIdAsistencia = "";
-				// var idAsistenciaObservacion = "";
-				
-				//preguntar si ese select tiene el atributo modificado
-				if ($( this ).attr("modificado") != undefined){
-					modificado =true;
-				}
-				else{
-					modificado =false;
-				}
-				
-						//recorrer el array de motivos para saber si ese tercero ya esta
-							var a = motivos.indexOf(IdTerceroNoAsistencia); //alert("a"+a);
-								if (a > -1){
-									noEsta= false;
-								}
-								
-				if (noEsta){  
-							//llenar un array con el tercero
-							motivos.push(IdTerceroNoAsistencia);   
-							
-							//se hace todo el proceso de guardado del motivo
-							var motivo= $(this).val();
-								//modificado == true
-								
-								// if (observacion !=  ''){ 
-								 
-								if (modificado ==  true){ 
-									
-									asistenciaM[contaM] = {};
-									asistenciaM[contaM]['IdAsistencia']=asistencia[0]['IdAsistencia']; 
-									asistenciaM[contaM]['idTercero']=IdTerceroNoAsistencia; 
-									asistenciaM[contaM]['motivo']=motivo;		
-									asistenciaM[contaM]['idPreprogramacion']=sessionStorage.IdPreprogramacion;		
-										
-									
-									contaM++;
-									
-								}
-									
-							
-						} //console.log(motivos);	
-			}); 
-			var serializedAsistenciaM = JSON.stringify( asistenciaM ); //alert(serializedAsistenciaM);
-				if (asistenciaM.length != 0){
-					$.ajax({
-						url: '../../controlador/fachada.php',
-						type: 'POST',
-						dataType: 'json)',
-						async : false,
-						data: {
-							clase: 'clsAsistencia',
-							oper: 'agregarMotivoNoAsistencia',
-							serializedAsistenciaM: serializedAsistenciaM
-							
-							
-						}
-					}).done(function() {
-						asistenciaMotivo=true;
-					})
-					.fail(function() {
-						asistenciaMotivo =false;
-					});
-				}
-	
-}
+
+
 
 function consultarUltimaSesionPorSalon(idSalon){
     $.ajax({
@@ -846,7 +564,7 @@ function consultarUltimaSesionPorSalon(idSalon){
         dataType: 'json',
         async :false,
         data: {
-            clase: 'clsAsistencia',
+            clase: 'clsAlimentacion',
             oper: 'consultarUltimaSesionPorSalon',
             idSalon: idSalon,
             }
@@ -860,7 +578,7 @@ function consultarUltimaSesionPorSalon(idSalon){
     });
 }
 
-function consultarAsistenciaPorSalon(){
+function consultaralimentacionPorSalon(){
     var error = false; //alert("entro99");
     for(var i = 0;i < ultimaSesion; i++){
         $.ajax({
@@ -869,8 +587,8 @@ function consultarAsistenciaPorSalon(){
             dataType: 'json',
             async : false,
             data: {
-                clase: 'clsAsistencia',
-                oper : 'consultarAsistenciaPorSalon',
+                clase: 'clsAlimentacion',
+                oper : 'consultaralimentacionPorSalon',
                 idSalon: sessionStorage.IdPreprogramacion,
                 sesion : i+1
             }
@@ -885,12 +603,12 @@ function consultarAsistenciaPorSalon(){
     }
     if(error == true){
         alert("No existen estudiantes inscritos");
-        window.location.href ='docente.html';
+        window.location.href ='alimentacion.html';
     }
 }
 
-$("#volverAsistencia").click(function(){
-    window.location.href = "docente.html";
+$("#volverAlimentacion").click(function(){
+    window.location.href = "alimentacion.html";
 });
 
 });
@@ -903,8 +621,8 @@ function llenarCajasTexto(){
             dataType: 'json',
             async : false,
             data: {
-                clase: 'clsAsistencia',
-                oper : 'consultarAsistenciaPorPreprogramacion',
+                clase: 'clsAlimentacion',
+                oper : 'consultaralimentacionPorPreprogramacion',
                 idPreprogramacion: sessionStorage.IdPreprogramacion
                 
             }
@@ -924,7 +642,7 @@ function llenarCajasTexto(){
 						 if(idTercero == data[i].IdTercero && sesion == data[i].SesionNumero){
 							$( this ).val( data[i].HorasAsistidas );
 							//se agrega atributo para saber si ese campo es para editar
-							$( this ).attr("IdAsistencia",data[i].IdAsistencia+"_"+data[i].IdAsistenciaDetalle);
+							$( this ).attr("Idalimentacion",data[i].Idalimentacion+"_"+data[i].IdalimentacionDetalle);
 							
 							//se simula el evento change de cada caja de texto para el calculo de horas totales
 							$(this).trigger('change');
@@ -943,94 +661,8 @@ function llenarCajasTexto(){
         });   
 }
 
-function llenarTextArea(){ 
-	console.log(idTerceroHorasTotales);
-	$.each( idTerceroHorasTotales, function() {
-	$.ajax({
-            url: '../../controlador/fachada.php',
-            type: 'POST',
-            dataType: 'json',
-            async : false,
-            data: {
-                clase: 'clsAsistencia',
-                oper : 'consultarObservacionesPorTercero',
-                idPreprogramacion: sessionStorage.IdPreprogramacion,
-                idTerceroHorasTotales: this
-            }
-        }).done(function(data) { //console.log(data);
-            if(data !== null){
-				
-				//se recorre data con todos los valores
-				 for (var i = 0; i < data.length; i++) {
-					 
-					//recorre los todos los textarea
-					$("[id^=textArea_]").each(function(e){
-						idTextA= $( this ).attr( "id" );
-						
-						var res = idTextA.split("_");
-						var idTerceroTextA = res[1];
-						
-						//se valida que ese textarea tenga ese tercero para poner el valor
-						if(idTerceroTextA == data[i].IdTercero){
-							$( this ).val( data[i].Observacion );
-							// //se agrega atributo para saber si ese campo es para editar YA NO SE NECESITA
-							// $( this ).attr("IdAsistencia",data[i][IdAsistencia]+"_"+data[i][IdAsistenciaObservacion]);
-						}
-					});
-				 }
-            }
-			// else{
-                // alert("No se encontraron datos para mostrar");
-            // }
-        
-        });  
-	});
-}
 
-function llenarSelects(){ 
-	console.log(idTerceroHorasTotales);
-	$.each( idTerceroHorasTotales, function() {
-	$.ajax({
-            url: '../../controlador/fachada.php',
-            type: 'POST',
-            dataType: 'json',
-            async : false,
-            data: {
-                clase: 'clsAsistencia',
-                oper : 'consultarMotivosNoAsistenciaPorTercero',
-                idPreprogramacion: sessionStorage.IdPreprogramacion,
-                idTerceroHorasTotales: this
-            }
-        }).done(function(data) { //console.log(data);
-            if(data !== null){
-				
-				//se recorre data con todos los valores
-				 for (var i = 0; i < data.length; i++) {
-					 
-					//recorre los todos los textarea
-					$("[id^=selInasistencia_]").each(function(e){
-						idSelM= $( this ).attr( "id" );
-						
-						var res = idSelM.split("_");
-						var idTerceroSelM = res[1];
-						
-						//se valida que ese select tenga ese tercero para poner el valor
-						if(idTerceroSelM == data[i].IdTercero){  
-							// $( this ).val( data[i].Motivo );
-							
-							$("#"+idSelM+" option[value="+ data[i].Motivo +"]").attr("selected",true);
-							//$(  this ).val( data[i].Motivo ) tambien funciona
-						}
-					});
-				 }
-            }
-			// else{
-                // alert("No se encontraron datos para mostrar");
-            // }
-        
-        });  
-	});
-}
+
 
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla
@@ -1102,84 +734,9 @@ function mostrarPopUpError(err_men) {
     });
 }
 
-function CargarMotivosNoAsistencia() {  
-    $.post("../../controlador/fachada.php", {
-        clase: 'clsAsistencia',
-        oper: 'CargarMotivosNoAsistencia'
-    }, function(data) {
-        if (data !== 0) {
-            opcionesNoAsistencia=data;
-			//console.log(opcionesNoAsistencia);
-        }
-        else {
-            alert('error Cargar los motivos de no asistencia');
-        }
-    }, "json");
-}
 
-function SetParametroCursoPorDefecto(atributo, valor, texto) {
-    $(atributo).append($('<option>', { 
-        value: valor,
-        text: texto
-    }));
-}
 
-function formarOptionValue(lista, clase) { //selInasistencia_
-   $('.'+clase).find('option').remove();
-   console.log(lista);
-   // SetParametroCursoPorDefecto("."+clase, '0', 'Seleccione...');
-   $('.'+clase).append($("<option value='0'>Seleccione..</option>"));
-   for (i = 0; i < lista.length; i++) { 
-    $('.'+clase).append($('<option>', {
-        value: lista[i].Id,
-        text: lista[i].Nombre
-    }));
-}
-}
 
-function llenarNotas(){ 
-	console.log(idTerceroHorasTotales);
-	var total=idTerceroHorasTotales.length;
-	if (total > 0){
-	// $.each( idTerceroHorasTotales, function() {
-		$.ajax({
-				url: '../../controlador/fachada.php',
-				type: 'POST',
-				dataType: 'json',
-				async : false,
-				data: {
-					clase: 'clsAsistencia',
-					oper : 'consultarNotasPorTercero',
-					idPreprogramacion: sessionStorage.IdPreprogramacion,
-					idTerceroHorasTotales: idTerceroHorasTotales
-				}
-			}).done(function(data) { //console.log(data);
-				if(data !== null){ console.log(data);
-					
-					//se recorre data con todos los valores
-					 for (var i = 0; i < data.length; i++) {
-						 
-						//recorre los todos los textarea
-						$("[id^=textNotas_]").each(function(e){
-							idTextNota= $( this ).attr( "id" );
-							
-							var res = idTextNota.split("_");
-							var idTerceroTextA = res[1];
-							
-							//se valida que ese textarea tenga ese tercero para poner el valor
-							if(idTerceroTextA == data[i].IdTercero){
-								$( this ).val( data[i].Nota );
-								// //se agrega atributo para saber si ese campo es para editar YA NO SE NECESITA
-								// $( this ).attr("IdAsistencia",data[i][IdAsistencia]+"_"+data[i][IdAsistenciaObservacion]);
-							}
-						});
-					 }
-				}
-				// else{
-					// alert("No se encontraron datos para mostrar");
-				// }
-			
-			});  
-	} //if
-	// });
-}
+
+
+

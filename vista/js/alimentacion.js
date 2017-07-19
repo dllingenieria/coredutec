@@ -84,9 +84,11 @@ $(function(){
 			{ title: "IntensidadHorariaDiaria" },
 			{ title: "Inscritos" },
 			{ title: "Ruta" },
+			{ title: "Modalidad" },
+			{ title: "cantidadSesiones" },
 			
-			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
-			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
+			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
+			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
 			"paging":   false,
 			"info":     false,
@@ -101,7 +103,10 @@ $(function(){
 			{"targets": [ 3 ],"visible": false,"searchable": false},
 			{"targets": [ 5 ],"visible": false,"searchable": false},
 			{"targets": [ 15 ],"visible": false,"searchable": false},
-			{"targets": [ 13 ],"visible": false,"searchable": false}],
+			{"targets": [ 13 ],"visible": false,"searchable": false},
+			{"targets": [ 16 ],"visible": false,"searchable": false},
+			{"targets": [ 17 ],"visible": false,"searchable": false}
+			],
 			"language": {
 				"sSearch": "Filtrar:",
 				"zeroRecords": "Ningún resultado encontrado",
@@ -135,6 +140,8 @@ $(function(){
 				sessionStorage.IntensidadHorariaDiaria = table.row(this).data()[13];
 				sessionStorage.Inscritos = table.row(this).data()[14];
 				sessionStorage.Ruta = table.row(this).data()[15];
+				sessionStorage.Modalidad = table.row(this).data()[16];
+				sessionStorage.cantidadSesiones = table.row(this).data()[17];
 				
 			} else {
 				PopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");
@@ -190,97 +197,97 @@ $(function(){
 	
 
 	//Evento que edita registro//
-	$(document).on('click', '#view-link', function() {
-			var data = table.row($(this).parents('tr')).data();
-			sessionStorage.id_tpar= data[0];
-			if(data[0]!=""){
-				//$(".cuerpo").fadeOut('slow', function(){  
-					//$(".cuerpo").fadeIn('slow');
-					//$(".cuerpo").load(html);
-					cargarReporteEstudiantesSalon(data[2]);
-					// $("#formatoFirmas").hide();
-					$("#btnAlimentacion").hide();
-					// $("#formatoNotas").hide();
-					// $("#planeacion").hide();
-					$("#regresar").show();
-				//})
-			}
-	});
+	// $(document).on('click', '#view-link', function() {
+			// var data = table.row($(this).parents('tr')).data();
+			// sessionStorage.id_tpar= data[0];
+			// if(data[0]!=""){
+				// //$(".cuerpo").fadeOut('slow', function(){  
+					// //$(".cuerpo").fadeIn('slow');
+					// //$(".cuerpo").load(html);
+					// cargarReporteEstudiantesSalon(data[2]);
+					// // $("#formatoFirmas").hide();
+					// $("#btnAlimentacion").hide();
+					// // $("#formatoNotas").hide();
+					// // $("#planeacion").hide();
+					// $("#regresar").show();
+				// //})
+			// }
+	// });
 
-	//Evento que edita registro//
-	$(document).on('click', '#asistencias-link', function() {
-			var data = table.row($(this).parents('tr')).data();
-			sessionStorage.id_tpar= data[0];
-			if(data[0]!=""){
-				var mensaje="Procesando la información<br>Espere por favor";
+	// //Evento que edita registro//
+	// $(document).on('click', '#asistencias-link', function() {
+			// var data = table.row($(this).parents('tr')).data();
+			// sessionStorage.id_tpar= data[0];
+			// if(data[0]!=""){
+				// var mensaje="Procesando la información<br>Espere por favor";
 
-				jsShowWindowLoad(mensaje);
+				// jsShowWindowLoad(mensaje);
 
-					$(".cuerpo").fadeOut('slow', function(){  
-					$(".cuerpo").fadeIn('slow');
-					$(".cuerpo").load('reporteExcelAsistencias.html');
-				})
-				//cargarReporteEstudiantesSalon(data[2]);
-					// $("#formatoFirmas").hide();
-					$("#btnAlimentacion").hide();
-					// $("#formatoNotas").hide();
-					// $("#planeacion").hide();
-					$("#regresar").show();	
-					$(".filtro").hide();		
+					// $(".cuerpo").fadeOut('slow', function(){  
+					// $(".cuerpo").fadeIn('slow');
+					// $(".cuerpo").load('reporteExcelAsistencias.html');
+				// })
+				// //cargarReporteEstudiantesSalon(data[2]);
+					// // $("#formatoFirmas").hide();
+					// $("#btnAlimentacion").hide();
+					// // $("#formatoNotas").hide();
+					// // $("#planeacion").hide();
+					// $("#regresar").show();	
+					// $(".filtro").hide();		
 
-					cantidadSesiones();
-			 	jsRemoveWindowLoad();
-			}
-	});
+					// cantidadSesiones();
+			 	// jsRemoveWindowLoad();
+			// }
+	// });
 
 
-		//Evento que edita registro//
-	$(document).on('click', '#asistencias', function() {
-		//sessionStorage.NoSesiones=0;
-		//Se oculta el boton de descarga
-		$('#descargar').hide();
-				var mensaje="Procesando la información<br>Espere por favor";
-				jsShowWindowLoad(mensaje);
+		// //Evento que edita registro//
+	// $(document).on('click', '#asistencias', function() {
+		// //sessionStorage.NoSesiones=0;
+		// //Se oculta el boton de descarga
+		// $('#descargar').hide();
+				// var mensaje="Procesando la información<br>Espere por favor";
+				// jsShowWindowLoad(mensaje);
 
-			   	$.post("../../controlador/fachada.php", {
-					clase: 'clsAsistencia',
-					oper: 'consultarReporte',
-					idPreprogramacion: sessionStorage.IdPreprogramacion,
-					NoSesiones: sessionStorage.NoSesiones,
-					Curso: sessionStorage.Curso,
-					Modulo: sessionStorage.Modulo,
-					Inscritos: sessionStorage.Inscritos,
-					Horario: sessionStorage.Horario,
-					FechaInicial: sessionStorage.FechaInicial,
-					Sede: sessionStorage.Sede,
-					Salon: sessionStorage.Salon,
-					IdCurso: sessionStorage.IdCurso,
-					IdModulo: sessionStorage.IdModulo,
-					FechaFinal: sessionStorage.FechaFinal,
-					Duracion: sessionStorage.Duracion
-					}, function(data) {
-					if (data.mensaje == 1 && data.html!=""){
-						nombreArchivo=data.html;
-						jsRemoveWindowLoad();
-						popUpConfirmacion("Generado correctamente el reporte");
-						$('#descargar').show();
+			   	// $.post("../../controlador/fachada.php", {
+					// clase: 'clsAsistencia',
+					// oper: 'consultarReporte',
+					// idPreprogramacion: sessionStorage.IdPreprogramacion,
+					// NoSesiones: sessionStorage.NoSesiones,
+					// Curso: sessionStorage.Curso,
+					// Modulo: sessionStorage.Modulo,
+					// Inscritos: sessionStorage.Inscritos,
+					// Horario: sessionStorage.Horario,
+					// FechaInicial: sessionStorage.FechaInicial,
+					// Sede: sessionStorage.Sede,
+					// Salon: sessionStorage.Salon,
+					// IdCurso: sessionStorage.IdCurso,
+					// IdModulo: sessionStorage.IdModulo,
+					// FechaFinal: sessionStorage.FechaFinal,
+					// Duracion: sessionStorage.Duracion
+					// }, function(data) {
+					// if (data.mensaje == 1 && data.html!=""){
+						// nombreArchivo=data.html;
+						// jsRemoveWindowLoad();
+						// popUpConfirmacion("Generado correctamente el reporte");
+						// $('#descargar').show();
 						
-					}
-					else if(data.error == 2){
-						jsRemoveWindowLoad();
-						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
-						setTimeout(function(){
-						location.reload();},2000);
-					}
-					else{
-						jsRemoveWindowLoad();
-						mostrarPopUpError("No se ha generado el reporte");
-						setTimeout(function(){
-						location.reload();},2000);
-					}		
-				}, "json");				
+					// }
+					// else if(data.error == 2){
+						// jsRemoveWindowLoad();
+						// popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+						// setTimeout(function(){
+						// location.reload();},2000);
+					// }
+					// else{
+						// jsRemoveWindowLoad();
+						// mostrarPopUpError("No se ha generado el reporte");
+						// setTimeout(function(){
+						// location.reload();},2000);
+					// }		
+				// }, "json");				
 
-	});
+	// });
 
 function cantidadSesiones(){
 	$.post("../../controlador/fachada.php", {
@@ -308,74 +315,74 @@ function popUpConfirmacion(msj){
 	    });
 }
 
-$(document).on('click', '#descargar', function() {
-			window.location.href = "../"+nombreArchivo;
-			setTimeout(function(){
-			location.reload();},2000);
+// $(document).on('click', '#descargar', function() {
+			// window.location.href = "../"+nombreArchivo;
+			// setTimeout(function(){
+			// location.reload();},2000);
 			
-     });
+     // });
 
 $(document).on('click', '#regresar', function() {
 		 location.reload();
 });
 
-function cargarReporteEstudiantesSalon(salon){
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-		$.post("../../controlador/fachada.php", {
-					clase: 'clsParticipante',
-					oper: 'consultarCargaEstudiantesPorSalonDocente',
-				    codigo_salon: salon
-		 }, function(data) {
-				if (data !== 0) {
-					if(data !== null){
-						    $('#spanTotal').show();
-                            $('#numero_estudiantes').text(data.length);
-						   formatearReporteEstudiantesSalon(data);		        			
-					}else{alert("error 1");}             
-				}else {alert("error 2");}
-				jsRemoveWindowLoad();	
-		}, "json");
+// function cargarReporteEstudiantesSalon(salon){
+		// var mensaje="Procesando la información<br>Espere por favor";
+		// jsShowWindowLoad(mensaje);
+		// $.post("../../controlador/fachada.php", {
+					// clase: 'clsParticipante',
+					// oper: 'consultarCargaEstudiantesPorSalonDocente',
+				    // codigo_salon: salon
+		 // }, function(data) {
+				// if (data !== 0) {
+					// if(data !== null){
+						    // $('#spanTotal').show();
+                            // $('#numero_estudiantes').text(data.length);
+						   // formatearReporteEstudiantesSalon(data);		        			
+					// }else{alert("error 1");}             
+				// }else {alert("error 2");}
+				// jsRemoveWindowLoad();	
+		// }, "json");
                              
-}
+// }
 
-function formatearReporteEstudiantesSalon(data){
-		$('.cuerpo').hide();
-		$(".cuerpoEstudiantes").show();
-        table = $('#tablaasistentes').DataTable({
-			"data": data,
-			columns: [
-			{ title: "Idtercero" },
-			{ title: "Identificación" },
-			{ title: "Apellidos" },
-			{ title: "Nombres" },
-			{ title: "Telefono" },
-			{ title: "Telefono2" },
-			{ title: "CorreoElectronico" }
-			],
-			"paging":   false,
-			"pageLength": 7,
-			"bLengthChange": false,
-			"bDestroy": true,
-			"info":     false,
-			"scrollY": "240px",
-			"scrollX": true,
-			"scrollCollapse": true,
-			"columnDefs": [
-			{"targets": [ 0 ],"visible": false,"searchable": false}
-			],
-			"language": {
-				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
-                "sProcessing":     "Procesando...",
-				"sSearch": "Filtrar:",
-                "zeroRecords": "Ningún resultado encontrado",
-                "infoEmpty": "No hay registros disponibles",
-                "Search:": "Filtrar",
-				"sLoadingRecords": "Cargando..."	
-            }	
-		});
+// function formatearReporteEstudiantesSalon(data){
+		// $('.cuerpo').hide();
+		// $(".cuerpoEstudiantes").show();
+        // table = $('#tablaasistentes').DataTable({
+			// "data": data,
+			// columns: [
+			// { title: "Idtercero" },
+			// { title: "Identificación" },
+			// { title: "Apellidos" },
+			// { title: "Nombres" },
+			// { title: "Telefono" },
+			// { title: "Telefono2" },
+			// { title: "CorreoElectronico" }
+			// ],
+			// "paging":   false,
+			// "pageLength": 7,
+			// "bLengthChange": false,
+			// "bDestroy": true,
+			// "info":     false,
+			// "scrollY": "240px",
+			// "scrollX": true,
+			// "scrollCollapse": true,
+			// "columnDefs": [
+			// {"targets": [ 0 ],"visible": false,"searchable": false}
+			// ],
+			// "language": {
+				// "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                // "sProcessing":     "Procesando...",
+				// "sSearch": "Filtrar:",
+                // "zeroRecords": "Ningún resultado encontrado",
+                // "infoEmpty": "No hay registros disponibles",
+                // "Search:": "Filtrar",
+				// "sLoadingRecords": "Cargando..."	
+            // }	
+		// });
 
-}
+// }
 
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla

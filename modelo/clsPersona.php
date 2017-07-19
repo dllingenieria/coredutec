@@ -159,7 +159,7 @@ class clsPersona {
     public function IngresoSistema($param) {
         extract($param);
         $sql = "CALL SPINGRESAR('$pNic_usu','" . md5($pCon_usu) . "');";
-        $conexion->getPDO()->query("SET NAMES 'utf8'");
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             include_once '../controlador/clsControlador_Sesion.php';
             $sesion = new clsControlador_Sesion();

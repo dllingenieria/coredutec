@@ -40,7 +40,7 @@ $(function() {
         $("#txtSede").html(sessionStorage.Sede); 
 		$("#txtDocente").html(sessionStorage.Docente);
 		$("#txtRuta").html(sessionStorage.Ruta);
-		$("#txtNoSessiones").html(sessionStorage.NoSession);
+		$("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
 		
         //alert("Preprogramacion: " + sessionStorage.IdPreprogramacion);
         $.post("../../controlador/fachada.php", {

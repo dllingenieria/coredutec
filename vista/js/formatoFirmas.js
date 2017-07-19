@@ -18,7 +18,7 @@ $(function() {
         $("#txtDuracion").val(sessionStorage.Duracion);
         $("#txtInscritos").val(sessionStorage.Inscritos);
         $("#txtRuta").val(sessionStorage.Ruta);
-        $("#txtNoSessiones").val(sessionStorage.NoSession);
+        $("#txtNoSessiones").val(sessionStorage.cantidadSesiones);
 
         $.post("../../controlador/fachada.php", {
             clase: 'clsParticipante',

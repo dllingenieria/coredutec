@@ -599,7 +599,7 @@ function mostrarNumeroSesiones(){
         $("#txtSede").html(sessionStorage.Sede); 
 		$("#txtDocente").html(sessionStorage.Docente);
 		$("#txtRuta").html(sessionStorage.Ruta);
-		$("#txtNoSessiones").html(sessionStorage.NoSession);
+		$("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
 		
 		
 	}

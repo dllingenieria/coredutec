@@ -102,7 +102,7 @@ class clsDocente {
             $registro = 0; print_r($conexion->getPDO()->errorInfo()); die();
         }
 		
-		//print_r($filas);
+		// print_r($resultado);
         echo json_encode($resultado);
     }
 
