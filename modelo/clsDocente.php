@@ -269,6 +269,40 @@ class clsDocente {
         // $arrayName = array('sql' => $sql);
         echo json_encode($array);
     }
+
+ public function ConsultarPreprogramacionesActivas($param) {
+       extract($param);
+       $resultado = array();
+       $registro = array();
+       $conexion->getPDO()->query("SET NAMES 'utf8'");
+       $sql = "CALL SPCONSULTARMODULOSACTIVOSHOY()";
+       //$sql = "CALL SPCONSULTARMODULOSPORDOCENTE2($IdDocente, '$salon');";
+   
+       if ($rs = $conexion->getPDO()->query($sql)) {
+           if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+           // print_r($sql);
+           // print_r($filas);
+               foreach ($filas as $fila) {
+                   foreach ($fila as $key => $value) {
+                       array_push($registro, $value);
+                   }
+                   array_push($resultado, $registro);
+                   $registro = array();
+               }
+               // foreach ($filas as $fila) {
+                   // $array[] = $fila;
+               // }
+           }
+       } else {
+           $registro = 0; print_r($conexion->getPDO()->errorInfo()); die();
+       }
+       
+       //print_r($filas);
+       echo json_encode($resultado);
+   }
+
+
+    
 }
 
 ?>

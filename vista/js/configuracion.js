@@ -80,7 +80,7 @@ $(function(){
 			    	html="curso.html";
 			    break;
 			    case '5':
-			    	sessionStorage.tip_conf=5;
+			    	sessionStorage.tip_conf=11;
 			    	html="modulo.html";
 			    break;
 			    case '6':
@@ -169,10 +169,10 @@ $(function(){
 			case '5':
 					parametros = {
 									clase: 'clsConfiguracion',
-									oper: 'AgregarCurso',
+									oper: 'AgregarModulo',
 									modCodigo: $("#txtCodigoModulo").val(),
 									modNombre:$("#txtNombreModulo").val(),
-									modDuracion:$("#selectDuracionModulo").val(),
+									modDuracion:$("#txtDuracionModulo").val(),
 							        modFormacion:$("#selectTipoFormacionModulo").val(),
 							        modArea:$("#selectAreaOcupacionalModulo").val(),
 							        modMaximo:$("#txtCupoMinimoModulo").val(),
@@ -180,7 +180,7 @@ $(function(){
 							        modCapacitacion:$("#selectTipoCapacitacionModulo").val(),
 							        modEstadoAsistencia:$("#selectEstadoAsistenciaModulo").val(),
 							        modCertificacion:$("#selectCertificacionEmitidaModulo").val(),
-							        modEstado:$("#txtEstadoModulo").val()
+							        modCurso:sessionStorage.id_cur
 								};
 			break;	
 			//Adiciona nuevos registros para Usuario
@@ -320,7 +320,7 @@ $(function(){
 									};
 					break;
 					case '4':
-				    	if(($("#SelectEstadoCurso").val())=="1"){
+				    	if(($("#SelectEstadoCurso").val())=="Activo"){
 								estado=1;
 							}else{
 								estado=2;
@@ -334,8 +334,32 @@ $(function(){
 									txtNombreCurso:$("#txtNombreCurso").val(),
 									selectDuracionCurso:$("#selectDuracionCurso").val(),
 							        selectRutaCurso:$("#selectRutaCurso").val(),
-							        txtEstadoCurso:$("#txtEstadoCurso").val(),
 							        txtEstadoCurso:estado
+									};
+						break;
+					case '5':
+					  	if(($("#SelectEstadoModulo").val())=="Activo"){
+								estado=1;
+							}else{
+								estado=2;
+						}
+						//console.log(sessionStorage.id_mod);
+						parametros={
+									clase: 'clsConfiguracion',
+									oper: 'modificarModulo',
+									idModulo: sessionStorage.id_mod,
+							        modCodigo: $("#txtCodigoModulo").val(),
+									modNombre:$("#txtNombreModulo").val(),
+									modDuracion:$("#txtDuracionModulo").val(),
+							        modFormacion:$("#selectTipoFormacionModulo").val(),
+							        modArea:$("#selectAreaOcupacionalModulo").val(),
+							        modMaximo:$("#txtCupoMinimoModulo").val(),
+							        modMinimo:$("#txtCupoMaximoModulo").val(),
+							        modCapacitacion:$("#selectTipoCapacitacionModulo").val(),
+							        modEstadoAsistencia:$("#selectEstadoAsistenciaModulo").val(),
+							        modCertificacion:$("#selectCertificacionEmitidaModulo").val(),
+							        modEstado:estado,
+							        modCurso: sessionStorage.id_cur
 									};
 						break;
 					case '6':
@@ -524,7 +548,7 @@ $(function(){
 		var parametros= new Array();
 		var dataIconos1="";	
 		var dataIconos2="";	
-		
+		var columnDefs="";
         ///Verifica que tipo de configuración es para cargar la información que se necesita///
         switch(tipoconfiguracion) {
 			    case '1':
@@ -536,6 +560,7 @@ $(function(){
 								{data: null, className: "center", defaultContent: '<a id="delete-link" class="delete-link" href="#" title="Delete"><img src="../images/delete.png" width="20px" /></a>'},
 								{data: null, className: "center", defaultContent: '<a id="view-parametros" class="view-parametros" href="#" title="Ver parametros">Ver Parametros</a>'}
 								];
+
 			    break;
 			    case '2':
 			    	columnas = [
@@ -560,13 +585,19 @@ $(function(){
 			    			{title: "Id"},
 			    			{title: "C&oacute;digo"},
 			    			{title: "Nombre"},
-			    			{title: "Duraci&oacute;n"},
+			    			{title: "Duraci&oacute;n"},	
+			    			{title: "IdDuracion"},			    			
 			    			{title: "Ruta"},
-			    			{title: "Estado"},
+			    			{title: "IdRuta"},
+			    			{title: "Estado"},			    	    					    			
 			    			{data: null, className: "center", defaultContent: '<a id="edit-link" class="edit-link" href="#" title="Edit"><img src="../images/edit.png" width="20px" /></a>'},
 			    			{data: null, className: "center", defaultContent: '<a id="delete-link" class="delete-link" href="#" title="Delete"><img src="../images/delete.png" width="20px" /></a>'},
 			    			{data: null, className: "center", defaultContent: '<a id="view-modulos" class="view-modulos" href="#" title="Ver modulos">Modulos</a>'}
 			    	];	
+			    	columnDefs =[
+								{"targets": [ 4 ],"visible": false,"searchable": false},
+								{"targets": [ 6 ],"visible": false,"searchable": false}
+								];
 			    break;
 			    case '5':
 			    	columnas = [
@@ -574,14 +605,29 @@ $(function(){
 			    			{title: "C&oacute;digo"},
 			    			{title: "Nombre"},
 			    			{title: "Duraci&oacute;n"},
+			    			{title: "Tipo Formaci&oacute;nId"},
 			    			{title: "Tipo Formaci&oacute;n"},
+			    			{title: "Area OcupacionalId"},
 			    			{title: "Area Ocupacional"},
+			    			{title: "Tipo Capacitaci&oacute;nId"},
+			    			{title: "Tipo Capacitaci&oacute;n"},
+			    			{title: "Estado AsistenciaId"},
+			    			{title: "Estado Asistencia"},
+			    			{title: "Certificacion EmitidaId"},
+			    			{title: "Certificaci&oacute;n"},
 			    			{title: "Cupo M&iacute;nimo"},
 			    			{title: "Cupo M&aacute;ximo"},
 			    			{title: "Estado"},
 			    			{data: null, className: "center", defaultContent: '<a id="edit-link" class="edit-link" href="#" title="Edit"><img src="../images/edit.png" width="20px" /></a>'},
 			    			{data: null, className: "center", defaultContent: '<a id="delete-link" class="delete-link" href="#" title="Delete"><img src="../images/delete.png" width="20px" /></a>'},	
 			    	];	
+			    	columnDefs =[
+								{"targets": [ 4 ],"visible": false,"searchable": false},
+								{"targets": [ 6 ],"visible": false,"searchable": false},
+								{"targets": [ 8 ],"visible": false,"searchable": false},
+								{"targets": [ 10 ],"visible": false,"searchable": false},
+								{"targets": [ 12 ],"visible": false,"searchable": false}
+								];
 			    break;
 			    case '6':
 			    	columnas = [
@@ -637,6 +683,7 @@ $(function(){
 			"scrollY": "300px",
 			"scrollX": true,
 			"scrollCollapse": true,
+			"columnDefs": columnDefs,
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
                 "sProcessing":     "Procesando...",
@@ -686,13 +733,38 @@ $(function(){
 			    				 };
 				break;
 				case '4':
-					parametros = {	
+			   		parametros = {	
 			    					clase : "clsConfiguracion",
 			    					oper: 'modificarCurso',
-									idConvocatoria: data[0],
-							        txtEstadoCurso:2
+									idCurso: data[0],
+									txtCodigoCurso:data[1],
+									txtNombreCurso:data[2],
+									selectDuracionCurso:data[4],
+									selectRutaCurso:data[6],
+									selectDuracionCurso:data[4],
+								    txtEstadoCurso:2
 			    				 };
-				break;
+			    break;
+			    case '5':
+			   		parametros = {	
+			    					clase : "clsConfiguracion",
+			    					oper: 'modificarModulo',
+									idModulo: data[0],
+									modCodigo:data[1],
+									modNombre:data[2],
+									modDuracion:data[3],
+									modFormacion:data[4],
+									modArea:data[6],
+									modCapacitacion:data[8],
+									modEstadoAsistencia:data[10],
+									modCertificacion:data[12],
+									modMaximo:data[14],	
+									modMinimo:data[15],
+									modCurso: sessionStorage.id_cur,
+								    modEstado:2
+			    				 };
+		
+			    break;
 				case '6':
 							///Datos para mostrar
 					var dataUsu=[];
@@ -856,18 +928,35 @@ $(function(){
 			       	$("#SelectEstadoConvocatoria").show();
 			       	html='convocatoria.html';
 			    break;
-
   				case '4':
 			   		///Datos para mostrar
 			    	sessionStorage.id_cur= data[0];
 			        sessionStorage.cod_cur= data[1];
 			        sessionStorage.nom_cur= data[2];
-			        sessionStorage.dur_cur= data[3];
-			        sessionStorage.rut_cur= data[4];
-			        sessionStorage.est_cur= data[5];
-			        sessionStorage.tip_conf= 6;
+			        sessionStorage.dur_cur= data[4];
+			        sessionStorage.rut_cur= data[6];
+			        sessionStorage.est_cur= data[7];
+			        sessionStorage.tip_conf= 10;
 			       	$("#SelectEstadoCurso").show();
 			       	html='curso.html';
+			    break;
+			    case '5':
+			   		///Datos para mostrar
+			    	sessionStorage.id_mod= data[0];
+			        sessionStorage.cod_mod= data[1];
+			        sessionStorage.nom_mod= data[2];
+			        sessionStorage.dur_mod= data[3];
+			        sessionStorage.for_mod= data[4];
+			        sessionStorage.are_mod= data[6];			      
+			        sessionStorage.cap_mod= data[8];
+			        sessionStorage.esa_mod= data[10];
+			        sessionStorage.cer_mod= data[12];
+			        sessionStorage.max_mod= data[14];
+			        sessionStorage.min_mod= data[15];
+			        sessionStorage.est_mod= data[16];
+			        sessionStorage.tip_conf= 12;
+			       	$("#SelectEstadoModulo").show();
+			       	html='modulo.html';
 			    break;
 			    case '6':
 			   		///Datos para mostrar
@@ -1027,6 +1116,22 @@ $(function(){
 	       					 cam_vac += 'Serie* ';
 	   				 }
 			    break;
+			    case '4':
+			    	if ($("#txtCodigoCurso").val() == "") {
+	       					 cam_vac += 'Codigo* ';
+	   				 }
+	   				if ($("#txtNombreCurso").val() == "") {
+	       					 cam_vac += 'Nombre* ';
+	   				 }
+
+	   				if ($("#selectDuracionCurso").val() == 0) {
+	       					 cam_vac += 'Duracion* ';
+	   				 }
+
+	   				if ($("#selectRutaCurso").val() == 0) {
+	       					 cam_vac += 'Ruta* ';
+	   				 }
+
 			    case '6':
 
 			    	if ($("#cmbTipoIdentificacion").val() == 0) {

@@ -40,4 +40,37 @@ body {
     background:#999;
 }
 
+div#botones-callcenter {
+    margin: 0 auto;
+    width: 20%;
+}
 
+h1 {
+    /* position: absolute; */
+    /* width: 170px; */
+    height: 25px;
+    z-index: 9;
+    background: #f7ea32;
+    border-radius: 3px 3px 3px 3px;
+    /* margin-left: 41px; */
+    /* margin-top: 150px; */
+    font-family: "Roboto-Bold";
+    font-size: 17px;
+    color: #003265;
+    padding-left: 12px;
+    padding-top: 1px;
+    margin-bottom: 40px;
+}
+div#codPreprogramacion {
+    float: right;
+    margin-left: 20px;
+}
+
+button#guardarGestionPreprogramacion {
+    float: right;
+    margin-top: 10px;
+}
+
+#ui-datepicker-div {
+    top: 150px !important;
+}
