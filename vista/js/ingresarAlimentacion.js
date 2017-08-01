@@ -89,24 +89,8 @@ $(function() {
                         for (var j = 0; j < columnas.length-4; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
 							
 							array.push('<input type="text" size="5" value="NA" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
-                            // if(j < ultimaSesion){
-                                // if(data[i] !== null){ //alert([data[i].IdTercero]);
-                                    // sesionHoras = horas[j][data[i].IdTercero]; 
-                                    // suma = suma + parseInt(horas[j][data[i].IdTercero]);    
-                                // }else{
-                                    // suma = 0;
-                                    // sesionHoras = 0;
-                                // }
+                            
                                 
-                                // array.push('<input required type="number" min="0" max="8"  size="5" value="'+horas[j][data[i].IdTercero]+'" class="alimentacionInput" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">' );       
-                            // }else if (j==ultimaSesion) { 
-                                // array.push('<input required type="number" min="0" max="8"  size="5" value="" class="alimentacionInput enabled" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">');
-                            // }else if(j > ultimaSesion && j < columnas.length -7 ){ 
-                                // array.push('<input type="number" min="0" max="8"  value="" size="5" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');
-                            // }else{ 
-                                // array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');       
-                                
-                            // }
                         }
 						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');   
                         // array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');
@@ -126,7 +110,7 @@ $(function() {
 									
 					
 					//llamar a llenar cajas de texto
-					// llenarCajasTexto();   PENDIENTE --------------------------
+					 llenarCajasTexto();   
 					
 					jsRemoveWindowLoad();
 					
@@ -283,14 +267,7 @@ $(function() {
                         fi = new Date(fi.setTime((fi.getTime() + 86400000)));
 							
                     }
-					// var totalSesion=sesionA.length;
-					// sesionA.splice((totalSesion-1),1);
-					// var total=columnas.length;
-					// columnas.splice((total-1),1);
-                    // columnas.push({'title':'Total Horas'});
-                    // columnas.push({'title':'Observaciones'});
-					// columnas.push({'title':'Motivo no alimentacion'});
-					// columnas.push({'title':'Nota'});
+					
 					recuperarDatos();
 					
 					
@@ -451,22 +428,6 @@ $(function() {
 		}, "json");
 	
 	//});
-	// $('#cargando').css("display","none");
-	 
-	 // // var mensaje="Procesando la información<br>Espere por favor";
-		// // jsShowWindowLoad(mensaje);
-	 // // setTimeout(function() {
-        // // //$(".cargando").fadeOut(1500);
-		// // // $('#cargando').css("display","none");
-		// // jsRemoveWindowLoad();
-		
-			// // setTimeout(function() {
-		   
-			// // popUpConfirmacion("Guardado Satisfactoriamente");
-			// // setTimeout(function() {	location.reload();},1000);
-			
-		// // },1000);
-    // // },5000);
 	
 	
 	
@@ -640,12 +601,12 @@ function llenarCajasTexto(){
 						var sesion = res[1];  
 						//se valida que esa caja de texto tenga ese tercero y esa sesion para poner el valor
 						 if(idTercero == data[i].IdTercero && sesion == data[i].SesionNumero){
-							$( this ).val( data[i].HorasAsistidas );
+							$( this ).val( data[i].Alimentacion ); //PENDIENTE--------
 							//se agrega atributo para saber si ese campo es para editar
 							$( this ).attr("Idalimentacion",data[i].Idalimentacion+"_"+data[i].IdalimentacionDetalle);
 							
 							//se simula el evento change de cada caja de texto para el calculo de horas totales
-							$(this).trigger('change');
+							// $(this).trigger('change');
 						 }
 					});
 					
