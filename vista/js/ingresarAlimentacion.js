@@ -41,7 +41,7 @@ $(function() {
 	//cargarHorasTotales();
     agregarFechasTabla();
 	
-	alimentacionDetalle =true;
+	alimentacionDetalle =false;
 	// alimentacionObservacion=true;
 	// alimentacionMotivo=true;
 	
@@ -279,7 +279,12 @@ $(function() {
 
     $("#guardarAlimentacion").click(function(){ 
         if (!validarInformacion()) {
-            mostrarPopUpError("Por favor llene todos los campos con valores de RB o RR");
+			if (sessionStorage.IntensidadHorariaDiaria < 8 ){
+				mostrarPopUpError("Por favor llene todos los campos con valores de RB");
+			}
+			else{
+				mostrarPopUpError("Por favor llene todos los campos con valores de RR-RB");
+			}
         }else{
             agregarAlimentacioGeneral();
         }
@@ -293,18 +298,20 @@ $(function() {
         $(".alimentacionInput").each(function(e){
 			id=$( this ).attr( "id" ); 
 			var res = id.split("_");
-			var valor = $("#"+id).val();
+			var valor = $("#"+id).val(); 
 			
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
-				if( valor != "NA" ){
-					if (valor != 'RR' || valor != 'RB' ) {
+				if( valor != "NA" && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 'RB'){
+					
 					valido=false;
-					}
+					
+				}
+				else if (valor != "NA" && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 'RR-RB' ) {
+					valido=false;
 				}
 			}
-			
-			if (valor == ""){
+			else if (valor == ""){
 				valido=false;
 			}
         });
@@ -399,22 +406,22 @@ $(function() {
 				if(data !== null){ 
 					//se devuelve array con todos los id insertados de alimentacion general data
 					//se tiene el array de alimentacions a este se la va agregar la posicion de el id alimentacion general
-					//alert(data[0]['Idalimentacion']);
+					console.log(data);
 					for (i=0;i<alimentacion.length;i++){
 						
-						alimentacion[i]['Idalimentacion']=data[i].Idalimentacion;	
+						alimentacion[i]['Idalimentacion']=data[i].IdAlimentacion;	
+						
 						
 					}
 					
 					agregaralimentacionDetalle(alimentacion);
-					// agregaralimentacionObservacion(alimentacion);
-					// agregarMotivoNoalimentacion(alimentacion);
+					
 					if(alimentacionDetalle == true ){
 						
 				           
 						jsRemoveWindowLoad();
 						popUpConfirmacion("Guardado Satisfactoriamente");
-						setTimeout(function() {	location.reload();},1000);
+						// setTimeout(function() {	location.reload();},1000);
 					}
 					else{
 						jsRemoveWindowLoad();
@@ -487,7 +494,7 @@ function agregaralimentacionDetalle(alimentacion){
      
      
   });
-   var serializedalimentacionD = JSON.stringify( alimentacionD );//alert(serializedalimentacionD);
+   var serializedalimentacionD = JSON.stringify( alimentacionD );console.log(serializedalimentacionD);
    $.ajax({
                url: '../../controlador/fachada.php',
                type: 'POST',
@@ -500,7 +507,7 @@ function agregaralimentacionDetalle(alimentacion){
                    
                    
                }
-           }).done(function(data) { //alert(data);
+           }).done(function(data) { alert(data);
 				if (data.array =1){alimentacionDetalle =true;}
 				else {alimentacionDetalle =false;}
                

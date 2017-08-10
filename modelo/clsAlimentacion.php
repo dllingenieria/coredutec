@@ -81,14 +81,14 @@ class clsAlimentacion {
         // print_r($serializedAsistencia);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario =  $_SESSION['idUsuario'];
-        //$fecha = date('Y-m-d');
+        // $fecha = date('Y-m-d');
         // $sql = "CALL SPAGREGARASISTENCIA($idPreprogramacion,'$fecha', $sesion,$usuario);";
         $sql = "CALL SPAGREGARALIMENTACION('$serializedAlimentacion',$usuario);";
         
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {               
                 
-                $filas = substr($filas[0]['pIdAlimentacion'],1);
+                $filas = substr($filas[0]['IdAlimentacion'],1);
                 $res = explode(",", $filas);
                 //var_dump($res);
                 foreach ($res as $resul) {
@@ -102,13 +102,14 @@ class clsAlimentacion {
             print_r($conexion->getPDO()->errorInfo()); die();
             
        }
-        	//var_dump($array);
+        	
+			 
             echo json_encode($array);
     }
 
     public function agregarAlimentacionDetalle($param) {
         extract($param);
-        var_dump($serializedAsistenciaD);
+        
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
         
@@ -125,7 +126,7 @@ class clsAlimentacion {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); die();
         }
-		// $array = 0;
+		print_r($array);
         echo json_encode($array);
     }
 	
@@ -203,7 +204,7 @@ class clsAlimentacion {
     }
 	
 	/*
-	*Funcion consultarAsistenciaPorPreprogramacion
+	*Funcion consultaralimentacionPorPreprogramacion
 	*params: IdPreprogramacion
 	*return: array los datos de asistencias
 	*/
