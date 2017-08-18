@@ -8,7 +8,7 @@
     });
 });
 
- function IniciarSesion() {
+ function IniciarSesion() { 
     
     if ($("#txtUsuario").val() === "docente" && $("#txtContrasena").val() === "1234") {
         window.location = "vista/html/docente.html";
@@ -20,13 +20,14 @@
             pCon_usu: $("#txtContrasena").val()
         }, function(data) {
             console.log("hola")
-            if (data !== null) {
+            if (data !== null) { 
                 var roles = data[0].Roles.split(",");
                 sessionStorage.esAdministrador=roles[0];
                 sessionStorage.esDocente=roles[1];
                 sessionStorage.esMatriculador=roles[2];
                 sessionStorage.esCallCenter=roles[3];
 				sessionStorage.esAlimentacion=roles[4];
+				sessionStorage.esAcademico=roles[5]; 
                 var rolesDisponibles=0;
                 for (var i = 0; i < roles.length; i++) {
                     if (roles[i] === "1") {
@@ -50,6 +51,9 @@
                     }
 					if (sessionStorage.esAlimentacion==="1") {
                         window.location = "vista/html/alimentacion.html";
+                    }
+					if (sessionStorage.esAcademico==="1") {
+                        window.location = "vista/html/academico.html";
                     }
                 }
             }else {

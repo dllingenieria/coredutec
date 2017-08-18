@@ -1,4 +1,4 @@
-$(function() {
+$(function() { 
 	if (sessionStorage.esAdministrador==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",1).text("Administrador"));
 	}
@@ -13,6 +13,9 @@ $(function() {
 	}
 	if (sessionStorage.esAlimentacion==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",5).text("Alimentación"));
+	}
+	if (sessionStorage.esAcademico==="1") {
+		$("#usuarios").append($("<option></option>").attr("value",6).text("Académico"));
 	}
 
 	$("#continuar").click(function(){
@@ -32,6 +35,9 @@ $(function() {
 			break;
 			case "5":
 			window.location = "alimentacion.html";
+			break;
+			case "6":
+			window.location = "academico.html";
 			break;
 		}
 	});

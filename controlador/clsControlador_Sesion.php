@@ -25,10 +25,14 @@ class clsControlador_Sesion {
         $esDocente = strcmp($rolesUsuario[1], "1") === 0;
         $esMatriculador = strcmp($rolesUsuario[2], "1") === 0;
         $esCallCenter = strcmp($rolesUsuario[3], "1") === 0;
+		$esAlimentacion = strcmp($rolesUsuario[4], "1") === 0;
+		$esAcademico = strcmp($rolesUsuario[5], "1") === 0;
         $_SESSION['esAdministrador'] = $esAdministrador;
         $_SESSION['esDocente'] = $esDocente;
         $_SESSION['esMatriculador'] = $esMatriculador;
         $_SESSION['esCallCenter'] = $esCallCenter;
+		$_SESSION['esAlimentacion'] = $esAlimentacion;
+		$_SESSION['esAcademico'] = $esAcademico;
         $_SESSION['ult_mov'] = '';
     }
 
