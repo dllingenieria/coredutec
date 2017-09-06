@@ -23,8 +23,8 @@ $(function() {
 	fechaA = new Array();
 	sesionA = new Array();
 	idTerceroHorasTotales = new Array();
-	observaciones = new Array(); 
-	motivos = new Array(); 
+	// observaciones = new Array(); 
+	// motivos = new Array(); 
 	asistencia = new Array(); 
 	asistenciaGeneral = new Array(); 
 	
@@ -39,10 +39,7 @@ $(function() {
 	asistenciaObservacion=true;
 	asistenciaMotivo=true;
 	
-	
-	
-	
-    
+	    
     function recuperarDatos() { 
 	
         $("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
@@ -447,7 +444,7 @@ $(function() {
 	var serializedAsistencia = JSON.stringify( asistenciaGeneral );
 	
 	
-	//alert(serializedAsistencia);
+	//console.log(serializedAsistencia);
 	//$.each( asistencia, function() {
 			//alert(this['sesion']);				
 		
@@ -490,18 +487,18 @@ $(function() {
 					
 					agregarAsistenciaDetalle(asistencia);
 					agregarAsistenciaObservacion(asistencia);
-					agregarMotivoNoAsistencia(asistencia);
-					if(asistenciaDetalle == true || asistenciaObservacion== true || asistenciaMotivo==true){
+					agregarMotivoNoAsistencia(asistencia);   
+					// if(asistenciaDetalle == true || asistenciaObservacion== true || asistenciaMotivo==true){
 						
 				           
 						jsRemoveWindowLoad();
 						popUpConfirmacion("Guardado Satisfactoriamente");
-						setTimeout(function() {	location.reload();},1000);
-					}
-					else{
-						jsRemoveWindowLoad();
-						popUpConfirmacion("Se ha presentado un inconveniente, intentelo nuevamente");
-					}
+						//setTimeout(function() {	location.reload();},1000);
+					// }
+					// else{
+						// jsRemoveWindowLoad();
+						// popUpConfirmacion("Se ha presentado un inconveniente, intentelo nuevamente");
+					// }
 					
 					
 					//alert("Guardado Satisfactoriamente fin");
@@ -679,7 +676,7 @@ function agregarAsistenciaDetalle(asistencia){
 }
 
 function agregarAsistenciaObservacion(asistencia){ 
-   
+   observaciones = new Array(); 
    var asistenciaO = new Array(); 
    var contaO=0;
    var noEsta= true; 
@@ -707,7 +704,7 @@ function agregarAsistenciaObservacion(asistencia){
 								if (a > -1){
 									noEsta= false;
 								}
-								
+							
 				if (noEsta){ 
 							//llenar un array con el tercero
 							observaciones.push(IdTerceroObservacion);   
@@ -734,7 +731,7 @@ function agregarAsistenciaObservacion(asistencia){
 							
 						} //console.log(observaciones);	
 			}); 
-			var serializedAsistenciaO = JSON.stringify( asistenciaO ); //alert(serializedAsistenciaO);
+			var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serializedAsistenciaO);
 				if (asistenciaO.length != 0){
 					$.ajax({
 							url: '../../controlador/fachada.php',
@@ -750,6 +747,7 @@ function agregarAsistenciaObservacion(asistencia){
 							}
 						}).done(function() {
 							asistenciaObservacion=true;
+							
 						})
 						.fail(function() {
 							asistenciaObservacion =false;
@@ -760,7 +758,7 @@ function agregarAsistenciaObservacion(asistencia){
 }
 
 function agregarMotivoNoAsistencia(asistencia){ 
-   
+   motivos = new Array(); 
    var asistenciaM = new Array(); 
    var contaM=0;
    var noEsta= true; 
@@ -1138,7 +1136,7 @@ function formarOptionValue(lista, clase) { //selInasistencia_
 }
 
 function llenarNotas(){ 
-	console.log(idTerceroHorasTotales);
+	// console.log(idTerceroHorasTotales);
 	var total=idTerceroHorasTotales.length;
 	if (total > 0){
 	// $.each( idTerceroHorasTotales, function() {

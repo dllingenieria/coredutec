@@ -113,7 +113,7 @@ input::-webkit-inner-spin-button {
 	position:absolute;
 	z-index:1;
 	margin-left: 70px;
-	margin-top: 50px;
+	margin-top: 0px;
 }
 
 /* Seccion Registro */	
@@ -126,7 +126,7 @@ input::-webkit-inner-spin-button {
 	z-index:1;
 	background:#003265;
 	margin-left: 900px;
-	margin-top: 148px;
+	margin-top: 40px;
 }
 
 #lblRegistroUsuario {
@@ -137,7 +137,7 @@ input::-webkit-inner-spin-button {
 	background:#f7ea32;
 	border-radius: 6px 3px 3px 6px;
 	margin-left: 881px;
-	margin-top: 180px;
+	margin-top: 80px;
 	font-family: "Roboto-BlackItalic";
 	font-size: 24px;
 	color: #003265;
@@ -153,7 +153,7 @@ input::-webkit-inner-spin-button {
 	background:#ffffff;
 	border-radius: 4px 4px 4px 4px;
 	margin-left: 1010px;
-	margin-top: 246px;
+	margin-top: 146px;
 	font-family: "Roboto-Thin";
 	font-size: 18px;
 	color: #2d4191;
@@ -167,23 +167,23 @@ input::-webkit-inner-spin-button {
 }
 
 #txtApellido {
-	margin-top: 290px;	
+	margin-top: 190px;	
 }
 
 #txtCedula {
-	margin-top: 334px;	
+	margin-top: 234px;	
 }
 
 #txtUsuario {
-	margin-top: 378px;	
+	margin-top: 278px;	
 }
 
 #txtContrasena {
-	margin-top: 422px;	
+	margin-top: 322px;	
 }
 
 #txtConfirmarContrasena {
-	margin-top: 466px;	
+	margin-top: 366px;	
 }
 
 
@@ -191,42 +191,42 @@ input::-webkit-inner-spin-button {
 	position:absolute;
 	z-index:6;
 	margin-left: 1021px;
-	margin-top: 245px;
+	margin-top: 145px;
 }
 
 #imgUser2 {
 	position:absolute;
 	z-index:6;
 	margin-left: 1021px;
-	margin-top: 289px;
+	margin-top: 189px;
 }
 
 #imgUser3 {
 	position:absolute;
 	z-index:6;
 	margin-left: 1021px;
-	margin-top: 377px;
+	margin-top: 277px;
 }
 
 #imgId {
 	position:absolute;
 	z-index:6;
 	margin-left: 1021px;
-	margin-top: 334px;
+	margin-top: 234px;
 }
 
 #imgContrasena1 {
 	position:absolute;
 	z-index:6;
 	margin-left: 1020px;
-	margin-top: 420px;
+	margin-top: 320px;
 }
 
 #imgContrasena2 {
 	position:absolute;
 	z-index:6;
 	margin-left: 1020px;
-	margin-top: 464px;
+	margin-top: 364px;
 }
 
 /* Seccion Botones */
@@ -287,7 +287,7 @@ input::-webkit-inner-spin-button {
 
 .BotonRegistrarse {
     position:absolute;
-	margin-top: 521px;
+	margin-top: 421px;
 	margin-left: 1145px;
 	padding-top: 0px;
 	width:120px;
@@ -319,4 +319,8 @@ input::-webkit-inner-spin-button {
 	border-left:3px solid #ffffff;
 	cursor:pointer;
 	 
+}
+
+.contenedorSesion {
+	margin-top: 20px;	
 }

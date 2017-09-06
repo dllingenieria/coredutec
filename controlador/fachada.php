@@ -22,7 +22,15 @@ class Fachada {
             ini_set('error_log', 'log.txt');
             include_once('config.php');
             // iniciar la sesión, solo si no existe. Esto debe ir antes de enviar cualquier cosa al navegador
-            session_start();
+            
+			if(isset($_SESSION['idTercero'] ) )
+			{
+				// session_start();
+			}
+			else{
+				// session_start();
+				
+			}
             $this->ejecutar($_REQUEST);
         } catch (Exception $e) {
             error_log("Problemas en $clase::$metodo()\n" . $e->getMessage());

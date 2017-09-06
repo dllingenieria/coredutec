@@ -112,6 +112,7 @@ tr > td:first-child{
 }
 
 .boton.manual {
-    margin-top: 0.5rem;
+    margin-top: 22%;
     float: right;
+    margin-right: 10%;
 }

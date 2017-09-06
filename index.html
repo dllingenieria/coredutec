@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Acceso CET</title>
@@ -15,8 +15,7 @@
     <link rel="shortcut icon" href="vista/images/favicon.ico"/>
     <script src="includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
     <script src="includes/jquery.bpopup.min.js" type="text/javascript"></script>
-    <script src="vista/js/index.js" type="text/javascript" ></script>
-    <script src="vista/js/nav_log_no.js" type="text/javascript"></script>
+    <script src="vista/js/sesion.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -30,12 +29,13 @@
                 <img class="imgLogo" src="vista/images/logocet2.png" alt="">
             </div>
             <div class="contenedorTitulo">
-                <div class="titulo1">Mecanismo De Control</div>
-                <div class="titulo2">De La Formación</div>
+                <div class="titulo1">SIREX - Sistema de Información</div>
+                <div class="titulo2">Proceso Relacionamiento con el Sector Externo</div>
             </div>
             <div class="contenedorSesion">
                 <button type="button" id="registro" class="boton botonRegistro">Registro</button>
             </div>
+			
         </section>
         <!-- FIN CABECERA -->
 
@@ -59,7 +59,9 @@
                     <img class="icono" src="vista/images/contrasena.png" alt="user" /><input name="txtContrasena" id="txtContrasena" type="password" class="campoIniciarSesion" data-parsley-minlength="8"  placeholder="Contraseña" required />
                 </div>
                 <div ><input id="btnEntrar" class="BotonEntrar" name="BotonEntrar" type="button" value="Entrar" /></div>
-            </div>
+				<input id="page" class="page" name="page" type="hidden" value="home" />
+			</div>
+			
         </div>
     </section>
     <!-- FIN CUERPO -->

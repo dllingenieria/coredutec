@@ -1,5 +1,10 @@
 <?php
-
+require("../controlador/session.php");
+set_time_limit(0);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+// Report all errors
+error_reporting(E_ALL);
 class clsPersona {
 
     public function __construct() {
@@ -7,7 +12,6 @@ class clsPersona {
     }
 
     public function obtenerIdUsuario() {
-        session_start();
         if (strlen($_SESSION['idUsuario']) > 0) {
             echo $_SESSION['idUsuario'];
         }else{
@@ -16,13 +20,13 @@ class clsPersona {
     }
 
     public function obtenerIdTercero() {
-        session_start();
-        if (strlen($_SESSION['idTercero']) > 0) {
-            echo $_SESSION['idTercero'];
+         if(isset($_SESSION['idTercero'])) {
+            $session= $_SESSION['idTercero'];
             // echo $_SESSION['idUsuario'];
         }else{
-            echo "sin sesion";
-        }
+            $session="sin sesion";
+        }		
+		 echo json_encode($session);        
     }
 
     /*
@@ -56,7 +60,8 @@ class clsPersona {
 
 
         $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$identificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico',$localidad,$ciudad,'$observaciones',1,$IdUsuario);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        $rs=null;
+		if ($rs = $conexion->getPDO()->query($sql)) {
             
                 $array = 1;
             
@@ -77,7 +82,8 @@ class clsPersona {
     public function registrarPersona($param) {
         extract($param);
         $sql = "CALL AGREGAR_TERCERO('$nom_usu','$ape_usu',$ced_usu,'$ema_usu','" . md5($con_usu) . "');";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+		$rs=null;
+	   if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
             }
@@ -96,7 +102,8 @@ class clsPersona {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         $sql = "CALL SPAGREGAROBSERVACIONES($pIdTercero,'$pObservaciones',$IdUsuario);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        $rs=null;
+		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
             }
@@ -109,7 +116,8 @@ class clsPersona {
     public function consultarNombresTercero($param) {
         extract($param);
         $sql = "CALL SPCONSULTARNOMBRESTERCERO($pIndentificacion);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        $rs=null;
+		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = array_map('utf8_encode', $fila);
@@ -124,7 +132,8 @@ class clsPersona {
     public function BuscarCedula($param) {
         extract($param);
         $sql = "CALL SPBUSCARPORCEDULA($pNumeroIdentificacion);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        $rs=null;
+		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
@@ -141,7 +150,8 @@ class clsPersona {
         $resultado = array();
         $registro = array();
         $sql = "CALL SPBUSCARPARTICIPANTEPORCEDULA($pNumeroIdentificacion);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        $rs=null;
+		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
@@ -159,10 +169,11 @@ class clsPersona {
     public function IngresoSistema($param) {
         extract($param);
         $sql = "CALL SPINGRESAR('$pNic_usu','" . md5($pCon_usu) . "');";
+        $rs=null;
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
-            include_once '../controlador/clsControlador_Sesion.php';
-            $sesion = new clsControlador_Sesion();
+           // include_once '../controlador/clsControlador_Sesion.php';
+            //$sesion = new clsControlador_Sesion();
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
@@ -170,13 +181,29 @@ class clsPersona {
                     $idTercero = $fila['IdTercero'];
                     $idUsuario = $fila['Id'];
                     $roles = $fila['Roles'];
-                    $sesion->iniciarSesion($nombreUsuario, $idTercero, $idUsuario, $roles);
+            
+                       $_SESSION['idTercero'] = $idTercero;
+                       $_SESSION['idUsuario'] = $idUsuario;
+                       $_SESSION['nombreUsuario'] = $nombreUsuario;
+                       $rolesUsuario = explode (",",$roles);
+                       $esAdministrador = strcmp($rolesUsuario[0], "1") === 0;
+                       $esDocente = strcmp($rolesUsuario[1], "1") === 0;
+                       $esMatriculador = strcmp($rolesUsuario[2], "1") === 0;
+                       $esCallCenter = strcmp($rolesUsuario[3], "1") === 0;
+                       $_SESSION['esAdministrador'] = $esAdministrador;
+                       $_SESSION['esDocente'] = $esDocente;
+                       $_SESSION['esMatriculador'] = $esMatriculador;
+                       $_SESSION['esCallCenter'] = $esCallCenter;
+                       $_SESSION['ult_mov'] = '';
+
+                    //$sesion->iniciarSesion($nombreUsuario, $idTercero, $idUsuario, $roles);
                 }
             }
         } else {
             $array = 0;
         }
-        echo json_encode($array);
+          echo json_encode($array);
+
     }
 
     /*
@@ -213,6 +240,7 @@ class clsPersona {
     private function insertarPersona($ced_usu, $nom_usu, $ape_usu, $fec_nac, $des_usu, $param) {
         extract($param);
         $sql = "CALL AGREGAR_TERCERO_PLANO($ced_usu,'$nom_usu','$ape_usu','$fec_nac','$des_usu');";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
@@ -237,14 +265,16 @@ class clsPersona {
     }
 
     public function haySesion() {
-        session_start();
         $array = array();
-        if (strlen($_SESSION['nombreUsuario']) > 0) {
+		require("../controlador/session.php");
+		
+        if (isset($_SESSION['nombreUsuario'])) {			
             array_push($array, $_SESSION['nombreUsuario'], 
                 array('esAdministrador' => $_SESSION['esAdministrador'],
                     'esDocente' => $_SESSION['esDocente'],
-                    'esMatriculador' => $_SESSION['esMatriculador'],
-                    'esEstudiante' => $_SESSION['esEstudiante']));
+                    'esMatriculador' => $_SESSION['esMatriculador']
+                    // 'esEstudiante' => $_SESSION['esEstudiante']
+					));
         } else {
             $array = 0;
         }
@@ -252,16 +282,16 @@ class clsPersona {
     }
 
     public function killSesion() {
-        session_start();
-// Destruir todas las variables de sesión.
+      // Destruir todas las variables de sesión.
         $_SESSION = array();
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]
+            setcookie(session_name(), '', time() - 4200, $params["path"], $params["domain"], $params["secure"], $params["httponly"]
                 );
         }
         session_destroy();
-        echo "cerrando !";
+        
+		 echo json_encode("cerrando !");
     }
 
     /*

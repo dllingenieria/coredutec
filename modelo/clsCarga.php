@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");	
+set_time_limit(0);
 /**
  * @author wandres
  */
@@ -6,8 +8,9 @@ class clsCarga {
 
 
     public function AgregarGestion($param) {
-        session_start();
+        // session_start();
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPAGREGARGESTIONCARGA($IdCarga,$IdTipificacion,'".$Observaciones."',1);";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -21,8 +24,9 @@ class clsCarga {
     }
 
     public function modificarAsistenciaConvocatoria($param) {
-        session_start();
+        // session_start();
         extract($param);
+		$rs = null;
         $IdUsuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARASISTENCIACONVOCATORIA ('$idCarga', ".$IdUsuario.");";
@@ -40,6 +44,7 @@ class clsCarga {
     
     public function consultarCargaPorCedula($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARCARGAPORCEDULA('$cedula');";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -56,6 +61,7 @@ class clsCarga {
 
     public function CargarJornadasConvocatorias($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARJORNADASCONVOCATORIAS();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -72,6 +78,7 @@ class clsCarga {
     
     public function CargarTipificacion($param){
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARTIPIFICACION();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -88,6 +95,7 @@ class clsCarga {
 
     public function ConsultarCargaPorIdJornada($param) {
         extract($param);
+		$rs = null;
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");

@@ -1,9 +1,13 @@
 <?php
+require("../controlador/session.php");
 set_time_limit(0);
 class clsDocente {
+	
 
+	
     public function actualizarDocentes($param){
         extract($param);
+		$rs = null;
         $IdUsuario = $_SESSION['idUsuario'];
         $resp = 'ok';
         //sleep(2);
@@ -27,7 +31,7 @@ class clsDocente {
 
     public function consultarDocentes($param) {
         extract($param);
-		
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         // $sql = "CALL SPCARGARDOCENTES();"; 
         $sql = "CALL SPCARGARDOCENTES('$codModuSel');"; 
@@ -45,6 +49,7 @@ class clsDocente {
 
     public function CargarInformacionCompletaDocente($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARDOCENTES1();";        
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -61,6 +66,7 @@ class clsDocente {
 
     public function consultarDocentesEntreFechas($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARDOCENTESPORHORARIOCURSO ($idHorarioCurso, '$fechaInicial','$fechaFinal');";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -77,12 +83,13 @@ class clsDocente {
 
     public function ConsultarModulosPorDocente($param) {
         extract($param);
+		$rs = null;
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         // $sql = "CALL SPCONSULTARMODULOSPORDOCENTE1($IdDocente);";
         $sql = "CALL SPCONSULTARMODULOSPORDOCENTE2($IdDocente, '$salon');";
-	   //print_r($sql);
+	
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
 			// print_r($sql);
@@ -102,13 +109,14 @@ class clsDocente {
             $registro = 0; print_r($conexion->getPDO()->errorInfo()); die();
         }
 		
-		// print_r($resultado);
+		//print_r($filas);
         echo json_encode($resultado);
     }
 
 
      public function consultarCalendarioPreprogramacion($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL SPCONSULTARCALENDARIOPREPROGRAMACION($idPreprogramacion);";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -249,7 +257,12 @@ class clsDocente {
 
     public function agregarEvaluacion($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
+		// $descripcionSatisfaccion = utf8_encode($descripcionSatisfaccion);
+		// $descripcionServicio = utf8_encode($descripcionServicio);
+		// $aspectosPositivos = utf8_encode($aspectosPositivos);
+		// $aspectosParaMejorar = utf8_encode($aspectosParaMejorar);
         $sql = "CALL SPAGREGAREVALUACION($docente,'$satisfaccion', '$descripcionSatisfaccion', '$descripcionServicio',
         '$aspectosPositivos', '$aspectosParaMejorar', '$claridad',
         '$metodologia', '$contenidos', '$material',
@@ -269,8 +282,16 @@ class clsDocente {
         // $arrayName = array('sql' => $sql);
         echo json_encode($array);
     }
+	
+	function codificarEnUtf8($fila) {
+        $aux;
+        foreach ($fila as $value) {
+            $aux[] = utf8_encode($value);
+        }
+        return $aux;
+    }
 
- public function ConsultarPreprogramacionesActivas($param) {
+public function ConsultarPreprogramacionesActivas($param) {
        extract($param);
        $resultado = array();
        $registro = array();
@@ -301,8 +322,6 @@ class clsDocente {
        echo json_encode($resultado);
    }
 
-
-    
 }
 
 ?>

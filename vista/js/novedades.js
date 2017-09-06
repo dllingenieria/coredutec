@@ -443,8 +443,10 @@ function cambiarEstado() {
                 limpiarCampos();
             }
             else{
-                PopUpError("No se puedo hacer el cambio de estado");
-                window.location.href = "novedades.html";
+                PopUpError("No se pudo hacer el cambio de estado");
+                setTimeout(function() {
+				window.location.href = "novedades.html";
+				}, 2000);	
             }
         }, "json");
     }

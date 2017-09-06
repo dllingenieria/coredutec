@@ -13,44 +13,31 @@
         <link rel="stylesheet" type="text/css" href="../css/participantes.css"/>
         <link rel="stylesheet" type="text/css" href="../css/popups.css"/>      
         <link rel="stylesheet" type="text/css" href="../css/fuentes.css"/>  
+		<link rel="stylesheet" type="text/css" href="../css/template.css"/>  
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <script src="../../includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
         <script src="../../includes/jquery.cookie.js" type="text/javascript" ></script>
         <script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
         <script src="../../vista/js/matricula.js" type="text/javascript" ></script>
         <script src="../../vista/js/busqueda.js" type="text/javascript" ></script>
-        <!-- <script src="../../vista/js/sesion.js" type="text/javascript" ></script> -->
+        <script src="../../vista/js/sesion.js" type="text/javascript" ></script>
         <script src="../../vista/js/nav_log.js" type="text/javascript" ></script>
     </head>
     
     <body>
         
-       <!-- Sección Cabecera -->
-        
-        <div id="formaCabeceraAzul"></div>
-        <div id="formaRectanguloBlanco"></div>
-        <div id="imgLogoCet"><img src="../images/logocet.png" width="299" alt="logocet" /></div>
-        <div id="titulo1">Mecanismo De Control</div>
-        <div id="titulo2">De La Formación</div>
-        <div id="titulo3">Bienvenido (a)</div>
-        <div id="division"></div>
-        <div id="formaRectanguloAmarillo"></div>
-        
-        <!-- Sección Pie Página -->
-   
-        <div id="formaRectanguloPiePagina"></div>
-        <div id="imgRedesSociales"><img src="../images/redessociales.png" width="146" alt="redessociales" /></div>
-        <div id="imgParticipantes"><img src="../images/participantes.png" height="460" alt="capturagroup" /></div>
-        
-        <!-- Sección Botones -->
-        
-        <div ><input id="btnCapturar" class="BotonCapturar" name="btnCapturar" type="button" value="Capturar Base De Datos" /></div>
-        <div ><input id="btnBuscar" class="BotonBuscar" name="btnBuscar" type="button" value="Buscar Por Documento" /></div>
-        <div ><input id="btnPreprogramacion" class="BotonPreprogramacion" name="btnPreprogramacion" type="button" value="Preprogramación" /></div>
-        <div ><input id="btnNovedades" class="BotonNovedades" name="btnNovedades" type="button" value="Novedades" /></div>
-        <div ><input id="btnCerrar" class="BotonCerrar" name="btnCerrar" type="button" value="Cerrar Sesión" /></div>
+		
+		<section class="encabezado">
+		<!-- CABECERA -->
+		<section class="cabecera"></section>
+		<!-- FIN CABECERA -->
 
- 		<!-- Sección Cuerpo Página -->
+		<!-- BARRA DE NAVEGACIÓN -->
+		<nav class="barraNavegacion"></nav>
+		<!-- FIN BARRA DE NAVEGAC	IÓN -->
+		</section>
+		
+      	<!-- Sección Cuerpo Página -->
         
         <div id="inscripciondatos" class="RectanguloTitulos"><label>Inscripción De Datos</label></div>
         <div id="lblNombresApellidos" class="LblMatricula">Nombres y Apellidos</div>
@@ -101,9 +88,10 @@
             <div>
                 <label id="textoConfirmatextoErrorcion1" class="popup" style="margin-left: 32px; font-family: 'Roboto-Regular'; font-size: 16px"> </label>
             </div>
-            <br></br>           
+            <br></br>        
+					
                 <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAceCon"  class="b-close" style="margin-left: 130px; width: 96px; height: 27px; margin-top: -23px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
         </div>
-        
+        <footer></footer>
     </body>
 </html>

@@ -41,43 +41,44 @@ input::-webkit-inner-spin-button {
 	height:83px;
 	z-index:30;
 	margin-left: 45px;
-	margin-top: -16px;
+	margin-top: 0px;
 }
 
+
 #titulo1 {
-	position:fixed;
-	width:300px;
-	height:115px;
-	z-index:30;
-	margin-left: 500px;
-	margin-top: 5px;
-	font-family: "Roboto-Black";
-	font-size: 26px;
-	color: #ffffff;
+	position: fixed;
+    width: 500px;
+    height: 115px;
+    z-index: 30;
+    margin-left: 400px;
+    margin-top: 5px;
+    font-family: "Roboto-Black";
+    font-size: 23px;
+    color: #ffffff;
 }
 
 #titulo2 {
-	position:fixed;
-	width:346px;
-	height:115px;
-	z-index:30;
-	margin-left: 500px;
-	margin-top: 30px;
-	font-family: "Roboto-Light";
-	font-size: 26px;
-	color: #ffffff;
+	position: fixed;
+    width: 500px;
+    height: 115px;
+    z-index: 30;
+    margin-left: 400px;
+    margin-top: 30px;
+    font-family: "Roboto-Light";
+    font-size: 23px;
+    color: #ffffff;
 }
 
 #titulo3 {
-	position:fixed;
-	width:346px;
-	height:115px;
-	z-index:30;
-	margin-left: 981px;
-	margin-top: 5px;
-	font-family: "Roboto-Light";
-	font-size: 15px;
-	color: #ffffff;
+	position: fixed;
+    width: 446px;
+    height: 115px;
+    z-index: 30;
+    margin-left: 950px;
+    margin-top: 5px;
+    font-family: "Roboto-Light";
+    font-size: 15px;
+    color: #ffffff;
 }
 
 #division {
@@ -136,21 +137,25 @@ input::-webkit-inner-spin-button {
 /* Seccion Títulos */
 
 div#lblNombre {
-    margin-top: 155px;
+    margin-top: 55px;
 }
 
 #txtNombre {
-    margin-top: 155px;
+    margin-top: 55px;
 }
 
 div#lblFechaNacimiento {
-    margin-top: 155px;
+    margin-top: 55px;
 	margin-left: 530px;
 }
 
 #txtfechaNacimiento {
-    margin-top: 155px;
+    margin-top: 55px;
 	margin-left: 709px;
+}
+
+div#lblDuracionCursoMatricula {
+    margin-top: 536px;
 }
 
 .RectanguloTitulos {
@@ -161,7 +166,7 @@ div#lblFechaNacimiento {
 	background:#f7ea32;
 	border-radius: 3px 3px 3px 3px;
 	margin-left: 41px;
-	margin-top: 120px;
+	margin-top: 20px;
 	font-family: "Roboto-Bold";
 	font-size: 17px;
 	color: #003265;
@@ -170,22 +175,22 @@ div#lblFechaNacimiento {
 }
 
 #lblProcesoCapacitacion {
-	margin-top: 536px;
+	margin-top: 436px;
 	width:286px;
 }
 
 #lblProcesoCapacitacionCarga {
-	margin-top: 383px;
+	margin-top: 283px;
 	width:355px;
 }
 
 #lblObservaciones {
-	margin-top: 857px;
+	margin-top: 757px;
 	width:126px;
 }
 
 #lblConfirmacion1 {
-	margin-top: 966px;
+	margin-top: 866px;
 	width:1248px;
 	height:19px;
 	background:#003265;
@@ -196,7 +201,7 @@ div#lblFechaNacimiento {
 }
 
 #lblConfirmacion2 {
-	margin-top: 993px;
+	margin-top: 893px;
 	width:1109px;
 	height:19px;
 	font-family: "Roboto-Regular";
@@ -223,7 +228,7 @@ div#lblFechaNacimiento {
 	background:#003265;
 	border-radius: 3px 0px 0px 3px;
 	margin-left: 41px;
-	margin-top: 185px;
+	margin-top: 85px;
 	font-family: "Roboto-Light";
 	font-size: 14px;
 	color: #ffffff;
@@ -239,7 +244,7 @@ div#lblFechaNacimiento {
 	background:#ffffff;
 	border-radius: 0px 3px 3px 0px;
 	margin-left: 220px;
-	margin-top: 185px;
+	margin-top: 85px;
 	font-family: "Roboto-Regular";
 	font-size: 14px;
 	color: #2d4191;
@@ -260,92 +265,92 @@ div#lblFechaNacimiento {
 }
 
 #lblIdentificacion {
-	margin-top: 215px;
+	margin-top: 115px;
 }
 
 #txtIdentificacion {
-	margin-top: 215px;
+	margin-top: 115px;
 }
 
 #lblLugarExpedicion {
-	margin-top: 215px;
+	margin-top: 115px;
 	margin-left: 530px;
 }
 
 #selectLugarExpedicion {
-	margin-top: 215px;
+	margin-top: 115px;
 	margin-left: 709px;
 }
 
 #lblEstadoCivil {
-	margin-top: 245px;
+	margin-top: 145px;
 }
 
 #selectEstadoCivil {
-	margin-top: 245px;
+	margin-top: 145px;
 }
 
 #lblTelefonoFijo {
-	margin-top: 245px;
+	margin-top: 145px;
 	margin-left: 530px;
 }
 
 #txtTelefonoFijo {
-	margin-top: 245px;
+	margin-top: 145px;
 	margin-left: 709px;
 }
 
 #lblTelefonoCelular {
-	margin-top: 275px;
+	margin-top: 175px;
 }
 
 #txtTelefonoCelular {
-	margin-top: 275px;
+	margin-top: 175px;
 }
 
 #lblTelefonoAlterno {
-	margin-top: 275px;
+	margin-top: 175px;
 	margin-left: 530px;
 }
 
 #txtTelefonoAlterno {
-	margin-top: 275px;
+	margin-top: 175px;
 	margin-left: 709px;
 }
 
 #lblCorreoElectronico {
-	margin-top: 305px;
+	margin-top: 205px;
 }
 
 #txtCorreoElectronico {
-	margin-top: 305px;
+	margin-top: 205px;
 }
 
 #lblEdad {
-	margin-top: 305px;
+	margin-top: 205px;
 	margin-left: 530px;
 }
 
 #txtEdad {
-	margin-top: 305px;
+	margin-top: 205px;
 	margin-left: 709px;
 }
 
 #lblGradoEscolaridad {
-	margin-top: 335px;
+	margin-top: 235px;
 }
 
 #selectGradoEscolaridad {
-	margin-top: 335px;
+	margin-top: 235px;
 }
 
 #lblLocalidad {
-	margin-top: 335px;
+	margin-top: 235px;
 	margin-left: 530px;
 }
 
 #selectLocalidad {
-	margin-top: 335px;
+	margin-top: 235px;
 	margin-left: 709px;
 }
 
@@ -353,82 +358,82 @@ div#lblFechaNacimiento {
 /* Proceso De Capacitación (Carga Del Sistema) */
 
 #lblTipoDeConvocatoriaCarga {
-	margin-top: 423px;
+	margin-top: 323px;
 	width:130px;
 }
 
 #txtTipoDeConvocatoriaCarga {
-	margin-top: 423px;
+	margin-top: 323px;
 	margin-left: 183px;
 	width:203px;
 }
 
 #lblRutaNumeroCarga {
-	margin-top: 423px;
+	margin-top: 323px;
 	margin-left: 419px;
 	width:130px;
 }
 
 #txtRutaNumeroCarga {
-	margin-top: 423px;
+	margin-top: 323px;
 	margin-left: 561px;
 	width:112px;
 }
 
 #lblCodigoCursoCarga {
-	margin-top: 423px;
+	margin-top: 323px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtCodigoCursoCarga {
-	margin-top: 423px;
+	margin-top: 323px;
 	margin-left: 846px;
 	width:112px;
 }
 
 #lblNombreCursoCarga {
-	margin-top: 453px;
+	margin-top: 353px;
 	width:130px;
 }
 
 #txtNombreCursoCarga {
-	margin-top: 453px;
+	margin-top: 353px;
 	margin-left: 183px;
 	width:490px;
 }
 
 #lblEstadoCarga {
-	margin-top: 453px;
+	margin-top: 353px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtEstadoCarga {
-	margin-top: 453px;
+	margin-top: 353px;
 	margin-left: 846px;
 	width:112px;
 }
 
 #lblModuloCarga {
-	margin-top: 483px;
+	margin-top: 383px;
 	width:130px;
 }
 
 #txtModuloCarga {
-	margin-top: 483px;
+	margin-top: 383px;
 	margin-left: 183px;
 	width:490px;
 }
 
 #lblDuracionModuloCarga {
-	margin-top: 483px;
+	margin-top: 383px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtDuracionModuloCarga {
-	margin-top: 483px;
+	margin-top: 383px;
 	margin-left: 846px;
 	width:112px;
 }
@@ -437,67 +442,67 @@ div#lblFechaNacimiento {
 
 
 #lblTipoDeConvocatoriaMatricula {
-	margin-top: 576px;
+	margin-top: 476px;
 	width:130px;
 }
 
 #txtTipoDeConvocatoriaMatricula {
-	margin-top: 576px;
+	margin-top: 476px;
 	margin-left: 183px;
 	width:203px;
 }
 
 #lblRutaNumeroMatricula {
-	margin-top: 576px;
+	margin-top: 476px;
 	margin-left: 419px;
 	width:130px;
 }
 
 #txtRutaNumeroMatricula {
-	margin-top: 576px;
+	margin-top: 476px;
 	margin-left: 561px;
 	width:112px;
 }
 
 #lblCodigoCursoMatricula {
-	margin-top: 576px;
+	margin-top: 476px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtCodigoCursoMatricula {
-	margin-top: 576px;
+	margin-top: 476px;
 	margin-left: 846px;
 	width:112px;
 }
 
 #lblNombreCursoMatricula {
-	margin-top: 606px;
+	margin-top: 506px;
 }
 
 #cmbNombreCursoMatricula {
-	margin-top: 606px;
+	margin-top: 506px;
 	width:747px;
 	height:24px;
 	padding-top: 0px;
 	padding-left: 1px;
 }
 
-#lblDuracionCursoMatricula {
-	margin-top: 636px;
+#lblDuracionCursMatricula {
+	margin-top: 536px;
 }
 
 #txtDuracionCursoMatricula {
-	margin-top: 636px;
+	margin-top: 536px;
 }
 
 #lblModalidadMatricula {
-	margin-top: 636px;
+	margin-top: 536px;
 	margin-left: 530px;
 }
 
 #cmbModalidadMatricula {
-	margin-top: 636px;
+	margin-top: 536px;
 	margin-left: 709px;
 	width:259px;
 	height:24px;
@@ -506,11 +511,11 @@ div#lblFechaNacimiento {
 }
 
 #lblModuloMatricula {
-	margin-top: 666px;
+	margin-top: 566px;
 }
 
 #cmbModuloMatricula {
-	margin-top: 666px;
+	margin-top: 566px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -518,48 +523,48 @@ div#lblFechaNacimiento {
 }
 
 #lblCodigoModuloMatricula {
-	margin-top: 666px;
+	margin-top: 566px;
 	margin-left: 530px;
 }
 
 #txtCodigoModuloMatricula {
-	margin-top: 666px;
+	margin-top: 566px;
 	margin-left: 709px;
 }
 
 #lblDuracionModuloMatricula {
-	margin-top: 696px;
+	margin-top: 596px;
 }
 
 #txtDuracionModuloMatricula {
-	margin-top: 696px;
+	margin-top: 596px;
 }
 
 #lblTipoFormacionMatricula {
-	margin-top: 696px;
+	margin-top: 596px;
 	margin-left: 530px;
 }
 
 #txtTipoFormacionMatricula {
-	margin-top: 696px;
+	margin-top: 596px;
 	margin-left: 709px;
 }
 
 #lblAreaOcupacionalMatricula {
-	margin-top: 726px;
+	margin-top: 626px;
 }
 
 #txtAreaOcupacionalMatricula {
-	margin-top: 726px;
+	margin-top: 626px;
 }
 
 #lblMatriculadoEnMatricula {
-	margin-top: 726px;
+	margin-top: 626px;
 	margin-left: 530px;
 }
 
 #cmbMatriculadoEnMatricula {
-	margin-top: 726px;
+	margin-top: 626px;
 	margin-left: 709px;
 	width:259px;
 	height:24px;
@@ -568,56 +573,56 @@ div#lblFechaNacimiento {
 }
 
 #lblHorarioMatricula {
-	margin-top: 756px;
+	margin-top: 656px;
 }
 
 #txtHorarioMatricula {
-	margin-top: 756px;
+	margin-top: 656px;
 }
 
 #lblSedeMatricula {
-	margin-top: 756px;
+	margin-top: 656px;
 	margin-left: 530px;
 }
 
 #txtSedeMatricula {
-	margin-top: 756px;
+	margin-top: 656px;
 	margin-left: 709px;
 }
 
 #lblDocenteMatricula {
-	margin-top: 815px;
+	margin-top: 715px;
 }
 
 #txtDocenteMatricula {
-	margin-top: 815px;
+	margin-top: 715px;
 }
 
 #lblFechaInicial {
-	margin-top: 785px;
+	margin-top: 685px;
 }
 
 #txtFechaInicial {
-	margin-top: 785px;
+	margin-top: 685px;
 }
 
 #lblFechaFinal {
-	margin-top: 785px;
+	margin-top: 685px;
         margin-left: 530px;
 }
 
 #txtFechaFinal {
-	margin-top: 785px;
+	margin-top: 685px;
         margin-left: 709px;
 }
 
 #lblHoraInicio {
-	margin-top: 815px;
+	margin-top: 715px;
 	margin-left: 530px;
 }
 
 #txtHoraInicio {
-	margin-top: 815px;
+	margin-top: 715px;
 	margin-left: 709px;
 }
 
@@ -625,7 +630,7 @@ div#lblFechaNacimiento {
 	position:absolute;
 	z-index:5;
 	margin-left: 41px;
-	margin-top: 896px;
+	margin-top: 796px;
 }
 
 
@@ -866,7 +871,7 @@ div#lblFechaNacimiento {
 
 .BotonGuardar {
     position:absolute;
-	margin-top: 912px;
+	margin-top: 952px;
 	margin-left: 1107px;
 	width:90px;
 	height:27px;
@@ -898,7 +903,7 @@ div#lblFechaNacimiento {
 
 .BotonCancelar {
     position:absolute;
-	margin-top: 912px;
+	margin-top: 952px;
 	margin-left: 1204px;
 	width:90px;
 	height:27px;
@@ -920,4 +925,8 @@ div#lblFechaNacimiento {
     background-color:#f7ea32;
 	font-family: "Roboto-Bold";
     color: #003265; 
+}
+
+footer {	
+    z-index: 30 !important;	
 }

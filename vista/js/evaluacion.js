@@ -154,7 +154,7 @@ $(function () {
 		}
 		
 		if((claridad == 1 || claridad ==2 || claridad==3 )&& descripcionServicio==""){
-			valido=false; console.log(10); alert(descripcionServicio);
+			valido=false; console.log(10); 
 		}
 		
 		if((metodologia == 1 || metodologia ==2 || metodologia==3) && descripcionServicio==""){
@@ -270,10 +270,12 @@ $(function () {
 				PopUpError(data.mensaje);
 				 //setTimeout(function() {
 					//location.reload(true);
-					d = new Date();
-					$("#imagen-captcha").attr("src", "../../modelo/captcha.php?"+d.getTime());
-					$("#code").val("");
-					$("#code").focus();
+					
+					// d = new Date();
+					// $("#imagen-captcha").attr("src", "../../modelo/captcha.php?"+d.getTime());
+					// $("#code").val("");
+					// $("#code").focus();
+					
 					//$("#captcha").load(location.href + " #captcha");
 				//}, 4000);				
 			}else {

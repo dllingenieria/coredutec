@@ -50,7 +50,7 @@ $(function() {
 
       //Cargar datos en el formulario de Curso//
     function recuperarDatosCurso() {
-        cargarCombos1('clsConfiguracion','SPCARGARRUTAS','#selectRutaCurso');
+        cargarCombos1('clsConfiguracion','SPCARGARRUTAS1','#selectRutaCurso');
         cargarCombos1('clsConfiguracion','SPCARGARDURACIONCURSO', '#selectDuracionCurso');
         $("#txtCodigoCurso").val(sessionStorage.cod_cur);
         $("#txtNombreCurso").val(sessionStorage.nom_cur);
@@ -103,7 +103,7 @@ $(function() {
         $("#btn-edit").hide();
         $("#btn-view1").hide();
         $("#ContentEstadoCurso").hide();
-        cargarCombos1('clsConfiguracion','SPCARGARRUTAS','#selectRutaCurso');
+        cargarCombos1('clsConfiguracion','SPCARGARRUTAS1','#selectRutaCurso');
         cargarCombos1('clsConfiguracion','SPCARGARDURACIONCURSO', '#selectDuracionCurso');
     }
 

@@ -1,4 +1,5 @@
 <?php
+require("../controlador/session.php");	
 ini_set('memory_limit', '4024M');
 set_time_limit(0);
 /** Error reporting */
@@ -77,7 +78,9 @@ class clsAlimentacion {
   public function agregarAlimentacioGeneral($param) 
     {
         
-        extract($param); 
+        extract($param);
+		$array = array();
+		$rs = null;		
         // print_r($serializedAsistencia);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario =  $_SESSION['idUsuario'];
@@ -88,7 +91,7 @@ class clsAlimentacion {
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {               
                 
-                $filas = substr($filas[0]['IdAlimentacion'],1);
+                $filas = substr($filas[0]['pIdAlimentacion1'],1);
                 $res = explode(",", $filas);
                 //var_dump($res);
                 foreach ($res as $resul) {
@@ -109,24 +112,25 @@ class clsAlimentacion {
 
     public function agregarAlimentacionDetalle($param) {
         extract($param);
-        
+        $array = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
-        
+        $rs = null;
         // $sql = "CALL SPAGREGARASISTENCIADETALLE($idAsistencia, $idTercero, $valorAsistencia,  $idAsistenciaDetalle, $usuario);";
         $sql = "CALL SPAGREGARALIMENTACIONDETALLE('$serializedalimentacionD', $usuario);";
         //print_r($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila;
-                }
-            }
+            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                // foreach ($filas as $fila) {
+                    // $array[] = $fila;
+                // }
+            // }
+			$array = 1;
         } else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); die();
         }
-		print_r($array);
+		//print_r($array);
         echo json_encode($array);
     }
 	

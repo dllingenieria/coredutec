@@ -1,6 +1,12 @@
 <?php
-// Report all errors
+require("../controlador/session.php");
+ini_set('memory_limit', '4024M');
 set_time_limit(0);
+/** Error reporting */
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+// Report all errors
 error_reporting(E_ALL);
 
 /*
@@ -21,39 +27,80 @@ class clsParticipante {
      * @return [array]        [array con los datos y notas asociadas a cada estudiante]
      */
      public function consultarNotasPorSalon($param){
-        extract($param);
+   		extract($param);
         $resp = null;
 		$usuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $rs=null;
         $sql = "CALL SPCONSULTARNOTASPORID($IdPreprogramacion);";
-
         if ($rs = $conexion->getPDO()->query($sql)) {
            if (!$filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //si no hay notas para la preprogramación
 				
 			  // $usuario = $_SESSION['idUsuario'];
+			    $rs=null;
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPAGREGARNOTA($IdPreprogramacion,33.33,33.33,33.33,$usuario);"; //Se agregan nota por defecto para la preprogramación
-                if ($rs = $conexion->getPDO()->query($sql)) {
+				if ($rs = $conexion->getPDO()->query($sql)) {
                      if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                         $idNota = $filas[0]['IdNota'];
                         $resp['idNota'] = $idNota;
+						$rs=null;
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
                         $sql = "CALL SPCONSULTARTERCEROSPREPROGRAMACION($IdPreprogramacion);"; //Se consultan los terceros
-                        if ($rs = $conexion->getPDO()->query($sql)) {
+						if ($rs = $conexion->getPDO()->query($sql)) {
                             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                                 foreach ($filas as $fila) {
-                                    $conexion->getPDO()->query("SET NAMES 'utf8'");
-                                    $idTercero = $fila['Id'];
-                                    $sql = "CALL SPAGREGARNOTAINICIAL($idNota,$idTercero,$usuario);"; //Se asignan notas por defecto a cada tercero
-                                    //echo $sql;
-                                    $conexion->getPDO()->query($sql);
+									$idTercero = $fila['Id'];
+									$arrayNotaInicial[]= array( 'idNota' => $idNota, 'idTercero'=> $idTercero);								
                                 }
+									$arrayNotaInicial=json_encode($arrayNotaInicial);								
+                                    $conexion->getPDO()->query("SET NAMES 'utf8'");
+									$rs=null;
+                                  
+                                    $sql = "CALL SPAGREGARNOTAINICIAL('$arrayNotaInicial',$usuario);"; //Se asignan notas por defecto a cada tercero
+                                    $conexion->getPDO()->query($sql);
+																
+								$rs=null;
                                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                                 $sql = "CALL SPCONSULTARNOTASDETALLEPORID($idNota,$IdPreprogramacion);";
                                 if ($rs = $conexion->getPDO()->query($sql)) {
                                     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                                         foreach ($filas as $fila) {
-                                            $datos [] = $fila;
+                                            $notaHacer = explode(',',$fila['NotaHacer']);
+											$notaSaber = explode(',',$fila['NotaSaber']);
+											$notaSer = explode(',',$fila['NotaSer']);
+											
+											$totalNotas[] =  $notaHacer[0];
+											$totalNotas[] =  $notaHacer[1];
+											$totalNotas[] =  $notaHacer[2];
+											$totalNotas[] =  $notaSaber[0];
+											$totalNotas[] =  $notaSaber[1];
+											$totalNotas[] =  $notaSaber[2];
+											$totalNotas[] =  $notaSer[0];
+											$totalNotas[] =  $notaSer[1];
+											$totalNotas[] =  $notaSer[2];
+											
+                                            $numeroNotas ="";
+											foreach ($totalNotas as $nota) {
+												if($nota != ''){
+													$numeroNotas = ((float)$numeroNotas + 1);
+												}
+											}
+											$notaDef = 0;
+											$notaDef = number_format($notaDef, 2);
+											if ($numeroNotas != 0 || $numeroNotas != ""){
+											//echo json_encode($numeroNotas);
+												$notaDef =  ((float)$notaHacer[0]+(float)$notaHacer[1]+(float)$notaHacer[2]+
+															(float)$notaSaber[0]+(float)$notaSaber[1]+(float)$notaSaber[2]+
+															(float)$notaSer[0]+(float)$notaSer[1]+(float)$notaSer[2]) / $numeroNotas;
+												$notaDef = number_format($notaDef, 2);
+											}
+											$fila['total']=$notaDef;
+											$datos [] = $fila;
+											
+											$numeroNotas = 0; 
+											$totalNotas = []; 
+											$notaDef = 0;	
                                         }
                                         $resp['datos'] = $datos;
                                     }
@@ -62,35 +109,86 @@ class clsParticipante {
                         }
                     }
                 }
-            }else{
-				  
-
-                $conexion->getPDO()->query("SET NAMES 'utf8'");
-                $sql = "CALL SPCONSULTARIDNOTAPORPREPROGRAMACION($IdPreprogramacion);";
-                              if ($rs = $conexion->getPDO()->query($sql)) {
+            }else{ 
+                $rs=null;
+				$conexion->getPDO()->query("SET NAMES 'utf8'");
+                $sql = "CALL SPCONSULTARIDNOTAPORPREPROGRAMACION($IdPreprogramacion);"; 
+                if ($rs = $conexion->getPDO()->query($sql)) {
                     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                         $idNota = $filas[0]['IdNota'];
                     }
                 }
+				
                 if($idNota){
 				$resp['idNota'] = $idNota;
 					$conexion->getPDO()->query("SET NAMES 'utf8'");
+						$rs=null;
+						
                         $sql = "CALL SPCONSULTARTERCEROSPREPROGRAMACION($IdPreprogramacion);"; //Se consultan los terceros
-                        if ($rs = $conexion->getPDO()->query($sql)) {
+						if ($rs = $conexion->getPDO()->query($sql)) {
                             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                                 foreach ($filas as $fila) {
-                                    $conexion->getPDO()->query("SET NAMES 'utf8'");
-                                    $idTercero = $fila['Id'];
-                                    $sql = "CALL SPAGREGARNOTAINICIAL($idNota,$idTercero,$usuario);"; //Se asignan notas por defecto a cada tercero
-                                    //echo $sql;
-                                    $conexion->getPDO()->query($sql);
+									
+									$idTercero = $fila['Id'];
+																	
+									$arrayNotaInicial[]= array( 'idNota' => $idNota, 'idTercero'=> $idTercero);
+									
                                 }
+								$arrayNotaInicial=json_encode($arrayNotaInicial);
+								
+								//var_dump($arrayNotaInicial);						
+								$conexion->getPDO()->query("SET NAMES 'utf8'");                                   
+								$rs=null;										
+                                $sql = "CALL SPAGREGARNOTAINICIAL('$arrayNotaInicial',$usuario);"; //Se asignan notas por defecto a cada tercero
+                                $conexion->getPDO()->query($sql);
+								
+															
                                 $conexion->getPDO()->query("SET NAMES 'utf8'");
-                                $sql = "CALL SPCONSULTARNOTASDETALLEPORID($idNota,$IdPreprogramacion);";
-                                if ($rs = $conexion->getPDO()->query($sql)) {
+								$rs=null;
+                                $sql = "CALL SPCONSULTARNOTASDETALLEPORID($idNota,$IdPreprogramacion);"; 
+                                
+								if ($rs = $conexion->getPDO()->query($sql)) {
                                     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                                         foreach ($filas as $fila) {
-                                            $datos [] = $fila;
+											
+											$notaHacer = explode(',',$fila['NotaHacer']);
+											$notaSaber = explode(',',$fila['NotaSaber']);
+											$notaSer = explode(',',$fila['NotaSer']);
+											
+											$totalNotas[] =  $notaHacer[0];
+											$totalNotas[] =  $notaHacer[1];
+											$totalNotas[] =  $notaHacer[2];
+											$totalNotas[] =  $notaSaber[0];
+											$totalNotas[] =  $notaSaber[1];
+											$totalNotas[] =  $notaSaber[2];
+											$totalNotas[] =  $notaSer[0];
+											$totalNotas[] =  $notaSer[1];
+											$totalNotas[] =  $notaSer[2];
+											
+                                            $numeroNotas ="";
+											foreach ($totalNotas as $nota) {
+												if($nota != ''){
+													$numeroNotas = ((float)$numeroNotas + 1);
+												}
+											}
+											$notaDef = 0;
+											$notaDef = number_format($notaDef, 2);
+											if ($numeroNotas != 0 || $numeroNotas != ""){
+											//echo json_encode($numeroNotas);
+												$notaDef =  ((float)$notaHacer[0]+(float)$notaHacer[1]+(float)$notaHacer[2]+
+															(float)$notaSaber[0]+(float)$notaSaber[1]+(float)$notaSaber[2]+
+															(float)$notaSer[0]+(float)$notaSer[1]+(float)$notaSer[2]) / $numeroNotas;
+												$notaDef = number_format($notaDef, 2);
+											}
+											$fila['total']=$notaDef;
+											$datos [] = $fila;
+											
+											$numeroNotas = 0; 
+											$totalNotas = []; 
+											$notaDef = 0;	
+											
+											
+											
                                         }
                                         $resp['datos'] = $datos;
                                     }
@@ -98,30 +196,24 @@ class clsParticipante {
                             }
                         }
 					
-                   // $resp['idNota'] = $idNota;
-                   // $conexion->getPDO()->query("SET NAMES 'utf8'");
-                    // $sql = "CALL SPCONSULTARNOTASDETALLEPORID($idNota);";
-                    // if ($rs = $conexion->getPDO()->query($sql)) {
-                        // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                            // foreach ($filas as $fila) {
-                                // $datos [] = $fila;
-                            // }
-                            // $resp['datos'] = $datos;
-                        // }
-                    // } 
+           
                 } //IdNota
             }
-        }
+        } 
+		
         echo json_encode($resp);
     }
-    
+
     public function guardarNotas($param){
-        extract($param);
+		extract($param);
+		
 		$array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
-        $sql = "CALL SPMODIFICARNOTA($idNota,$idEstudiante,'$nSaber','$nHacer','$nSer',$usuario);";
-        //echo $sql;
+        //$sql = "CALL SPMODIFICARNOTA($idNota,$idEstudiante,'$nSaber','$nHacer','$nSer',$usuario);";
+		$sql = "CALL SPMODIFICARNOTA('$serializedtotalNotas',$usuario);";		
+		
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -130,6 +222,7 @@ class clsParticipante {
             }
         } else {
             $array = 0;
+			print_r($conexion->getPDO()->errorInfo());
         }
         echo json_encode($array);
     }
@@ -137,11 +230,11 @@ class clsParticipante {
 
 
     public function consultarEstudiantesPorSalonFormatoFirmas($param) {
-        extract($param); 
+		extract($param); 
         $array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARESTUDIANTESPORSALON1($IdPreprogramacion);";
-        //print_r($sql);
+        $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -156,11 +249,11 @@ class clsParticipante {
 
 
     public function consultarEstudiantesPorSalon($param) {
-        extract($param); 
+		extract($param); 
         $array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARESTUDIANTESPORSALON($IdPreprogramacion);";
-        //print_r($sql);
+		$rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -176,9 +269,10 @@ class clsParticipante {
 
 
     public function activarParticipante($param){
-        extract($param);
+        
+		extract($param);
         $sql = "CALL ACTUALIZAR_PARTICIPANTE_ACTIVAR($par_id);";
-        echo $sql;
+        $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -196,28 +290,18 @@ class clsParticipante {
 	*/
     public function InscribirParticipante($numInsercion,$lin_inf, $conexion,$pIdJornada,$actualizarTercero) { //26
         
-		
 		header("Content-Type: text/html;charset=utf-8");  
-        //session_start(); 
         $IdUsuario = $_SESSION['idUsuario'];  
-		// print_r("usuario...".$IdUsuario); 
         $registro = explode(";", $lin_inf);
         $auxFecha = $this->obtenerFecha($registro[14]);
         $apellidos =($registro[2]);
         $nombres = $registro[3];
-        $correo = $this->evalString(($registro[9])); 
-		$fecha = explode("/",$registro[10]);
-		$dia = $fecha[0];
-		$mes = $fecha[1];
-		$anio = $fecha[2];
-		$pFecha = $anio."-".$mes."-".$dia;
+        $correo = $this->evalString(($registro[9]));
         @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$pFecha', $registro[11],$registro[12],  $registro[13], '$auxFecha',
 		$registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],$IdUsuario, ".$pIdJornada.", $actualizarTercero);";
 		
-		// @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$registro[10]', $registro[11],$registro[12],  $registro[13], '$auxFecha',
-		// $registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24], $actualizarTercero);";
-		
-        $conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -225,17 +309,13 @@ class clsParticipante {
                 foreach ($filas as $fila) {
                     $resultado = $fila['resultado'];
                     $inserto = 1;
-//                    if(strlen(trim($fila['resultado'])) < 1){
-//                        echo $numInsercion.'---'. $sql."<br>";
-//                    }else{
-//                
-//                    }
+
                 }
             }else{
                 echo $numInsercion.' 2--- '. $sql."<br>";
             }
         } else {
-            echo $numInsercion.' --- '. $sql."<br>"; //print_r($conexion->getPDO()->errorInfo()); die();
+            echo $numInsercion.' --- '. $sql."<br>";
 			
             $response = 0;
         }
@@ -243,7 +323,8 @@ class clsParticipante {
     }
 
     public function obtenerFecha($pFecha){
-        $fecha = $pFecha;
+        
+		$fecha = $pFecha;
         if (strpos($fecha, '/') !== false) {
             list( $dia, $mes, $ano) = explode('/', $pFecha);
             $fecha = $ano.'-'.$mes.'-'.$dia;
@@ -252,8 +333,9 @@ class clsParticipante {
     }
     
     public function ConsultarMatricula($param) {
-        extract($param);
+		extract($param);
         $sql = "CALL SPCONSULTARCARGAPORID3($pIdCarga);";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -269,8 +351,9 @@ class clsParticipante {
     }
     
     public function ConsultarModulo($param) {
-        extract($param);
+		extract($param);
         $sql = "CALL SPCONSULTARMODULOPORID($pIdmodulo);";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -286,38 +369,52 @@ class clsParticipante {
 
 
     public function consultarEstudiantesPorSalonDadoSalon($param){
-        extract($param);
+		extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        
+        $array = array();
+		
         $sql = "CALL SPCONSULTARPREPROGRAMACIONPORSALON('$codigo_salon');";
-        if ($rs = $conexion->getPDO()->query($sql)){
-            if($rs->fetch() != false){
+		$rs=null;
+        if ($rs = $conexion->getPDO()->query($sql))
+		{
+            if($rs->fetch() != false)
+			{
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPCONSULTARESTUDIANTESPORSALONDADOSALON('$codigo_salon');";
-                if ($rs = $conexion->getPDO()->query($sql)) {
-                    if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                        foreach ($filas as $fila) {
+                
+				$rs = null;
+				if ($rs = $conexion->getPDO()->query($sql)) 
+				{
+                    if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) 
+					{
+                        foreach ($filas as $fila) 
+						{
                             $array[] = $fila;
                         }   
-                    }else {
+                    }
+					else 
+					{
                         $array = 1;
                     }
                 } 
-            }else{
+            }
+			else
+			{
                 $array = 0;
             }
-        } 
+        } //print_r($array);
         echo json_encode($array);
 
     }
 
 
      public function consultarCargaEstudiantesPorSalonDocente($param) {
-        extract($param);
+		extract($param);
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARESTUDIANTESPORSALONDADOSALON('$codigo_salon');";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -336,9 +433,10 @@ class clsParticipante {
 
 
     public function ConsultarParticipante($param) {
-        extract($param);
+		extract($param);
 		$array = array();
         $sql = "CALL SPBUSCARPARTICIPANTEPORCEDULA($pNumeroIdentificacion);";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -356,7 +454,7 @@ class clsParticipante {
     }
 
     private function codificarEnUtf8($fila) {
-        $aux;
+		$aux;
         foreach ($fila as $value) {
             $aux[] = utf8_encode($value);
         }
@@ -392,7 +490,6 @@ class clsParticipante {
 
     public function esRutaActualCetValida($cod) {
         $men_err = '';
-        //FCK JJGC iIii
         if (!is_string($cod)) {
             $men_err = "Este número de código ruta-curso de agenciaw (" . $cod . ") no es válido.";
         }

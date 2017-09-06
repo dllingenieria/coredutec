@@ -192,7 +192,13 @@ function obtenerGradoEscolaridad(){
         }
     }
 
- function GuardarMatricula(){
+ function GuardarMatricula(){	 
+	pdIdModalidad=$("#cmbModalidadMatricula").val();
+	pCodigoModulo= $("#cmbModuloMatricula").val();
+	pIdMatricula = $("#cmbMatriculadoEnMatricula").val();
+	
+	if((pdIdModalidad!="") && (pCodigoModulo!="") && (pIdMatricula!="")){ 
+	 
     $.post("../../controlador/fachada.php", {
         clase: 'clsMatricula',
         oper: 'AgregarMatricula',
@@ -218,6 +224,10 @@ function obtenerGradoEscolaridad(){
             } 
         }   
     }, "json");
+	
+	}else{
+		PopUpError("Faltan algun(os) campos obligatorios por llenar.");
+	}
 }
 
 function CargarDatosModulo(pCodigo){

@@ -1,7 +1,7 @@
 $(function() {
-    $("#btnEntrar").click(function() {
-        IniciarSesion();
-    });
+    // $("#btnEntrar").click(function() {
+        // IniciarSesion();
+    // });
 
     $("#btnacceso").click(function() {
         window.location = "/cet/";

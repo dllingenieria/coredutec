@@ -1,0 +1,14 @@
+Error registro 56 - Columna : 6 , ("3102890648	") no es un número.
+
+Error registro 99 - Columna : 6 , ("	3505462210") no es un número.
+
+Error registro 100 - Columna : 6 , ("3115350512) no es un número.Columna : 7 , () no es un número.Columna : 8 , () no es un número.Columna : 9 , correo () no  válido.Columna : 10 Fecha  no válida. Columna : 11 , () no es un número.Columna : 12 , () no es un número.Columna : 13 , () no es un número.Columna : 14 Fecha  no válida. Columna : 15 , () no es un número.Columna : 16 , () no es un número.Columna : 17 , () no es un número.Columna : 18 , () no es un número.Columna : 19 , () no es un número.Columna : 20 , () no es un número.Columna : 21 , () no es un número.Columna : 22 , () no es un número.Columna : 23 , () no es un número.Columna : 24 , () no es un número.Columna : 25 , () no es un número.Columna : 26 , () no es un número.Columna : 27 , () no es un número.Columna : 28 , () no es un número.
+
+Error registro 101 - Columna : 0 , (") no es un número.Columna : 4 , (1900-01-01) no es un número.Columna : 8 , (2017-08-14) no es un número.Columna : 9 , correo (52) no  válido.Columna : 10 Fecha  no válida. Columna : 14 Fecha  no válida. Columna : 23 , () no es un número.Columna : 24 , () no es un número.Columna : 25 , () no es un número.Columna : 26 , () no es un número.Columna : 27 , () no es un número.Columna : 28 , () no es un número.
+
+Error registro 102 - Columna : 6 , ("3143280507	") no es un número.
+
+Error registro 104 - Columna : 6 , ("3057718754	") no es un número.
+
+Error registro 107 - Columna : 6 , ("	3114456359") no es un número.
+

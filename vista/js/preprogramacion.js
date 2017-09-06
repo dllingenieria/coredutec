@@ -74,7 +74,6 @@
 			.val('2');
 	
  });
- 
     $("#btnMatExi").click(function(){
 		matriculaExistente = true;
 		 //se habilita solo el estado inactivo para preprogramaciones nuevas
@@ -165,7 +164,53 @@ function consultarMatricula(mat){  //alert("2"+matriculaExistente);
 					obtenerModulo(data[0].Modulo); //recorre opciones del modulo y selecciona la del id modulo
 				}, 4000); //llena txtDuracionModulo
 			}
+			
+			//------------ //ocultar opciones de los modulos que ya tienen preprogramacion en esa matricula
+			
+           /* setTimeout(function() {
+				   var opciones = [];
+				   var cont=0;
+				   var aux_nom = ''; 
+					$("#cmbModulo option").each(function() { 
+					
+						//se quita la opcion selected
+						this.selected = false;
+						aux_nom = $(this).attr('value').split('$$'); //value del modulo 
+						
+						var a = modulo.indexOf(aux_nom[0]); //alert(aux_nom[0]);
+						if (a >= 0) { 
 				
+							//$("#cmbModulo option option[value^=" + aux_nom[0] + "]").hide();  //$("[title^='Tom']")  
+							$("#cmbModulo option[value^='" + aux_nom[0] + "'']").hide();  //$("[title^='Tom']")  
+							//se oculta la opcion que esta en el array modulo porque ya tiene preprogramacion en esa matricula
+							$( this ).hide();
+							 
+						} 
+						//se llena un array con los valores de las opciones para saber si es solo una y el value es vacio solo con elementos visibles
+							if( $(this).is(":visible") ){  //alert(cont+"cont");
+							//if( $(this).css('display') == '' ){  alert(cont);
+								opciones[cont] = $(this).attr('value'); 
+								cont++;	
+							}
+						
+					});
+						//alert(opciones.length+"posiciones"); //alert(opciones+"total");
+						if(opciones.length == 1 && opciones[0] == "" ){ 
+							mostrarPopUpError("No existen mas módulos para asignar");
+							//se recarga la pagina
+							setTimeout(function() {
+								location.reload(true);
+							}, 3000);
+						}
+					
+						
+				}, 4000);*/
+			
+			//------------
+			
+           
+			
+		
 			
 			$('#cmbModalidadMatricula option[value='+data[0].Modalidad+']').attr('selected','selected');
 			$('#cmbTipoDeCertificacion option[value='+data[0].Certificacion+']').attr('selected','selected');
@@ -284,7 +329,9 @@ function cargarUltimaMatricula() {
      }        
  }, "json");
 }
-function guardarPreprogramacion() {
+function guardarPreprogramacion() {	
+	var mensaje="Procesando la información<br>Espere por favor";
+	jsShowWindowLoad(mensaje);
     var val_cam = validarCamposFormulario();
     if (val_cam.length === 0) {
         if (validarFechas()) {
@@ -331,18 +378,22 @@ function guardarPreprogramacion() {
 					setTimeout(function() {
                         location.reload(true);
                     }, 3000); 
+                    jsRemoveWindowLoad();
                     mostrarPopUpError("Su registro no pudo guardarse, posiblemente esta repetido o verifique su conexión y vuelva a intentarlo");
                 }
             }, "json");  
         }
     } else {
+        jsRemoveWindowLoad();
         mostrarPopUpError('Faltan algun(os) campos obligatorios por llenar.');
     }
 }
 
 
 
-function modificarPreprogramacion() {           
+function modificarPreprogramacion() {
+	var mensaje="Procesando la información<br>Espere por favor";
+	jsShowWindowLoad(mensaje);	
     var val_cam = validarCamposFormulario();
     if (val_cam.length === 0) {
         if (validarFechas()) {
@@ -382,7 +433,8 @@ function modificarPreprogramacion() {
                         location.reload(true);
                     }, 1500); 
                 } else {
-                    mostrarPopUpError("No se modifico la Preprogramación.");
+					jsRemoveWindowLoad();
+                    alert("Error modificarPreprogramacion.");
                 }
             }, "json");
         }
@@ -396,6 +448,18 @@ function popUpConfirmacion(msj){
     $('#element_to_pop_upCon').bPopup({
         speed: 450,
         transition: 'slideDown'
+    });
+}
+
+
+function popUpConfirmacionPreprogramacion(msj){
+    $("#textoConfirmacion1").text(msj);
+    $('#element_to_pop_upCon').bPopup({
+        speed: 450,
+        transition: 'slideDown',
+		onClose: function() { 
+			window.location.href = "preprogramacion.html";
+		}
     });
 }
 
@@ -537,7 +601,8 @@ function CargarCursosPorCodigo(codCurso) {
         oper: 'CargarCursosPorCodigo',
         codCurso: codCurso
     }, function(data) {
-       
+        // console.log("pasa");
+        // console.log(data);
         if (data !== 0) {
             FormarOptionValueCursos(data);
         }
@@ -558,11 +623,11 @@ function FormarOptionValueCursos(pCursos) {
     }
 }
 
-function CargarConvocatoria() { 
+function CargarConvocatoria() {
     $.post("../../controlador/fachada.php", {
         clase: 'clsConvocatoria',
         oper: 'ConsultarConvocatorias'
-    }, function(data) { 
+    }, function(data) {
         if (data !== 0) {
             FormarOptionValueConvocatorias(data);
         }
@@ -712,7 +777,7 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
 }
 
 
-function CargarDatosCursoPorCodigo(pCodigoCurso) { 
+function CargarDatosCursoPorCodigo(pCodigoCurso) {
     $.getJSON("../../controlador/fachada.php", {
         format: 'json',
         clase: 'clsCurso',
@@ -1559,5 +1624,3 @@ function jsShowWindowLoad(mensaje) {
         $("#WindowLoad").html(imgCentro);
  
 }
-
-

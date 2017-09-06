@@ -63,29 +63,74 @@ var vistasAdministrador = [0,1,2,3,4,5,6,7,8,11];
 var vistasMatriculador = [1,4,9,10];
 
 $(function(){
-    ObtSesion();
+	 
+	if (!$('#page').length) {
+		ObtSesion(2);
+	}
+		
+			
+     $("#btnEntrar").click(function() {
+        IniciarSesion();
+        
+    });
+
+	cargarDatosSesion();
+	
     $("#cerrarSesion").click(function() {
         cerrarSesion();
     });
     $("#cambiarRol").click(function() {
         cambiarRol();
     });
+	
+	$("#btnacceso").click(function () {
+        window.location = "vista/html/acceso.html";
+    });
+    
+    $("#btnregistro").click(function () {
+        window.location = "vista/html/registro.html";
+    });
+	
+	
 });
 
-function ObtSesion() {
-    $.post("../../controlador/fachada.php", {
+function cargarDatosSesion() {
+
+    if (localStorage.getItem("nombreUsuario") === null && localStorage.getItem("roles") === null) {
+	//if (sessionStorage.arrayDatosUsuario){ alert("xx"+arrayDatosUsuario);
+        console.log("sesionstorage"+sessionStorage.nombreUsuario);
+        console.log("sesionstorage"+sessionStorage.roles);
+		verificarIntegridad(sessionStorage.nombreUsuario,sessionStorage.roles);
+	}
+		
+}
+	
+
+function ObtSesion(id) {
+	var ruta="";
+	
+	if(id==1){
+		ruta="controlador/fachada.php";
+	}else{
+		ruta="../../controlador/fachada.php";	
+	}
+
+    $.post(ruta, { 
         clase: 'clsPersona',
         oper: 'haySesion'
     }, function(data) {
-        if ( data !== 0 && typeof 'string') {
-            verificarIntegridad(data);
+        if (data !== 0) { 
+            arrayDatosUsuario = data;
+            sessionStorage.nombreUsuario =data[0];
+            sessionStorage.roles =data[1];
         }
-        else {
+        else { alert("no sesion");
             alert("Por favor inicie sesión");
-            window.location = "../../";
+            //window.location = "../../";
         }
     }, "json");
 }
+
 
 function obtenerIdUsuario(callback){
     $.post("../../controlador/fachada.php", {
@@ -105,19 +150,74 @@ function obtenerIdTercero(callback){
         clase: 'clsPersona',
         oper: 'obtenerIdTercero'
     },function(data) {
+		console.log("obtenerIdTercero"+data);
         if (data !== "sin sesion") {
             callback(data);
         }else{
             window.location = "../../";
-        }
+        } 
     }, "json");
 }
 
-function verificarIntegridad(data){
-    mostrarNombreUsuario(data[0]);
-    validarPermisosPorRol(data[1]);
-    cargarVistas();
+function verificarIntegridad(user,rol){ //alert(data[0]);
+   
+   if(user!=""){
+	   cargarCabezote(user);
+	   cargarFooter();
+	   if (!$('#page').length) {   			
+			validarPermisosPorRol(rol); 
+			cargarVistas();
+		}
+    }
 }
+
+
+function cargarCabezote(user){
+	data="";		
+	data+='<div class="contenedorLogo">';
+	if (!$('#page').length) { 
+		data+='<img class="imgLogo" src="../images/logocet2.png" alt="">';
+	}else if($('#page1').length) { 
+		data+='<img class="imgLogo" src="vista/images/logocet2.png" alt="">';
+	}else{
+		data+='<img class="imgLogo" src="vista/images/logocet2.png" alt="">';
+	}
+	
+	data+='</div>';
+	if (!$('#page1').length) { 
+		data+='<div class="contenedorSesion">';
+		data+='<div class="loginTexto">Bienvenido (a) <span id="nombre">'+user+'</span></div>';
+		data+='<button type="button" id="cambiarRol" class="boton cerrarSesion">Cambiar Rol</button>';
+		data+='<button type="button" id="cerrarSesion" class="boton cerrarSesion">Cerrar Sesión</button>';
+		data+='</div>';
+	}else{
+		data+='<div class="contenedorSesion">';
+        data+='<button type="button" id="registro" class="boton botonRegistro">Registro</button>';
+        data+='</div>';
+	}
+	
+	
+	$(".cabecera").html(data);	
+}
+
+function cargarFooter(){
+	data="";
+	if (!$('#page').length) {   	
+		data+='<div class="contenedorTitulo">';
+		data+='<div class="titulo1">SIREX - Sistema de Información - Proceso Relacionamiento con el Sector Externo</div>';
+		data+='</div>';
+		data+='<img class="imgLogos" src="../images/barraLogos.png" alt="">';
+	}else{
+		data+='<div class="contenedorTitulo">';
+		data+='<div class="titulo1">SIREX - Sistema de Información - Proceso Relacionamiento con el Sector Externo</div>';
+		data+='</div>';
+		data+='<img class="imgLogos" src="vista/images/barraLogos.png" alt="">';	
+	}
+	
+	$("footer").html(data);	
+}
+
+
 
 function mostrarNombreUsuario(data){
      //Nueva implementacion
@@ -200,15 +300,16 @@ function mostrarVistas(vistasPermitidas){
     }
 }
 
-function cerrarSesion() {
+function cerrarSesion() { 
     $.post("../../controlador/fachada.php", {
         clase: 'clsPersona',
         oper: 'killSesion'
-    }, function(data) {      
+    }, function(data) {  
+			localStorage.clear();	  
+			window.location = "../../";	
+	
     }, "json");
-    setTimeout(function(){
-       window.location = "../../";
-   },1500); 
+   
 }
 
 function cambiarRol() {
@@ -221,4 +322,102 @@ function capitalizar(text) {
         return word.charAt(0).toUpperCase() + word.toLowerCase().slice(1);
     }); 
     return newText.join(" ");
+}
+
+function IniciarSesion() { 
+    
+    if ($("#txtUsuario").val() === "docente" && $("#txtContrasena").val() === "1234") {
+        window.location = "vista/html/docente.html";
+    }else{
+        $.post("controlador/fachada.php", {
+            clase: 'clsPersona',
+            oper: 'IngresoSistema',
+            pNic_usu: $("#txtUsuario").val(),
+            pCon_usu: $("#txtContrasena").val()
+        }, function(data) {
+        
+            if (data !== null) { 
+                
+                 //verificarIntegridad(arrayDatosUsuario);       
+				ObtSesion(1); 
+          
+            setTimeout(function(){
+                //alert("prueba"+data);
+                var roles = data[0].Roles.split(",");
+                sessionStorage.esAdministrador=roles[0];
+                sessionStorage.esDocente=roles[1];
+                sessionStorage.esMatriculador=roles[2];
+                sessionStorage.esCallCenter=roles[3];
+				sessionStorage.esAlimentacion=roles[4];
+				sessionStorage.esAcademico=roles[5]; 
+                var rolesDisponibles=0;
+                for (var i = 0; i < roles.length; i++) {
+                    if (roles[i] === "1") {
+                        rolesDisponibles++;
+                    }
+                }
+                if (rolesDisponibles>1) {
+                    window.location = "vista/html/iniciarSesion.html";
+					// setTimeout(function(){
+							//verificarIntegridad(arrayDatosUsuario);		},1000);
+							
+					
+                }else{
+                    if (sessionStorage.esAdministrador==="1") {
+                        window.location = "vista/html/captura.html";
+                    }
+                    if (sessionStorage.esDocente==="1") {
+                        window.location = "vista/html/docente.html";
+                    }
+                    if (sessionStorage.esMatriculador==="1") {
+                        window.location = "vista/html/busqueda.html";
+                    }
+                    if (sessionStorage.esCallCenter==="1") {
+                        window.location = "vista/html/callCenter.html";
+                    }
+					if (sessionStorage.esAlimentacion==="1") {
+                        window.location = "vista/html/alimentacion.html";
+                    }
+					if (sessionStorage.esAcademico==="1") {
+                        window.location = "vista/html/academico.html";
+                    }
+                }
+				
+				   },1000);
+            }else {
+                $("#textoError").text("Usuario o Contraseña incorrectos");
+                $('#element_to_pop_upMen').bPopup({speed: 450,transition: 'slideDown'});
+            }}, "json");
+    }
+}
+
+function insertarTercero() {
+    if (coincidenContrasenas()) {
+        $.post("../../controlador/fachada.php", {
+            clase: 'acceso',
+            oper: 'insertar'
+        }, function(data) {
+            if (data !== null) {
+                alert('Data------>' + data);
+            }else {
+                alert('Error');
+            }
+        }, "json");
+    } else {
+        $("#textoError").text("Las contaseñas no coinciden.");
+        $('#element_to_pop_upError').bPopup({
+            speed: 450,
+            transition: 'slideDown'
+        });
+    }
+}
+
+function coincidenContrasenas() {
+    var flag = false;
+    var con = $("txtcontrasena").val();
+    var conf = $("txtconfirmarcontrasena").val();
+    if (con === conf) {
+        flag = true;
+    }
+    return flag;
 }

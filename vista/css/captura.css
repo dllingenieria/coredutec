@@ -38,43 +38,43 @@ body {
 	height:83px;
 	z-index:4;
 	margin-left: 45px;
-	margin-top: -16px;
+	margin-top: 0px;
 }
 
 #titulo1 {
-	position:fixed;
-	width:300px;
-	height:115px;
-	z-index:4;
-	margin-left: 500px;
-	margin-top: 5px;
-	font-family: "Roboto-Black";
-	font-size: 26px;
-	color: #ffffff;
+	position: fixed;
+    width: 500px;
+    height: 115px;
+    z-index: 30;
+    margin-left: 400px;
+    margin-top: 5px;
+    font-family: "Roboto-Black";
+    font-size: 23px;
+    color: #ffffff;
 }
 
 #titulo2 {
-	position:fixed;
-	width:346px;
-	height:115px;
-	z-index:5;
-	margin-left: 500px;
-	margin-top: 30px;
-	font-family: "Roboto-Light";
-	font-size: 26px;
-	color: #ffffff;
+	position: fixed;
+    width: 500px;
+    height: 115px;
+    z-index: 30;
+    margin-left: 400px;
+    margin-top: 30px;
+    font-family: "Roboto-Light";
+    font-size: 23px;
+    color: #ffffff;
 }
 
 #titulo3 {
-	position:fixed;
-	width:346px;
-	height:115px;
-	z-index:5;
-	margin-left: 981px;
-	margin-top: 5px;
-	font-family: "Roboto-Light";
-	font-size: 15px;
-	color: #ffffff;
+	position: fixed;
+    width: 446px;
+    height: 115px;
+    z-index: 30;
+    margin-left: 950px;
+    margin-top: 5px;
+    font-family: "Roboto-Light";
+    font-size: 15px;
+    color: #ffffff;
 }
 
 #division {
@@ -134,7 +134,7 @@ body {
 	background:#003265;
 	border-radius: 3px 0px 0px 3px;
 	margin-left: 744px;
-	margin-top: 159px;
+	margin-top: 40px;
 	font-family: "Roboto-Light";
 	font-size: 14px;
 	color: #ffffff;
@@ -150,7 +150,7 @@ body {
 	background:#ffffff;
 	border-radius: 0px 3px 3px 0px;
 	margin-left: 917px;
-	margin-top: 159px;
+	margin-top: 40px;
 	font-family: "Roboto-Regular";
 	font-size: 14px;
 	color: #2d4191;
@@ -161,7 +161,7 @@ body {
 
 .TxtCheck{
 	position:absolute;
-	margin-top: 179px;
+	margin-top: 80px;
 	margin-left: 985px;
 }
 
@@ -171,7 +171,7 @@ body {
 	height:25px;
 	background:#ffffff;
 	margin-left: 922px;
-	margin-top: 159px;
+	margin-top: 40px;
 	font-family: "Roboto-Regular";
 	font-size: 14px;
 	color: #2d4191;
@@ -182,42 +182,42 @@ body {
 }
 
 #lblFecha, #txtFecha{
-	margin-top: 189px;
+	margin-top: 89px;
 
 }
 
 #lblCheck {
-	margin-top: 179px;
+	margin-top: 79px;
 
 }
 
 #lblAutorizacion{
-	margin-top: 259px;
+	margin-top: 159px;
 }
 
 #txtexaminararchivosAutorizacion{
-	margin-top: 259px;
+	margin-top: 159px;
 	margin-left: 965px;
 }
 
 #lblFuente, #txtexaminararchivosFuente{
-	margin-top: 289px;
+	margin-top: 189px;
 
 }
 
 #txtexaminararchivosFuente{
-	margin-top: 289px;
+	margin-top: 189px;
 	margin-left: 965px;
 
 }
 
 #lblEscaneado, #txtexaminararchivosEscaneado{
-	margin-top: 329px;
+	margin-top: 229px;
 
 }
 
 #txtexaminararchivosEscaneado{
-	margin-top: 329px;
+	margin-top: 229px;
 	margin-left: 965px;
 }
 
@@ -230,7 +230,7 @@ body {
 	background:#f1f1f1;
 	border-radius: 5px 5px 5px 5px;
 	margin-left: 744px;
-	margin-top: 340px;
+	margin-top: 174px;
 }
 
 .TxtCarga {
@@ -241,7 +241,7 @@ body {
 	background:#ffffff;
 	border-radius: 4px 4px 4px 4px;
 	margin-left: 735px;
-	margin-top: 255px;
+	margin-top: 125px;
 	font-family: "Roboto-Thin";
 	font-size: 18px;
 	color: #2d4191;

@@ -1,5 +1,6 @@
 <?php
-
+require("../controlador/session.php");	
+set_time_limit(0);
 /**
  * Description of clsGestorBDPlanas
  * @author Wilmer Andres Escobar Naranjo
@@ -44,13 +45,13 @@ class clsGestorBDPlanas {
     public function CargarArchivoPlano($param) {
         $response = '<div id="men_err">';
         extract($param);
-        include_once './clsParticipante.php';
+        include_once 'clsParticipante.php';
         $participante = new clsParticipante();
         $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $nom_arc));
         $err_arc = $this->ValidarArchivo($inf_arc);
         $con = 0;
         $numInsercion = 1;
-        $aux = ''; print_r($err_arc);
+        $aux = '';
         if (strlen($err_arc) === 0) {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
@@ -92,7 +93,7 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-    private function EvaluarRegistro($lin_txt) { 
+    private function EvaluarRegistro($lin_txt) {
         $persona = new clsPersona();
         $participante = new clsParticipante();
         $aux_lin = explode(';', $lin_txt);
@@ -120,7 +121,10 @@ class clsGestorBDPlanas {
         $men_err .= $this->EsEntero($aux_lin[22],22);
         $men_err .= $this->EsEntero($aux_lin[23],23);
         $men_err .= $this->EsEntero($aux_lin[24],24);
-		
+        $men_err .= $this->EsEntero($aux_lin[25],25);
+        $men_err .= $this->EsEntero($aux_lin[26],26);
+        $men_err .= $this->EsEntero($aux_lin[27],27);
+        $men_err .= $this->EsEntero($aux_lin[28],28);
         return $men_err;
     }
 

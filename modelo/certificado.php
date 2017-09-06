@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
   
   if (isset ($_POST['hiddcodigo1'])) {$_POST['hiddcodigo'] = $_POST['hiddcodigo1'];
 									  $_POST['hiddModulo'] = $_POST['hiddModulo1'];}
@@ -106,40 +108,40 @@
 					$dia = date("d");
 					$mes = date("m");
 					switch ($mes) {
-						case 01:
+						case "01":
 							$mes="Enero";
 							break;
-						case 02:
+						case "02":
 							$mes="Febrero";
 							break;
-						case 03:
+						case "03":
 							$mes="Marzo";
 							break;
-						case 04:
+						case "04":
 							$mes="Abril";
 							break;
-						case 05:
+						case "05":
 							$mes="Mayo";
 							break;
-						case 06:
+						case "06":
 							$mes="Junio";
 							break;
-						case 07:
+						case "07":
 							$mes="Julio";
 							break;
-						case 08:
+						case "08":
 							$mes="Agosto";
 							break;
-						case 09:
+						case "09":
 							$mes="Septiembre";
 							break;
-						case 10:
+						case "10":
 							$mes="Octubre";
 							break;
-						case 11:
+						case "11":
 							$mes="Noviembre";
 							break;
-						case 12:
+						case "12":
 							$mes="Diciembre";
 							break;
 						}
@@ -229,40 +231,40 @@
 					$dia = date("d");
 					$mes = date("m");
 					switch ($mes) {
-						case 01:
+						case "01":
 							$mes="Enero";
 							break;
-						case 02:
+						case "02":
 							$mes="Febrero";
 							break;
-						case 03:
+						case "03":
 							$mes="Marzo";
 							break;
-						case 04:
+						case "04":
 							$mes="Abril";
 							break;
-						case 05:
+						case "05":
 							$mes="Mayo";
 							break;
-						case 06:
+						case "06":
 							$mes="Junio";
 							break;
-						case 07:
+						case "07":
 							$mes="Julio";
 							break;
-						case 08:
+						case "08":
 							$mes="Agosto";
 							break;
-						case 09:
+						case "09":
 							$mes="Septiembre";
 							break;
-						case 10:
+						case "10":
 							$mes="Octubre";
 							break;
-						case 11:
+						case "11":
 							$mes="Noviembre";
 							break;
-						case 12:
+						case "12":
 							$mes="Diciembre";
 							break;
 						}

@@ -22,35 +22,26 @@ define('PHPWORD_ROOT', '../includes/PHPWord/');
 //define('TMP_PATH', 'C:\wamp\www\boleteriayabonos\PDF' . DIRECTORY_SEPARATOR ); // Directorio para guardar y descargar los archivos del sistema
 define('TMP_PATH', '/Applications/XAMPP/xamppfiles/htdocs/corfuturoHV/PDF' . DIRECTORY_SEPARATOR ); // Directorio para guardar y descargar los archivos del sistema
  
-//- error_reporting(E_ALL | E_STRICT); para verificación exhaustivo --
 
-//require_once '../../incldudes/swiftMailer/swift_required.php';
-define('BASE_DATOS', 'CET');
+
+//require_once '../../includes/swiftMailer/swift_required.php';
+
+define('BASE_DATOS', 'SINFOMPC1');
 define('SERVIDOR', '190.0.49.18');
-//define('SERVIDOR', 'localhost');
+define('PUERTO', '3306');
+define('USUARIO', 'dll');
+define('CONTRASENA', 'd09;LU>l');
+
+/*define('BASE_DATOS', 'CET');
+define('SERVIDOR', '190.0.49.18');
 define('PUERTO', '3306');
 define('USUARIO', 'dit');
-//define('USUARIO', 'root');
-define('CONTRASENA', 'd09;LU>l');
-//define('CONTRASENA', 'qwer1234');
+define('CONTRASENA', 'd09;LU>l');*/
 
 spl_autoload_register('__autoload');
-// Para PHP 6 E_STRICT es parte de E_ALL -
+// Para PHP 6 E_STRICT es parte de E_ALL -- error_reporting(E_ALL | E_STRICT); para verificación exhaustivo --
 error_reporting(E_ERROR);
-/*
-define('BASE_DATOS', 'CET');
-define('SERVIDOR', '190.0.49.18');
-//define('SERVIDOR', 'localhost');
-define('PUERTO', '3306');
-define('USUARIO', 'dit');
-//define('USUARIO', 'root');
-define('CONTRASENA', 'd09;LU>l');
-//define('CONTRASENA', 'qwer1234');
 
-spl_autoload_register('__autoload');
-// Para PHP 6 E_STRICT es parte de E_ALL -
-error_reporting(E_ERROR);
-*/
 /**
  * Intenta cargar una clase siguiendo la siguiente convención:
  * Si el nombre de la clase comienza con Util, la clase será una clase de utilidades con 

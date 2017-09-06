@@ -4,13 +4,14 @@ $(function() {
         window.location.href = "docente.html";
     }
 	
+
 	idTerceroNotasTotales = new Array();
     recuperarDatos();
     var table= '';
     var numEstudiantes;
     var idNota;
 	cerrarCurso="";
-	
+	totalNotas = new Array(); 
     
     function recuperarDatos() {
 		var mensaje="Procesando la información<br>Espere por favor";
@@ -47,13 +48,18 @@ $(function() {
             clase: 'clsParticipante',
             oper: 'consultarNotasPorSalon',
             IdPreprogramacion: sessionStorage.IdPreprogramacion
-        }, function(data) { console.log(data);
+        }, function(data) { 
+				
             if (data !== 0) {
+				
                 if(data !== null){ jsRemoveWindowLoad();
+			
                     idNota = data['idNota'];
                     //alert(idNota);
                     dataSet = new Array();
                     data = data['datos'];
+					
+					if(data.length) {
                     numEstudiantes = data.length;
                     for (var i = 0; i < data.length; i++) {
                         saber = (data[i].NotaSaber).split(',');
@@ -74,16 +80,18 @@ $(function() {
 						idTerceroNotasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las notas totales 
                         for (var j = 0; j < 11; j++) {
                             if(j == 9){ //total
-                                array.push('<input required type="number" disabled min="0" max="5" step=".1" value="" class="total'+i+j+'" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" data-fila="'+i+'" id="txtTotal_'+data[i].IdTercero+'">');
+                                array.push('<input required type="text" disabled min="0" max="5" step=".1" value="" class="total'+i+j+'" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" data-fila="'+i+'" id="txtTotal_'+data[i].IdTercero+'">');
                             }else{
                                 array.push('<input required type="number" min="0" max="5" step=".1" value="'+notas[j]+'" class="notas'+i+' notas" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" data-modified="false" name="row-1-position" data-fila="'+i+'" id="txtNota_'+j+'_'+data[i].IdTercero+'">');
                             }
                         }
                         notas = [];
                         dataSet.push(array);
+						
                     }
+					}
                     $('#tablaNotas').dataTable().fnDestroy();
-                    cargarInformacionEnTabla(dataSet);
+                    cargarInformacionEnTabla(dataSet,data);
 					
                 }else{alert("error 1");}             
             }else {alert("error 2");}
@@ -94,7 +102,7 @@ $(function() {
 			// { title: "N°" }, 
             // { title: "Estudiante" }],
 
-    function cargarInformacionEnTabla(data){
+    function cargarInformacionEnTabla(data,otrosDatos){
        table = $('#tablaNotas').DataTable({
         "data": data,
 		 
@@ -113,16 +121,26 @@ $(function() {
             "initComplete": function(settiings, json){
 
                 for(var x = 0; x < numEstudiantes ; x++){
-                    var a =  new Array();
-                    a = $('.notas'+x);
+                    
+					$('.notas'+x).each(function(){	
+						if ($(this).val()!=""){ 
+							$(this).attr('data-modified','true');
+						}
+					});
+					
+					var a =  new Array();
+                    a = $('.notas'+x); 
 					/*Se recorre el array a verificando cada valor, si esta vacio se pone un 0 y sobre ese se hacen los calculos
 					* de cada una de los tipos de notas y sobre estos se calcula la nota final
 					*/
+					
+					
 					var p1 =(parseFloat($(a[0]).val() != ''?$(a[0]).val():""));
 					var p2 =(parseFloat($(a[1]).val()!= ''?$(a[1]).val():"")); 
 					var p3 =(parseFloat($(a[2]).val()!= ''?$(a[2]).val():""));
 					var divSaber = 0;
 					var sumaSaber =0;  
+					
 					
 					if (!isNaN(p1)){divSaber = divSaber+1;} else {p1 = 0;}
 					if (!isNaN(p2)){divSaber = divSaber+1;} else {p2 = 0;}
@@ -152,7 +170,7 @@ $(function() {
 					var sumaSer =0;
 					if (!isNaN(p7)){divSer = divSer+1;} else {p7 = 0;}
 					if (!isNaN(p8)){divSer = divSer+1;} else {p8 = 0;}
-					if (!isNaN(p9)){divSer = divSer+1;} else {p9 = 0;}
+					if (!isNaN(p9)){divSer = divSer+1;} else {p9 = 0;} 
 					if(divSer != 0){ sumaSer = (parseFloat(p7+p8+p9)/divSer).toFixed(2); }
 					 // alert("sumaSer"+sumaSer);
 					 // alert("divSer"+divSer);
@@ -166,9 +184,20 @@ $(function() {
 					if (sumaSer != ""){divNotas = divNotas+1;}	
 					 // alert(sumaSaber+"-"+sumaHacer+"-"+sumaSer);
 					 // alert(divNotas);
-					if(divNotas != 0){
-						$('.total'+x+9).val((((parseFloat(sumaSaber)+parseFloat(sumaHacer)+parseFloat(sumaSer)))/divNotas).toFixed(2));
-					}
+					// if(divNotas != 0){
+						// $('.total'+x+9).val((((parseFloat(sumaSaber)+parseFloat(sumaHacer)+parseFloat(sumaSer)))/divNotas).toFixed(2));
+						
+						
+						
+						// $('.total'+x+9).val(Number(otrosDatos[x]['total']).toFixed(2));
+						$('.total'+x+9).val(otrosDatos[x]['total']);
+						// $('.total'+x+9).val("3.10");
+					// }
+					//para total notas
+					// $('.total'+x+9).each(function(){	
+						// $(this).val(otrosDatos[x]['total']);
+						
+					// });
 					
                 }
 
@@ -264,68 +293,140 @@ $(function() {
         if (noCumple == 0){
 			popUpConfirmacion1("Realmente desea cerrar el curso?", cerrarCursoPrimeraParte );
             // var cerrar =confirm("Realmente desea cerrar el curso ?");
-            // if(cerrar){ 
-			
+            // if(cerrar){ 	
 			
             }
         else{
-            mostrarPopUpError("Cada estuadiante debe tener al menos una nota por componente");
+            mostrarPopUpError("Cada estudiante debe tener al menos una nota por componente");
         }
    });
 
    $("#guardarNotas").click(function(){
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
-    var notas = new Array();
-    var nSaber;
-    var nHacer;
-    var nSer;
-    var idEstudiante;
-    var guardar;
-        //var idNota = 46;
-        for(var x = 0; x < numEstudiantes ; x++){
-            guardar = false;
-            $('.notas'+x).each(function(){
-                if($(this).attr('data-modified') == 'true'){
-                    guardar = true;
-                }
-                notas.push($(this).val());
-                idEstudiante = $(this).attr('data-estudiante');
-                
-                
-            });
-            if (guardar == true){
-                nSaber = notas[0]+','+notas[1]+','+notas[2];
-                nHacer = notas[3]+','+notas[4]+','+notas[5];
-                nSer   = notas[6]+','+notas[7]+','+notas[8];
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+			setTimeout(function(){
+			var notas = new Array();
+			var nSaber;
+			var nHacer;
+			var nSer;
+			var idEstudiante;
+			var cont=-1;
+			var guardar = false;
+			// var cont=0;
+				//var idNota = 46;
+				for(var x = 0; x < numEstudiantes ; x++){
 
-                $.ajax({
-                    url: '../../controlador/fachada.php',
-                    type: 'POST',
-                    async : false,
-                    dataType: 'json',
-                    data: {
-                        clase: 'clsParticipante',
-                        oper: 'guardarNotas',
-                        nSaber: nSaber,
-                        nHacer:nHacer,
-                        nSer: nSer,
-                        idEstudiante: idEstudiante,
-                        idNota: idNota,
-                    },
-                }).done(function() {
-                    console.log("success");
-					jsRemoveWindowLoad();	
-                });
-            }
-            $('.notas'+x).each(function(){ 
-                $(this).attr('data-modified','false');
-            });
-            notas = [];
-        }
-        popUpConfirmacion("Guardado Satisfactoriamente");
-        
-    });
+					
+					$('.notas'+x).each(function(){
+						// notas[0] = "";
+						// notas[1] = "";
+						// notas[2] = "";
+						// notas[3] = "";
+						// notas[4] = "";
+						// notas[5] = "";
+						// notas[6] = "";
+						// notas[7] = "";
+						// notas[8] = "";
+						
+						if(cont==8)
+						{
+							cont=-1;
+							// notas = [];
+						}
+						cont++;
+						if($(this).attr('data-modified') == 'true'){
+							totalNotas[x] = {};
+							guardar = true;
+							
+							
+							// notas.push($(this).val());
+							notas[cont]=$(this).val();
+							
+							
+							idEstudiante = $(this).attr('data-estudiante');
+							
+							totalNotas[x]['idEstudiante'] =idEstudiante;
+							totalNotas[x]['idNota']= idNota;
+							// nSaber = notas[0]+','+notas[1]+','+notas[2];
+							// nHacer = notas[3]+','+notas[4]+','+notas[5];
+							// nSer   = notas[6]+','+notas[7]+','+notas[8];
+							
+						if(notas[0] ==undefined){notas[0] = "";}
+						if(notas[1] ==undefined){notas[1] = "";}
+						if(notas[2] ==undefined){notas[2] = "";}
+						if(notas[3] ==undefined){notas[3] = "";}
+						if(notas[4] ==undefined){notas[4] = "";}
+						if(notas[5] ==undefined){notas[5] = "";}
+						if(notas[6] ==undefined){notas[6] = "";}
+						if(notas[7] ==undefined){notas[7] = "";}
+						if(notas[8] ==undefined){notas[8] = "";}
+
+							totalNotas[x]['nSaber']= notas[0]+','+notas[1]+','+notas[2];
+							// totalNotas[x]['nSaber2']= notas[1];
+							// totalNotas[x]['nSaber3']= notas[2];
+							
+							totalNotas[x]['nHacer']= notas[3]+','+notas[4]+','+notas[5];
+							// totalNotas[x]['nHacer2']= notas[4];
+							// totalNotas[x]['nHacer3']= notas[5];
+							
+							totalNotas[x]['nSer']= notas[6]+','+notas[7]+','+notas[8];
+							// totalNotas[x]['nSer2']= notas[7];
+							// totalNotas[x]['nSer3']= notas[8];
+						}
+						
+						// cont++;
+					
+					});
+					
+					
+							// $('.notas'+x).each(function(){ 
+								// $(this).attr('data-modified','false');
+							// });
+							notas = [];
+					
+							
+				} //for
+				 // console.log(totalNotas);
+				//borrar posiciones null
+				myArrClean = totalNotas.filter(Boolean);
+				 
+				 
+				if (guardar == true){
+						 var serializedtotalNotas = JSON.stringify( myArrClean );
+						 console.log(serializedtotalNotas);
+						// //llamado a guardar
+						$.ajax({
+									url: '../../controlador/fachada.php',
+									type: 'POST',
+									async : false,
+									dataType: 'json',
+									data: {
+										clase: 'clsParticipante',
+										oper: 'guardarNotas',
+										serializedtotalNotas: serializedtotalNotas
+									   
+									},
+								}).done(function(data) { 
+									if (data == ""){	
+										console.log("success");
+										jsRemoveWindowLoad();	
+										popUpConfirmacion("Guardado Satisfactoriamente");
+									}
+									else{
+										console.log("fail");
+										jsRemoveWindowLoad();	
+										popUpConfirmacion("No se guardo la información");
+									}
+								});
+				}
+				totalNotas = [];
+				
+				
+		},1000);	//set time out
+	});//cerrar funcion
+		
+	// } 
+           
 
     /*$("#reporteAsistencia").click(function(){
         window.location.href = "filtroReporteAsistencia.html";
@@ -358,6 +459,18 @@ function popUpConfirmacion(msj){
     });
 }
 
+function popUpConfirmacionCerrarCurso(msj){
+    $("#textoConfirmacion1").text(msj);
+    $('#element_to_pop_upCon').bPopup({
+        speed: 450,
+        transition: 'slideDown',
+		onClose: function() { 
+			window.location.href = "docente.html";
+		}
+    });
+}
+
+
 function mostrarPopUpError(err_men) {
     $("#textoError").text(err_men);
     $('#element_to_pop_upMen').bPopup({
@@ -380,6 +493,8 @@ function popUpConfirmacion1(msj, fn){
 	$("[id=btnAceptar]:button", contenedor ).click(function(){ 
 		if( fn ) fn();
 	} )
+	
+	$("[id=btnCerrar]:button", contenedor ).val("Cancelar");
 	//se muestra el conetenedor 
     $('#contenedor').bPopup({
         speed: 450,
@@ -478,86 +593,110 @@ $(window).resize(function(){
  $('#bgmodal').css("top", mtop+'px');
  });
 
-function cerrarModal(dato){
-	 
-			
-	if (dato == 1){		
-		// var r = confirm("Confirma que desea cerrar?, no se matriculara ningun módulo");
-		popUpConfirmacion1("Confirma que desea cerrar?, no se matriculara ningun módulo", function(){
-		//if (r == true){
-			 //removemos divs creados
-			 $('#bgmodal').remove();
-			 $('#bgtransparent').remove();
-			 location.reload();
-		//}
-		});	
-	}
-	else if(dato == 0)
-	{
-		$('#bgmodal').remove();
-		$('#bgtransparent').remove();
-		
-	}
-	
+function cerrarModal(dato){ 
+	window.location.href = "docente.html";
 }
 
 
-function matricularSiguienteModulo(parametros){
-        
-	//console.log(parametros);
-	var moduloSel = $("#SelModulo").val();
-	
-	if (moduloSel == ''){
+function cerrarCursoSinSiguienteModulo(){
+		$('#bgmodal').remove();
+		$('#bgtransparent').remove();
 		
-		mostrarPopUpError("Debe seleccionar un módulo");
-	}
-	else{
-		//asignado el valor al div
-		// $("#divSeleccionModulo").data("peso",pesoProd);
-	
-		//leer el dado
-		// var pesoaEnviar = $("#divSeleccionModulo").data("peso");
-	    // alert(pesoaEnviar);
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
 		
-		 
-		//se separan los datos del value
-		var res = moduloSel.split("-");
-		var id = res[0];
-		var codigo = res[1];
-		var nombre = res[2];
-		//se extrae la secuencia de T (T1, T2, T3, etc)
-		var res1 = codigo.split(".");
-		var t = res1[2];
-		 $.post("../../controlador/fachada.php",{
-                            clase : 'clsCurso',
-                            oper: 'matricularSiguienteModulo',
-                            idPreprogramacion : sessionStorage.IdPreprogramacion,
-							id: id,
-							t:t,
-							codigo:codigo,
-							nombre:nombre,
-							parametros:parametros
-							
-                        },
-                function (data) {
-							if(data.error == ""){
-									popUpConfirmacion("Curso cerrado correctamente");
-									setTimeout(function(){
-									//se llama otra vez a la lista de planeacion
-									window.location.href = "docente.html";},2000);
-								}
+		$.post("../../controlador/fachada.php",{
+              clase : 'clsCurso',
+              oper: 'cerrarCursoMatriculaTercero',
+              idPreprogramacion : sessionStorage.IdPreprogramacion					
+         },
+          function (data) {
+						if(data.error == ""){
+									jsRemoveWindowLoad();
+									popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
+							}
 							else{
 								mostrarPopUpError(data.error);
 							}
 							
-						cerrarModal(0);
+						
+				},"json");
+	
+}
+
+
+function matricularSiguienteModulo(parametros){	
+						
+    var mensaje="Procesando la información<br>Espere por favor";
+	jsShowWindowLoad(mensaje);
+    
+	var moduloSel = $("#SelModulo").val();
+	
+	if (moduloSel == ''){
+		jsRemoveWindowLoad();
+		mostrarPopUpError("Debe seleccionar un módulo");
+	}
+	else{
+			
+		console.log("modulosel"+moduloSel);
+		//se separan los datos del value
+		var res = moduloSel.split("-");
+		
+		var id = res[0];
+		var codigo = res[1];
+		var nombre = res[2];
+		//se extrae la secuencia de T (T1, T2, T3, etc)
+        
+        var res1 = codigo.split(".");
+        total_array= (res1.length)-1;
+        t = res1[total_array];
+
+		//Cerrando curso
+		
+		$.post("../../controlador/fachada.php",{
+              clase : 'clsCurso',
+              oper: 'cerrarCursoMatriculaTercero',
+              idPreprogramacion : sessionStorage.IdPreprogramacion					
+         },
+          function (data) {						
+						if(data.error == ""){//Si cerro el curso sin problemas				
+							$.post("../../controlador/fachada.php",{
+								clase : 'clsCurso',
+								oper: 'matricularSiguienteModulo',
+								idPreprogramacion : sessionStorage.IdPreprogramacion,
+								id: id,
+								t:t,
+								codigo:codigo,
+								nombre:nombre,
+								parametros:parametros
+							
+							},
+							function (data) {
+								if(data.error == ""){	
+									$('#bgmodal').remove();
+									$('#bgtransparent').remove();
+									jsRemoveWindowLoad();
+									popUpConfirmacionCerrarCurso("Curso cerrado correctamente");									
+								}
+							else{
+								$('#bgmodal').remove();
+								$('#bgtransparent').remove();
+								mostrarPopUpError(data.error); // Si no paso al siguiente modulo
+							}
+				},"json");
+					
+									
+							}
+							else{// Si no cerro el curso
+								$('#bgmodal').remove();
+								$('#bgtransparent').remove();
+								mostrarPopUpError(data.error);
+							}
+							
+						
 				},"json");
 		
-		
-		
-			
-		// });
-	}	
+		}	
 }
 
 //boton aceptar 
@@ -658,6 +797,7 @@ function cerrarCursoPrimeraParte(){
 											// redimensionamos para que se ajuste al centro y mas
 											$(window).resize();
 											 $("button[id^=btnMatricularSiguienteModulo]").click(function(){ matricularSiguienteModulo(data.parametros); });
+											 $("button[id^=btnCerrarCursoSinModulos]").click(function(){ cerrarCursoSinSiguienteModulo(); });
 											 $("button[id^=btnCerrarModal]").click(function(){ cerrarModal(1); });
 											 
 											 $('.seleccionar').css({
@@ -676,9 +816,9 @@ function cerrarCursoPrimeraParte(){
 								else{ 
 									mostrarPopUpError(data.error);
 									if(data.noModulos != ""){
-										setTimeout(function(){
+										//setTimeout(function(){
 									//se llama otra vez a la lista de planeacion
-									window.location.href = "docente.html";},4000);
+									//window.location.href = "docente.html";},4000);
 									}
 								}
 								

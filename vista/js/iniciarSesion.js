@@ -1,4 +1,12 @@
-$(function() { 
+$(function() {
+	 if ($("#nombre").length) {
+        $("#nombre").html(sessionStorage.nombreUsuario);
+    }
+    //Vieja  implementacion
+    if ($("#titulo3").length) {
+        $("#titulo3").empty();
+        $("#titulo3").append("Bienvenido (a)          " + sessionStorage.nombreUsuario);
+    }
 	if (sessionStorage.esAdministrador==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",1).text("Administrador"));
 	}
@@ -12,10 +20,10 @@ $(function() {
 		$("#usuarios").append($("<option></option>").attr("value",4).text("Call Center"));
 	}
 	if (sessionStorage.esAlimentacion==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",5).text("AlimentaciÃ³n"));
+		$("#usuarios").append($("<option></option>").attr("value",5).text("Alimentación"));
 	}
 	if (sessionStorage.esAcademico==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",6).text("AcadÃ©mico"));
+		$("#usuarios").append($("<option></option>").attr("value",6).text("Académico"));
 	}
 
 	$("#continuar").click(function(){

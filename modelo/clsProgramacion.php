@@ -1,5 +1,10 @@
 <?php
-
+require("../controlador/session.php");
+set_time_limit(0);
+/** Error reporting */
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -33,12 +38,11 @@ class clsProgramacion {
 
     public function AgregarPreprogramacion($param) { 
         extract($param);
-		
         $IdUsuario = $_SESSION['idUsuario'];
         $sql = "CALL SPAGREGARPREPROGRAMACION('$cod_mat', '$cod_sal',$tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin, '$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
             $tip_cer,".$IdUsuario.",$pre_est,'$canSesiones','$capSalon','$inteHoraria','$observacion');";
-        
+        $rs=null;
         $buscar=array(chr(13).chr(10), "\r\n", "\n", "\r");
         $reemplazar=array("", "", "", "");
         $sql=str_ireplace($buscar,$reemplazar,$sql);
@@ -49,6 +53,7 @@ class clsProgramacion {
 				   if ( count($array1) > 0){ 
 				   unset($rs);
 					$sql = "CALL SPAGREGARSERIE($tip_ser,$IdUsuario,$matriculaExistente);"; 
+					$rs=null;
 						if ($rs = $conexion->getPDO()->query($sql)) {  
 							$array = 1;	
 						}
@@ -74,6 +79,7 @@ class clsProgramacion {
         $sql = "CALL SPAGREGARPREPROGRAMACION2('$cod_mat', '$cod_sal',$tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin, '$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
             $tip_cer,$mat_num, $salon, $horarioCurso, ".$IdUsuario.");";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {          
             $array = 1;
         } else {    
@@ -86,6 +92,7 @@ class clsProgramacion {
         extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARULTIMAMATRICULA();";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -106,6 +113,7 @@ class clsProgramacion {
 		$resultado = array();
         $registro = array();
         $sql = "CALL SPCONSULTARPREPROGRAMACIONES();";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) { 
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
@@ -116,7 +124,7 @@ class clsProgramacion {
 					array_push($resultado, $registro);
                     $registro = array(); 
                 }
-            } 
+            } //print_r($resultado);
         } else {
             $array = 0;
         }
@@ -127,6 +135,7 @@ class clsProgramacion {
     public function consultarPreprogramacionDesdeFecha($param) {
         extract($param);
         $sql = "CALL SPCONSULTARPREPROGRAMACIONFECHAINICIO('2016-01-01');";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -144,8 +153,10 @@ class clsProgramacion {
 
     public function consultarMatriculaPorCodigo($param) {
         extract($param);
+		$array = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPBUSCARPREPROGRAMACIONPORMATRICULA('$mat_cod');";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -159,18 +170,22 @@ class clsProgramacion {
     }
 
      public function consultarCalendarioPreprogramacion($param) {
-        extract($param);
+        extract($param); 
+		$array = array();
         $sql = "CALL SPCONSULTARCALENDARIOPREPROGRAMACION($idPreprogramacion);";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
-                }
+                } 
             }
         } else {
             $array = 0;
+			print_r($conexion->getPDO()->errorInfo()); 
         }
+		// print_r($array);
         echo json_encode($array);
     }
 
@@ -179,6 +194,7 @@ class clsProgramacion {
     public function CargarDatosPreProgramacion($param) {
         extract($param);
         $sql = "CALL SPCONSULTARDATOSSALON($pId);";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -196,6 +212,7 @@ class clsProgramacion {
         extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARPREPROGRAMACIONPORID($pIdPreprogramacion);";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
 
@@ -214,6 +231,7 @@ class clsProgramacion {
         $res = '';
         extract($param);
         $sql = "CALL ELIMINAR_PREPROGRAMACION('$cod_mat');";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             $res = "Eliminado satisfactoriamente $cod_mat";
         } else {
@@ -223,18 +241,19 @@ class clsProgramacion {
     }
     
     public function ActualizarPreprogramacion($param) {
-        extract($param); 
+        extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         // $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARPREPROGRAMACION($pre_id, $tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin,'$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
             $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion','$codSalon');";
-        // echo json_encode(array($sql));
+        $rs=null;
+		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {          
             $array = 1;
         } else {
             $array = 0;
-			print_r($conexion->getPDO()->errorInfo()); die();
+			print_r($conexion->getPDO()->errorInfo()); 
         }
             // echo $sql;
         echo json_encode($array);
@@ -249,6 +268,7 @@ class clsProgramacion {
 	  public function cargarCuposFaltantes($param) {
         extract($param); 
         $sql = "CALL SPCONSULTARCUPOSFALTANTES ($preprogramacion);";
+		$rs=null;
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -265,8 +285,10 @@ class clsProgramacion {
 	
 	public function consultarCupos($param) {
         extract($param); 
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARCUPOS();";
-        $conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
+
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -278,7 +300,7 @@ class clsProgramacion {
         }
 		
         echo json_encode($array);
-    }
+	}
 
 public function consultarGestionPreprogramacion($param) {
        extract($param); 

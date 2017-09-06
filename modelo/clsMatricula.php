@@ -1,13 +1,14 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
 /**
  * Description of clsCurso
  * @author Wilmer Andres Escobar Naranjo
  */
-set_time_limit(0);
+
 class clsMatricula {
 
  public function AgregarMatricula($param) {
-    session_start(); 
     extract($param);
     $IdUsuario = $_SESSION['idUsuario'];
     $sql = "CALL SPAGREGARMATRICULAS($pTerceroNit,$pIdConvocatoria, $pIdRuta,'$pCodigoCurso', $pIdModalidad,'$pCodigoModulo', $pIdMatricula,$pIdCarga,".$IdUsuario.");";
@@ -24,6 +25,7 @@ class clsMatricula {
 
 public function consultarMatriculadosFecha($params){
     extract($params);
+	$rs=null;
     $IdUsuario = $_SESSION['idUsuario'];
     $sql = "CALL SPREPORTEMATRICULASALAFECHA('$fecha_inicio');";
     //echo json_encode($sql);
@@ -44,6 +46,7 @@ public function consultarFechaMatricula($param) {
     extract($param);
     $resultado = array();
     $registro = array();
+	$rs=null;
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     $sql = "CALL SPCONSULTARMATRICULASPORTERCERO2($idMatricula);";
     if ($rs = $conexion->getPDO()->query($sql)) {
@@ -68,6 +71,7 @@ public function consultarMatriculas($param) {
     extract($param);
     $resultado = array();
     $registro = array();
+	$rs= null;
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     $sql = "CALL SPCONSULTARMATRICULASPORTERCERO1($identificacion);";
     if ($rs = $conexion->getPDO()->query($sql)) {
@@ -88,6 +92,7 @@ public function consultarMatriculas($param) {
 
 public function consultarMatriculas2($param) {
     extract($param);
+	$rs=null;
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     $sql = "CALL SPCONSULTARMATRICULAS();";
     if ($rs = $conexion->getPDO()->query($sql)) {
@@ -104,6 +109,7 @@ public function consultarMatriculas2($param) {
 
 public function cargarEntregables($param) {
     extract($param);
+	$rs=null;
     $sql = "CALL CONSULTAR_ENTREGABLES();";
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     if ($rs = $conexion->getPDO()->query($sql)) {
@@ -120,6 +126,7 @@ public function cargarEntregables($param) {
 
 public function CargarEstados($param) {
     extract($param);
+	$rs=null;
     $sql = "CALL SPCARGARESTADOS();";
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     if ($rs = $conexion->getPDO()->query($sql)) {
@@ -136,6 +143,7 @@ public function CargarEstados($param) {
 
 public function consultarEstudiantesNoMatriculados($param) {
     extract($param);
+	$rs=null;
     $sql = "CALL SPCONSULTARESTUDIANTESNOMATRICULADOS($jornada);";
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     if ($rs = $conexion->getPDO()->query($sql)) {

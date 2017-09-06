@@ -416,17 +416,6 @@ $(function() {
 					
 					agregaralimentacionDetalle(alimentacion);
 					
-					if(alimentacionDetalle == true ){
-						
-				           
-						jsRemoveWindowLoad();
-						popUpConfirmacion("Guardado Satisfactoriamente");
-						// setTimeout(function() {	location.reload();},1000);
-					}
-					else{
-						jsRemoveWindowLoad();
-						popUpConfirmacion("Se ha presentado un inconveniente, intentelo nuevamente");
-					}
 					
 					
 					//alert("Guardado Satisfactoriamente fin");
@@ -486,7 +475,7 @@ function agregaralimentacionDetalle(alimentacion){
                valor=$(this).val();  
                sesion= $(this).attr("data-sesion");
                sesionalimentacions=alimentacion[sesionalimentacion]['Idalimentacion'];      
-			   alimentacionD.push({"Idalimentacion":sesionalimentacions,"idTercero":sesion,"valoralimentacion":valor,"idalimentacionDetalle":idalimentacionDetalle});
+			   alimentacionD.push({"IdAlimentacion":sesionalimentacions,"IdTercero":sesion,"ValorAlimentacion":valor,"IdAlimentacionDetalle":idalimentacionDetalle});
                //alert(sesionalimentacion);
                conta++;
                        
@@ -495,29 +484,32 @@ function agregaralimentacionDetalle(alimentacion){
      
   });
    var serializedalimentacionD = JSON.stringify( alimentacionD );console.log(serializedalimentacionD);
-   $.ajax({
-               url: '../../controlador/fachada.php',
-               type: 'POST',
-               dataType: 'json)',
-               async : true,
-               data: {
-                   clase: 'clsAlimentacion',
-                   oper: 'agregaralimentacionDetalle',
-                   serializedalimentacionD: serializedalimentacionD,
-                   
-                   
-               }
-           }).done(function(data) { alert(data);
-				if (data.array =1){alimentacionDetalle =true;}
-				else {alimentacionDetalle =false;}
-               
-				
-           })
-		    .fail(function() {
-			alimentacionDetalle =false;
-	
-		  });
    
+   $.post("../../controlador/fachada.php", {
+			clase: 'clsAlimentacion',
+			oper: 'agregaralimentacionDetalle',
+			serializedalimentacionD: serializedalimentacionD
+						
+		}, function(data) {
+				if (data !== 0) { 
+					alimentacionDetalle =true;alert("inserto"+alimentacionDetalle);
+					if(alimentacionDetalle == true ){
+						
+				           
+						jsRemoveWindowLoad();
+						popUpConfirmacion("Guardado Satisfactoriamente");
+						// setTimeout(function() {	location.reload();},1000);
+					}
+					
+					
+				}else {
+					alimentacionDetalle =false;
+					
+						jsRemoveWindowLoad();
+						popUpConfirmacion("Se ha presentado un inconveniente, intentelo nuevamente");
+					
+				}
+			}, "json");
  
 }
 

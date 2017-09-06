@@ -1,5 +1,6 @@
 <?php
-
+require("../controlador/session.php");
+set_time_limit(0);
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,6 +15,7 @@ class clsConvocatoria {
 
     public function ConsultarConvocatorias($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL SPCARGARCONVOCATORIAS();";
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -30,6 +32,7 @@ class clsConvocatoria {
     
     public function consultarSerialPorId($param){
         extract($param);
+		$rs = null;
         $sql = "CALL SPCONSULTARSERIALDADOID($conId);";
         $rs = $conexion->getPDO()->query($sql);
         $id = $rs->fetch(PDO::FETCH_ASSOC);
@@ -38,18 +41,11 @@ class clsConvocatoria {
 
 
     public function insertarJornadaConvocatoria($param) {
-        session_start(); 
+        // session_start(); 
         extract($param);
+		$rs = null;
         $IdUsuario = $_SESSION['idUsuario'];
-        $pFecha;
-		$fecha = explode("/",$pFecha);
-		$dia = $fecha[0];
-		$mes = $fecha[1];
-		$anio = $fecha[2];
-		$pFecha = $anio."-".$mes."-".$dia;
         $sql = "CALL SPAGREGARJORNADACONVOCATORIA('$pJornada','$pFecha','$pDireccion',".$IdUsuario.");";
-       // CALL SPAGREGARJORNADACONVOCATORIA('aaa','--2017-05-11','aaaa',1);
-        
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -58,7 +54,8 @@ class clsConvocatoria {
                 }
             }
         } else {
-            $array = 0;//print_r($conexion->getPDO()->errorInfo()); die();
+            print_r($conexion->getPDO()->errorInfo()); 
+			$array = 0;
         }
         echo json_encode($array);
     }

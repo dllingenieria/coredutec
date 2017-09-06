@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
 error_reporting(E_ALL);
 /**
  * Description of clsCurso
@@ -23,6 +25,7 @@ class clsCurso {
 
     public function CargarInformacionCompletaCurso($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARDATOSCURSO1();";        
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -39,6 +42,7 @@ class clsCurso {
 
     public function CargarCursosPorRuta($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARCURSOSPORRUTA($pIdRuta);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -57,6 +61,7 @@ class clsCurso {
     
     public function CargarEstados($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARESTADOSPARTICIPANTE();";        
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -74,6 +79,7 @@ class clsCurso {
 
     public function CargarCursoAnteriorTercero($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARCARGAPORIDTERCERO($idTercero);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -90,6 +96,7 @@ class clsCurso {
 
     public function CargarHoras($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARHORAS();";        
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -107,6 +114,7 @@ class clsCurso {
 
     public function CargarCursoPorCodigo($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARDATOSCURSO(\"$rut_cod\");";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -126,6 +134,7 @@ class clsCurso {
 
     public function ConsultarMatriculasPre($param) {
         extract($param);
+		$rs = null;
 		$array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARSALONES2('$pCodigoCurso','$pCodigoModulo','$pModalidad');";
@@ -147,6 +156,7 @@ class clsCurso {
 
     public function ConsultarMatriculasPre2($param) {
         extract($param);
+		$rs = null;
 		$array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARSALONES3('$pCodigoCurso','$pCodigoModulo','$pModalidad');";
@@ -168,6 +178,7 @@ class clsCurso {
 
     public function CargarSalonesPorSede($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARSALONESPORSEDE($sede);";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -184,6 +195,7 @@ class clsCurso {
     
     public function ConsultarDiasCurso($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARDIASCURSO();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -200,6 +212,7 @@ class clsCurso {
 
     public function ConsultarModulos($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARMODULOSPORCURSO($pIdCurso);";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -216,6 +229,7 @@ class clsCurso {
 
     public function ConsultarModulosSinPreprogramacion($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARMODULOSNOPREPROGRAMADOS('$pIdMatricula', '$pIdCurso');";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -236,6 +250,7 @@ class clsCurso {
 
     public function CargarModalidades($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARMODALIDAD();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -252,6 +267,7 @@ class clsCurso {
 
     public function CargarHorarios($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARHORARIOSCURSO();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -269,6 +285,7 @@ class clsCurso {
 
     public function CargarSedes($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL SPCARGARSEDES();";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -285,6 +302,7 @@ class clsCurso {
     
     public function CargarEntregables($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARENTREGABLES();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -303,6 +321,7 @@ class clsCurso {
     ///***Carga combo de Rutas en Preprogramación***////
      public function CargarRutas($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARRUTAS('$codCurso');";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -321,6 +340,7 @@ class clsCurso {
     
     public function CargarTipoCertificacion($param) {
         extract($param);
+		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCARGARTIPOCERTIFICACION();";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -337,6 +357,7 @@ class clsCurso {
 
 	public function consultarCalendarioPreprogramacion($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL SPCONSULTARCALENDARIOPREPROGRAMACION($idPreprogramacion);";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -475,6 +496,8 @@ class clsCurso {
         return($NoSesion);
     }
 	
+	
+
     public function cerrarCurso($param){ 
         extract($param);
         $data = array('error'=>"", 'mensaje'=>'', 'html'=>'','parametros'=>'','idModulos'=>'','noModulos'=>'','asistencias'=>'', 'notas'=>'', 'planeacion'=>'');
@@ -493,6 +516,7 @@ class clsCurso {
 				//---------- VALIDACION DE ASISTENCIA
 			if($numeroSesiones !== -1){
 				$conexion->getPDO()->query("SET NAMES 'utf8'");
+                $rs=null;
 				$sql = "CALL SPCONSULTARTOTALASISTENCIASPORPREPROGRAMACION ($idPreprogramacion,$numeroSesiones);";
 				if ($rs = $conexion->getPDO()->query($sql)) {
 					$fila = $rs->fetch(PDO::FETCH_ASSOC);
@@ -515,6 +539,7 @@ class clsCurso {
 		//---------- VALIDACION DE PLANEACION
 			if($numeroSesiones !== -1){
 				$conexion->getPDO()->query("SET NAMES 'utf8'");
+                 $rs=null;
 				$sql = "CALL SPCONSULTARTOTALPLANEACIONPORPREPROGRAMACION ($idPreprogramacion,$numeroSesiones);";
 				if ($rs = $conexion->getPDO()->query($sql)) {
 					$fila = $rs->fetch(PDO::FETCH_ASSOC);
@@ -535,7 +560,8 @@ class clsCurso {
 		
 		//---------- FIN VALIDACION DE PLANEACION
 		//---------- VALIDACION DE EVALUACION
-				$conexion->getPDO()->query("SET NAMES 'utf8'");
+				/*$conexion->getPDO()->query("SET NAMES 'utf8'");
+                $rs=null;
 				$sql = "CALL SPVALIDAREVALUACIONESCERRARCURSO($idPreprogramacion);";
 				if ($rs = $conexion->getPDO()->query($sql)) {
 					$fila = $rs->fetch(PDO::FETCH_ASSOC);
@@ -551,24 +577,136 @@ class clsCurso {
 				else{
 					$data["error"]="No se consulto la evaluación";
 					print_r($conexion->getPDO()->errorInfo()); die();
-				}	
-			
-		
+				}		*/			
+				$data['evaluacion']="ok";
+				
 		//---------- FIN VALIDACION DE EVALUACION
 		
-		if($data['asistencias']=="ok" and $data['planeacion']=="ok" and $data['evaluacion']=="ok"){
-		// if($data['asistencias']=="ok" and $data['planeacion']=="ok"){ 
-			$conexion->getPDO()->query("SET NAMES 'utf8'");
+		if($data['asistencias']=="ok" and $data['planeacion']=="ok" and $data['evaluacion']=="ok"){//inicio validacion para cerrar
+			
+							/* --------------------------------------------- */
+							/* Inicio modulo siguiente a matricula */
+														
+							//se consulta en la tabla preprogramacion con el id preprogramacion para traer los datos
+							//de matricula curso y salon
+							$conexion->getPDO()->query("SET NAMES 'utf8'");
+                            $rs=null;
+				
+							$sql = "CALL SPCONSULTARPREPROGRAMACIONPORIDPARACLONAR($idPreprogramacion);";
+							if ($rs = $conexion->getPDO()->query($sql)) {//consulta y conexion consutarpreprogramacionporIdClonar
+								$fila = $rs->fetch(PDO::FETCH_ASSOC);
+								
+								$salon = explode('.',$fila['Salon']);
+								$parametros['salon']=$fila['Salon']; //salon actual
+								$salonMatricula = $salon[0];
+								
+								$modulo = explode('.',$fila['Modulo']); //modulo actual
+								$total_array= count($modulo)-1;
+                                $cod_mod= $modulo[$total_array];
+
+								$parametros['modulo']=$fila['Modulo'];			   
+								
+								$matricula = $fila['Matricula'];
+								$parametros['matricula']=$matricula; //matricula
+								
+								$curso =  $fila['Curso'];
+								$parametros['curso']=$curso; //curso
+																
+								//----------------------
+								$data['parametros']=$parametros;
+								
+									//Se consulta en la tabla TCURSO para extraer el id y con este se consulta en la tabla TMODULO siguiente 4.05.T2
+									$conexion->getPDO()->query("SET NAMES 'utf8'"); //este devuelve el codigo del modulo 4.05.T2
+									 
+                                    $rs=null;
+									$sql = "CALL SPCONSULTARSIGUIENTEMODULOPORCURSO('".$curso."', '".$salonMatricula."');"; 
+									
+									if ($rs = $conexion->getPDO()->query($sql)) 
+									{ //Inicio conexion y consulta consultarsiguientemoduloporcurso
+										if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun valor consultarsiguiente modulo
+											foreach ($filas as $fila) {
+												$array[] = $fila;
+											}
+										}//Validar si hay algun valor consultarsiguiente modulo
+										
+										if (count($filas)>0){// validar si hay modulosiguienteporcurso
+											$data['idModulos']=$array;
+											//se arma el div con el formulario para mostrar con los modulos faltantes
+											$data[ 'html' ] = "<div>";
+											$data[ 'html' ] .= "<br><label class='popup'>Seleccione el modulo siguiente</label><br><br>";
+											$data[ 'html' ] .="<div style='width:70%; margin: 0 auto;'>";
+											$data[ 'html' ] .="<Select id='SelModulo' name='SelModulo'>";
+											$data['html'] .="<option value=''>Seleccione..</option>";
+											
+											for($i=0;$i<count($array);$i++){//For para recorreo la cantidad de modulossiguientes
+													
+												//SE CONCATENA EL CODIGO DEL CURSO
+													$data['html'].="<option value='".$array[$i]['Id']."-".$array[$i]['Codigo']."-".$array[$i]['Nombre']."'>".$array[$i]['Codigo']." - ".$array[$i]['Nombre']."</option>";
+											}	//For para recorreo la cantidad de modulossiguientes
+											
+											$data[ 'html' ] .="</select>";
+											$data[ 'html' ] .="<br><br><button id='btnMatricularSiguienteModulo' class='seleccionar'>Confirmar</button>";
+											$data[ 'html' ] .="&nbsp;&nbsp;<button id='btnCerrarModal' class='seleccionar'>Cancelar</button>";
+											$data[ 'html' ] .="</div>";
+											$data[ 'html' ] .="</div>";
+										} // validar si hay modulosiguienteporcurso
+										else{											
+												//se arma el div con el formulario para mostrar con los modulos faltantes
+											$data[ 'html' ] = "<div>";
+											$data[ 'html' ] .= "<br><label class='popup'>No se encontraron mas módulos para asignar, Desea continuar cerrando el curso</label><br><br>";
+											$data[ 'html' ] .="<div style='width:70%; margin: 0 auto;'>";
+											$data[ 'html' ] .="<button id='btnCerrarCursoSinModulos' class='seleccionar'>Confirmar</button>";
+											$data[ 'html' ] .="&nbsp;&nbsp;<button id='btnCerrarModal' class='seleccionar'>Cancelar</button>";
+											$data[ 'html' ] .="</div>";
+											$data[ 'html' ] .="</div>";
+											
+											//$data["error"]="Curso Cerrado, ";
+											$data["noModulos"]="1";													
+												
+										}
+											
+										
+									} //Inicio conexion y consulta consultarsiguientemoduloporcurso
+									else{
+										$data["error"]="No se pudo consultar el siguiente módulo";
+										print_r($conexion->getPDO()->errorInfo()); die();
+									}
+						}//consulta y conexion consutarpreprogramacionporIdClonar
+						
+						/* Fin validacion de consultar siguiente modulo */
+						/* ---------------------------------------------------------- */
+				
+			
+			}//fin validacion cerrar curso		
+		//print_r($data);
+		
+		echo json_encode($data);
+		
+}
+	
+public function cerrarCursoMatriculaTercero($param){	
+		extract($param);
+		
+		$data = array('error'=>"", 'mensaje'=>'', 'html'=>'','parametros'=>'','idModulos'=>'','noModulos'=>'','asistencias'=>'', 'notas'=>'', 'planeacion'=>'');
+		$parametros=array();
+		$array=array();		
+		$IdUsuario = $_SESSION['idUsuario'];		
+		
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
+          		     
 			$sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
-				if ($rs = $conexion->getPDO()->query($sql)) {
+				
+				if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta cerrar curso
 					$conexion->getPDO()->query("SET NAMES 'utf8'");
+                    $rs=null;				  
 					$sql = "CALL SPAGREGARPORCENTAJESDEASISTENCIASPORSALON($idPreprogramacion,$IdUsuario);";
-					if ($rs = $conexion->getPDO()->query($sql)) {
+					if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta porcentajeAsistenciasporsalon
 						$conexion->getPDO()->query("SET NAMES 'utf8'");
+                       $rs=null;					   
 						$sql = "CALL SPCONSULTARNOTASPORSALON($idPreprogramacion);";
-						if ($rs = $conexion->getPDO()->query($sql)) {
-							if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-								foreach ($filas as $fila) {
+						if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon
+							if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //si existen filas en notas por salon
+								foreach ($filas as $fila) {//inicio foreach notas por salon
 									$idTercero = $fila['IdTercero'];
 									$notaHacer = explode(',',$fila['NotaHacer']);
 									$notaSaber = explode(',',$fila['NotaSaber']);
@@ -585,148 +723,73 @@ class clsCurso {
 									$totalNotas[] =  $notaSer[2];
 									//echo json_encode($totalNotas);
 									$numeroNotas ="";
-									foreach ($totalNotas as $nota) {
-										if($nota != ''){
-											$numeroNotas = $numeroNotas + 1;
+									foreach ($totalNotas as $nota) {//foreach totalnotas
+										if(is_numeric($nota) && ($nota>0)){
+											$numeroNotas = ((float)$numeroNotas + 1);
 										}
-									}
-									//echo json_encode($numeroNotas);
-									$notaDef =  ($notaHacer[0]+$notaHacer[1]+$notaHacer[2]+
-												$notaSaber[0]+$notaSaber[1]+$notaSaber[2]+
-												$notaSer[0]+$notaSer[1]+$notaSer[2]) / $numeroNotas;
-									$notaDef = number_format($notaDef, 2);
+									}//foreach totalnotas
+																									
+									$notaDef =  ((float)$notaHacer[0]+(float)$notaHacer[1]+(float)$notaHacer[2]+
+												(float)$notaSaber[0]+(float)$notaSaber[1]+(float)$notaSaber[2]+
+												(float)$notaSer[0]+(float)$notaSer[1]+(float)$notaSer[2]);
 									
-									// json_encode($notaDef);
+									if($notaDef>0 && $numeroNotas>0){
+											$notaDef=$notaDef/$numeroNotas;
+									}else{
+										$notaDef=0;
+									}
+																		
+									$notaDef = number_format($notaDef, 2);									
 									$conexion->getPDO()->query("SET NAMES 'utf8'");
-									$sql = "CALL SPAGREGARNOTADEFINITIVAPORSALON($idPreprogramacion,$idTercero,$notaDef,$IdUsuario);";
-									$conexion->getPDO()->query($sql);
-									//echo json_encode($sql);
-									$numeroNotas = 0;
-									$totalNotas = [];
-									$notaDef = 0;
-								}
-							}
-							
-							
-							$conexion->getPDO()->query("SET NAMES 'utf8'");
-							$sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
-							$conexion->getPDO()->query($sql);
-							
-							//se consulta en la tabla preprogramacion con el id preprogramacion para traer los datos
-							//de matricula curso y salon
-							$conexion->getPDO()->query("SET NAMES 'utf8'");
-							$sql = "CALL SPCONSULTARPREPROGRAMACIONPORIDPARACLONAR($idPreprogramacion);";
-							if ($rs = $conexion->getPDO()->query($sql)) {
-								$fila = $rs->fetch(PDO::FETCH_ASSOC);
-								$salon = explode('.',$fila['Salon']);
-								$parametros['salon']=$fila['Salon']; //salon actual
-								//$salonnum = substr($salon[1],-1)+1;
-								
-								//salon siguiente FLFO00002.T2
-								//$saloncompleto = $salon[0].'.'.substr($salon[1], -2, -1).$salonnum;
-								//FLFO00002
-								$salonMatricula = $salon[0];
-								
-								
-								$modulo = explode('.',$fila['Modulo']); //modulo actual
-								$parametros['modulo']=$fila['Modulo'];
-								
-								$modulonum = substr($modulo[2], -1)+1;
-								//modulo siguiente 4.05.T2
-								$modulocompleto = $modulo[0].'.'.$modulo[1].'.'.substr($modulo[2], -2, -1).$modulonum;
-								//FLFO00002
-								$matricula = $fila['Matricula'];
-								$parametros['matricula']=$matricula; //matricula
-								//4.05
-								$curso =  $fila['Curso'];
-								$parametros['curso']=$curso; //curso
-								
-								// $tipoCon = $fila['TipoConvocatoria'];
-								// $ruta = $fila ['Ruta'];
-								
-								// $diasCurso =  $fila['DiasCurso'];
-								// $horai =  $fila['HoraInicial'];
-								// $horaf =  $fila['HoraFinal'];
-								// $modalidad =  $fila['Modalidad'];
-								// $sede =  $fila['Sede'];
-								// $docente = $fila['Docente'];
-								// $fechai = $fila['FechaInicial'];
-								// $fechaf = $fila['FechaFinal'];
-								// $entregables = $fila['Entregables'];
-								// $certificacion =  $fila['Certificacion'];
-								// $matnum = $fila['MatriculaNumero'];
-								
-								//----------------------
-								$data['parametros']=$parametros;
-								
-									//Se consulta en la tabla TCURSO para extraer el id y con este se consulta en la tabla TMODULO siguiente 4.05.T2
-									$conexion->getPDO()->query("SET NAMES 'utf8'"); //este devuelve el codigo del modulo 4.05.T2
-									//$sql = "CALL SPCONSULTARSIGUIENTEMODULOPORCURSO('".$curso."', '".$modulocompleto."','".$salonMatricula."');"; 
-									$sql = "CALL SPCONSULTARSIGUIENTEMODULOPORCURSO('".$curso."', '".$salonMatricula."');"; 
+																		
+									$rs=null;
 									
-									if ($rs = $conexion->getPDO()->query($sql)) 
-									{ 
-										if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-											foreach ($filas as $fila) {
-												$array[] = $fila;
-											}
-										}
-										//print_r(count($filas));
-										if (count($filas)>0){
-											$data['idModulos']=$array;
-											//se arma el div con el formulario para mostrar con los modulos faltantes
-											$data[ 'html' ] = "<div>";
-											$data[ 'html' ] .= "<br><label class='popup'>Seleccione el modulo siguiente</label><br><br>";
-											$data[ 'html' ] .="<div style='width:70%; margin: 0 auto;'>";
-											$data[ 'html' ] .="<Select id='SelModulo' name='SelModulo'>";
-											$data['html'] .="<option value=''>Seleccione..</option>";
-											
-											for($i=0;$i<count($array);$i++){
-													
-																		//SE CONCATENA EL CODIGO DEL CURSO
-													$data['html'].="<option value='".$array[$i]['Id']."-".$array[$i]['Codigo']."-".$array[$i]['Nombre']."'>".$array[$i]['Codigo']." - ".$array[$i]['Nombre']."</option>";
-											}	
-											//$data[ 'html' ] .=$data['opciones'];
-											$data[ 'html' ] .="</select>";
-											$data[ 'html' ] .="<br><br><button id='btnMatricularSiguienteModulo' class='seleccionar'>Guardar</button>";
-											$data[ 'html' ] .="&nbsp;&nbsp;<button id='btnCerrarModal' class='seleccionar'>Cerrar</button>";
-											$data[ 'html' ] .="</div>";
-											$data[ 'html' ] .="</div>";
-										}
-										else{
-											$data["error"]="No se encontraron mas módulos para asignar";
-											$data["noModulos"]="1";
-											
-										}
-											
-										
-									}
-									else{
-										$data["error"]="No se pudo consultar el siguiente módulo";
-										print_r($conexion->getPDO()->errorInfo()); die();
-									}
-						}
-					}
-					else{
-						$data["error"]="No se encontraron las notas por salon";
+									$arrayNotaDefinitiva[]= array('idTercero' => $idTercero, 'notaDef'=> $notaDef);	
+									
+									$numeroNotas = 0;
+									$totalNotas  = [];
+									$notaDef = 0;
+									
+								} //inicio foreach notas por salon
+								
+								$arrayNotaDefinitiva=json_encode($arrayNotaDefinitiva);
+								$sql = "CALL SPAGREGARNOTADEFINITIVAPORSALON($idPreprogramacion, '$arrayNotaDefinitiva', $IdUsuario);";
+									if (!$rs = $conexion->getPDO()->query($sql)) {
+									$data["error"]="Error al adicionar las notas definitivas";
+								}
+								
+								
+							} //si existen filas en notas por salon
+							
+							$rs=null;
+							$conexion->getPDO()->query("SET NAMES 'utf8'");
+							echo $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
+							if (!$rs = $conexion->getPDO()->query($sql)) {
+								$data["error"]="No se encontraron las notas por salon 1";
+							}
+			
+					}else{ //validar conexion y consulta consultarnotasporsalon
+						$data["error"]="No se encontraron las notas por salon 2";
 						print_r($conexion->getPDO()->errorInfo()); die();
 					}
 				
 				
-				}else{
+				}else{//validar conexion y consulta porcentajeAsistenciasporsalon
 					$data["error"]="No se agrego el porcentaje de asistencia";
 				}
-				//echo json_encode(array("mensaje" => "ok")); 
+				
 					
-			}
+			}//validar conexion y consulta cerrar curso
 			else{
 				$data["error"]="No se pudo cerrar el curso";
 				print_r($conexion->getPDO()->errorInfo()); die();
 			}
-		}		
-		//print_r($data);
-		echo json_encode($data);
+			//var_dump($data);
+			echo json_encode($data);
+        
 	}
+	
+	
 	
 	/*
 	*Funcion matricularSiguienteModulo
@@ -738,13 +801,14 @@ class clsCurso {
 		$data = array('error'=>"", 'mensaje'=>'', 'html'=>'','Otro_mensaje'=>'');
 		$IdUsuario = $_SESSION['idUsuario'];
 		//se consulta ese codigo modulo en la tabla preprogramacion
+
 									if ($id != ""){
 										
 										//extraer el los parametros
 										$saloncompleto=$parametros['matricula'].".".$t;
 										$modulocompleto=$codigo;
 										
-										
+										$rs = null;
 										$conexion->getPDO()->query("SET NAMES 'utf8'"); //este devuelve el codigo del modulo 4.05.T2
 										$sql = "CALL SPCONSULTARPREPROGRAMACIONPORSALONSIGUIENTE('".$saloncompleto."');"; 
 										//print_r($sql);
@@ -752,6 +816,7 @@ class clsCurso {
 												$fila = $rs->fetch(PDO::FETCH_ASSOC);
 													if($fila != ""){
 														$idPreNuevo = $fila['Id'];
+														$rs = null;
 														$conexion->getPDO()->query("SET NAMES 'utf8'"); //preguntar si ese tercero en ese modulo ya existe no lo inserta
 														//en este procedimiento si inserta estudiantes se cambia el estado a 1 a la preprogramacion con el id $idPreNuevo
 														$sql = "CALL SPAGREGARESTUDIANTESAPROBADOSPORSALONALSIGUIENTEMODULO($idPreprogramacion,$idPreNuevo,'$modulocompleto',$IdUsuario);";
@@ -759,11 +824,11 @@ class clsCurso {
 														if ($rs = $conexion->getPDO()->query($sql)) {
 															$fila = $rs->fetch(PDO::FETCH_ASSOC);
 															$numEstudiantes = $fila['cont'];
+															$rs = null;
 															$conexion->getPDO()->query("SET NAMES 'utf8'");
 															$sql = "CALL SPAGREGARCANTIDADESTUDIANTESSALON($idPreNuevo,$numEstudiantes,$IdUsuario);";
 															$rs = $conexion->getPDO()->query($sql);
 															
-															//$data["mensaje"] = "Agrego estudiantes aprobados"; 
 														}
 														else{
 															$data["error"] = "No se agregaron los estudiantes";
@@ -798,6 +863,7 @@ class clsCurso {
 	
 	 public function CargarCursosPorCodigo($param) {
         extract($param); 
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARCURSOSPORCODIGO('$codCurso');";        
         if ($rs = $conexion->getPDO()->query($sql)) {

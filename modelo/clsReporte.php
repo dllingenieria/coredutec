@@ -1,4 +1,5 @@
 <?php
+require("../controlador/session.php");
 ini_set('memory_limit', '4024M');
 set_time_limit(0);
 /** Error reporting */
@@ -55,6 +56,7 @@ class clsReporte {
 	
 			$conexion->getPDO()->query("SET NAMES 'utf8'");
 			$sql = "CALL SPREPORTEPREPROGRAMACIONESALAFECHA();";
+			$rs=null;
 			// $sql = "CALL SPREPORTEASISTENCIADETALLE1('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";
 			// //print_r($sql);
 			if ($rs = $conexion->getPDO()->query($sql)) {
@@ -140,6 +142,7 @@ class clsReporte {
 			$bandera=0;
 			$conexion->getPDO()->query("SET NAMES 'utf8'");
 			$sql = "CALL SPREPORTEMATRICULASALAFECHA('".$fechaInicial."');";
+			$rs=null;
 			// $sql = "CALL SPREPORTEASISTENCIADETALLE1('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";
 			// //print_r($sql);
 			if ($rs = $conexion->getPDO()->query($sql)) {

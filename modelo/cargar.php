@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");	
+set_time_limit(0);
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,6 +13,7 @@ class cargar {
         extract($param);
         $usum = $_SESSION['usuario'];
         $sql = "CALL cargar()";
+		$rs = null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {

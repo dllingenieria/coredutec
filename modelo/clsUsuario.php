@@ -1,4 +1,7 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
+	
 class clsUsuario {
 
     //==============================================================
@@ -14,6 +17,7 @@ class clsUsuario {
     public function cargarListas($param) {
         extract($param);
         $sql = "CALL ".$procedimiento."();";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -31,6 +35,7 @@ class clsUsuario {
         extract($param);
         $opciones="";
         $sql = "CALL ".$procedimiento."();";
+		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
             $opciones.='<option value="0">Seleccionar</option>';
@@ -41,7 +46,7 @@ class clsUsuario {
                 }
             }
         } 
-        mysql_free_result($rs);
+        mysqli_free_result($rs);
         echo $opciones;
         //echo json_encode($array);
     }
@@ -50,6 +55,7 @@ class clsUsuario {
         extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARESTUDIANTESPORSALON($IdPreprogramacion);";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {

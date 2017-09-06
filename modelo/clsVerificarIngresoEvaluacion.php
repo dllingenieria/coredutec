@@ -1,4 +1,6 @@
 <?php 
+require("../controlador/session.php");	
+set_time_limit(0);
 error_reporting(E_ALL);
 /**
  * Description of clsVerificarIngresoEvaluacion
@@ -17,6 +19,7 @@ class clsVerificarIngresoEvaluacion {
 	
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
         $sql = "CALL SPBUSCARDATOSTERCEROEVALUACION('$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             $fila = $rs->fetch(PDO::FETCH_ASSOC);
@@ -62,6 +65,7 @@ class clsVerificarIngresoEvaluacion {
 	
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
         $sql = "CALL SPCARGARDATOSGENERALESEVALUACION($IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -96,6 +100,7 @@ class clsVerificarIngresoEvaluacion {
 		$data=array('error'=>'','mensaje'=>'','array'=>'');
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
         $sql = "CALL SPCARGARMODULOSVISTOSAEVALUAR('$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -129,6 +134,7 @@ class clsVerificarIngresoEvaluacion {
 		$data=array('error'=>'','mensaje'=>'','array'=>'');
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
         $sql = "CALL SPCARGARMODULOSVISTOSACERTIFICAR('$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -161,6 +167,7 @@ class clsVerificarIngresoEvaluacion {
 		$data=array('error'=>'','mensaje'=>'','array'=>'');
 		//cargar cursos
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
+		$rs=null;
         $sql = "CALL SPCARGARCURSOSVISTOS('$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {

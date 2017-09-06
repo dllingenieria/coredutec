@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
 /**
  * Description of clsNovedades
  *
@@ -11,6 +13,7 @@ class clsNovedades {
         extract($param);
         $sql = "CALL AGREGAR_NOVEDAD($nov_ter, $nov_tip, '$nov_pre_ant',
         '$nov_pre_nue','$nov_fin','$nov_ffi','$nov_est_ant','$nov_est_nue','$nov_rar');";
+		  $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             $array = 1;
         } else {
@@ -38,6 +41,7 @@ class clsNovedades {
     public function eliminarNovedad() {
         extract($param);
         $sql = "CALL ELIMINAR_NOVEDAD($id);";
+		 $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             $array = 1;
         } else {
@@ -49,6 +53,7 @@ class clsNovedades {
     public function consultarNovedad($param) {
         extract($param);
         $sql = "CALL CONSULTAR_NOVEDAD($id);";
+		  $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -65,6 +70,7 @@ class clsNovedades {
         extract($param);
         $sql = "CALL ACTUALIZAR_NOVEDAD($id,$nov_ter, $nov_tip, '$nov_pre_ant', $nov_ser, '$nov_rut',
         '$nov_cur','$nov_mod', '$nov_pre_nue','$nov_fin','$nov_ffi','$nov_est_ant','$nov_est_nue');";
+		  $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -80,6 +86,7 @@ class clsNovedades {
     public function consultarTiposNovedades($param) {
         extract($param);
         $sql = "CALL SPCARGARTIPONOVEDAD();";
+		  $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -89,7 +96,7 @@ class clsNovedades {
             }
         } else {
             $array = 0;
-        } //print_r($array);
+        } 
         echo json_encode($array);
     }
     
@@ -98,6 +105,7 @@ class clsNovedades {
         $resultado = array();
         $registro = array();
         $sql = "CALL SPCONSULTARNOVEDADES();";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -118,6 +126,7 @@ class clsNovedades {
         extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARNOVEDADES();";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -136,6 +145,7 @@ public function consultarMatriculasOferente($param) {
     $resultado = array();
     $registro = array();
     $sql = "CALL SPCONSULTARMATRICULASOFERENTE($pIdTercero)";
+	$rs=null;
     $conexion->getPDO()->query("SET NAMES 'utf8'");
       if ($rs = $conexion->getPDO()->query($sql)) {
         if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -159,6 +169,7 @@ public function consultarMatriculasOferente($param) {
     $resultado = array();
     $registro = array();
     $sql = "CALL SPBUSCARCURSOSMATRICULADOSPORTERCERO($pIdTercero)";
+	$rs=null;
     $conexion->getPDO()->query("SET NAMES 'utf8'");
       if ($rs = $conexion->getPDO()->query($sql)) {
         if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -182,6 +193,7 @@ public function consultarMatriculasOferente($param) {
     $resultado = array();
     $registro = array();
     $sql = "CALL SPCONSULTARPREPROGRAMACIONESPORMODULOYCURSO($IdCurso,$IdModulo)";
+	$rs=null;
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -197,10 +209,10 @@ public function consultarMatriculasOferente($param) {
 
 
 public function cambiarCurso($param) {
-    session_start(); 
     extract($param);
     $IdUsuario = $_SESSION['idUsuario'];
     $sql = "CALL SPMODIFICARMATRICULAPORTERCERO($pIdMatricula,$pIdPreprogramacion,".$IdUsuario.");";
+	$rs=null;
     if ($rs = $conexion->getPDO()->query($sql)) {          
         $array = 1;
     } else {
@@ -210,10 +222,10 @@ public function cambiarCurso($param) {
 }
 
 public function anularMatricula($param) {
-    session_start(); 
     extract($param);
     $IdUsuario = $_SESSION['idUsuario'];
     $sql = "CALL SPANULARMATRICULA($pIdMatricula,".$IdUsuario.");";
+	$rs=null;
     if ($rs = $conexion->getPDO()->query($sql)) {          
         $array = 1;
     } else {
@@ -223,25 +235,27 @@ public function anularMatricula($param) {
 }
 
 public function cambiarEstado($param) {
-    session_start(); 
     extract($param);
+	$rs=null;
     $IdUsuario = $_SESSION['idUsuario'];
     $sql = "CALL SPMODIFICARESTADO($pIdTercero,$pEstado,".$IdUsuario.");";
+	
     if ($rs = $conexion->getPDO()->query($sql)) {          
         $array = 1;
     } else {
         $array = 0;
+		print_r($conexion->getPDO()->errorInfo()); die();
     }
     echo json_encode($array);
 }
 
 
 public function modificarCantidadEstudiantesCurso($param) {
-    session_start(); 
     extract($param);
     $IdUsuario = $_SESSION['idUsuario'];
     $sql = "CALL SPMODIFICARCANTIDADESTUDIANTESSALON($pIdPreprogramacionNueva,$pIdPreprogramacionAnterior,".$IdUsuario.");";
-    if ($rs = $conexion->getPDO()->query($sql)) {          
+	  $rs=null;
+   if ($rs = $conexion->getPDO()->query($sql)) {          
         $array = 1;
     } else {
         $array = 0;
@@ -253,6 +267,7 @@ public function modificarCantidadEstudiantesCurso($param) {
 public function consultarEstados($param) {
         extract($param);
         $sql = "CALL SPCARGARESTADOPARTICIPANTE();";
+		  $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -275,6 +290,7 @@ public function consultarEstados($param) {
 		$resultado = array();
         $registro = array();
         $sql = "CALL SPCONSULTARCARGASPORTERCERO($IdTercero);";
+		  $rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
                 foreach ($filas as $fila) {
@@ -301,6 +317,7 @@ public function consultarEstados($param) {
 	public function eliminarCargaPorId($param) {
         extract($param);
         $sql = "CALL SPELIMINARCARGA($IdCarga);";
+		  $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             $registro=1;
         } else {

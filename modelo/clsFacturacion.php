@@ -1,4 +1,5 @@
 <?php
+require("../controlador/session.php");
 ini_set('memory_limit', '4024M');
 set_time_limit(0);
 /** Error reporting */
@@ -399,7 +400,7 @@ class clsFacturacion {
 					
 				$baseRow = 6;
 				$columnRow=0;
-	
+			$rs = null;
 			$conexion->getPDO()->query("SET NAMES 'utf8'");
 			//$sql = "CALL SPREPORTEASISTENCIADETALLE1('".$fechaInicial."','".$fechaFinal."');";
 			$sql = "CALL SPREPORTEASISTENCIADETALLE1('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";
@@ -441,7 +442,7 @@ class clsFacturacion {
 							$objPHPExcel->getDefaultStyle()->applyFromArray($styleArray);
 
 							////////////////////////////////////////	
-
+							$rs = null;
 							$conexion->getPDO()->query("SET NAMES 'utf8'");
 							$sql = "CALL SPREPORTEASISTENCIADETALLE2(".$fila['Id'].");";
 							//print_r($sql);
@@ -539,7 +540,7 @@ class clsFacturacion {
 					
 				$baseRow = 7;
 				$columnRow=0;
-	
+			$rs = null;
 			$conexion->getPDO()->query("SET NAMES 'utf8'");
 			$sql = "CALL SPREPORTEFACTURACIONDETALLE('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";
 			// //print_r($sql);
@@ -1539,7 +1540,7 @@ class clsFacturacion {
 					
 					$row = 7;
 					$columnRow=1;
-		
+				$rs = null;
 				 $conexion->getPDO()->query("SET NAMES 'utf8'");
 
 				$sql = "CALL SPREPORTEASISTENCIACONSOLIDADO('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";

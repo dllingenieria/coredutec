@@ -4,7 +4,7 @@
  */
 
 
-$(function() { 
+$(function() {
 
 //$(document).ready(function() {
 //    cargarArchivoPlano();
@@ -172,10 +172,9 @@ $(function() {
         
         
     });
-	
-	
-    function insertarConvocatoria() {
-		
+
+
+    function insertarConvocatoria() { 
         $.post("../../controlador/fachada.php", {
             clase: 'clsConvocatoria',
             oper: 'insertarJornadaConvocatoria',
@@ -240,7 +239,7 @@ function jsShowWindowLoad(mensaje) {
  
         //centramos el div del texto
         $("#WindowLoad").html(imgCentro);
-	
+ 
 }
 
 	$( "#selCarga" ).change(function() { 

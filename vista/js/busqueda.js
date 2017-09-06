@@ -74,6 +74,7 @@ $(function() {
 							"convocatoria":$.cookie("convocatoria"),
 							"cargaId":$.cookie("cargaId")
 						});
+
 					});
 					consultarModulosVistos();
 				}else{
@@ -117,14 +118,13 @@ $(function() {
 	}
 
 	function llenarTablaModulos(){
-		
-		obtenerInformacionCursoRecursivo(0, [], [], function(informacionTabla){
+		obtenerInformacionCursoRecursivo(0, [], [], [], function(informacionTabla){
 			generarTabla(formatearInformacion(informacionTabla));
 		});
 	}
 
-	function obtenerInformacionCursoRecursivo(indice, modulosAgregados, informacionTabla, callback){
-		//console.log(modulosAgregados);
+	function obtenerInformacionCursoRecursivo(indice, modulosAgregados, modulosAgregadosId,informacionTabla, callback){
+		
 		if (indice >= cursosInscritos.length) {
 			callback(informacionTabla);
 			return;
@@ -140,13 +140,14 @@ $(function() {
 				if(data !== null){
 					if (data !== 0) {
 						for (var i = 0; i < data.length; i++) { 
-						
 						//if(i==0){alert(i);modulosAgregados.length=0;}
 						
-							var modulo = data[i];
+							var modulo = data[i];					
 							//if (!isInArray(modulo.Modulo,modulosVistos)) {
-								if (!isInArray(modulo.Modulo,modulosAgregados)) {	
-									modulo.idCarga = curso.cargaId;
+						
+								//if (!isInArray(modulo.Modulo, modulosAgregados)) {
+								  if(!isInArray(modulo.IdModulo, modulosAgregadosId)) {
+										modulo.idCarga = curso.cargaId;
 									if (modulo.rutaId === "1" || modulo.rutaId === "10") {
 										modulo.Curso = modulo.Modulo;
 									}else{
@@ -155,13 +156,13 @@ $(function() {
 									modulo.Convocatoria = curso.convocatoria;
 									modulosAgregados.push(modulo.Modulo);
 									informacionTabla.push(modulo);
-									
+									modulosAgregadosId.push(modulo.IdModulo);
 									
 								}
 							//}
 						}
 						indice++;
-						obtenerInformacionCursoRecursivo(indice, modulosAgregados, informacionTabla, callback);
+						obtenerInformacionCursoRecursivo(indice, modulosAgregados, modulosAgregadosId,informacionTabla, callback);
 					}else{ alert("No se encontraron registros - Cursos");}
 				}else{alert("Error en la búsqueda - Cursos");}
 			},"json");
@@ -237,7 +238,6 @@ $(function() {
 
 	function reemplazarColumnas(nombresColumnas, informacion){
 		for (var key in nombresColumnas) {
-			console.log(informacion);
 			informacion.columnas[key].title = nombresColumnas[key];
 		}
 		return informacion;

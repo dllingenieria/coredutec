@@ -2,8 +2,8 @@
 
 // Start the session so we can store our generated key inside it for later retrieval
 
-session_start( );
-
+require("../controlador/session.php");
+set_time_limit(0);
 // Set to whatever size you want, or randomize for more security
 
 $captchaTextSize = 7;

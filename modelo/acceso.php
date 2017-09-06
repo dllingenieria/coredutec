@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,6 +18,7 @@ class acceso {
     //put your code here
     function login($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL LOGIN('$usuario','$contrasena');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -32,6 +35,7 @@ class acceso {
 
     function registrarTercero($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL AGREGAR_TERCERO('$nombre','$apellido',$cedula,'$usuario','$contrasena');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -46,6 +50,7 @@ class acceso {
 
     function buscarCedula($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL CONSULTAR_CEDULA($identificacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -69,6 +74,7 @@ class acceso {
 
     function buscarDocumento($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL CONSULTAR_DOCUMENTO1($identificacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -84,6 +90,7 @@ class acceso {
 
     function imprimirMatricula($param) {
         extract($param);
+		$rs = null;
         $identificacion = $_SESSION['identificacion'];
         $sql = "CALL CONSULTAR_DOCUMENTO1($identificacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -100,6 +107,7 @@ class acceso {
 
     function actualizarTercero($param) {
         extract($param);
+		$rs = null;
         $sql = "CALL AGREGAR_OBSERVACIONES('$cedula','$observacion');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             $array = 1;
@@ -113,6 +121,7 @@ class acceso {
         extract($param);
         $cedula = 1;
         $observacion = 'Neira';
+		$rs = null;
         $sql = "CALL AGREGAR_PARTICIPANTE_40(4,75290925,'manizales','juan pablo','cardona naranjo',6,'1979-09-06',8,'1','2','3',18,'cor@gmail.com','direccion resi','barrio',29,'A','dasdad','dadadad','2016-01-01','lajfljsañljdf',42,'dadad',  'dadafdada');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             $array = 1;
@@ -126,6 +135,7 @@ class acceso {
         extract($param);
         $cedula = 1;
         $observacion = 'Neira';
+		$rs = null;
         $sql = "CALL AGREGAR_MUNICIPIO('$cedula','$observacion');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             $array = 1;

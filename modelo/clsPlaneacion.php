@@ -1,4 +1,6 @@
 <?php
+require("../controlador/session.php");
+set_time_limit(0);
 /**
  *  Clase que realiza el crud para Planeacion y seguimiento de clases y chequeo de recursos.
  *  DimensionIt 
@@ -33,9 +35,11 @@ class clsPlaneacion {
 		
 		$listaRecursos = $nuevaLista;
 		
-		
-        $sql = "CALL SPAGREGARPLANEACION($idPreprogramacion,'$sesionPla', '$fecha', '$unidTema', '$estrDesa', '$tecn', '$segu', '$reci', '$obse', $usuario);";
-		 
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
+		$uni= $unidTema;
+
+		$sql = "CALL SPAGREGARPLANEACION($idPreprogramacion,'$sesionPla', '$fecha', '$uni', '$estrDesa', '$tecn', '$segu', '$reci', '$obse', $usuario);";
+		$rs=null;
 		 if ($rs = $conexion->getPDO()->query($sql)) {          
 			if ($filas = $rs->fetchAll()) {
 					foreach ($filas as $fila) {
@@ -43,16 +47,11 @@ class clsPlaneacion {
 					} 
 			}
 			
-			unset($rs);
-			// print_r("hola");
-			// print_r(count($listaRecursos)); die();
-			//print_r($listaRecursos);
-				//SPAGREGARRECURSO  procedimiento para ingresar recursos  
 					for ($i=0; $i<count($listaRecursos);$i++){
 						
 						if ($listaRecursosId[$i]['eliminar'] == 1){
 						$sql = "CALL SPAGREGARRECURSO(".$array[0]['pIdPlaneacion'].", ".$listaRecursos[$i]['cantidad'].", '".$listaRecursos[$i]['recursos']."', '".$listaRecursosId[$i]['eliminar']."',$usuario);";
-								// print_r($sql); die();
+						$rs=null;
 								if ($rs =$conexion->getPDO()->query($sql)) {    
 									foreach ($filasR as $filaR) {
 									$array[] = $filaR;
@@ -88,6 +87,7 @@ class clsPlaneacion {
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARPLANEACIONPREPROGRAMACION($IdPreprogramacion);";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -129,10 +129,10 @@ class clsPlaneacion {
 		
 		
 		$listaRecursos = $nuevaLista;
-		 
-        //print_r($listaRecursos);
+
         $sql = "CALL SPMODIFICARPLANEACION($idPlaneacion, $idPreprogramacion,'$sesionPla', '$fecha', '$unidTema', '$estrDesa', '$tecn', '$segu', '$reci', '$obse', $usuario);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
+        $rs=null;
+		if ($rs = $conexion->getPDO()->query($sql)) {
                     $data = 0;
 					
 					unset($rs);
@@ -143,7 +143,7 @@ class clsPlaneacion {
 						  
 						  if ($listaRecursosId[$i]['id'] != ""){
 							$sql = "CALL SPMODIFICARRECURSO(".$listaRecursosId[$i]['id'].", ".$listaRecursos[$i]['cantidad'].", '".$listaRecursos[$i]['recursos']."', '".$listaRecursosId[$i]['eliminar']."', $usuario);";
-								//print_r($sql); 
+							$rs=null;
 								if ($rs =$conexion->getPDO()->query($sql)) {    
 									foreach ($filasR as $filaR) {
 									$array[] = $filaR;
@@ -161,7 +161,7 @@ class clsPlaneacion {
 							}
 							else if($listaRecursosId[$i]['id'] == "" &&  $listaRecursosId[$i]['eliminar'] == 1){ //cuando es un recurso nuevo
 								$sql = "CALL SPAGREGARRECURSO(".$idPlaneacion.", ".$listaRecursos[$i]['cantidad'].", '".$listaRecursos[$i]['recursos']."', '".$listaRecursosId[$i]['eliminar']."', $usuario);";
-								// print_r($sql); 
+								$rs=null;
 								if ($rs =$conexion->getPDO()->query($sql)) {    
 									foreach ($filasR as $filaR) {
 									$array[] = $filaR;
@@ -198,41 +198,15 @@ class clsPlaneacion {
 		
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARDETALLEPLANEACION($idPlaneacion);";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
 				unset($rs);
-				//se llama al procedimiento que trae el detalle de los recursos
-				$sql = "CALL SPCONSULTARDETALLERECURSO($idPlaneacion);";
-				if ($rs = $conexion->getPDO()->query($sql)) {
-					if ($filasR = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-						$data[ 'recursos' ]='';
-						$cont=0;
-						$data[ 'recursos' ].='<table id="div_adicionados"><tr>';
-							$data[ 'recursos' ].='
-						<tr>
-							<td class="titulo azul cantidad">Cantidad</td><td class="titulo azul descripcion">Descripción</td><td width="100px"></td>
-						</tr>';
-						foreach ($filasR as $filaR) {
-						$arrayR[] = $filaR;
-						
-							$data[ 'recursos' ].='<input type="hidden" id="txtHidId'.$cont.'" name="recurso" value="'.$filaR['Id'].'" class=""/>
-								<td><input type="text" id="txtCant'.$cont.'" name="recurso" class="Txt1 number" value="'.$filaR['Cantidad'].'" size="6"/></td><td><input type="text" id="txtDesc'.$cont.'" name="recurso" class="Txt2" value="'.$filaR['Descripcion'].'"/></td>';
-							if ($cont != 0){
-								$data['recursos' ].='<td><button id="btnEliminar'.$cont.'" type="button" class="boton final" onclick="" >Eliminar</button></td>';	
-							}
-							// else{
-								// $data['recursos' ].='<td></td>';
-							// }
-							$data['recursos'].='</tr>';
-							// $data['recursos'].='</table>';
-							$cont++;
-						}
-						$data[ 'recursos' ].='</table>';
-						
-						//se arma el html para mandar al js
+				$data[ 'recursos' ]='';
+					//se arma el html para mandar al js
 						$data[ 'html' ] ='<form id="formPlaneacion">
 					<label class="titulo">PLANEACIÓN ACADÉMICA</label>
 					<br><br>
@@ -269,35 +243,49 @@ class clsPlaneacion {
 					<br><br>
 					<label class="titulo azul">Materiales y equipos</label>
 					<br><br>';
-					//$data[ 'html' ].='<table border="0">';
-					// $data[ 'html' ].='
-			        // <tr>
-						// <td class="titulo azul cantidad">Cantidad</td><td class="titulo azul descripcion">Descripción</td>
-					// </tr>';
-							
-					$data[ 'html' ] .= $data['recursos'];
-					// $data[ 'html' ] .='<table border="0">
-						// <tr>
-							// <td class="">Cantidad</td><td class="">Descripción</td>
-						// </tr>
-						// <tr>
-							// <input type="hidden" id="txtHidId1" name="txtHidId1" value="'.$arrayR[0]['Id'].'" class=""/>
-							// <td><input type="text" id="txtCant1" name="recurso" class="Txt number" value="'.$arrayR[0]['Cantidad'].'" size="6"/></td><td><input type="text" id="txtDesc1" name="recurso" class="Txt" value="'.$arrayR[0]['Descripcion'].'"/></td>
-						// </tr>
-						// <tr>
-							// <input type="hidden" id="txtHidId2" name="txtHidId2" value="'.$arrayR[1]['Id'].'" class=""/>
-							// <td><input type="text" id="txtCant2" name="recurso" class="Txt number" value="'.$arrayR[1]['Cantidad'].'"/></td><td><input type="text" id="txtDesc2" name="recurso" class="Txt" value="'.$arrayR[1]['Descripcion'].'"/></td>
-						// </tr>
-						// <tr>
-							// <input type="hidden" id="txtHidId3" name="txtHidId3" value="'.$arrayR[2]['Id'].'" class=""/>
-							// <td><input type="text" id="txtCant3" name="recurso" class="Txt number" value="'.$arrayR[2]['Cantidad'].'"/></td><td><input type="text" id="txtDesc3" name="recurso" class="Txt" value="'.$arrayR[2]['Descripcion'].'"/></td>
-						// </tr>
+					$data[ 'recursos' ].='<table id="div_adicionados"><tr>';
+							$data[ 'recursos' ].='
+						<tr>
+							<td class="titulo azul cantidad">Cantidad</td><td class="titulo azul descripcion">Descripción</td><td width="100px"></td>
+						</tr>';
+				//se llama al procedimiento que trae el detalle de los recursos
+				$sql = "CALL SPCONSULTARDETALLERECURSO($idPlaneacion);";
+				$rs=null;
+				if ($rs = $conexion->getPDO()->query($sql)) {
+					if ($filasR = $rs->fetchAll(PDO::FETCH_ASSOC)) {			
+				
+						$cont=0;
+						
+						foreach ($filasR as $filaR) {
+						$arrayR[] = $filaR;
+						
+							$data[ 'recursos' ].='<input type="hidden" id="txtHidId'.$cont.'" name="recurso" value="'.$filaR['Id'].'" class=""/>
+								<td><input type="text" id="txtCant'.$cont.'" name="recurso" class="Txt1 number" value="'.$filaR['Cantidad'].'" size="6"/></td><td><input type="text" id="txtDesc'.$cont.'" name="recurso" class="Txt2" value="'.$filaR['Descripcion'].'"/></td>';
+							if ($cont != 0){
+								$data['recursos' ].='<td><button id="btnEliminar'.$cont.'" type="button" class="boton final" onclick="" >Eliminar</button></td>';	
+							}
 
-					// </table>';
-					
-					// $data['html'].='<table id="div_adicionados" class="">
-					
-					// </table>';
+							$data['recursos'].='</tr>';
+						
+							$cont++;
+						}					
+								
+				
+					}else{
+
+						$data[ 'recursos' ].= "
+				<tr>
+					<input type='hidden' id='txtHidId0' name='recurso' value='' class=''/>
+					<td><input type='text' id='txtCant0' name='recurso' class='Txt1 number' size='6'/>
+					</td><td><input type='text' id='txtDesc0' name='recurso' class='Txt2'/></td>
+					<td></td>
+				</tr>";
+
+					}
+
+					$data[ 'recursos' ].='</table>';
+					$data[ 'html' ] .= $data['recursos'];
+
 					$data['html'].='<div id="divAdicionarRecurso" class="">
 					
 					</div>';
@@ -313,22 +301,20 @@ class clsPlaneacion {
 					<br><br>
 					<div id=""><textarea class="TextArea" name="descripcion" id="txtRecibido" placeholder="(Anote chequeo ok o especifique)">'.$array[0]['Recibido'].'</textarea></div>
 				</form>';
-								
-				
-					}
 				}
 				else{
 					print_r($conexion->getPDO()->errorInfo()); die();
 					$array = 0;
 				}
 				
-				// var_dump($array); die();
+				
             }
         } else {
 			print_r($conexion->getPDO()->errorInfo()); die();
 			$array = 0;
-			// $array = $sql;
+			
         }
+  
         echo json_encode($data);
 		
 	}	
@@ -349,6 +335,7 @@ class clsPlaneacion {
         $usuario =  $_SESSION['idUsuario'];
                 
         $sql = "CALL SPDESACTIVARPLANEACION($idPlaneacion, $usuario);";
+		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
                     $data = 0;
         }else{
@@ -404,6 +391,7 @@ class clsPlaneacion {
         $usuario =  $_SESSION['idUsuario'];
                
         $sql = "CALL SPCONSULTARNUMEROSESIONES($IdPreprogramacion);";
+		$rs=null;
 		
         if ($rs = $conexion->getPDO()->query($sql)) {
         	if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
