@@ -560,7 +560,7 @@ class clsCurso {
 		
 		//---------- FIN VALIDACION DE PLANEACION
 		//---------- VALIDACION DE EVALUACION
-				/*$conexion->getPDO()->query("SET NAMES 'utf8'");
+				$conexion->getPDO()->query("SET NAMES 'utf8'");
                 $rs=null;
 				$sql = "CALL SPVALIDAREVALUACIONESCERRARCURSO($idPreprogramacion);";
 				if ($rs = $conexion->getPDO()->query($sql)) {
@@ -577,9 +577,8 @@ class clsCurso {
 				else{
 					$data["error"]="No se consulto la evaluación";
 					print_r($conexion->getPDO()->errorInfo()); die();
-				}		*/			
-				$data['evaluacion']="ok";
-				
+				}					
+							
 		//---------- FIN VALIDACION DE EVALUACION
 		
 		if($data['asistencias']=="ok" and $data['planeacion']=="ok" and $data['evaluacion']=="ok"){//inicio validacion para cerrar
