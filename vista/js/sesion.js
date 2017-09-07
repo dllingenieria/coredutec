@@ -350,6 +350,7 @@ function IniciarSesion() {
                 sessionStorage.esCallCenter=roles[3];
 				sessionStorage.esAlimentacion=roles[4];
 				sessionStorage.esAcademico=roles[5]; 
+				sessionStorage.esSecretaria=roles[6]; 
                 var rolesDisponibles=0;
                 for (var i = 0; i < roles.length; i++) {
                     if (roles[i] === "1") {
@@ -380,6 +381,9 @@ function IniciarSesion() {
                     }
 					if (sessionStorage.esAcademico==="1") {
                         window.location = "vista/html/academico.html";
+                    }
+					if (sessionStorage.esSecretaria==="1") {
+                        window.location = "vista/html/secretaria.html";
                     }
                 }
 				

@@ -8,22 +8,25 @@ $(function() {
         $("#titulo3").append("Bienvenido (a)          " + sessionStorage.nombreUsuario);
     }
 	if (sessionStorage.esAdministrador==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",1).text("Administrador"));
+		$("#usuarios").append($("<option></option>").attr("value",1).html("Administrador"));
 	}
 	if (sessionStorage.esDocente==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",2).text("Docente"));
+		$("#usuarios").append($("<option></option>").attr("value",2).html("Docente"));
 	}
 	if (sessionStorage.esMatriculador==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",3).text("Matriculador"));
+		$("#usuarios").append($("<option></option>").attr("value",3).html("Matriculador"));
 	}
 	if (sessionStorage.esCallCenter==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",4).text("Call Center"));
+		$("#usuarios").append($("<option></option>").attr("value",4).html("Call Center"));
 	}
 	if (sessionStorage.esAlimentacion==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",5).text("Alimentación"));
+		$("#usuarios").append($("<option></option>").attr("value",5).html("Alimentaci&oacute;n"));
 	}
 	if (sessionStorage.esAcademico==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",6).text("Académico"));
+		$("#usuarios").append($("<option></option>").attr("value",6).html("Acad&eacute;mico"));
+	}
+	if (sessionStorage.esSecretaria==="1") {
+		$("#usuarios").append($("<option></option>").attr("value",7).html("Secretaria"));
 	}
 
 	$("#continuar").click(function(){
@@ -46,6 +49,9 @@ $(function() {
 			break;
 			case "6":
 			window.location = "academico.html";
+			break;
+			case "7":
+			window.location = "secretaria.html";
 			break;
 		}
 	});
