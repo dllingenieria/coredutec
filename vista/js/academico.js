@@ -12,34 +12,34 @@ $(function(){
 	nombreArchivo = "";
 	obtenerIdTercero(function(idDocente){
 		idDocenteG = idDocente; 
-		
+		obtenerIdTerceroModulos();
 	});
 	
-	$("#btnConsularSalon").click(function(){ 
-		var salon = $("#txtSalon").val();
-		if (salon == ""){
-		PopUpError("Por favor ingrese un Salón");	
-		}
-		else{
-			obtenerIdTerceroModulos(salon);
-		}
-	});
+	// $("#btnConsularSalon").click(function(){ 
+		// var salon = $("#txtSalon").val();
+		// if (salon == ""){
+		// PopUpError("Por favor ingrese un Salón");	
+		// }
+		// else{
+			// obtenerIdTerceroModulos(salon);
+		// }
+	// });
 	
 	
 	
-	function obtenerIdTerceroModulos(salon){
+	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsDocente',
 			oper: 'ConsultarModulosPorDocente',
-			IdDocente: idDocenteG,
-			salon: salon
+			IdDocente: idDocenteG
+			// salon: salon
 		}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
-					$("#sectCuerpo").show();
+					// $("#sectCuerpo").show();
 					
 					
 					cargarInformacionEnTabla(data);

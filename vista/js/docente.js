@@ -11,35 +11,36 @@ $(function(){
 	var seleccionado = false;
 	nombreArchivo = "";
 	obtenerIdTercero(function(idDocente){
-		idDocenteG = idDocente; 
+		idDocenteG = idDocente;
+		obtenerIdTerceroModulos();
 		
 	});
 	
-	$("#btnConsularSalon").click(function(){ 
-		var salon = $("#txtSalon").val();
-		if (salon == ""){
-		PopUpError("Por favor ingrese un Salón");	
-		}
-		else{
-			obtenerIdTerceroModulos(salon);
-		}
-	});
+	// $("#btnConsularSalon").click(function(){ 
+		// var salon = $("#txtSalon").val();
+		// if (salon == ""){
+		// PopUpError("Por favor ingrese un Salón");	
+		// }
+		// else{
+			// obtenerIdTerceroModulos(salon);
+		// }
+	// });
 	
 	
 	
-	function obtenerIdTerceroModulos(salon){
+	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsDocente',
 			oper: 'ConsultarModulosPorDocente',
-			IdDocente: idDocenteG,
-			salon: salon
+			IdDocente: idDocenteG
+			// salon: salon
 		}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
-					$("#sectCuerpo").show();
+					// $("#sectCuerpo").show();
 					
 					
 					cargarInformacionEnTabla(data);
@@ -90,7 +91,7 @@ $(function(){
 			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
 			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
-			"paging":   false,
+			"paging":   true,
 			"info":     false,
 			"order": [[ 3, "desc" ]],
 			"scrollY": "300px",
@@ -108,6 +109,8 @@ $(function(){
 			{"targets": [ 17 ],"visible": false,"searchable": false}
 			],
 			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
 				"sSearch": "Filtrar:",
 				"zeroRecords": "Ningún resultado encontrado",
 				"infoEmpty": "No hay registros disponibles",
