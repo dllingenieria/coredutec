@@ -25,8 +25,8 @@ $(function() {
 	if (sessionStorage.esAcademico==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",6).html("Acad&eacute;mico"));
 	}
-	if (sessionStorage.esSecretaria==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",7).html("Secretaria"));
+	if (sessionStorage.esCalidad==="1") {
+		$("#usuarios").append($("<option></option>").attr("value",7).html("Calidad"));
 	}
 
 	$("#continuar").click(function(){
@@ -51,7 +51,7 @@ $(function() {
 			window.location = "academico.html";
 			break;
 			case "7":
-			window.location = "secretaria.html";
+			window.location = "calidad.html";
 			break;
 		}
 	});

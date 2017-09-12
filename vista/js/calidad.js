@@ -1,6 +1,6 @@
 $(function(){
 	// $("#formatoFirmas").css("display","none");
-	$("#btnAcademico").css("display","none");
+	$("#btnEvaluaciones").css("display","none");
 	// $("#formatoNotas").css("display","none");
 	// $("#planeacion").css("display","none");
 	$("#regresar").hide();
@@ -12,40 +12,41 @@ $(function(){
 	nombreArchivo = "";
 	obtenerIdTercero(function(idDocente){
 		idDocenteG = idDocente; 
+		obtenerIdTerceroModulos();
 		
 	});
 	
-	$("#btnConsularSalon").click(function(){ 
-		var salon = $("#txtSalon").val();
-		if (salon == ""){
-		PopUpError("Por favor ingrese un Salón");	
-		}
-		else{
-			obtenerIdTerceroModulos(salon);
-		}
-	});
+	// $("#btnConsularSalon").click(function(){ 
+		// var salon = $("#txtSalon").val();
+		// if (salon == ""){
+		// PopUpError("Por favor ingrese un Salón");	
+		// }
+		// else{
+			// obtenerIdTerceroModulos(salon);
+		// }
+	// });
 	
 	
 	
-	function obtenerIdTerceroModulos(salon){
+	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsDocente',
 			oper: 'ConsultarModulosPorDocente',
-			IdDocente: idDocenteG,
-			salon: salon
+			IdDocente: idDocenteG
+			// salon: salon
 		}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
-					$("#sectCuerpo").show();
+					// $("#sectCuerpo").show();
 					
 					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					// $("#formatoFirmas").css("display","");
-					$("#btnAcademico").css("display","");
+					$("#btnEvaluaciones").css("display","");
 					// $("#formatoNotas").css("display","");
 					// $("#planeacion").css("display","");
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
@@ -171,9 +172,9 @@ $(function(){
 		// }
 	// });
 
-	$("#btnAcademico").click(function(){                           //agregado
+	$("#btnEvaluaciones").click(function(){                           //agregado
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			window.location.href = "ingresarAcademico.html";
+			window.location.href = "ingresarCalidad.html";
 		}else{
 			PopUpError("Por favor seleccione un módulo");
 		}

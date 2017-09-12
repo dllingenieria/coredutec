@@ -1,6 +1,6 @@
 $(function(){
 	// $("#formatoFirmas").css("display","none");
-	$("#btnAlimentacion").css("display","none");
+	$("#btnAcademico").css("display","none");
 	// $("#formatoNotas").css("display","none");
 	// $("#planeacion").css("display","none");
 	$("#regresar").hide();
@@ -13,6 +13,7 @@ $(function(){
 	obtenerIdTercero(function(idDocente){
 		idDocenteG = idDocente; 
 		obtenerIdTerceroModulos();
+		
 	});
 	
 	// $("#btnConsularSalon").click(function(){ 
@@ -45,7 +46,7 @@ $(function(){
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					// $("#formatoFirmas").css("display","");
-					$("#btnAlimentacion").css("display","");
+					$("#btnAcademico").css("display","");
 					// $("#formatoNotas").css("display","");
 					// $("#planeacion").css("display","");
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
@@ -171,9 +172,9 @@ $(function(){
 		// }
 	// });
 
-	$("#btnAlimentacion").click(function(){                           //agregado
+	$("#btnAcademico").click(function(){                           //agregado
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			window.location.href = "ingresarAlimentacion.html";
+			window.location.href = "ingresarAcademico.html";
 		}else{
 			PopUpError("Por favor seleccione un módulo");
 		}
