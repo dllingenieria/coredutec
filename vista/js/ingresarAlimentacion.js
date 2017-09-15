@@ -492,7 +492,7 @@ function agregaralimentacionDetalle(alimentacion){
 						
 		}, function(data) {
 				if (data !== 0) { 
-					alimentacionDetalle =true;alert("inserto"+alimentacionDetalle);
+					alimentacionDetalle =true;
 					if(alimentacionDetalle == true ){
 						
 				           
@@ -600,9 +600,9 @@ function llenarCajasTexto(){
 						var sesion = res[1];  
 						//se valida que esa caja de texto tenga ese tercero y esa sesion para poner el valor
 						 if(idTercero == data[i].IdTercero && sesion == data[i].SesionNumero){
-							$( this ).val( data[i].Alimentacion ); //PENDIENTE--------
+							$( this ).val( data[i].Refrigerio ); 
 							//se agrega atributo para saber si ese campo es para editar
-							$( this ).attr("Idalimentacion",data[i].Idalimentacion+"_"+data[i].IdalimentacionDetalle);
+							$( this ).attr("Idalimentacion",data[i].IdAlimentacion+"_"+data[i].IdAlimentacionDetalle);
 							
 							//se simula el evento change de cada caja de texto para el calculo de horas totales
 							// $(this).trigger('change');

@@ -632,10 +632,7 @@ function agregarAsistenciaDetalle(asistencia){
            if (idCajasub != "undefined" && modificado == true && valor != "NA"){    
        
              
-               /* asistenciaD[conta]['IdAsistencia']=asistencia[sesionAsistencia]['IdAsistencia'];
-               asistenciaD[conta]['idTercero']=$(this).attr("data-sesion");    
-               asistenciaD[conta]['valorAsistencia']=$(this).val();
-               asistenciaD[conta]['idAsistenciaDetalle']=idAsistenciaDetalle; */
+               
                sesionAsistencia=valorSesion-1;
                valor=$(this).val();  
                sesion= $(this).attr("data-sesion");

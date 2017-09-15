@@ -89,7 +89,7 @@ $(function() {
                         for (var j = 0; j < columnas.length-4; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
 							
 							// array.push('<input type="text" size="5" value="NA" class="academicoInput" data-sesion="'+data[i].IdTercero+'" data-academico="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
-							array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');  
+							array.push('<textarea class="obs" id="textArea_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" data-sesion="'+data[i].IdTercero+'"></textarea>');  
                             
                                 
                         }
@@ -104,7 +104,7 @@ $(function() {
 					
 									
 					//codigo para poner el evento onfocus a las cajas de texto para que solo envia los datos que tuvieron foco
-					$( ".academicoInput" ).focus(function() { 
+					$( ".obs" ).focus(function() { 
 						ponerFoco(this);
 					});
 					
@@ -280,13 +280,13 @@ $(function() {
 
     $("#guardarAcademico").click(function(){ 
         if (!validarInformacion()) {
-			if (sessionStorage.IntensidadHorariaDiaria < 8 ){
-				mostrarPopUpError("Por favor llene todos los campos con valores de RB");
-			}
-			else{
-				mostrarPopUpError("Por favor llene todos los campos con valores de RR-RB");
-			}
-        }else{
+			// if (sessionStorage.IntensidadHorariaDiaria < 8 ){
+				// mostrarPopUpError("Por favor llene todos los campos con valores de RB");
+			// }
+			// else{
+				 mostrarPopUpError("Por favor llene todos los campos");
+			// }
+        }else{ 
             agregarAcademicoGeneral();
         }
     });
@@ -326,7 +326,7 @@ $(function() {
 	// var academico = new Array(); 
 	var cont=0;
 	//se recorren las cajas de texto que no esten vacias para guardar los datos
-	$("input[id^=txtA_]").each(function(){    
+	$("textarea[id^=textArea_]").each(function(){    
 		
 			var idCaja = $( this ).attr( "id" ); //alert(idCaja);
 			var idCajasub = idCaja.substring(5, 14); //("#txtA_undefined_undefined_"+idTerceroHorasTotales[i])
@@ -371,7 +371,7 @@ $(function() {
 	var serializedAcademico = JSON.stringify( academicoGeneral );
 	
 	
-	//alert(serializedacademico);
+	console.log(serializedAcademico);
 	//$.each( academico, function() {
 			//alert(this['sesion']);				
 		
@@ -408,7 +408,7 @@ $(function() {
 					console.log(data);
 					for (i=0;i<academico.length;i++){
 						
-						academico[i]['Idacademico']=data[i].IdAcademico;	
+						academico[i]['IdAcademico']=data[i].IdAcademico;	
 						
 						
 					}
@@ -430,7 +430,7 @@ $(function() {
 
 
 
-function agregaracademicoDetalle(academico){
+function agregaracademicoDetalle(academico){ 
   
    
    seguimiento = new Array(); 
@@ -438,19 +438,20 @@ function agregaracademicoDetalle(academico){
    var contaO=0;
    var noEsta= true; 
    
-		$("[id^=textArea_]").each(function(e){ 
+		$("textarea[id^=textArea_]").each(function(e){ 
     
-				var idObs = $( this ).attr( "id" ); //alert(idCaja);
-								
-				var res = idObs.split("_");
-				var IdTerceroSeguimiento = res[1];
+			   var idCaja = $( this ).attr( "id" ); //alert(idCaja);
+			   var idCajasub = idCaja.substring(5, 14);
+			   var res = idCaja.split("_");
+			   var valorSesion = res[1];
+			   var atributoIdAcademico = "";
+			   var idAcademicoDetalle = 0;
+			   var valor = $( this ).val();
+			   var sesionAcademico=0;
 				
-				var IdAcademicoDetalle = 0;
-				var atributoIdAcademico = "";
-				
-				//preguntar si esa caja de texto tiene el atributo IdAcademicoDetalle
-			   if ($( this ).attr("IdAcademicoDetalle") != undefined){  
-				   atributoIdAcademico =$(this).attr("IdAcademicoDetalle");
+				//preguntar si esa caja de texto tiene el atributo IdAcademico
+			   if ($( this ).attr("IdAcademico") != undefined){  
+				   atributoIdAcademico =$(this).attr("IdAcademico");
 				   var res1 = atributoIdAcademico.split("_");
 				   IdAcademicoDetalle = res1[1];            
 			   }
@@ -463,39 +464,23 @@ function agregaracademicoDetalle(academico){
 					modificado =false;
 				}
 				
-						//recorrer el array de seguimiento para saber si ese tercero ya esta
-							var a = seguimiento.indexOf(IdTerceroSeguimiento); //alert("a"+a);
-								if (a > -1){
-									noEsta= false;
-								}
+				if (idCajasub != "undefined" && modificado == true && valor != ""){    
+       
+             
+               
+               sesionAcademico=valorSesion-1;
+               valor=$(this).val();  
+               sesion= $(this).attr("data-sesion");
+               sesionAcademicos=academico[sesionAcademico]['IdAcademico'];      
+			   academicoD.push({"IdSeguimientoAcademico":sesionAcademicos,"IdTercero":sesion,"Seguimiento":valor,"idAcademicoDetalle":idAcademicoDetalle});
+               
+               contaO++;
+                       
+           }  		
 							
-				if (noEsta){ 
-							//llenar un array con el tercero
-							seguimiento.push(IdTerceroSeguimiento);   
-							
-							//se hace todo el proceso de guardado de la observacion
-							var observacion= $(this).val();
-								//modificado == true
-								
-								// if (observacion !=  ''){ 
-								if (modificado ==  true){ 
-									
-									academicoD[contaO] = {};
-									// asistenciaO[contaO]['IdAsistencia']=asistencia[conta]['IdAsistencia']; 
-									academicoD[contaO]['IdSeguimientoAcademico']=academico[0]['Idacademico']; 
-									academicoD[contaO]['IdTercero']=IdTerceroSeguimiento; 
-									academicoD[contaO]['Seguimiento']=observacion;			
-									academicoD[contaO]['IdAcademicoDetalle']=IdAcademicoDetalle;		
-										
-									
-									contaO++;
-									
-								}
-									
-							
-						} //console.log(seguimiento);	
+					
 			}); 
-   
+	console.log(academicoD);
    //
    var serializedacademicoD = JSON.stringify( academicoD );console.log(serializedacademicoD);
    
@@ -609,17 +594,18 @@ function llenarTextArea(){
 				 for (var i = 0; i < data.length; i++) {
 					 
 					//recorre los todos los textarea
-					$("[id^=textArea_]").each(function(e){
+					$("textarea[id^=textArea_]").each(function(e){
 						idTextA= $( this ).attr( "id" );
 						
-						var res = idTextA.split("_");
-						var idTerceroTextA = res[1];
+						var res = id.split("_");
+						var idTercero = res[3];
+						var sesion = res[1]; 
 						
 						//se valida que ese textarea tenga ese tercero para poner el valor
-						if(idTerceroTextA == data[i].IdTercero){
-							$( this ).val( data[i].Observacion );
+						if(idTercero == data[i].IdTercero && sesion == data[i].SesionNumero){
+							$( this ).val( data[i].Seguimiento );
 							//se agrega atributo para saber si ese campo es para editar
-							$( this ).attr("IdAcademicoDetalle",data[i].IdAcademico+"_"+data[i].IdAcademicoDetalle);
+							$( this ).attr("IdAcademico",data[i].IdAcademico+"_"+data[i].IdAcademicoDetalle);
 						}
 					});
 				 }

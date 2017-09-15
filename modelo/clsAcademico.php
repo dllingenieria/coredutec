@@ -86,17 +86,17 @@ class clsAcademico {
         $usuario =  $_SESSION['idUsuario'];
         // $fecha = date('Y-m-d');
         // $sql = "CALL SPAGREGARASISTENCIA($idPreprogramacion,'$fecha', $sesion,$usuario);";
-        $sql = "CALL SPAGREGARASEGUIMIENTOCADEMICO('$serializedacademico',$usuario);";
+        $sql = "CALL SPAGREGARSEGUIMIENTOACADEMICO('$serializedAcademico',$usuario);";
         
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {               
                 
-                $filas = substr($filas[0]['pIdacademico1'],1);
+                $filas = substr($filas[0]['pIdSeguimientos'],1);
                 $res = explode(",", $filas);
                 //var_dump($res);
                 foreach ($res as $resul) {
                 	//var_dump($resul);
-                    $array[] = array('Idacademico' => $resul);
+                    $array[] = array('IdAcademico' => $resul);
 
                 }
              }
@@ -106,7 +106,7 @@ class clsAcademico {
             
        }
         	
-			 
+			
             echo json_encode($array);
     }
 
@@ -118,7 +118,7 @@ class clsAcademico {
         $rs = null;
         // $sql = "CALL SPAGREGARASISTENCIADETALLE($idAsistencia, $idTercero, $valorAsistencia,  $idAsistenciaDetalle, $usuario);";
         $sql = "CALL SPAGREGARSEGUIMIENTOACADEMICODETALLE('$serializedacademicoD', $usuario);";
-        //print_r($sql);
+        
         if ($rs = $conexion->getPDO()->query($sql)) {
             // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 // foreach ($filas as $fila) {

@@ -134,27 +134,7 @@ class clsAlimentacion {
         echo json_encode($array);
     }
 	
-	   // public function agregarAsistenciaObservacion($param) {
-        // extract($param);
-        // $conexion->getPDO()->query("SET NAMES 'utf8'");
-        // $usuario = $_SESSION['idUsuario'];
-        // // $sql = "CALL SPAGREGARASISTENCIAOBSERVACION($idAsistencia, $idTercero, '$observacion',$idPreprogramacion, $usuario);";
-        // $sql = "CALL SPAGREGARASISTENCIAOBSERVACION1('$serializedAsistenciaO', $usuario);";
-        
-        // //print_r($sql);
-        // if ($rs = $conexion->getPDO()->query($sql)) {
-            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                // foreach ($filas as $fila) {
-                    // $array[] = $fila;
-                // }
-            // }
-        // } else {
-            // $array = 0;
-			// print_r($conexion->getPDO()->errorInfo()); die();
-        // }
-		// // $array = 0;
-        // echo json_encode($array);
-    // }
+	   
 
     public function consultarAsistenciaEstudiantes($param) {
         extract($param);
