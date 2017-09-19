@@ -595,7 +595,7 @@ function llenarTextArea(){
 					 
 					//recorre los todos los textarea
 					$("textarea[id^=textArea_]").each(function(e){
-						idTextA= $( this ).attr( "id" );
+						id= $( this ).attr( "id" );
 						
 						var res = id.split("_");
 						var idTercero = res[3];
