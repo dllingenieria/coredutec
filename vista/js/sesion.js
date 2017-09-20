@@ -74,7 +74,10 @@ $(function(){
         
     });
 
-	cargarDatosSesion();
+    setTimeout(function(){ 
+        
+	   cargarDatosSesion();
+
 	
     $("#cerrarSesion").click(function() {
         cerrarSesion();
@@ -90,13 +93,16 @@ $(function(){
     $("#btnregistro").click(function () {
         window.location = "vista/html/registro.html";
     });
+
+    },1000);
 	
 	
 });
 
 function cargarDatosSesion() {
 
-    if (localStorage.getItem("nombreUsuario") === null && localStorage.getItem("roles") === null) {
+
+    if (sessionStorage.nombreUsuario !== null && sessionStorage.nombreUsuario!== null) {
 	//if (sessionStorage.arrayDatosUsuario){ alert("xx"+arrayDatosUsuario);
         console.log("sesionstorage"+sessionStorage.nombreUsuario);
         console.log("sesionstorage"+sessionStorage.roles);
@@ -124,9 +130,9 @@ function ObtSesion(id) {
             sessionStorage.nombreUsuario =data[0];
             sessionStorage.roles =data[1];
         }
-        else { alert("no sesion");
+        else { 
             alert("Por favor inicie sesión");
-            //window.location = "../../";
+            window.location = "../../";
         }
     }, "json");
 }
