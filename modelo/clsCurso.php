@@ -702,73 +702,18 @@ public function cerrarCursoMatriculaTercero($param){
 					if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta porcentajeAsistenciasporsalon
 						$conexion->getPDO()->query("SET NAMES 'utf8'");
                        $rs=null;					   
-						$sql = "CALL SPCONSULTARNOTASPORSALON($idPreprogramacion);";
-						if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon
-							if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //si existen filas en notas por salon
-								foreach ($filas as $fila) {//inicio foreach notas por salon
-									$idTercero = $fila['IdTercero'];
-									$notaHacer = explode(',',$fila['NotaHacer']);
-									$notaSaber = explode(',',$fila['NotaSaber']);
-									$notaSer = explode(',',$fila['NotaSer']);
-									
-									$totalNotas[] =  $notaHacer[0];
-									$totalNotas[] =  $notaHacer[1];
-									$totalNotas[] =  $notaHacer[2];
-									$totalNotas[] =  $notaSaber[0];
-									$totalNotas[] =  $notaSaber[1];
-									$totalNotas[] =  $notaSaber[2];
-									$totalNotas[] =  $notaSer[0];
-									$totalNotas[] =  $notaSer[1];
-									$totalNotas[] =  $notaSer[2];
-									//echo json_encode($totalNotas);
-									$numeroNotas ="";
-									foreach ($totalNotas as $nota) {//foreach totalnotas
-										if(is_numeric($nota) && ($nota>0)){
-											$numeroNotas = ((float)$numeroNotas + 1);
-										}
-									}//foreach totalnotas
-																									
-									$notaDef =  ((float)$notaHacer[0]+(float)$notaHacer[1]+(float)$notaHacer[2]+
-												(float)$notaSaber[0]+(float)$notaSaber[1]+(float)$notaSaber[2]+
-												(float)$notaSer[0]+(float)$notaSer[1]+(float)$notaSer[2]);
-									
-									if($notaDef>0 && $numeroNotas>0){
-											$notaDef=$notaDef/$numeroNotas;
-									}else{
-										$notaDef=0;
-									}
-																		
-									$notaDef = number_format($notaDef, 2);									
-									$conexion->getPDO()->query("SET NAMES 'utf8'");
-																		
-									$rs=null;
-									
-									$arrayNotaDefinitiva[]= array('idTercero' => $idTercero, 'notaDef'=> $notaDef);	
-									
-									$numeroNotas = 0;
-									$totalNotas  = [];
-									$notaDef = 0;
-									
-								} //inicio foreach notas por salon
-								
-								$arrayNotaDefinitiva=json_encode($arrayNotaDefinitiva);
-								$sql = "CALL SPAGREGARNOTADEFINITIVAPORSALON($idPreprogramacion, '$arrayNotaDefinitiva', $IdUsuario);";
-									if (!$rs = $conexion->getPDO()->query($sql)) {
-									$data["error"]="Error al adicionar las notas definitivas";
-								}
-								
-								
-							} //si existen filas en notas por salon
+						$sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
+						if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon					
 							
-							$rs=null;
-							$conexion->getPDO()->query("SET NAMES 'utf8'");
-							echo $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
+					   $rs=null;
+					   $conexion->getPDO()->query("SET NAMES 'utf8'");
+					   $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
 							if (!$rs = $conexion->getPDO()->query($sql)) {
-								$data["error"]="No se encontraron las notas por salon 1";
+								$data["error"]="No se encontraron las notas por salon";
 							}
 			
 					}else{ //validar conexion y consulta consultarnotasporsalon
-						$data["error"]="No se encontraron las notas por salon 2";
+						$data["error"]="No se encontraron las notas por salon";
 						print_r($conexion->getPDO()->errorInfo()); die();
 					}
 				
