@@ -39,59 +39,69 @@
 	</section>
 	<!-- FIN ENCABEZADO -->
 	<!-- CUERPO -->
-	<section class="cuerpo">
-		<label class="titulo">PROGRAMA DE CAPACITACIÓN PARA INSERCIÓN LABORAL</label>
-		<table class="tablaInformacion">
-			<tr>
-				<th style="width: 17%">SERVICIO EDUCATIVO: (Cód. y Nom. Sistema)</th>
-				<td colspan="3" id="nombreServicio"></td>
-				<th style="width: 10%">MÓDULO (Cód.y Nom.Sistema)</th>
-				<td colspan="3" id="txtModulo" class="txtModulo"></td>
-			</tr>
-			<tr>
-				<th>HORARIO: (DíasCurso, HoraInicial, HoraFinal, IntensidadHoraria-horas)</th>
-				<td id="horario"></td>
-				<th>SEDE PRESTACIÓN DEL SERVICIO</th>
-				<td id="txtSede"></td>
-			</tr>
-			<tr>
-				<th>FECHA INICIAL</th>
-				<td id="fechaInicial"></td>
-				<th>FECHA FINAL</th>
-				<td id="fechaFinal"></td>
-				<th>PROVEEDOR DE SERVICIOS:</th>
-				<td id="txtDocente"></td>
-			</tr>
-			<tr>
-				<th>CÓDIGO SALÓN: (Sistema)</th>
-				<td id="txtSalon"></td>
-				<th>RUTA</th>
-				<td id="txtRuta"></td>
-				<th>No. SESIONES</th>
-				<td id="txtNoSessiones"></td>
-			</tr>
-			<tr>
-				<th>INSCRITOS</th>
-				<td id="inscritos"></td>
-				<th>ASISTENTES</th>
-				<td id=""></td>
-				<th>APROBADOS</th>
-				<td id=""></td>
-			</tr>
-		</table>
+	<section class="cuerpo" style="display:none">
+		<!-- <label class="titulo">PROGRAMA DE CAPACITACIÓN PARA INSERCIÓN LABORAL</label> -->
+		<!-- <table class="tablaInformacion"> -->
+			<!-- <tr> -->
+				<!-- <th style="width: 17%">SERVICIO EDUCATIVO: (Cód. y Nom. Sistema)</th> -->
+				<!-- <td colspan="3" id="nombreServicio"></td> -->
+				<!-- <th style="width: 10%">MÓDULO (Cód.y Nom.Sistema)</th> -->
+				<!-- <td colspan="3" id="txtModulo" class="txtModulo"></td> -->
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<!-- <th>HORARIO: (DíasCurso, HoraInicial, HoraFinal, IntensidadHoraria-horas)</th> -->
+				<!-- <td id="horario"></td> -->
+				<!-- <th>SEDE PRESTACIÓN DEL SERVICIO</th> -->
+				<!-- <td id="txtSede"></td> -->
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<!-- <th>FECHA INICIAL</th> -->
+				<!-- <td id="fechaInicial"></td> -->
+				<!-- <th>FECHA FINAL</th> -->
+				<!-- <td id="fechaFinal"></td> -->
+				<!-- <th>PROVEEDOR DE SERVICIOS:</th> -->
+				<!-- <td id="txtDocente"></td> -->
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<!-- <th>CÓDIGO SALÓN: (Sistema)</th> -->
+				<!-- <td id="txtSalon"></td> -->
+				<!-- <th>RUTA</th> -->
+				<!-- <td id="txtRuta"></td> -->
+				<!-- <th>No. SESIONES</th> -->
+				<!-- <td id="txtNoSessiones"></td> -->
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<!-- <th>INSCRITOS</th> -->
+				<!-- <td id="inscritos"></td> -->
+				<!-- <th>ASISTENTES</th> -->
+				<!-- <td id=""></td> -->
+				<!-- <th>APROBADOS</th> -->
+				<!-- <td id=""></td> -->
+			<!-- </tr> -->
+		<!-- </table> -->
 		<br>
 		
 		
+	
 	</section>
-        <div id="DivAsistencia" class="datatable">
-            <table id="tablaAcademico" class="display compact" cellspacing="0" width="100%"></table>
-            <div class="botones">
-		    <button id="volverAcademico" type="button" class="boton">Volver</button>
-			<button id="guardarAacademico" type="button" class="boton">Guardar</button>
-			<br><br><br><br>
-			
+	
+	<section class="filtro">
+	
+	
+	
+	<div class="buscar-cedula">
+		<label class="tituloSalon">Ingrese la Cédula</label>
+		<input id="txtCedula" type="text" class=""/>
+		<div class="botonesDown">
+			<button id="btnConsularCedula" type="button" class="boton">Consultar</button>
 		</div>
-        </div>
+
+	</div>
+
+	</section>
+	<br />
+	
+    <section id="sectCuerpo" class="cuerpo" style="display:none">   
 
 		<div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
 
@@ -153,9 +163,172 @@
 
     </div>
 
-		</div>  
+		</div> 
+	<table id="tablaCalidad" class="display" cellspacing="0" width="100%" ></table>
+		<div class="botones">
+			<button id="btnVerDetalle" type="button" class="boton">Ver Detalle</button>
+			<button id="btnAModulos" type="button" class="boton">Volver a modulos</button>
+			
+		</div>
 		<!--<div id="cargando" style="display:none" class="cargando"></div>-->
-        
+    </section>  
+	
+	<div id="divDetalle" class="cuerpo" style="display:none">
+		<div id="divEvaluacion" >
+			<div class="formatoEvaluacion">
+				<label class="titulo">PROGRAMA DE CAPACITACIÓN PARA INSERCIÓN LABORAL</label>
+
+				<div class="lblGeneral">Servicio Educativo</div>
+				<input id="servicioEducativo" type="text" class="txtGeneral txtGeneral1" readonly />
+				<div class="lblGeneral left1">Fecha Evaluación</div>
+				<input id="fechaEvaluacion" type="text" class="txtGeneral left2" readonly />
+				<div class="lblGeneral top1">Docente</div>
+				<input id="docentes" type="text" class="txtGeneral top2 txtGeneral1"  readonly />
+				<input id="hidddocentes" type="hidden" class="" readonly />
+				<div class="lblGeneral top1 left1">Lugar Servicio</div>
+				<input id="lugarServicio" type="text" class="txtGeneral top2 left2" readonly />
+			</div>
+			
+			<div class="linea1">
+				<label class="texto"> <div id="divNombre"></div> Con el fin de evaluar nuestros servicios educativos y mantener su nivel de calidad y excelencia, deseamos conocer su opinión sobre los aspectos que presentamos a continuación, ya que de ello depende nuestro mejoramiento. </label>	
+			</div>
+
+			<div class="linea2">
+				<label class="titulo">A. SATISFACCIÓN GENERAL</label>
+				<br><br>
+				<label class="texto">Puede por favor indicarnos ¿Cúal es su nivel de satisfacción general frente a la calidad del servicio que Usted ha recibido o recibió, durante el desarrollo de su curso o programa?:</label>	
+				<br>
+			</div>
+			<div class="lblGeneral">Nivel de Satisfacción</div>
+			<select id="satisfaccion" class="lista seleccion">
+				<option value="">Seleccione...</option>
+				<option value="5">5. Muy satisfecho</option>
+				<option value="4">4. Satisfecho</option>
+				<option value="3">3. Regularmente satisfecho</option>
+				<option value="2">2. Insatisfecho</option>
+				<option value="1">1. Muy insatisfecho</option>
+			</select>
+			<br><br>
+			<label class="texto">En caso de calificar 3 o menos díganos, ¿Por qué?:</label>	
+			<br>
+			<div class="descripcion">
+				<textarea id="descripcionSatisfaccion" class="cuadroTexto" name="descripcion" placeholder="Anote aquí sus observaciones"></textarea>
+			</div>
+			<div class="linea3">
+				<label class="titulo">B. ASPECTOS GENERALES DEL SERVICIO</label>
+				<br><br>
+				<label class="texto">Califique los siguientes aspectos seleccionando frente a cada aspecto general del servicio, teniendo en cuenta una escala de 1 a 5, donde 5 es la mayor calificación y 1 la menor. Por favor responda de manera objetiva; no deje preguntas sin responder.</label>	
+			</div>
+			<br>
+			<div class="tablaEvaluativa">
+				<table width="952" border="0">
+					<tr class="principales">
+						<td width="43">No.</td>
+						<td width="404"><center>CONCEPTO</center></td>
+						<td width="95"><center>1 Deficiente</center></td>
+						<td width="95"><center>2 Regular</center></td>
+						<td width="95"><center>3 Aceptable</center></td>
+						<td width="95"><center>4 Bueno</center></td>
+						<td width="95"><center>5 Excelente</center></td>
+					</tr>
+					<tr>
+						<td class="principales">1</td>
+						<td>Claridad del alcance u objetivos previstos para el curso o programa</td>
+						<td><center><input name="claridad" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="claridad" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="claridad" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="claridad" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="claridad" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+					<tr>
+						<td class="principales">2</td>
+						<td>Metodología implementada por el docente</td>
+						<td><center><input name="metodologia" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="metodologia" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="metodologia" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="metodologia" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="metodologia" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+					<tr>
+						<td class="principales">3</td>
+						<td>Contenidos del curso o programa</td>
+						<td><center><input name="contenidos" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="contenidos" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="contenidos" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="contenidos" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="contenidos" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+					<tr>
+						<td class="principales">4</td>
+						<td>Material de apoyo utilizado durante el curso o programa</td>
+						<td><center><input name="material" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="material" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="material" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="material" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="material" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+					<tr>
+						<td class="principales">5</td>
+						<td>Instalaciones en las que se prestó o está prestando el curso o programa</td>
+						<td><center><input name="instalaciones" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="instalaciones" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="instalaciones" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="instalaciones" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="instalaciones" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+					<tr>
+						<td class="principales">6</td>
+						<td>Cumplimiento de los objetivos planteados para el curso o programa</td>
+						<td><center><input name="objetivos" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="objetivos" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="objetivos" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="objetivos" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="objetivos" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+					<tr>
+						<td class="principales">7</td>
+						<td>Cumplimiento de los tiempos establecidos para el curso o programa</td>
+						<td><center><input name="tiempos" type="radio" value="1" class="tablaE"/></center></td>
+						<td><center><input name="tiempos" type="radio" value="2" class="tablaE"/></center></td>
+						<td><center><input name="tiempos" type="radio" value="3" class="tablaE"/></center></td>
+						<td><center><input name="tiempos" type="radio" value="4" class="tablaE"/></center></td>
+						<td><center><input name="tiempos" type="radio" value="5" class="tablaE"/></center></td>
+					</tr>
+				</table>
+				<br>
+				<div class="linea3">
+					<label class="texto">En caso de calificar 3 o menos en alguno de los aspectos, por favor díganos, ¿Por qué?:</label>	
+					<br>
+					<div class="descripcion">
+						<textarea id="descripcionServicio" class="cuadroTexto" name="descripcion" placeholder="Anote aquí sus observaciones"></textarea>
+					</div>
+					<div class="linea3">
+						<label class="titulo">C. OBSERVACIONES</label>
+						<br><br>
+						<label class="titulo azul">Aspectos Positivos</label>
+						<br>
+						<div class="descripcion"><textarea id="aspectosPositivos" class="cuadroTexto" name="descripcion" placeholder="Anote aquí sus observaciones sobre los Aspectos Positivos"></textarea></div>
+						<br>
+						<label class="titulo azul">Aspectos Por Mejorar</label>
+						<br>
+						<div class="descripcion"><textarea id="aspectosParaMejorar" class="cuadroTexto" name="descripcion" placeholder="Anote aquí sus observaciones sobre los Aspectos Por Mejorar" type="text"></textarea></div>
+						<br>
+						<!-- <div class="botonesDown"> -->
+							<!-- <button id="guardarGestion" type="button" class="botonAzul izquierda2">Guardar</button> -->
+							<!-- <button id="volverListaModulosaEvaluar" type="button" class="botonAzul izquierda">Volver</button> -->
+						<!-- </div> -->
+						<div id="divBoton" class="cuerpo" style="display:none">
+							<button id="btnVolverABusqueda" type="button" class="boton izquierda">Volver a la busqueda</button>
+						</div>	
+						<div class="campoVacio"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="divBoton" class="cuerpo" style="display:none">
+		<button id="btnVolverABusqueda" type="button" class="boton">Volver la busqueda</button>
+	</div>	
 	<!-- FIN CUERPO -->
 	<!-- FOOTER -->
 	<footer></footer>
