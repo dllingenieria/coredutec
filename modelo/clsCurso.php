@@ -691,43 +691,40 @@ public function cerrarCursoMatriculaTercero($param){
 		$array=array();		
 		$IdUsuario = $_SESSION['idUsuario'];		
 		
-		$conexion->getPDO()->query("SET NAMES 'utf8'");
-          		     
-			$sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
-				
-				if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta cerrar curso
-					$conexion->getPDO()->query("SET NAMES 'utf8'");
-                    $rs=null;				  
-					$sql = "CALL SPAGREGARPORCENTAJESDEASISTENCIASPORSALON($idPreprogramacion,$IdUsuario);";
-					if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta porcentajeAsistenciasporsalon
-						$conexion->getPDO()->query("SET NAMES 'utf8'");
-                       $rs=null;					   
-						$sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
-						if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon					
-							
-					   $rs=null;
-					   $conexion->getPDO()->query("SET NAMES 'utf8'");
-					   $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
-							if (!$rs = $conexion->getPDO()->query($sql)) {
-								$data["error"]="No se encontraron las notas por salon";
-							}
-			
-					}else{ //validar conexion y consulta consultarnotasporsalon
-						$data["error"]="No se encontraron las notas por salon";
-						print_r($conexion->getPDO()->errorInfo()); die();
-					}
-				
-				
-				}else{//validar conexion y consulta porcentajeAsistenciasporsalon
-					$data["error"]="No se agrego el porcentaje de asistencia";
-				}
-				
-					
-			}//validar conexion y consulta cerrar curso
-			else{
-				$data["error"]="No se pudo cerrar el curso";
-				print_r($conexion->getPDO()->errorInfo()); die();
-			}
+		  $conexion->getPDO()->query("SET NAMES 'utf8'");
+                    $rs=null;                 
+                    $sql = "CALL SPAGREGARPORCENTAJESDEASISTENCIASPORSALON($idPreprogramacion,$IdUsuario);";
+                    if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta porcentajeAsistenciasporsalon
+                        $conexion->getPDO()->query("SET NAMES 'utf8'");
+                       $rs=null;                       
+                        $sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
+                        if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon                  
+                            
+                       $rs=null;
+                       $conexion->getPDO()->query("SET NAMES 'utf8'");
+                       $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
+                            if (!$rs = $conexion->getPDO()->query($sql)) {
+                                $data["error"]="Error al cerrar la matricula";
+                            }
+
+                       $rs=null;
+                       $conexion->getPDO()->query("SET NAMES 'utf8'");
+                       $sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
+                            if (!$rs = $conexion->getPDO()->query($sql)) {
+                                $data["error"]="No se pudo cerrar el curso";
+                                print_r($conexion->getPDO()->errorInfo()); die();
+                            }
+            
+                    }else{ //validar conexion y consulta consultarnotasporsalon
+                        $data["error"]="No se encontraron las notas por salon";
+                        print_r($conexion->getPDO()->errorInfo()); die();
+                    }
+                
+                
+                }else{//validar conexion y consulta porcentajeAsistenciasporsalon
+                    $data["error"]="No se agrego el porcentaje de asistencia";
+                }
+                
 			//var_dump($data);
 			echo json_encode($data);
         
