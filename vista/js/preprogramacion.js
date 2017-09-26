@@ -374,12 +374,19 @@ function guardarPreprogramacion() {
                     }, 2000); 
                     popUpConfirmacion("Guardado"); 
 					$('#btnGuardar').attr("disabled", false);
-                } else {
+                } else if (data === 0) {
 					setTimeout(function() {
                         location.reload(true);
                     }, 3000); 
                     jsRemoveWindowLoad();
                     mostrarPopUpError("Su registro no pudo guardarse, posiblemente esta repetido o verifique su conexión y vuelva a intentarlo");
+                }
+				else if (data === -1) {
+					setTimeout(function() {
+                        location.reload(true);
+                    }, 3000); 
+                    jsRemoveWindowLoad();
+                    mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");  
         }
@@ -432,9 +439,16 @@ function modificarPreprogramacion() {
                     setTimeout(function() {
                         location.reload(true);
                     }, 1500); 
-                } else {
+                } else if (data === 0) {
 					jsRemoveWindowLoad();
-                    alert("Error modificarPreprogramacion.");
+                    mostrarPopUpError("Error modificarPreprogramacion.");
+                }
+				else if (data === -1) {
+					setTimeout(function() {
+                        location.reload(true);
+                    }, 3000); 
+                    jsRemoveWindowLoad();
+                    mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");
         }

@@ -699,21 +699,60 @@ public function cerrarCursoMatriculaTercero($param){
                        $rs=null;                       
                         $sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
                         if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon                  
-                            
-                       $rs=null;
-                       $conexion->getPDO()->query("SET NAMES 'utf8'");
-                       $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
-                            if (!$rs = $conexion->getPDO()->query($sql)) {
-                                $data["error"]="Error al cerrar la matricula";
-                            }
+                            //validacion1  si un estudiante tiene asistencia > 0 la nota debe ser > 0
+								$rs=null;                 
+								$sql = "CALL SPCONSULTARASISTENCIAYNOTAPORSALON($idPreprogramacion);";
+								if ($rs = $conexion->getPDO()->query($sql)) {
+									if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+											foreach ($filas as $fila) {
+												$array[] = $fila;
+											}
+										}
+										if (count($array)>0){
+											$data["error"]="No se pudo cerrar el curso hay estudiantes: ".$array['Cedula']." con asistencias y nota 0";
+										}
+										else{
+											//validacion2 Si la nota es < 3 debe tener motivo de no asistencia
+											$rs=null;
+											unset($array);
+											$sql = "CALL SPCONSULTARNOTASMOTIVONOASISTENCIAPORSALON($idPreprogramacion);";
+											if ($rs = $conexion->getPDO()->query($sql)) { 
+												if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+													foreach ($filas as $fila) {
+														$array[] = $fila;
+													}
+												}
+												if (count($array)>0){
+													$data["error"]="No se pudo cerrar el curso hay estudiantes: ".$array['Cedula']." con nota menor a 3 y sin motivo no asistencia";
+												}
+												else{
+													$rs=null;
+													   $conexion->getPDO()->query("SET NAMES 'utf8'");
+													   $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
+															if (!$rs = $conexion->getPDO()->query($sql)) {
+																$data["error"]="Error al cerrar la matricula";
+															}
 
-                       $rs=null;
-                       $conexion->getPDO()->query("SET NAMES 'utf8'");
-                       $sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
-                            if (!$rs = $conexion->getPDO()->query($sql)) {
-                                $data["error"]="No se pudo cerrar el curso";
-                                print_r($conexion->getPDO()->errorInfo()); die();
-                            }
+													   $rs=null;
+													   $conexion->getPDO()->query("SET NAMES 'utf8'");
+													   $sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
+															if (!$rs = $conexion->getPDO()->query($sql)) {
+																$data["error"]="No se pudo cerrar el curso";
+																print_r($conexion->getPDO()->errorInfo()); die();
+															}
+												}
+											}
+											else{
+												$data["error"]="No se pudo cerrar el curso no se consultaron notas y motivos no asistencias";
+											}
+										}
+									
+								}
+								else{
+									$data["error"]="No se pudo cerrar el curso no se consultaron las notas y las asistencias";
+								}
+							   
+							   
             
                     }else{ //validar conexion y consulta consultarnotasporsalon
                         $data["error"]="No se encontraron las notas por salon";
