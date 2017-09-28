@@ -559,25 +559,30 @@ class clsCurso {
 			}
 		
 		//---------- FIN VALIDACION DE PLANEACION
-		//---------- VALIDACION DE EVALUACION
-				$conexion->getPDO()->query("SET NAMES 'utf8'");
+        //---------- VALIDACION DE EVALUACION
+                $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $rs=null;
-				$sql = "CALL SPVALIDAREVALUACIONESCERRARCURSO($idPreprogramacion);";
-				if ($rs = $conexion->getPDO()->query($sql)) {
-					$fila = $rs->fetch(PDO::FETCH_ASSOC);
-					if ($fila['Resultado'] == 0){
-						$data["error"]="No se puede cerrar el curso, faltan evaluaciones por ingresar";
-						echo json_encode($data);
-						exit;
-					}
-					else{
-						$data['evaluacion']="ok";
-					}
-				}
-				else{
-					$data["error"]="No se consulto la evaluación";
-					print_r($conexion->getPDO()->errorInfo()); die();
-				}					
+                $sql = "CALL SPVALIDAREVALUACIONESCERRARCURSO($idPreprogramacion);";
+                if ($rs = $conexion->getPDO()->query($sql)) {
+                    $fila = $rs->fetch(PDO::FETCH_ASSOC);
+                    $resultado =strpos($fila['Resultado'], "-");
+
+                    if ($resultado === false) {
+                            if ($fila['Resultado'] != 0){
+                                   $data['evaluacion']="ok";
+                            }
+                    }else{
+                        $resultado1 = explode("-", $fila['Resultado']);
+                        $evaluacionesRealizadas=$resultado1[0];
+                        $evaluacionesMinimas=$resultado1[1];
+
+                        $evaluacionesFaltantes=($evaluacionesMinimas-$evaluacionesRealizadas);
+
+                        $data["error"]="Faltan ".$evaluacionesFaltantes." Evaluacion(s) de ".$evaluacionesMinimas." para cerrar el curso";
+                        echo json_encode($data);
+                        exit;
+                    }
+                }
 							
 		//---------- FIN VALIDACION DE EVALUACION
 		
