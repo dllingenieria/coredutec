@@ -39,6 +39,7 @@ class clsProgramacion {
     public function AgregarPreprogramacion($param) { 
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
+		//id_doc docente
         $sql = "CALL SPAGREGARPREPROGRAMACION('$cod_mat', '$cod_sal',$tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin, '$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
             $tip_cer,".$IdUsuario.",$pre_est,'$canSesiones','$capSalon','$inteHoraria','$observacion');";
@@ -63,6 +64,10 @@ class clsProgramacion {
 						}
 					}
 				 }
+				$correo=enviarCorreoDocente($id_doc);
+				if($correo == ""){
+					$array = -1;
+				}
 			}
 				
 			 else {    
@@ -251,6 +256,10 @@ class clsProgramacion {
 		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {          
             $array = 1;
+			$correo=enviarCorreoDocente($id_doc);
+			if($correo == ""){
+				$array = -1;
+			}
         } else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); 
@@ -335,6 +344,63 @@ public function consultarGestionPreprogramacion($param) {
            $array = 0;
        }
        echo json_encode($array);
+   }
+   
+   public function enviarCorreoDocente($id_doc){
+	   
+	    $sql = "CALL SPCONSULTARCORREODOCENTE($id_doc);";
+		$rs=null;
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+				
+				//plantilla para el envio del correo
+				// Varios destinatarios
+				$para  = 'aidan@example.com' . ', '; // atención a la coma
+				$para .= 'wez@example.com';
+
+				// título
+				$título = 'Proprogramación Asignada';
+
+				// mensaje
+				$mensaje = '
+				<html>
+				<head>
+				  <title>Preprogramación Asignada</title>
+				</head>
+				<body>
+				  <p>Estos son los datos de la preprogramación</p>
+				  <table>
+					<tr>
+					  <th>Código Sálon</th><th>Código Curso</th><th>Días Curso</th><th>Hora Inicial</th><th>Hora Inicial</th><th>Sede</th><th>Fecha Inicial</th><th>Fecha Final</th>
+					</tr>
+					<tr>
+					  <td>$cod_sal</td><td>$cur_cod</td><td>$cur_dia</td><td>$hra_ini</td><td>$hra_fin</td><td>$id_sed</td><td>$fec_ini</td><td>$fec_fin</td>
+					</tr>
+					</table>
+				</body>
+				</html>
+				';
+
+				// Para enviar un correo HTML, debe establecerse la cabecera Content-type
+				$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+				$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+				// Cabeceras adicionales
+				$cabeceras .= 'To: Docente <'.$array['correo'].'>' . "\r\n";
+				$cabeceras .= 'From: Preprogramación <cumples@example.com>' . "\r\n";
+				// $cabeceras .= 'Cc: birthdayarchive@example.com' . "\r\n";
+				// $cabeceras .= 'Bcc: birthdaycheck@example.com' . "\r\n";
+
+				// Enviarlo
+				mail($para, $título, $mensaje, $cabeceras);
+            }
+        } else {
+            $array = "";
+        }
    }
 
 }

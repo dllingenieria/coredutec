@@ -1,4 +1,6 @@
 $(function() { 
+
+	$("#btnAModulos").hide();
 	//configuracion del calendario
 	 $.datepicker.regional['es'] = {
         currentText: 'Hoy',
@@ -18,18 +20,19 @@ $(function() {
     $.datepicker.setDefaults($.datepicker.regional['es']);
 	
 	$("#txtFecha").datepicker();
+	obtenerFechaActual();
 	
     if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
         window.location.href = "calidad.html";
     }
 	
     var columnas = new Array(
-        { title: "IdEvaluacion" },
-        { title: "Fecha" },
+        { title: "N°" },
+        { title: "Id" },
         { title: "Estudiante" },
-        { title: "Docente" },
-		{ title: "Módulo" },
-        { title: "Sede" });
+		{ title: "Identificación" },
+		{ title: "Cantidad" },
+        { title: "Tipo" });
 		
 	
 	$("#btnConsularReporte").click(function(){ 
@@ -47,8 +50,8 @@ $(function() {
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
-			clase: 'clsAlimentcion',
-			oper: 'obtenerReporteAlimentacion',
+			clase: 'clsAlimentacion',
+			oper: 'consultarReporteAlimentacionPorPreprogramacion',
 			fecha: fecha,
 			IdPreprogramacion:sessionStorage.IdPreprogramacion
 			
@@ -60,11 +63,9 @@ $(function() {
 					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
-					// recuperarDatos();
-					// $("#formatoFirmas").css("display","");
-					$("#btnVerDetalle").css("display","");
-					$("#btnAModulos").css("display","");
-					// $("#planeacion").css("display","");
+					
+					$("#btnAModulos").show();
+					
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
@@ -72,7 +73,7 @@ $(function() {
 	
 
     function cargarInformacionEnTabla(data){ //alert(data);
-        var table = $('#tablaCalidad').DataTable({
+        var table = $('#tablaReporteAlimentacion').DataTable({
             "data": data,
             columns: columnas,
             "paging":   false,
@@ -93,115 +94,35 @@ $(function() {
                 "Search:": "Filtrar"
             }
         });
-		$('#tablaCalidad tbody').on( 'click', 'tr', function () { 
 		
-			if ( $(this).hasClass('selected')) { //alert("hi");
-                $(this).removeClass('selected'); 
-				 seleccionado = false;
-            }else{ //alert("ho");
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-				seleccionado = true;
-				
-            }
-             if(typeof(Storage) !== "undefined") {
-                sessionStorage.IdEvaluacion = table.row(this).data()[0];
-                sessionStorage.Fecha = table.row(this).data()[1];
-                sessionStorage.Estudiante = table.row(this).data()[2];
-                sessionStorage.Docente = table.row(this).data()[3];
-                sessionStorage.Modulo = table.row(this).data()[4];
-                sessionStorage.Sede = table.row(this).data()[5];
-				
-				
-               
-             } else {
-                // alert("Por favor actualice su navegador o utilice otro: SessionStorage");
-				sessionStorage.IdEvaluacion = "";
-             }
-			 
-        } );
 		
     }
 	
-	
+	function obtenerFechaActual(){
+		var hoy = new Date();
+		var dd = hoy.getDate();
+		var mm = hoy.getMonth()+1; //hoy es 0!
+		var yyyy = hoy.getFullYear();
+
+		if(dd<10) {
+			dd='0'+dd
+		} 
+
+		if(mm<10) {
+			mm='0'+mm
+		} 
+
+		// hoy = mm+'/'+dd+'/'+yyyy; 2017-09-25
+		hoy = yyyy+'-'+mm+'-'+dd;
+		
+		$(".fecha").val(hoy);
+		//$('.fecha').prop('readonly', true);
+	}
 	
 	$("#btnAModulos").click(function(){
-    window.location.href = "calidad.html";
+    window.location.href = "alimentacion.html";
 });
 	
-	$("#btnVerDetalle").click(function(){ 
-        if (typeof(sessionStorage.IdEvaluacion) !== "undefined" && seleccionado == true) {
-            // window.location.href = "planeacion.html";
-            cargarDetalleEvaluacion(); 
-         }else{
-             mostrarPopUpError("Por favor seleccione una Evaluación");
-         }
-    });
-	
-
- 
-
- /*Trae la informacion del detalle de una evaluacion seleccionada
-*/
- function cargarDetalleEvaluacion(){ 
-
-		
-    $.post("../../controlador/fachada.php", {
-            clase: 'clsCalidad',
-            oper: 'cargarDetalleEvaluacion',
-            IdEvaluacion: sessionStorage.IdEvaluacion
-			}, function(data) { 
-             if (data !== 0) {
-                 if(data !== null){
-					
-					console.log(data[0]);
-					$(".filtro").hide();
-					$("#sectCuerpo").hide();
-					
-					// $("#divDetalle").html(data.html);
-					
-					$("#divDetalle").show();
-					$("#divBoton").show();
-					
-					$("#btnVolverABusqueda").click(function(){ window.location.href = "ingresarCalidad.html"; })
-					//llenar los datos
-					
-					$("#fechaEvaluacion").val(sessionStorage.Fecha);
-					$("#docentes").val(sessionStorage.Docente);
-					$("#lugarServicio").val(sessionStorage.Sede);
-					$("#servicioEducativo").val(sessionStorage.Modulo);
-					$("#divNombre").html("<b>Bienvenido (a): "+sessionStorage.Estudiante+"</b>");
-					
-					//falta poner el modulo
-						//sessionStorage.Modulo = table.row(this).data()[4];
-					//llenar datos evaluacion
-					$("#satisfaccion").val(); $("#satisfaccion option[value="+ data[0].Satisfaccion +"]").attr("selected",true);
-					$("#descripcionSatisfaccion").html(data[0].DescripcionSatisfaccion);
-					$("input:radio[name=claridad]", "#divEvaluacion").filter("[value="+data[0].Claridad+"]").prop("checked", true);
-					$("input:radio[name=metodologia]", "#divEvaluacion").filter("[value="+data[0].Metodologia+"]").prop("checked", true);
-					$("input:radio[name=contenidos]", "#divEvaluacion").filter("[value="+data[0].Contenidos+"]").prop("checked", true);
-					$("input:radio[name=material]", "#divEvaluacion").filter("[value="+data[0].Material+"]").prop("checked", true);
-					$("input:radio[name=instalaciones]", "#divEvaluacion").filter("[value="+data[0].Instalaciones+"]").prop("checked", true);
-					$("input:radio[name=objetivos]", "#divEvaluacion").filter("[value="+data[0].Objetivos+"]").prop("checked", true);
-					$("input:radio[name=tiempos]", "#divEvaluacion").filter("[value="+data[0].Tiempos+"]").prop("checked", true);
-					$("#descripcionServicio").html(data[0].DescripcionServicio);
-					$("#aspectosPositivos").html(data[0].AspectosPositivos);
-					$("#aspectosParaMejorar").html(data[0].AspectosParaMejorar);
-					
-		
-                 } else{
-                         mostrarPopUpError("No hay datos");
-                       }             
-             } 
-             else {
-                     mostrarPopUpError("No se encontraron los datos");
-                 }
-        }, "json");
-}
-
-
-
-
 
 
 function jsRemoveWindowLoad() {
