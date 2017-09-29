@@ -30,15 +30,17 @@ $(function() {
         });
     }
 
-    function GuardarArchivo(archivo) { 
-		var valorSeleccionado = $("#selCarga").val(); 
-		var ubicacion = $("#txtDireccion"+archivo).val(); 
-		
+	
+	function almacenarArchivos(archivo,ubicacion){
+
+		var ubicacion = $("#ruta"+archivo).val()+"/"+archivo+"/"; 
+		var valorSeleccionado = archivo; 		
         var archivos = document.getElementById("txtexaminararchivos"+archivo);
+        console.log("archivos"+archivos);
         // var archivos = $("[id^='txtexaminararchivos']").val();
         var archivo = archivos.files;
         if (typeof archivo[0] !== "undefined") {
-            if (archivo[0].size < 1048576) {
+            if (archivo[0].size < 1000048576) {
                 var data = new FormData();
                 data.append('vid', archivo[0]);
                 $.ajax({
@@ -55,15 +57,38 @@ $(function() {
 					
                      
                 }).success(function() { 
-                    if (valorSeleccionado=="1"){EvaluarArchivo();}
+                    if (valorSeleccionado=="Autorizacion"){EvaluarArchivo();}
 					
 					jsRemoveWindowLoad();
                 });
             } else
             {
+            	jsRemoveWindowLoad();
                 mostrarPopUpError('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR EL DOCUMENTO ASEGURESE QUE SU TAMAÑO SEA MENOR.');
             }
         }
+	
+	}
+	
+	
+    function GuardarArchivo() { 		
+
+		if($("#rutaAutorizacion").val()){
+			var archivo="Autorizacion";
+			almacenarArchivos(archivo);	
+		}
+		if($("#rutaEscaneado").val()){
+			var archivo="Escaneado";
+			almacenarArchivos(archivo);				
+		}
+		if($("#rutaFuente").val()){
+			var archivo="Fuente";
+			almacenarArchivos(archivo);	
+		}
+	
+	
+	
+	
     }
 
 	/*
@@ -99,7 +124,20 @@ $(function() {
         );
    }
 
-    $("[id^='txtexaminararchivos']").change(function() { 
+	$("#btnCarga").click(function() { 
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		var valorSeleccionado = $("#selCarga").val();
+		
+		if($("[id^='txtDescripcion']").val()!='' && $("[id^='txtFecha']").val()!='' && $("[id^='txtDireccion']").val()!=''){ 
+			GuardarArchivo(); 
+		}else{
+			jsRemoveWindowLoad();
+			mostrarPopUpError("Falta diligenciar campos");
+		}
+	});
+	
+    $("[id^='txtexaminararchivos1']").change(function() { 
         
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
@@ -245,9 +283,7 @@ function jsShowWindowLoad(mensaje) {
 	$( "#selCarga" ).change(function() { 
 			valorSeleccionado = $("#selCarga").val(); 
 			$("#fondoerrores").html("");
-			// $( "input", $(".form") ).val("");
 			
-			// $( "input[id!=txtFecha]", $(".form") ).val("");
 			$( "input[id^='txtDescripcionf']", $(".form") ).val("");
 			switch (valorSeleccionado) {
 				case "00":
@@ -257,15 +293,13 @@ function jsShowWindowLoad(mensaje) {
 				case "1":
 					$(".form").hide();
 					$("#ActualizarTercero").show();
-					cargarOpcionesArchivos(valorSeleccionado);
-				    
+					cargarOpcionesArchivos(valorSeleccionado);			    
 					 
 					break;
 				case "2":
 					$(".form").hide();
 					cargarOpcionesArchivos(valorSeleccionado);
-					// $("#soporteMatriculas").show();
-					
+					// $("#soporteMatriculas").show();				
 					
 					break;
 				case "3":
@@ -333,6 +367,7 @@ function jsShowWindowLoad(mensaje) {
 	}
 	
 	function CargarListaCargasMasivas() {  
+		console.log("aqui");
     $.post("../../controlador/fachada.php", {
          clase: 'clsGestorBDPlanas',
          oper: 'CargarListaCargasMasivas',
@@ -369,21 +404,29 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
 
 	//se muestra el formulario basico
 	$("#formBasico").show();
+	$("#botones_carga").show();
 	
     $.post("../../controlador/fachada.php", {
          clase: 'clsGestorBDPlanas',
          oper: 'cargarOpcionesArchivos',
 		 valor:valor
     }, function(data) { 
+		console.log(data);
         if (data !== 0) {
            if ( data[0].ArchivoAutorizacion == "S"){
 			   $("#Autorizacion").show();
+			   $("#rutaAutorizacion").val(data[0].Ruta);
+			   $("#tablaAutorizacion").val(data[0].NombreTabla);
 		   }
 		   if ( data[0].ArchivoFuente == "S"){
 			   $("#Fuente").show();
+			   $("#rutaFuente").val(data[0].Ruta);
+			   $("#tablaFuente").val(data[0].NombreTabla);
 		   }
 		   if ( data[0].ArchivoEscaneado == "S"){
 			   $("#Escaneo").show();
+			   $("#rutaEscaneo").val(data[0].Ruta);
+			   $("#tablaEscaneo").val(data[0].Ruta);
 		   }
         }
         else {

@@ -110,119 +110,42 @@
 			<div id="lblFecha" class="LblCaptura">Fecha</div>
 			<input type="date" id="txtFecha" class="TxtCaptura fecha"/>
 		</div>
-		<div id="Autorizacion" style="display:none" class="form">
-			<div id="lblAutorizacion" class="LblCaptura">Autorización</div>
-			<input type="file"  id="txtexaminararchivosAutorizacion" class="TxtCarga" />
-			<input id="subir" type="file" value="Cargar"/><br>
-		</div>
-		<div id="Fuente" style="display:none" class="form">
-			<div id="lblFuente" class="LblCaptura">Fuente</div>
-			<input type="file"  id="txtexaminararchivosFuente" class="TxtCarga" />
-			<input id="subirFuente" type="file" value="Cargar"/>
-		</div>
-		<div id="Escaneo" style="display:none" class="form">
-			<div id="lblEscaneado" class="LblCaptura">Escaneado</div>
-			<input type="file"  id="txtexaminararchivosEscaneado" class="TxtCarga" />
-			<input id="subirEscaneado" type="file" value="Cargar"/>
-		</div>
 		
 		<div id="ActualizarTercero" style="display:none" class="form">
 			<div id="lblCheck" class="LblCaptura">Actualizar Terceros</div>
 			<input type="checkbox" id="txtCheck" class="TxtCheck"/>
+			
 		</div>
 		
+	
 		
-		<!--<div id="soporteMatriculas" style="display:none" class="form">
-        <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcionm" class="TxtCaptura"/><br><br>
-        
-        <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccionm" class="TxtCaptura"/>
-
-        <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFecham" class="TxtCaptura fecha"/>
-		
-        <input type="file"  id="txtexaminararchivosmFuente" class="TxtCarga" />
-        <input id="subir" type="file" value="Cargar"/>
-		<input type="file"  id="txtexaminararchivosmEscaneado" class="TxtCarga" />
-        <input id="subirEscaneado" type="file" value="Cargar"/>
-		
-		
+		<div id="Autorizacion" style="display:none" class="form">
+			<div id="lblAutorizacion" class="LblCaptura">Autorización</div>
+			<input type="file"  id="txtexaminararchivosAutorizacion" class="TxtCarga" />
+			<input type="hidden" id="rutaAutorizacion" />
+			<input type="hidden" id="tablaAutorizacion" />
+			<br>
 		</div>
 		
-		<div id="soporteFirmas" style="display:none" class="form">
-        <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcionf" class="TxtCaptura"/><br><br>
-        
-        <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccionf" class="TxtCaptura"/>
-
-        <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFechaf" class="TxtCaptura fecha"/>
-		
-        <input type="file"  id="txtexaminararchivosfFuente" class="TxtCarga" />
-        <input id="subir" type="file" value="Cargar"/>
-		<input type="file"  id="txtexaminararchivosfEscaneado" class="TxtCarga" />
-        <input id="subirEscaneado" type="file" value="Cargar"/>
-		
-		
-		
+		<div id="Escaneo" style="display:none" class="form">
+			<div id="lblEscaneado" class="LblCaptura">Escaneado</div>
+			<input type="file"  id="txtexaminararchivosEscaneado" class="TxtCarga" />
+			<input type="hidden" id="rutaEscaneado" />
+			<input type="hidden" id="tablaEscaneado" />
 		</div>
 		
-		<div id="cambioEstados" style="display:none" class="form">
-        <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcione" class="TxtCaptura"/><br><br>
-        
-        <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccione" class="TxtCaptura"/>
-
-        <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFechae" class="TxtCaptura fecha"/>
+		<div id="Fuente" style="display:none" class="form">
+			<div id="lblFuente" class="LblCaptura">Fuente</div>
+			<input type="file"  id="txtexaminararchivosFuente" class="TxtCarga" />
+			<input type="hidden" id="rutaFuente" />
+			<input type="hidden" id="tablaFuente" />
+		</div>
+	
 		
-        <input type="file"  id="txtexaminararchivoseAutorizacion" class="TxtCarga" />
-        <input id="subir" type="file" value="Cargar"/>
-		<input type="file"  id="txtexaminararchivoseFuente" class="TxtCarga" />
-        <input id="subirFuente" type="file" value="Cargar"/>
-		
-		
+		<div id="botones_carga" style="display: none">
+			<input type="button" class="boton" id="btnCarga" value="Subir Carga" >
 		</div>
 		
-		<div id="soporteRefrigerios" style="display:none" class="form">
-        <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcionr" class="TxtCaptura"/><br><br>
-        
-        <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccionr" class="TxtCaptura"/>
-
-        <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFechar" class="TxtCaptura fecha"/>
-		
-        <input type="file"  id="txtexaminararchivosrFuente" class="TxtCarga" />
-        <input id="subir" type="file" value="Cargar"/>
-		<input type="file"  id="txtexaminararchivosrEscaneado" class="TxtCarga" />
-        <input id="subirEscaneado" type="file" value="Cargar"/>
-		
-		
-		</div>
-		
-		<div id="informeAgencia" style="display:none" class="form">
-        <div class="LblCaptura">Descripción</div>
-        <input type="text" id="txtDescripcionag" class="TxtCaptura"/><br><br>
-        
-        <div class="LblCaptura">Ubicación archivo</div>
-        <input type="text" id="txtDireccionag" class="TxtCaptura"/>
-
-        <div id="lblFecha" class="LblCaptura">Fecha</div>
-        <input type="date" id="txtFechaag" class="TxtCaptura fecha"/>
-		
-        <input type="file"  id="txtexaminararchivosagFuente" class="TxtCarga" />
-        <input id="subir" type="file" value="Cargar"/>
-		<input type="file"  id="txtexaminararchivosagEscaneado" class="TxtCarga" />
-        <input id="subirEscaneado" type="file" value="Cargar"/>
-		
-		
-		</div>
-        -->
         <div id="response">
             <div id="fondoerrores" style="display: show"></div>
         </div>

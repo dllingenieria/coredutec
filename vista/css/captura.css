@@ -161,7 +161,7 @@ body {
 
 .TxtCheck{
 	position:absolute;
-	margin-top: 80px;
+	margin-top: 120px;
 	margin-left: 985px;
 }
 
@@ -182,12 +182,12 @@ body {
 }
 
 #lblFecha, #txtFecha{
-	margin-top: 89px;
+	margin-top: 79px;
 
 }
 
 #lblCheck {
-	margin-top: 79px;
+	margin-top: 120px;
 
 }
 
@@ -197,7 +197,7 @@ body {
 
 #txtexaminararchivosAutorizacion{
 	margin-top: 159px;
-	margin-left: 965px;
+	margin-left: 920px;
 }
 
 #lblFuente, #txtexaminararchivosFuente{
@@ -207,18 +207,18 @@ body {
 
 #txtexaminararchivosFuente{
 	margin-top: 189px;
-	margin-left: 965px;
+	margin-left: 920px;
 
 }
 
 #lblEscaneado, #txtexaminararchivosEscaneado{
-	margin-top: 229px;
+	margin-top: 139px;
 
 }
 
 #txtexaminararchivosEscaneado{
-	margin-top: 229px;
-	margin-left: 965px;
+	margin-top: 139px;
+	margin-left: 920px;
 }
 
 
@@ -230,7 +230,7 @@ body {
 	background:#f1f1f1;
 	border-radius: 5px 5px 5px 5px;
 	margin-left: 744px;
-	margin-top: 174px;
+	margin-top: 24px;
 }
 
 .TxtCarga {
@@ -477,4 +477,11 @@ body {
    -moz-opacity:65;
     opacity:0.65;
     background:#999;
+}
+
+div#botones_carga {
+    width: 521px;
+    z-index: 2;
+    margin-left: 744px;
+    margin-top: 250px;
 }
