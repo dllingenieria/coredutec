@@ -396,7 +396,7 @@ public function consultarGestionPreprogramacion($param) {
 				//$mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
 				$mail->IsHTML(true);                                  // set email format to HTML
 				$mail->Subject = "Preprogramacion Asignada";
-				$mensaje = file_get_contents("http://localhost:8084/coredutec/vista/html/correo_preprogramacion.html");
+				$mensaje = file_get_contents("../coredutec/vista/html/correo_preprogramacion.html");
 				$mensaje = str_replace("cod_sal",$cod_sal, $mensaje);
 				$mensaje = str_replace("cur_cod",$cur_cod, $mensaje);
 				$mensaje = str_replace("cur_dia",$diasDelCurso, $mensaje);

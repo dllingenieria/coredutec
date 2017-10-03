@@ -930,7 +930,7 @@ public function cerrarCursoMatriculaTercero($param){
 			//$mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
 			$mail->IsHTML(true);                                  // set email format to HTML
 			$mail->Subject = "Preprogramacion Asignada";
-			$mensaje = file_get_contents("http://localhost:8084/coredutec/vista/html/correo_curso.html");
+			$mensaje = file_get_contents("../vista/html/correo_curso.html");
 			$mensaje = str_replace("cod_mat", $cod_mat, $mensaje);
 			$mail->Body    = $mensaje;
 			// $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
