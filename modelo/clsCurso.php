@@ -506,6 +506,42 @@ class clsCurso {
 		$parametros['idPreprogramacion']=$idPreprogramacion;
 		$IdUsuario = $_SESSION['idUsuario'];
         //validaciones para poder cerrar el curso
+		
+		//---------- ENVIAR CORREO A ESTUDIANTES
+			
+				$conexion->getPDO()->query("SET NAMES 'utf8'");
+                 $rs=null;
+				$sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
+				if ($rs = $conexion->getPDO()->query($sql)) {
+					if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+						foreach ($filas as $fila) {
+							$array[] = $fila; 
+						}
+					}
+					
+					
+					
+					$clave = array_pop($array)['Email'];
+					$correode=array_pop($array)['Email'];
+					if (count($array)>0){
+						for($i=0;$i<count($array);$i++){
+							$correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
+						
+						}
+					}
+					else{
+						$data["error"]="No se encontraron correos de estudiantes";
+					}
+				}
+				else{
+					$data["error"]="No se consultaron los correos";
+					print_r($conexion->getPDO()->errorInfo()); die();
+				}	
+			
+		
+		//---------- FIN CORREO A ESTUDIANTES
+		
+		
 		//----------CONSULTA DE SESIONES
 		$numeroSesiones=$this->consultarCalendarioPreprogramacion($param); 
 			if($numeroSesiones == -1){
@@ -863,6 +899,58 @@ public function cerrarCursoMatriculaTercero($param){
         }
         echo json_encode($array);
     }
+	
+	public function enviarCorreoEstudiante($cod_mat, $correo,$correode,$clave){
+	// public function enviarCorreoEstudiante($cod_mat, $correo="oscarlopez_v@hotmail.com"){
+	  
+			
+			// Motrar todos los errores de PHP
+			error_reporting(E_ALL);
+			// Motrar todos los errores de PHP
+			ini_set('error_reporting', E_ALL);
+			// require("includes/PHPMailer/class.phpmailer.php");
+			require_once("../includes/PHPMailer/class.phpmailer.php");
+			$mail = new PHPMailer();
+			$mail->IsSMTP();                                      // set mailer to use SMTP
+			$mail->Host = "smtp.zoho.com";  // specify main and backup server
+			$mail->SMTPAuth = true;     // turn on SMTP authentication
+			$mail->Username = $correode;  // SMTP username
+			$mail->Password = $clave; 
+			
+			// $mail->Username = "d1@dllingenieria.com.co";  // SMTP username
+			// $mail->Password = ""; // SMTP password
+			$mail->Port = 465;
+			$mail->SMTPSecure = "ssl";
+			$mail->From = $correode;
+			$mail->FromName = "CET";
+			$mail->AddAddress($correo);                  // name is optional
+			// $mail->AddReplyTo("ld@dllingenieria.com.co", "Information");
+			$mail->WordWrap = 50;                                 // set word wrap to 50 characters
+			$mail->AddAttachment("../Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
+			//$mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
+			$mail->IsHTML(true);                                  // set email format to HTML
+			$mail->Subject = "Preprogramacion Asignada";
+			$mensaje = file_get_contents("http://localhost:8084/coredutec/vista/html/correo_curso.html");
+			$mensaje = str_replace("cod_mat", $cod_mat, $mensaje);
+			$mail->Body    = $mensaje;
+			// $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
+			$envio=-1;
+			if(!$mail->Send())
+			{
+			 $envio=0;
+			}
+			// echo $envio;
+			return	$envio;
+		
+				
+				
+				
+				
+				
+				
+         
+   }
 }
+
 
 ?>

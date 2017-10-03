@@ -5,6 +5,7 @@ set_time_limit(0);
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -63,8 +64,10 @@ class clsProgramacion {
 							$array = 0;
 						}
 					}
-				 }
-				$correo=enviarCorreoDocente($id_doc);
+				 } 
+				$correo=$this->enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
+            $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
+            $tip_cer,$pre_est,$canSesiones,$capSalon,$inteHoraria,$observacion,$conexion);
 				if($correo == ""){
 					$array = -1;
 				}
@@ -256,7 +259,9 @@ class clsProgramacion {
 		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {          
             $array = 1;
-			$correo=enviarCorreoDocente($id_doc);
+			$correo=$this->enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
+            $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
+            $tip_cer,$pre_est,$canSesiones,$capSalon,$inteHoraria,$observacion,$conexion);
 			if($correo == ""){
 				$array = -1;
 			}
@@ -346,9 +351,13 @@ public function consultarGestionPreprogramacion($param) {
        echo json_encode($array);
    }
    
-   public function enviarCorreoDocente($id_doc){
+   public function enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
+            $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
+            $tip_cer,$pre_est,$canSesiones,$capSalon,$inteHoraria,$observacion,$conexion){
 	   
-	    $sql = "CALL SPCONSULTARCORREODOCENTE($id_doc);";
+	    $array=array();
+		$envio = "";
+		$sql = "CALL SPCONSULTARCORREODOCENTE($id_doc);";
 		$rs=null;
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -357,50 +366,64 @@ public function consultarGestionPreprogramacion($param) {
                     $array[] = $fila;
                 }
 				
-				//plantilla para el envio del correo
-				// Varios destinatarios
-				$para  = 'aidan@example.com' . ', '; // atención a la coma
-				$para .= 'wez@example.com';
+				
+				// Motrar todos los errores de PHP
+				error_reporting(E_ALL);
+				// Motrar todos los errores de PHP
+				ini_set('error_reporting', E_ALL);
+				// require("includes/PHPMailer/class.phpmailer.php");
+				require("../includes/PHPMailer/class.phpmailer.php");
+				// require("includes/PHPMailer/class.phpmailer.php");
+				// require("../includes/PHPMailer/class.phpmailer.php");
+				$mail = new PHPMailer();
+				$mail->IsSMTP();                                      // set mailer to use SMTP
+				$mail->Host = "smtp.zoho.com";  // specify main and backup server
+				$mail->SMTPAuth = true;     // turn on SMTP authentication
+				// $mail->Username = "d1@dllingenieria.com.co";  // SMTP username
+				$mail->Username = $array[1]['Email'];  // SMTP username
+				$mail->Password = $array[2]['Email']; // SMTP password
+				// $mail->Password = "qouv5eFl"; // SMTP password
+				$mail->Port = 465;
+				$mail->SMTPSecure = "ssl";
+				// $mail->From = "d1@dllingenieria.com.co";
+				$mail->From = $array[1]['Email'];
+				$mail->FromName = "CET";
+				// $mail->AddAddress("vivirodasm@gmail.com");                  // name is optional
+				$mail->AddAddress($array[0]['Email']);                  // name is optional
+				// $mail->AddReplyTo("ld@dllingenieria.com.co", "Information");
+				$mail->WordWrap = 50;                                 // set word wrap to 50 characters
+				// $mail->AddAttachment("Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
+				//$mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
+				$mail->IsHTML(true);                                  // set email format to HTML
+				$mail->Subject = "Preprogramacion Asignada";
+				$mensaje = file_get_contents("http://localhost:8084/coredutec/vista/html/correo_preprogramacion.html");
+				$mensaje = str_replace("cod_sal",$cod_sal, $mensaje);
+				$mensaje = str_replace("cur_cod",$cur_cod, $mensaje);
+				$mensaje = str_replace("cur_dia",$diasDelCurso, $mensaje);
+				$mensaje = str_replace("hra_ini",$horaInicio, $mensaje);
+				$mensaje = str_replace("hra_fin",$horaFinal, $mensaje);
+				$mensaje = str_replace("id_sed" ,$sede,  $mensaje);
+				$mensaje = str_replace("fec_ini",$fec_ini, $mensaje);
+				$mensaje = str_replace("fec_fin",$fec_fin, $mensaje);
+				
+				$mail->Body    = $mensaje;
+				// $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
+				
+				if(!$mail->Send())
+				{
+				 $envio = "";
+				}
+				else{
+					$envio=1;
+				}
+				// echo $envio;
+				
 
-				// título
-				$título = 'Proprogramación Asignada';
-
-				// mensaje
-				$mensaje = '
-				<html>
-				<head>
-				  <title>Preprogramación Asignada</title>
-				</head>
-				<body>
-				  <p>Estos son los datos de la preprogramación</p>
-				  <table>
-					<tr>
-					  <th>Código Sálon</th><th>Código Curso</th><th>Días Curso</th><th>Hora Inicial</th><th>Hora Inicial</th><th>Sede</th><th>Fecha Inicial</th><th>Fecha Final</th>
-					</tr>
-					<tr>
-					  <td>$cod_sal</td><td>$cur_cod</td><td>$cur_dia</td><td>$hra_ini</td><td>$hra_fin</td><td>$id_sed</td><td>$fec_ini</td><td>$fec_fin</td>
-					</tr>
-					</table>
-				</body>
-				</html>
-				';
-
-				// Para enviar un correo HTML, debe establecerse la cabecera Content-type
-				$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-				$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-				// Cabeceras adicionales
-				$cabeceras .= 'To: Docente <'.$array['correo'].'>' . "\r\n";
-				$cabeceras .= 'From: Preprogramación <cumples@example.com>' . "\r\n";
-				// $cabeceras .= 'Cc: birthdayarchive@example.com' . "\r\n";
-				// $cabeceras .= 'Bcc: birthdaycheck@example.com' . "\r\n";
-
-				// Enviarlo
-				mail($para, $título, $mensaje, $cabeceras);
             }
         } else {
-            $array = "";
+            $envio = "";
         }
+   return $envio;
    }
 
 }

@@ -364,7 +364,13 @@ function guardarPreprogramacion() {
 				canSesiones : $("#txtCanSesiones").val(),
 				capSalon : $("#txtCapSalon").val(),
 				inteHoraria : $("#txtInteHoraria").val(),
-				observacion : $("#txtObservacion").val()
+				observacion : $("#txtObservacion").val(),
+				
+				//campos para el correo
+				diasDelCurso : $("#cmbDiasDelCurso :selected").text(),
+				horaInicio: $("#cmbHoraInicio :selected").text(),
+                horaFinal: $("#cmbHoraFinal :selected").text(),
+				sede: $("#cmbSede :selected").text()
 				
             }, function(data) {
                 if (data === 1) {
@@ -430,7 +436,14 @@ function modificarPreprogramacion() {
 				canSesiones : $("#txtCanSesiones").val(),
 				capSalon : $("#txtCapSalon").val(),
 				inteHoraria : $("#txtInteHoraria").val(),
-				observacion : $("#txtObservacion").val()
+				observacion : $("#txtObservacion").val(),
+				
+				//campos para el correo
+				diasDelCurso : $("#cmbDiasDelCurso :selected").text(),
+				horaInicio: $("#cmbHoraInicio :selected").text(),
+                horaFinal: $("#cmbHoraFinal :selected").text(),
+				sede: $("#cmbSede :selected").text()
+				
             }, function(data) {
                 console.log("DEBUGING DATA");
                 console.log(data);
