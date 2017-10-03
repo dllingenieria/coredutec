@@ -377,7 +377,8 @@ $(function() {
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
 				if( valor != "NA" ){
-					if (valor < 0 || valor > 8 ) {
+					// if (valor < 0 || valor > 8 ) {
+					if (valor < 0 || valor > sessionStorage.IntensidadHorariaDiaria ) {
 					valido=false;
 					}
 				}
