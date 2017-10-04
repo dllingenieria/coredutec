@@ -216,20 +216,28 @@ class clsAlimentacion {
 	public function consultarReporteAlimentacionPorPreprogramacion($param) {
 		extract($param); 
         $array=array();
+		$resultado = array();
+        $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARREPORTEALIMENTACIONPORPREPROGRAMACION($fecha,$IdPreprogramacion);";
+        $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($IdPreprogramacion,'$fecha');";
+		
 		$rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+			
                 foreach ($filas as $fila) {
-                    $array[] = $fila;
+                    foreach ($fila as $key => $value) {
+                        array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
                 }
             }
-        } else {
-            $array = 0;
+        }else {
+            $resultado = 0;
 			print_r($conexion->getPDO()->errorInfo());
         } //print_r($array); die();
-        echo json_encode($array);
+        echo json_encode($resultado);
     }
 
 

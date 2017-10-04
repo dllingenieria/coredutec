@@ -67,7 +67,7 @@ body {
 
 .dataTable td, .dataTable th{
 	/*font-size: 0.8rem;*/
-	font-size: x-small !important; 
+	font-size: small !important; 
 }
 
 .cargando{
@@ -262,17 +262,17 @@ body {
 	height: 7rem;
 }
 
-.datatable{
-	/*position:absolute;*/
-	width:65%;
-	height:25px;
-	z-index:9;
-	margin-left: 240px;
-	/*margin-top: 180px; *//*190*/
-	font-size: small !important; 
-	/*font-size: 0.95rem;*/
+/* .datatable{ */
+	/* /*position:absolute;*/ */
+	/* width:65%; */
+	/* height:25px; */
+	/* z-index:9; */
+	/* margin-left: 240px; */
+	/* /*margin-top: 180px; *//*190*/ 
+	/* font-size: small !important;  */
+	/* /*font-size: 0.95rem;*/ 
 
-}
+/* } */
 
 .tablaModulos{
 	width: 70%;
@@ -329,3 +329,7 @@ body {
 .txtGeneral1{
 	width:300px !important;
 }
+
+#txtFecha {
+	position: relative; z-index:99999999;
+	}

@@ -14,7 +14,7 @@ $(function() {
         firstDay: 1,
         isRTL: false,
         showMonthAfterYear: false,
-        yearSuffix: ''
+        yearSuffix: '',
 		
     };
     $.datepicker.setDefaults($.datepicker.regional['es']);
@@ -27,12 +27,12 @@ $(function() {
     }
 	
     var columnas = new Array(
-        { title: "N°" },
+        
         { title: "Id" },
         { title: "Estudiante" },
 		{ title: "Identificación" },
 		{ title: "Cantidad" },
-        { title: "Tipo" });
+        { title: "Refrigerio" });
 		
 	
 	$("#btnConsularReporte").click(function(){ 
@@ -73,13 +73,21 @@ $(function() {
 	
 
     function cargarInformacionEnTabla(data){ //alert(data);
+	if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaReporteAlimentacion').empty();
+        }
+	
         var table = $('#tablaReporteAlimentacion').DataTable({
             "data": data,
             columns: columnas,
             "paging":   false,
             "info":     false,
+			"scrollY": "300px",
+			"scrollX": true,
+			"bDestroy": true,
             "columnDefs": [{"className": "dt-left", "targets": "_all"}, //alinear texto a la izquierda
-			{"targets": [ 1 ],"visible": false,"searchable": false},
+			{"targets": [ 0 ],"visible": false,"searchable": false},
 			{ "width": "13%", "targets": 1 }//se le da ancho al td de estudiante
 			//{ "width": "8%", "targets": 8 }, //se le da ancho al td de total horas
 			//{ "width": "8%", "targets": 9 } //se le da ancho al td de observacion
