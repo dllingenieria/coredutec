@@ -186,7 +186,8 @@ $(function() {
 		// for (var i = 0; i < idTerceroHorasTotales.length; i++) { 
 		 var totalHoras=0; 
 			$("input[id$="+res+"]").each(function(){  
-				if ($( this ).val() > 0 && $( this ).val() <= 8 ) { 
+				if ($( this ).val() > 0 && $( this ).val() <= (sessionStorage.IntensidadHorariaDiaria*1) ) { 
+				// if ($( this ).val() > 0 && $( this ).val() <= 8 ) { 
 					if ($( this ).val() !=  '' && this.id != "txtA_undefined_undefined_"+res && $( this ).val() !=  'NA' && this.id != "textNotas_"+res){ 
 						totalHoras=(totalHoras*1)+($(this).val()*1);   
 					}
@@ -358,7 +359,7 @@ $(function() {
 
     $("#guardarAsistencia").click(function(){ 
         if (!validarInformacion()) {
-            mostrarPopUpError("Por favor llene todos los campos con valores de 0 a 8");
+            mostrarPopUpError("Por favor llene todos los campos con valores de 0 a "+sessionStorage.IntensidadHorariaDiaria);
         }else{
             agregarAsistenciaGeneral();
         }
@@ -377,8 +378,8 @@ $(function() {
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
 				if( valor != "NA" ){
-					// if (valor < 0 || valor > 8 ) {
-					if (valor < 0 || valor > sessionStorage.IntensidadHorariaDiaria ) {
+					 // if (valor < 0 || valor > 8 ) {
+					if (valor < 0 || valor > (sessionStorage.IntensidadHorariaDiaria) ) {
 					valido=false;
 					}
 				}

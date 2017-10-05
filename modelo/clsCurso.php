@@ -717,7 +717,11 @@ class clsCurso {
 						/* ---------------------------------------------------------- */
 				
 			
-			}//fin validacion cerrar curso		
+			}//fin validacion cerrar curso	
+			// else{
+					// $data["error"]="No entro a las validaciones";
+					
+				// }			
 		//print_r($data);
 		
 		echo json_encode($data);
@@ -750,7 +754,9 @@ public function cerrarCursoMatriculaTercero($param){
 											}
 										}
 										if (count($array)>0){
-											$data["error"]="No se pudo cerrar el curso hay estudiantes: ".$array['Cedula']." con asistencias y nota 0";
+											$data["error"]="No se pudo cerrar el curso hay ".count($array)." estudiantes con asistencias y nota 0";
+											echo json_encode($data);
+											exit;
 										}
 										else{
 											//validacion2 Si la nota es < 3 debe tener motivo de no asistencia
@@ -764,7 +770,9 @@ public function cerrarCursoMatriculaTercero($param){
 													}
 												}
 												if (count($array)>0){
-													$data["error"]="No se pudo cerrar el curso hay estudiantes: ".$array['Cedula']." con nota menor a 3 y sin motivo no asistencia";
+													$data["error"]="No se pudo cerrar el curso hay ".count($array)." estudiantes con nota menor a 3 y sin motivo no asistencia";
+													echo json_encode($data);
+													exit;
 												}
 												else{
 													$rs=null;
