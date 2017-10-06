@@ -509,34 +509,34 @@ class clsCurso {
 		
 		//---------- ENVIAR CORREO A ESTUDIANTES
 			
-				$conexion->getPDO()->query("SET NAMES 'utf8'");
-                 $rs=null;
-				$sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
-				if ($rs = $conexion->getPDO()->query($sql)) {
-					if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-						foreach ($filas as $fila) {
-							$array[] = $fila; 
-						}
-					}
+				// $conexion->getPDO()->query("SET NAMES 'utf8'");
+                 // $rs=null;
+				// $sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
+				// if ($rs = $conexion->getPDO()->query($sql)) {
+					// if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+						// foreach ($filas as $fila) {
+							// $array[] = $fila; 
+						// }
+					// }
 					
 					
 					
-					$clave = array_pop($array)['Email'];
-					$correode=array_pop($array)['Email'];
-					if (count($array)>0){
-						for($i=0;$i<count($array);$i++){
-							$correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
+					// $clave = array_pop($array)['Email'];
+					// $correode=array_pop($array)['Email'];
+					// if (count($array)>0){
+						// for($i=0;$i<count($array);$i++){
+							// $correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
 						
-						}
-					}
-					else{
-						$data["error"]="No se encontraron correos de estudiantes";
-					}
-				}
-				else{
-					$data["error"]="No se consultaron los correos";
-					print_r($conexion->getPDO()->errorInfo()); die();
-				}	
+						// }
+					// }
+					// else{
+						// $data["error"]="No se encontraron correos de estudiantes";
+					// }
+				// }
+				// else{
+					// $data["error"]="No se consultaron los correos";
+					// print_r($conexion->getPDO()->errorInfo()); die();
+				// }	
 			
 		
 		//---------- FIN CORREO A ESTUDIANTES
@@ -745,7 +745,8 @@ public function cerrarCursoMatriculaTercero($param){
                         $sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
                         if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon                  
                             //validacion1  si un estudiante tiene asistencia > 0 la nota debe ser > 0
-								$rs=null;                 
+								$rs=null; 
+								$array=array();
 								$sql = "CALL SPCONSULTARASISTENCIAYNOTAPORSALON($idPreprogramacion);";
 								if ($rs = $conexion->getPDO()->query($sql)) {
 									if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
@@ -762,6 +763,7 @@ public function cerrarCursoMatriculaTercero($param){
 											//validacion2 Si la nota es < 3 debe tener motivo de no asistencia
 											$rs=null;
 											unset($array);
+											$array=array();
 											$sql = "CALL SPCONSULTARNOTASMOTIVONOASISTENCIAPORSALON($idPreprogramacion);";
 											if ($rs = $conexion->getPDO()->query($sql)) { 
 												if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
