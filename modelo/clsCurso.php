@@ -509,34 +509,34 @@ class clsCurso {
 		
 		//---------- ENVIAR CORREO A ESTUDIANTES
 			
-				// $conexion->getPDO()->query("SET NAMES 'utf8'");
-                 // $rs=null;
-				// $sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
-				// if ($rs = $conexion->getPDO()->query($sql)) {
-					// if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-						// foreach ($filas as $fila) {
-							// $array[] = $fila; 
-						// }
-					// }
+				$conexion->getPDO()->query("SET NAMES 'utf8'");
+                 $rs=null;
+				$sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
+				if ($rs = $conexion->getPDO()->query($sql)) {
+					if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+						foreach ($filas as $fila) {
+							$array[] = $fila; 
+						}
+					}
 					
 					
 					
-					// $clave = array_pop($array)['Email'];
-					// $correode=array_pop($array)['Email'];
-					// if (count($array)>0){
-						// for($i=0;$i<count($array);$i++){
-							// $correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
+					$clave = array_pop($array)['Email'];
+					$correode=array_pop($array)['Email'];
+					if (count($array)>0){
+						for($i=0;$i<count($array);$i++){
+							$correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
 						
-						// }
-					// }
-					// else{
-						// $data["error"]="No se encontraron correos de estudiantes";
-					// }
-				// }
-				// else{
-					// $data["error"]="No se consultaron los correos";
-					// print_r($conexion->getPDO()->errorInfo()); die();
-				// }	
+						}
+					}
+					else{
+						$data["error"]="No se encontraron correos de estudiantes";
+					}
+				}
+				else{
+					$data["error"]="No se consultaron los correos";
+					print_r($conexion->getPDO()->errorInfo()); die();
+				}	
 			
 		
 		//---------- FIN CORREO A ESTUDIANTES
@@ -622,7 +622,31 @@ class clsCurso {
 							
 		//---------- FIN VALIDACION DE EVALUACION
 		
-		if($data['asistencias']=="ok" and $data['planeacion']=="ok" and $data['evaluacion']=="ok"){//inicio validacion para cerrar
+		//VALIDACION DE HORAS TOTALES ASISTIDAS
+			
+				$conexion->getPDO()->query("SET NAMES 'utf8'");
+                $rs=null;
+				$sql = "CALL SPCONSULTARHORASTOTALESMODULOPORPREPROGRAMACION ($idPreprogramacion);";
+				if ($rs = $conexion->getPDO()->query($sql)) {
+					$fila = $rs->fetch(PDO::FETCH_ASSOC);
+					if ($fila['pEncontrados'] == 1){
+						$data["error"]="No se puede cerrar el curso, hay alumnos con mas horas asistidas de las horas totales del módulo";
+						echo json_encode($data);
+						exit;
+					}
+					else{
+						$data['horasTotles']="ok";
+					}
+				}
+				else{
+					$data["error"]="No se encontraro las horas totales";
+					print_r($conexion->getPDO()->errorInfo()); die();
+				}	
+			
+			
+		//---------- FIN VALIDACION DE HORAS TOTALES ASISTIDAS
+		
+		if($data['asistencias']=="ok" and $data['planeacion']=="ok" and $data['evaluacion']=="ok" and $data['horasTotles']=="ok"){//inicio validacion para cerrar
 			
 							/* --------------------------------------------- */
 							/* Inicio modulo siguiente a matricula */
