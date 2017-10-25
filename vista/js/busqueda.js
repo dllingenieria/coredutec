@@ -34,6 +34,10 @@ $(function() {
 	}
 
 	function consultarCargasTercero(){
+		var cookies = $.cookie();
+		for(var cookie in cookies) {
+		   $.removeCookie(cookie);
+		}
 		cursosInscritos=[];
 		$('#modulosCursados').text('');
 		// swal({title: "Consultando Información",   
