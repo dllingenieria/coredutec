@@ -29,7 +29,16 @@ $(function(){
 			}
 				
 		});
+
+
+			$("#Regresar").click(function(){ 
+				window.location = "callCenter.html";
+			});
+
 	}
+
+
+
 
 
 	function obtenerPreprogramacionesActivas(){
@@ -193,5 +202,46 @@ function PopUpError(msj){
    });
 }
 
+$("#descargarReporte").click(function(){
+			var FechaInicial = $("#fechaInicial").val();
+			var FechaFinal = $("#fechaFinal").val();
 
+			console.log("fecha".FechaFinal);
+			if(FechaInicial=="" || FechaFinal==""){
+				PopUpError("Por favor seleccione un Fecha Inicial y Fecha Final");	
+			}else{
+			var mensaje="Procesando la información<br>Espere por favor";
+			jsShowWindowLoad(mensaje);
+			var IdJornada=$("#jornadas").val();
+			   	$.post("../../controlador/fachada.php", {
+					clase: 'clsProgramacion',
+					oper: 'ReporteCallcenterGestionados',
+					FechaInicial: FechaInicial,
+					FechaFinal: FechaFinal
+					}, function(data) {
+					if (data.mensaje == 1 && data.html!=""){
+						nombreArchivo=data.html;
+						jsRemoveWindowLoad();
+						//popUpConfirmacion("Generado correctamente el reporte");
+						window.location.href = "../"+nombreArchivo;
+							setTimeout(function(){
+						location.reload();},2000);
+						
+					}
+					else if(data.error == 2){
+						jsRemoveWindowLoad();
+						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+						setTimeout(function(){
+						location.reload();},2000);
+					}
+					else{
+						jsRemoveWindowLoad();
+						mostrarPopUpError("No se ha generado el reporte");
+						setTimeout(function(){
+						location.reload();},2000);
+					}		
+				}, "json");	
+			  }
+
+	});
 });

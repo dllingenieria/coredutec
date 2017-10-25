@@ -1,4 +1,6 @@
 $(function(){
+
+
 	var dataSetGestionados = [];
 	var dataSetNoGestionados = [];
 	var dataSetTodos = [];
@@ -6,6 +8,7 @@ $(function(){
 	var cargasGestionadasObservaciones={};
 	var tabla;
 	var dataTipificaciones="";
+	callCenterPreprogramacion = new Array(); 
 	
 	//inicializarTabla();
 	
@@ -17,14 +20,19 @@ $(function(){
 	
 	function inicializar(){
 
-		$("#guardarGestionPreprogramacion").click(function(){
-			
-		for (var idTercero in cargasGestionadas){
-			if(cargasGestionadasObservaciones[idTercero] === undefined){
-				mostrarPopUpError("Algunos observaciones estan vacias favor verificar");
+		$("#Regresar").click(function(){
+			window.location = "callCenterPreprogramacion.html";
+		});
+
+
+		$("#guardarGestionPreprogramacion").click(function(){	
+			/*for (var idTercero in cargasGestionadas){
+				if(cargasGestionadasObservaciones[idTercero] === undefined){
+					mostrarPopUpError("Algunos observaciones estan vacias favor verificar");
 			}else{
 				var mensaje="Guardando la informaci&oacute;n<br>Espere por favor";
 				jsShowWindowLoad(mensaje);
+				console.log("aqui4");
 				$.post("../../controlador/fachada.php", {
 					clase: 'clsProgramacion',
 					oper: 'AgregarGestionPreprogramacion',
@@ -33,6 +41,7 @@ $(function(){
 					IdTipificacion:cargasGestionadas[idTercero],
 					Observaciones:cargasGestionadasObservaciones[idTercero]
 				}, function(data) {
+					console.log("data"+data);
 					if (data !== 0) {
 						cargasGestionadas= {};
 						popUpConfirmacion("Guardado Satisfactoriamente");
@@ -41,13 +50,61 @@ $(function(){
 						console.log('error gestión Preprogramación');
 					}}, "json");
 			}
-		}
+		}*/
 		
 	});
 
   		$("#codPreprogramacion").text(sessionStorage.Salon);
 	}
 
+		//Evento que guardar registro//
+	$(document).on('click', '#guardarGestion', function() {
+		var data = tabla.row($(this).parents('tr')).data();
+		idTercero=data[1];
+		RegistroNo=data[0];
+		NoSesion=data[8];
+		IdAsistenciaDetalle=0;
+		
+		if(NoSesion!="NA"){
+			NoSesion=data[8];
+			IdAsistenciaDetalle= data[11];
+		}else{
+			NoSesion=0;
+			IdAsistenciaDetalle= 0;
+		}
+			console.log(idTercero);
+			registrosel="#sel"+RegistroNo;
+			registrotxt="#text"+RegistroNo;
+			var selTipificacion =$(""+registrosel+"").val();
+			var gestObservaciones =$(""+registrotxt+"").val();
+			console.log(gestObservaciones);
+
+			if((selTipificacion>0) && (gestObservaciones!="")){
+				var mensaje="Guardando la informaci&oacute;n<br>Espere por favor";
+					jsShowWindowLoad(mensaje);
+					$.post("../../controlador/fachada.php", {
+					clase: 'clsProgramacion',
+					oper: 'AgregarGestionPreprogramacion',
+					IdTercero: idTercero,
+					IdPreprogramacion: sessionStorage.IdPreprogramacion,
+					IdTipificacion:selTipificacion,
+					Observaciones:gestObservaciones,
+					NoSesion: NoSesion,
+					IdAsistenciaDetalle: IdAsistenciaDetalle
+				}, function(data) {
+					if (data !== 0) {
+						popUpConfirmacion("Guardado Satisfactoriamente");
+						jsRemoveWindowLoad();
+				}else {
+						console.log('error gestión Preprogramación');
+				}}, "json");
+
+			}else{
+				mostrarPopUpError("El campo gestión y observaciones deben tener datos");
+			}
+			
+
+	});
 
 	function cargarTipificacion() {
 		$.post("../../controlador/fachada.php", {
@@ -122,31 +179,34 @@ $(function(){
 					if (typeof dataTipificaciones !== "undefined") {
                     for (var i = 0; i < data.length; i++) {
                         var array = [];
-                 
-                        var IdTercero=data[i][0];
+
+						var RegistroNo=data[i][0];                 
+                        var IdTercero=data[i][1];
                         array.push(data[i][0]);
                         array.push(data[i][1]);
                         array.push(data[i][2]);
                         array.push(data[i][3]); 
-                        array.push(data[i][4]); 
-                        var gestionado = data[i][6];
-                        array.push(""); 
-						var htmlSelect ="<select data-idTercero='"+IdTercero+"'  class='tipificacion' >";
+                        array.push(data[i][4]);
+                        array.push(data[i][5]);
+                        array.push(data[i][6]); 
+                        var numeroSesion=data[i][8];
+                        array.push(data[i][7]); 
+                        array.push(data[i][8]); 
+                        array.push(data[i][9]); 
+                        var IdAsistenciaDetalle=data[i][11];
+                        array.push(data[i][10]); 
+                        array.push(data[i][11]); 
+                        var idSelect="sel"+RegistroNo;
+						var htmlSelect ="<select id='"+idSelect+"' data-idTercero='"+IdTercero+"_"+RegistroNo+"' data-noSesion='"+numeroSesion+"' class='tipificacion' >";
 							htmlSelect += "<option value='-1'>No gestionado </option>";
-							for (var j = 0; j < dataTipificaciones.length; j++) {
-								if (gestionado !== "No") {
-									if (dataTipificaciones[j].Id === gestionado) {
-										htmlSelect += "<option selected value='"+dataTipificaciones[j].Id+"'>"+dataTipificaciones[j].Nombre+"</option>";
-									}else{
-										htmlSelect += "<option value='"+dataTipificaciones[j].Id+"'>"+dataTipificaciones[j].Nombre+"</option>";
-									}
-								}else{
+							var totalTipificacion=dataTipificaciones.length;
+							for (var j = 0; j < totalTipificacion; j++) {								
 									htmlSelect += "<option value='"+dataTipificaciones[j].Id+"'>"+dataTipificaciones[j].Nombre+"</option>";
-								}
 							}
-							htmlSelect +="</select>";
+						htmlSelect +="</select>";
 						array.push(htmlSelect);
-                        array.push("<textarea class='observaciones' name='"+IdTercero+"'></textarea>");
+						var idText="text"+RegistroNo;
+                        array.push("<textarea id='"+idText+"' class='observaciones' name='"+IdTercero+"_"+RegistroNo+"'></textarea>");
                       
 						dataSetTodos.push(array);
 						
@@ -155,69 +215,11 @@ $(function(){
 						alert("Error - No hay tipificaciones");
 					}
 					 cargarInformacionEnTabla(dataSetTodos);
-					 llenarGestion();
 				}else{console.log("error 1");}             
 			}else {console.log("error 2");}
 			jsRemoveWindowLoad();	
 		}, "json"); 
-
-
-
-
 	}
-
-
-	function llenarGestion(){ 
-		$.post("../../controlador/fachada.php", {
-			clase: 'clsProgramacion',
-			oper: 'consultarGestionPreprogramacion',
-			IdPreprogramacion: sessionStorage.IdPreprogramacion
-		}, function(data) {
-
-			 if(data !== null){
-				
-				//se recorre data con todos los valores
-				 for (var i = 0; i < data.length; i++) {
-					 
-					//recorre los todos los textarea
-					$("[class^=tipificacion]").each(function(e){
-						idTextA= $( this ).attr( "name" );
-						
-						var idTerceroTextA = res[1];
-						
-						//se valida que ese textarea tenga ese tercero para poner el valor
-						if(idTerceroTextA == data[i].IdTercero){
-							$( this ).val( data[i].Observacion );
-							
-						}
-					});
-
-
-					$("[class^=tipificacion]").each(function(e){
-						idSelM= $( this ).attr( "data-idtercero" );
-						
-					
-						var idTerceroSelM = res[1];
-						
-						//se valida que ese select tenga ese tercero para poner el valor
-						if(idTerceroSelM == data[i].IdTercero){  
-							// $( this ).val( data[i].Motivo );
-							
-							$("#"+idSelM+" option[value="+ data[i].Motivo +"]").attr("selected",true);
-							//$(  this ).val( data[i].Motivo ) tambien funciona
-						}
-					});
-				 }
-            }
-
-
-
-			console.log("data"+data);
-		
-			}, "json");
-
-	}
-
 
 
 	$("#tipo").on('change',function(){
@@ -254,18 +256,25 @@ $(function(){
         tabla = $('#tablaGestionPreprogramacion').DataTable({
         	"data": data,
 			columns: [
+			{ title: "RegistroNo" },
 			{ title: "IdTercero" },
 			{ title: "Identificación" },
 			{ title: "Nombres" },
-			{ title: "Telefono" },
+			{ title: "Telefono1" },
+			{ title: "Telefono2" },
+			{ title: "Telefono3" },
 			{ title: "Email" },
-			{ title: "Gestionado" },
+			{ title: "No Sesión" },
+			{ title: "Fecha Sesión" },
+			{ title: "Asistencia" },
+			{ title: "IdAsistenciaDetalle" },
 			{ title: "Gestión" },
-			{ title: "Observaciones" }
+			{ title: "Observaciones" },
+			{data: null, className: "center", defaultContent: '<input type="button" class="boton" id="guardarGestion" value="Guardar Gestión"/>'}
 			],
 			"paging":   false,
 			"info":     false,
-			"order": [[ 3, "desc" ]],
+			"order":  false,
 			"scrollY": "300px",
 			"scrollX": true,
 			"scrollCollapse": true,
@@ -273,8 +282,10 @@ $(function(){
 			"bLengthChange": false,
 			"bDestroy": true,
 			"columnDefs": [
-			{"targets": [ 0 ],"visible": false,"searchable": false},
-			{"targets": [ 5 ],"visible": false,"searchable": false} ],
+			{"targets": [ 0 ],"visible": false,"searchable": false}, 
+			{"targets": [ 1 ],"visible": false,"searchable": false}, 
+			{"targets": [ 11 ],"visible": false,"searchable": false},
+			],
 			"language": {
 				"sSearch": "Filtrar:",
 				"zeroRecords": "Ningún resultado encontrado",
@@ -285,7 +296,6 @@ $(function(){
 
 
         $(".tipificacion").change(function() {
-			console.log("gola");
 			var cargaTercero= $(this).attr("data-idtercero");
 			var valor = $(this).val();
 			
@@ -295,7 +305,6 @@ $(function(){
 		});
 
 		$(".observaciones").change(function() {
-				console.log("golao");
 			var observacionesId= $(this).attr("name");
 			var valor=$(this).val();
 			if (valor != "") {

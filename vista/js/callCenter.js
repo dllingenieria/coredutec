@@ -18,7 +18,57 @@ $(function(){
 		$("#jornadas").change(function(){
 	        	consultarCargaJornada($(this).val());
    		});
+
+   		$("#Regresar").click(function(){ 
+				window.location = "callCenter.html";
+		});
 	}
+
+
+
+	//Evento que guardar registro//
+	$(document).on('click', '#guardarGestion', function() {
+		var data = tabla.row($(this).parents('tr')).data();
+		idCarga=data[0];
+		IdAsistenciaDetalle= data[10];
+			$("[data-idcarga^="+idCarga+"]").each(function(e){
+			 	var tip1= $(this).val();
+			 	sessionStorage.tipifi=tip1;
+			 	if(tip1<0){
+			 		mostrarPopUpError("El campo tipificación debe tener algun valor");
+			 		tip1=0;
+			 	}else{			 	
+			 		$("[name^="+idCarga+"]").each(function(e){
+					 	var obs1= $(this).val();
+					 	sessionStorage.observa= obs1;
+					 	if(obs1==""){
+					 		mostrarPopUpError("El campo observacion debe tener algun valor");
+					 		obs1=0;
+					 	}else{
+					 		var mensaje="Guardando la informaci&oacute;n<br>Espere por favor";
+								jsShowWindowLoad(mensaje);
+								$.post("../../controlador/fachada.php", {
+									clase: 'clsCarga',
+									oper: 'AgregarGestion',
+									IdCarga: idCarga,
+									IdTipificacion:sessionStorage.tipifi,
+									Observaciones:sessionStorage.observa
+								}, function(data) {
+									if (data !== 0) {
+										cargasGestionadas= {};
+										popUpConfirmacion("Guardado Satisfactoriamente");
+										sessionStorage.jornada=$('#jornadas').find(":selected").val();
+										sessionStorage.tipo=$('#tipo').find(":selected").val();
+										jsRemoveWindowLoad();
+									}else {
+										console.log('error gestión Carga');
+							}}, "json");
+					 	}
+					 });
+			 	}
+			 });
+		
+	});
 
 
 	function cargarTipificacion() {
@@ -35,9 +85,22 @@ $(function(){
 	}
 
 	function cargarGestionados(){
-		//agregarOptionSelect("#tipo", '3', 'Todos');
-		agregarOptionSelect("#tipo", '3', 'No Gestionados');
-		//agregarOptionSelect("#tipo", '1', 'Gestionados');
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsCarga',
+			oper: 'cargarTipificacion'
+		}, function(data) {
+			if (data !== 0) {
+				dataTipificaciones = data;       
+			}else {
+				console.log('error cargando tipificaciones');
+			}
+		}, "json");
+
+
+
+		agregarOptionSelect("#tipo", '3', 'Todos');
+		agregarOptionSelect("#tipo", '2', 'No Gestionados');
+		agregarOptionSelect("#tipo", '1', 'Gestionados');
 	}
 
 	function agregarOptionSelect(atributo, valor, texto) {
@@ -96,9 +159,12 @@ $(function(){
                         array.push(data[i][2]);
                         array.push(data[i][3]); 
                         array.push(data[i][4]); 
-                        array.push(data[i][5]);  
-                        var gestionado = data[i][6];
-                        array.push(data[i][6]); 
+                        array.push(data[i][5]);
+                        array.push(data[i][6]);  
+                        array.push(data[i][7]);
+                        array.push(data[i][8]);     
+                        var gestionado = data[i][9];
+                        array.push(data[i][9]); 
 						var htmlSelect ="<select data-idCarga='"+IdCarga+"'  class='tipificacion'>";
 							htmlSelect += "<option value='-1'>No gestionado </option>";
 							for (var j = 0; j < dataTipificaciones.length; j++) {
@@ -117,10 +183,12 @@ $(function(){
                         array.push("<textarea class='observaciones' name='"+IdCarga+"'></textarea>");
 
                         if(gestionado === 'No'){
-							dataSetTodos.push(array);
+						
+							dataSetNoGestionados.push(array);
 						}else{
 							dataSetGestionados.push(array);
 						}
+							dataSetTodos.push(array);
                     }
 					}else{
 						alert("Error - No hay tipificaciones");
@@ -140,7 +208,7 @@ $(function(){
 		//tabla.clear().draw();
 		switch(tipo){
 			case '1':
-			tabla.rows.add(dataSetGestionados).draw();
+			//tabla.rows.add(dataSetGestionados).draw();
 			cargarInformacionEnTabla(dataSetGestionados);
 			break;
 			case '2':
@@ -168,11 +236,15 @@ $(function(){
 			{ title: "IdTercero" },
 			{ title: "Identificación" },
 			{ title: "Nombres" },
-			{ title: "Telefono" },
+			{ title: "Telefono1"},
+			{ title: "Telefono2"},
+			{ title: "Telefono3"},
+			{ title: "Correo" },
 			{ title: "Curso" },
 			{ title: "Gestionado" },
 			{ title: "Gestión" },
-			{ title: "Observaciones" }
+			{ title: "Observaciones" },
+			{data: null, className: "center", defaultContent: '<input type="button" class="boton" id="guardarGestion" value="Guardar Gestión"/>'}
 			],
 			"paging":   false,
 			"info":     false,
@@ -186,7 +258,7 @@ $(function(){
 			"columnDefs": [
 			{"targets": [ 0 ],"visible": false,"searchable": false},
 			{"targets": [ 1 ],"visible": false,"searchable": false},
-			{"targets": [ 6 ],"visible": false,"searchable": false} ],
+			{"targets": [ 9 ],"visible": false,"searchable": false} ],
 			"language": {
 				"sSearch": "Filtrar:",
 				"zeroRecords": "Ningún resultado encontrado",
@@ -213,6 +285,41 @@ $(function(){
 
 		});
 	}
+
+
+	$("#descargarReporte").click(function(){
+				var mensaje="Procesando la información<br>Espere por favor";
+				jsShowWindowLoad(mensaje);
+				var IdJornada=$("#jornadas").val();
+			   	$.post("../../controlador/fachada.php", {
+					clase: 'clsCarga',
+					oper: 'ReporteCallcenterGestionados',
+					IdJornada:IdJornada
+					}, function(data) {
+					if (data.mensaje == 1 && data.html!=""){
+						nombreArchivo=data.html;
+						jsRemoveWindowLoad();
+						//popUpConfirmacion("Generado correctamente el reporte");
+						window.location.href = "../"+nombreArchivo;
+							setTimeout(function(){
+						location.reload();},2000);
+						
+					}
+					else if(data.error == 2){
+						jsRemoveWindowLoad();
+						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+						setTimeout(function(){
+						location.reload();},2000);
+					}
+					else{
+						jsRemoveWindowLoad();
+						mostrarPopUpError("No se ha generado el reporte");
+						setTimeout(function(){
+						location.reload();},2000);
+					}		
+				}, "json");				
+		});
+
 
 
 	$("#guardarGestion").click(function(){
