@@ -257,7 +257,151 @@ public function ReporteCallcenterGestionados($param){
             echo json_encode($data);
         }
 
+    /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    function AgregarCargaGeneral($param){
+        extract($param);
+        $rs = null;
+        $IdUsuario = $_SESSION['idUsuario'];
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $fechaActual= date('Y-m-d');
+        $sql = "CALL SPAGREGARCARGAMASIVAGENERAL($tipoCarga, '$fechaActual' ,'$Observaciones','$IdUsuario');";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
 
+
+       /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    public function InscribirSoporteMatricula($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
+        header("Content-Type: text/html;charset=utf-8");  
+        $IdUsuario = $_SESSION['idUsuario'];  
+        $registro = explode(";", $lin_inf);
+       
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLESM($idTablaGeneral,$registro[0],$registro[1]);";
+        $resultado=1;
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array = $fila['pIdTabla'];
+                }
+            }
+        } 
+        return $array;
+    }
+
+     /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    public function InscribirSoporteFirma($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
+        header("Content-Type: text/html;charset=utf-8");  
+        $IdUsuario = $_SESSION['idUsuario'];  
+        $registro = explode(";", $lin_inf);
+       
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLESF($idTablaGeneral,$registro[0]);";
+        $resultado=1;
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array = $fila['pIdTabla'];
+                }
+            }
+        } 
+        return $array;
+    }
+
+
+           /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    public function InscribirSoporteEstado($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
+        header("Content-Type: text/html;charset=utf-8");  
+        $IdUsuario = $_SESSION['idUsuario'];  
+        $registro = explode(";", $lin_inf);
+       
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLECE($idTablaGeneral,$registro[0],$registro[1],$registro[2]);";
+        $resultado=1;
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array = $fila['pIdTabla'];
+                }
+            }
+        } 
+        return $array;
+    }
+
+
+
+           /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    public function InscribirSoporteRefrigerio($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
+        header("Content-Type: text/html;charset=utf-8");  
+        $IdUsuario = $_SESSION['idUsuario'];  
+        $registro = explode(";", $lin_inf);
+       
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLESR($idTablaGeneral,$registro[0]);";
+        $resultado=1;
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array = $fila['pIdTabla'];
+                }
+            }
+        } 
+        return $array;
+    }
+
+       /// Guarda La La ruta del archivo fuente TAUTORIZACIONYFUENTE
+ public function RegistrarArchivoFuente($idTablaGeneral,$selCarga,$archivo,$conexion) { 
+        header("Content-Type: text/html;charset=utf-8");  
+        $sql = "CALL SPAGREGARAUTORIZACIONYFUENTE($idTablaGeneral,$selCarga,'$archivo');";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $inserto = 1;
+                }
+            }
+        } 
+        return $inserto;
+    }
+
+
+           /// Guarda La La ruta del ruta archivo escaneado en TARCHIVOESCANEADO
+    public function GuardarArchivoEscaneado($idTablaGeneral,$idDetalleTabla, $nombreRuta, $conexion)  {
+        header("Content-Type: text/html;charset=utf-8");   
+
+        $sql = "CALL SPAGREGARARCHIVOESCANEADO($idTablaGeneral,$idDetalleTabla,'$nombreRuta');";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                   // $resultado = $fila['resultado'];
+                    $inserto = 1;
+                }
+            }else{
+            }
+        } 
+        return $inserto;
+    }
 
 }
 

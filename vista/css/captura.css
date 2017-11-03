@@ -161,7 +161,7 @@ body {
 
 .TxtCheck{
 	position:absolute;
-	margin-top: 120px;
+	margin-top: 80px;
 	margin-left: 985px;
 }
 
@@ -181,43 +181,73 @@ body {
 	
 }
 
+.LblCapturaConsulta {
+    width: 167px;
+    height: 21px;
+    z-index: 16;
+    background: #003265;
+    border-radius: 3px 0px 0px 3px;
+    margin-top: 40px;
+    font-family: "Roboto-Light";
+    font-size: 14px;
+    color: #ffffff;
+    padding-left: 12px;
+    padding-top: 3px;
+    float: left;
+}
+
+
+select#selCargaConsulta {
+    width: 200px;
+    height: 25px;
+    background: #ffffff;
+    margin-left: 22px;
+    margin-top: 40px;
+    font-family: "Roboto-Regular";
+    font-size: 14px;
+    color: #2d4191;
+    padding-left: 5px;
+    padding-top: 1px;
+    border: 1px solid #c5c5c5;
+}
+
 #lblFecha, #txtFecha{
-	margin-top: 79px;
+	margin-top: 40px;
 
 }
 
 #lblCheck {
-	margin-top: 120px;
+	margin-top: 80px;
 
 }
 
 #lblAutorizacion{
-	margin-top: 159px;
+	margin-top: 120px;
 }
 
 #txtexaminararchivosAutorizacion{
-	margin-top: 159px;
+	margin-top: 120px;
 	margin-left: 920px;
 }
 
 #lblFuente, #txtexaminararchivosFuente{
-	margin-top: 189px;
+	margin-top: 159px;
 
 }
 
 #txtexaminararchivosFuente{
-	margin-top: 189px;
+	margin-top: 159px;
 	margin-left: 920px;
 
 }
 
 #lblEscaneado, #txtexaminararchivosEscaneado{
-	margin-top: 139px;
+	margin-top: 100px;
 
 }
 
 #txtexaminararchivosEscaneado{
-	margin-top: 139px;
+	margin-top: 100px;
 	margin-left: 920px;
 }
 
@@ -484,4 +514,19 @@ div#botones_carga {
     z-index: 2;
     margin-left: 744px;
     margin-top: 250px;
+}
+
+button#consultarArchivos {
+    float: right;
+    margin-right: 100px;
+}
+
+button#buscarTercero, button#buscarPreprogramacion {
+    margin-left: 20px;
+}
+
+input#identificacion, input#Preprogramacion {
+    width: 200px;
+    font-size: 12px;
+    color: #2d4191;
 }

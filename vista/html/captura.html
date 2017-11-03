@@ -95,7 +95,7 @@
 		<div class="LblCaptura">Seleccione la carga</div>
         <select id="selCarga" class="selectCarga">
 		<select/><br><br>
-		
+		<button id="consultarArchivos" class="boton">Consultar Archivos</button>	
 		
 		</div>
 		
@@ -103,12 +103,8 @@
 		<div id="formBasico" style="display:none" class="form">
 			<div class="LblCaptura">Descripción</div>
 			<input type="text" id="txtDescripcion" class="TxtCaptura"/><br><br>
-			
-			<div class="LblCaptura">Ubicación Archivo</div>
-			<input type="text" id="txtDireccion" class="TxtCaptura"/>
-
 			<div id="lblFecha" class="LblCaptura">Fecha</div>
-			<input type="date" id="txtFecha" class="TxtCaptura fecha"/>
+			<input type="text" id="txtFecha" class="TxtCaptura fecha" readonly/>
 		</div>
 		
 		<div id="ActualizarTercero" style="display:none" class="form">
@@ -117,28 +113,27 @@
 			
 		</div>
 		
-	
+			<input type="hidden" id="ruta" />
+			<input type="hidden" id="tabla" />
+			<input type="hidden" id="nombreCorto" />
 		
 		<div id="Autorizacion" style="display:none" class="form">
 			<div id="lblAutorizacion" class="LblCaptura">Autorización</div>
-			<input type="file"  id="txtexaminararchivosAutorizacion" class="TxtCarga" />
-			<input type="hidden" id="rutaAutorizacion" />
-			<input type="hidden" id="tablaAutorizacion" />
+			<input type="file"  id="txtexaminararchivosAutorizacion" class="TxtCarga" required/>
+			<input type="hidden"  id="hiddenexaminararchivosAutorizacion" class="TxtCarga" />
 			<br>
 		</div>
 		
 		<div id="Escaneo" style="display:none" class="form">
 			<div id="lblEscaneado" class="LblCaptura">Escaneado</div>
-			<input type="file"  id="txtexaminararchivosEscaneado" class="TxtCarga" />
-			<input type="hidden" id="rutaEscaneado" />
-			<input type="hidden" id="tablaEscaneado" />
+			<input type="file"  id="txtexaminararchivosEscaneado" class="TxtCarga" required/>
+			<input type="hidden"  id="hiddenexaminararchivosEscaneado" class="TxtCarga"/>
 		</div>
 		
 		<div id="Fuente" style="display:none" class="form">
 			<div id="lblFuente" class="LblCaptura">Fuente</div>
-			<input type="file"  id="txtexaminararchivosFuente" class="TxtCarga" />
-			<input type="hidden" id="rutaFuente" />
-			<input type="hidden" id="tablaFuente" />
+			<input type="file"  id="txtexaminararchivosFuente" class="TxtCarga" required/>
+			<input type="hidden"  id="hiddenexaminararchivosFuente" class="TxtCarga" />
 		</div>
 	
 		

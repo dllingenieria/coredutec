@@ -1,13 +1,8 @@
 <?php
 require("../controlador/session.php");	
 set_time_limit(0);
-/**
- * Description of clsGestorBDPlanas
- * @author Wilmer Andres Escobar Naranjo
- * wilesna25@gmail.com
- */
-include 'clsPersona.php';
 
+include 'clsPersona.php';
 
 class clsGestorBDPlanas {
     
@@ -42,13 +37,168 @@ class clsGestorBDPlanas {
         echo $response;
     }
     
+    public function CargarArchivoPlanoFuenteEscaneado($param) {
+        $response = '<div id="men_err">';
+        extract($param);
+        include_once 'clsCarga.php';
+        $carga = new clsCarga();
+        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $archivo),$ubicacionFuente);
+        $err_arc = $this->ValidarArchivo($inf_arc, $selCarga);
+        $con = 0;
+        $numInsercion = 0;
+        $aux = '';
+        $idDetalleTabla=1;
+        
+
+        if (strlen($err_arc) === 0) {
+            foreach ($inf_arc as $lin_txt) {
+                if(strlen(trim($lin_txt))>0){
+
+                    $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
+					
+                    if($selCarga==2){
+                        $idDetalleTabla= $carga->InscribirSoporteMatricula($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
+
+                        $identificardorArchivo=$lin_txt[0];
+
+                        if($idDetalleTabla!=""){
+                        $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
+                        }
+
+                    }else if($selCarga==3){
+                        $idDetalleTabla= $carga->InscribirSoporteFirma($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
+
+                        $identificardorArchivo=$lin_txt[0];
+
+                        if($idDetalleTabla!=""){
+                        $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
+                        }
+
+                    }else if($selCarga==5){
+                        $idDetalleTabla= $carga->InscribirSoporteRefrigerio($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
+
+                        $identificardorArchivo=$lin_txt[0];
+
+                        if($idDetalleTabla!=""){
+                        $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
+                        }
+
+                    }
+                   
+                   
+                        
+                    $numInsercion ++;
+                }
+                
+            }
+            $archivoEscaneado=str_replace('"','',$archivoEscaneado);
+            rmdir("../tmp/".$archivoEscaneado);
+            $response .= $numInsercion . " registros guardados satisfactoriamente.";
+            $res_gua = $this->GuardarArchivoDeLogs($aux,'LogPlanoFuente.txt');
+            $response .= 'Archivo de logs líneas leídas.<br><br>' . $res_gua;
+
+            $archivo=str_replace("../", "", $archivo);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,301,$archivo, $conexion);
+
+        } else {
+            $aux_rut = explode("/",$nom_arc);
+            $aux_nom_arc = explode(".",$nom_arc);
+            $nom_arc = $aux_nom_arc[0].'.txt';
+            $res_gua = $this->GuardarArchivoDeLogs($err_arc,$nom_arc);
+            $response .= 'No ha sido posible cargar los registros del archivo por que éste contiene errores, corríjalos en intentelo de nuevo. 
+            Se ha generado un archivo con los errores encontrados.<br><br>' . $res_gua;
+        }
+        $response .= '</div>';
+
+
+
+        echo $response;
+    }
+
+
+    public function CargarArchivoPlanoFuenteAutorizacion($param) {
+        $response = '<div id="men_err">';
+        extract($param);
+        include_once 'clsCarga.php';
+        $carga = new clsCarga();
+        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $archivo),$ubicacionFuente);
+        $err_arc = $this->ValidarArchivo($inf_arc, $selCarga);
+        $con = 0;
+        $numInsercion = 0;
+        $aux = '';
+        $idDetalleTabla=1;
+        if (strlen($err_arc) === 0) {
+            foreach ($inf_arc as $lin_txt) {
+                if(strlen(trim($lin_txt))>0){
+                    $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
+                    if($selCarga==4){
+                        $carga->InscribirSoporteEstado($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
+
+                        $identificardorArchivo=$lin_txt[0];
+                    }
+                   
+                    $numInsercion ++;
+                }
+            }
+           
+            $response .= $numInsercion . " registros guardados satisfactoriamente.";
+            $res_gua = $this->GuardarArchivoDeLogs($aux,'LogPlanoFuente.txt');
+            $response .= 'Archivo de logs líneas leídas.<br><br>' . $res_gua;
+            $archivo=str_replace("../", "", $archivo);
+            $archivoAutorizacion= str_replace("../", "", $archivoAutorizacion);
+
+            $carga->RegistrarArchivoFuente($idTablaGeneral,301,$archivo, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,300,$archivoAutorizacion, $conexion);
+
+
+        } else {
+            $aux_rut = explode("/",$nom_arc);
+            $aux_nom_arc = explode(".",$nom_arc);
+            $nom_arc = $aux_nom_arc[0].'.txt';
+            $res_gua = $this->GuardarArchivoDeLogs($err_arc,$nom_arc);
+            $response .= 'No ha sido posible cargar los registros del archivo por que éste contiene errores, corríjalos en intentelo de nuevo. 
+            Se ha generado un archivo con los errores encontrados.<br><br>' . $res_gua;
+        }
+        $response .= '</div>';
+
+
+
+        echo $response;
+    }
+
+     public function validarEscaneado($identificardorArchivo,$archivoEscaneado, $idDetalleTabla, $idTablaGeneral,$nombreCorto,$ubicacionEscaneado,$conexion) {
+        include_once 'clsCarga.php';
+        $carga = new clsCarga();
+        $archivoEscaneado=str_replace('"','',$archivoEscaneado);
+
+        $identificardorArchivo=$identificardorArchivo.".JPG";
+        $archivoEscaneado."<br>";
+        
+        $ubicacionOriginalEscaneado = "../tmp/".$archivoEscaneado."/".$identificardorArchivo;
+        
+        $nuevoNombre="../".$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
+        
+        $nombreRuta=$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
+
+        if (file_exists($ubicacionOriginalEscaneado)) {
+            copy($ubicacionOriginalEscaneado, $nuevoNombre);
+            unlink($ubicacionOriginalEscaneado); 
+            $carga->GuardarArchivoEscaneado($idTablaGeneral,$idDetalleTabla, $nombreRuta,$conexion);
+
+         }
+       
+    }
+
+
     public function CargarArchivoPlano($param) {
         $response = '<div id="men_err">';
         extract($param);
         include_once 'clsParticipante.php';
         $participante = new clsParticipante();
-        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $nom_arc));
-        $err_arc = $this->ValidarArchivo($inf_arc);
+        include_once 'clsCarga.php';
+        $carga = new clsCarga();
+        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $nom_arc), $ubicacionFuente);
+        $err_arc = $this->ValidarArchivo($inf_arc, $selCarga);
         $con = 0;
         $numInsercion = 1;
         $aux = '';
@@ -56,12 +206,19 @@ class clsGestorBDPlanas {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
                     $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
-					//se agrega parametro $actualizarTercero
+                    //se agrega parametro $actualizarTercero
                     $con = $con + $participante->InscribirParticipante($numInsercion,$lin_txt, $conexion,$pIdJornada,$actualizarTercero);
                     $numInsercion ++;
                 }
                 
             }
+
+            $archivo=str_replace("../", "", $archivo);
+            $archivoAutorizacion= str_replace("../", "", $archivoAutorizacion);
+
+            $carga->RegistrarArchivoFuente($idTablaGeneral,301,$archivo, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,300,$archivoAutorizacion, $conexion);
+
             $response .= $con . " registros guardados satisfactoriamente.";
             $res_gua = $this->GuardarArchivoDeLogs($aux,'LogPlano.txt');
             $response .= 'Archivo de logs líneas leídas.<br><br>' . $res_gua;
@@ -77,19 +234,70 @@ class clsGestorBDPlanas {
         echo $response;
     }
 
-    public function ValidarArchivo($inf_arc) {
+
+    public function ValidarArchivo($inf_arc, $selCarga) {
         $men_err = '';
         $num_reg = 1;
         $flag = true;
 		array_pop($inf_arc);
         foreach ($inf_arc as $lin_txt) {
-            $res_eva = $this->EvaluarRegistro($lin_txt);
+            if($selCarga==1){ //valida si es asignaciones
+                $res_eva = $this->EvaluarRegistro($lin_txt);
+            }
+            if($selCarga==2){ //valida si es soporte de matriculas
+                $res_eva = $this->EvaluarRegistroMatricula($lin_txt);
+            }
+
+            if($selCarga==3){ //valida si es soporte de matriculas
+                $res_eva = $this->EvaluarRegistroFirma($lin_txt);
+            }
+
+            if($selCarga==4){
+                $res_eva = $this->EvaluarRegistroEstado($lin_txt);
+            }
+
+            if($selCarga==5){
+                $res_eva = $this->EvaluarRegistroRefrigerios($lin_txt);
+            }
+
             if (strlen($res_eva) > 0) {
                 $men_err .= 'Error registro ' . $num_reg . ' - ' . $res_eva . "\n".PHP_EOL;
                 $flag = false;
             }
             $num_reg++;
         }
+        return $men_err;
+    }
+
+
+     private function EvaluarRegistroMatricula($lin_txt) {
+        $aux_lin = explode(';', $lin_txt);
+        $men_err = '';
+        $men_err .= $this->EsEntero($aux_lin[0],0); //IdMatricula
+        $men_err .= $this->EsEntero($aux_lin[1],1); //IdTercero
+        return $men_err;
+    }
+
+     private function EvaluarRegistroFirma($lin_txt) {
+        $aux_lin = explode(';', $lin_txt);
+        $men_err = '';
+        $men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion
+        return $men_err;
+    }
+
+    private function EvaluarRegistroRefrigerios($lin_txt) {
+        $aux_lin = explode(';', $lin_txt);
+        $men_err = '';
+        $men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion
+        return $men_err;
+    }
+
+     private function EvaluarRegistroEstado($lin_txt) {
+        $aux_lin = explode(';', $lin_txt);
+        $men_err = '';
+        $men_err .= $this->EsEntero($aux_lin[0],0); //IdTercero
+        $men_err .= $this->EsEntero($aux_lin[1],1); //EstadoAnterior    
+        $men_err .= $this->EsEntero($aux_lin[2],2); //EstadoNuevo
         return $men_err;
     }
 
@@ -128,12 +336,13 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-    public function LeerArchivoPlano($archivoPlano) {
+
+    public function LeerArchivoPlano($archivoPlano, $ubicacion) {
         $tex_arc = array();
         header('Content-Type: text/html; charset=utf-8'); 
-        $rutaArchivo = "../anexos/Formatos/".$archivoPlano;
+        $rutaArchivo = $archivoPlano;
         if (file_exists($rutaArchivo)) {
-            $arc_pla = @fopen($rutaArchivo, "r") or exit("No pudo leer el archivo, verifique el nombre y la ruta ../anexos/Formatos/".$rutaArchivo);
+            $arc_pla = @fopen($rutaArchivo, "r") or exit("No pudo leer el archivo, verifique el nombre y la ruta ".$rutaArchivo);
             $i = 0;
             while (!feof($arc_pla)) {
                 $tex_arc[$i] = trim(utf8_encode(fgets($arc_pla)));
@@ -141,6 +350,7 @@ class clsGestorBDPlanas {
             }
             @fclose($rutaArchivo);
         }
+       
         return $tex_arc;
     }
 
@@ -252,10 +462,6 @@ class clsGestorBDPlanas {
 		
         echo json_encode($array);
     }
-
 }
 
 ?>
-
-
-

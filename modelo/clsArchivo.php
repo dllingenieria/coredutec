@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 // session_start();
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,11 +13,6 @@
  * @author ADMIN
  */
 class clsArchivo {
-    /*
-     * @author Wilmer Andrés
-     * crearArchivoenServer($nombre_archivo,$contenido_archivo,$url_destino)
-     * Crear un archivo en el servidor con los parámetros que recibe la función.
-     */
 
     public function CrearArchivoEnServer($nom_arc, $con_arc, $url_des) {
         $fil_com = $url_des.str_replace('"', "", $nom_arc);
@@ -26,6 +23,30 @@ class clsArchivo {
         return "Archivo <a href=\"../../".trim(str_replace("..","", $fil_com))."\" download>".str_replace('"', "", $nom_arc)."</a> guardado en servidor.";
     }
 
+
+
+    function GuardarArchivoOriginal($param){
+        extract($param);
+        $archivo= str_replace('"', '',$archivo);
+        $array1 = explode(".", $archivo);
+        $ext = $array1[count($array1) - 1];
+      
+       $nuevoNombre= $nombreCorto."_".$idTablaGeneral.".".$ext;
+       $nuevoNombre="../".$ubicacion.$nuevoNombre;
+       //rename('$archivo', '$nuevoNombre');
+       $archivo="../tmp/".$archivo;
+       copy($archivo, $nuevoNombre);
+    
+      if (file_exists($nuevoNombre)) {
+        unlink($archivo);
+        $array=$nuevoNombre;
+      }else{
+        $array="2";
+      }
+
+     echo json_encode($array);
+    }
+
     //Clase GuardarArchivoPlano()
     function GuardarArchivoPlano() {
 
@@ -33,7 +54,7 @@ class clsArchivo {
        $valorSeleccionado= $_REQUEST['valorSeleccionado'];
 
        if($valorSeleccionado=="Autorizacion"){// Me llama el metodo que carga zip
-            $array=$this->GuardarArchivoZip($ubicacion);
+            $array=$this->GuardarArchivoPdf($ubicacion);
        }
 
        if($valorSeleccionado=="Fuente"){// Me llama el metodo que carga csv
@@ -50,11 +71,13 @@ class clsArchivo {
 
 
     public function GuardarArchivoZip($ubicacion){
+        $randName= rand(1000, 1000000);
         $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $type = $_FILES["vid"]["type"];
-
-        $uploadDir = '../'.$ubicacion;
+        $carpetaZip="../".$ubicacion."/".$randName."/";
+        mkdir($carpetaZip, 0777, true); // se crea carpeta donde se va a descomprimir el zip
+        $uploadDir = '../'.$ubicacion.$randName."/";
         $name = explode(".", $file);
 
         $accepted_types = array('application/zip', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
@@ -79,18 +102,19 @@ class clsArchivo {
             $zip->close();
     
             unlink($fullPath);
-            $array=$file;
+            $array=$randName;
         }
-            $array = "Your .zip file was uploaded and unpacked.";
+            //$array = "Your .zip file was uploaded and unpacked.";
         } else {    
             $array = "There was a problem with the upload. Please try again.";
         }
 
-
+        echo json_encode($array);
     }
 
     public function GuardarArchivoCsv($ubicacion){
 
+        $randName= rand(100, 10000);
         $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $uploadDir = '../'.$ubicacion;
@@ -98,15 +122,36 @@ class clsArchivo {
         $ext = $array1[count($array1) - 1];
         $array = "";
         if ($ext == 'CSV' || $ext == 'csv') {
-            $fullPath = $uploadDir . $file;
+            $nameArchivo=$randName.".".$ext;
+            $fullPath = $uploadDir . $nameArchivo;
             if (move_uploaded_file($fileTMP, $fullPath)) {
-                $array = $file;
+                $array = $nameArchivo;
             } else {
                 $array = "Error al cargar, intente nuevamente 1";
             }
         } else {
             $array = "Error al cargar, archivo no es formato CSV";
         }
+
+        return $array;
+    }
+
+    public function GuardarArchivoPdf($ubicacion){
+
+        $randName= rand(100, 10000);
+        $fileTMP = $_FILES['vid']['tmp_name'];
+        $file = $_FILES['vid']['name'];
+        $uploadDir = '../'.$ubicacion;
+        $array1 = explode(".", $file);
+        $ext = $array1[count($array1) - 1];
+        $array = "";
+            $nameArchivo=$randName.".".$ext;
+            $fullPath = $uploadDir . $nameArchivo;
+            if (move_uploaded_file($fileTMP, $fullPath)) {
+                $array = $nameArchivo;
+            } else {
+                $array = "Error al cargar, intente nuevamente 1";
+            }
 
         return $array;
     }

@@ -6,16 +6,14 @@
 
 $(function() {
 
-//$(document).ready(function() {
-//    cargarArchivoPlano();
-//});
     var nom_arc = '';
     var idJornada='';
 	archivo="";
 	valorSeleccionado="";
+	var d = new Date();
 	
-	
-	CargarListaCargasMasivas();
+	$("#txtFecha").val(d);
+	CargarListaCargasMasivas("#selCarga");
 	obtenerFechaActual();
 	// cargarOpcionesarchivos();
 
@@ -30,17 +28,29 @@ $(function() {
         });
     }
 
-	
-	function almacenarArchivos(archivo,ubicacion){
+	/// Realiza todo el proceso 
+	/// 1 - Guarda documento.
+	/// Valida si ya tiene un idTablageneral si no lo crea.
+	/// Cambia de ruta los archivos.
+	/// lee archivo inserta en tabla.
+	function almacenarArchivos(archivo){
+		if(archivo=="Escaneado"){
+			GuardarArchivoFuenteEscaneado();
+		}else if(archivo=="Autorizacion"){
+			GuardarArchivoFuenteAutorizacion();
+		}
+	}
 
-		var ubicacion = $("#ruta"+archivo).val()+"/"+archivo+"/"; 
+
+
+	function GuardarArchivoCarpeta(archivo){
+		var ubicacion = "tmp/";  
 		var valorSeleccionado = archivo; 		
         var archivos = document.getElementById("txtexaminararchivos"+archivo);
-        console.log("archivos"+archivos);
-        // var archivos = $("[id^='txtexaminararchivos']").val();
         var archivo = archivos.files;
+
         if (typeof archivo[0] !== "undefined") {
-            if (archivo[0].size < 1000048576) {
+            if (archivo[0].size < 10000485760) {
                 var data = new FormData();
                 data.append('vid', archivo[0]);
                 $.ajax({
@@ -48,54 +58,295 @@ $(function() {
                     url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
                     data: data, //Le pasamos el objeto que creamos con los archivos
                     contentType: false, //Debe estar en false para que pase el objeto sin procesar
-                    processData: false, //Debe estar en false para que JQuery no procese los datos a enviar
+                    processData: false, //debe estar en false para que JQuery no procese los datos a enviar
                     cache: false //Para que el formulario no guarde cache
                 }).done(function(data) { 
-					popUpConfirmacion("Archivo cargado correctamente");
-					
-						nom_arc = data;
-					
-                     
-                }).success(function() { 
-                    if (valorSeleccionado=="Autorizacion"){EvaluarArchivo();}
-					
-					jsRemoveWindowLoad();
+
+                	if(data!=""){
+                		if(valorSeleccionado=="Escaneado"){
+                			sessionStorage.nameArchivoEscaneado=data;
+                		}else if(valorSeleccionado =="Fuente"){
+	                		sessionStorage.nameArchivoFuente=data;
+	                	}else if(valorSeleccionado=="Autorizacion"){
+	                		sessionStorage.nameArchivoAutorizacion=data;
+	                	}
+	                }else{
+	                	jsRemoveWindowLoad();
+                		mostrarPopUpError("Error al guardar archivo en carpeta temporal");
+	                }
                 });
-            } else
-            {
+             } else {
             	jsRemoveWindowLoad();
                 mostrarPopUpError('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR EL DOCUMENTO ASEGURESE QUE SU TAMAÑO SEA MENOR.');
             }
-        }
-	
+           }
+
+	}
+
+	function GuardarArchivoFuenteEscaneado(){
+		var archivo="Fuente";
+		var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
+		
+			GuardarArchivoCarpeta(archivo); // se guarda archivo fuente en carpeta tmp
+
+			setTimeout(function(){
+			nameArchivoFuente= sessionStorage.nameArchivoFuente;
+			var observaciones=$("#txtDescripcion").val();
+			var tipoCarga= $("#selCarga").val();
+			var nombreCorto= $("#nombreCorto").val();
+	                	//Guarda en la tabla TCARGAGENERAL
+	                	$.post("../../controlador/fachada.php", {
+					    	clase: 'clsCarga',
+					        oper: 'AgregarCargaGeneral',
+					        tipoCarga: tipoCarga,
+					        Observaciones: observaciones
+						     }, function(data) {
+
+						     	if(data!=""){
+							        var idTablaGeneral="";
+							        idTablaGeneral= data[0]["IdTabla"];
+							        archivo="Escaneado";
+							        ubicacionOriginalEscaneado = $("#ruta").val()+"/Escaneado/";
+							        GuardarArchivoCarpeta(archivo); //guardar archivo escaneado en carpeta tmp
+							        setTimeout(function(){
+							        	nameArchivotmpEscaneado= sessionStorage.nameArchivoEscaneado;
+										GuardarDocumentoRutaOriginal(idTablaGeneral, nameArchivoFuente, nameArchivotmpEscaneado, ubicacionOriginalFuente, ubicacionOriginalEscaneado, nombreCorto, archivo);
+							        },2000);
+							    }else{
+							    	jsRemoveWindowLoad();
+                					mostrarPopUpError("Error al guardar en tabla general");
+							    }
+						     
+						     }, "json");
+
+	               },2000);
+	}
+
+
+
+	function GuardarArchivoFuenteAutorizacion(){
+		var archivoF="Fuente";
+		var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
+			GuardarArchivoCarpeta(archivoF); // Guarda archivo fuente en Carpeta temporal
+
+			setTimeout(function(){
+			nameArchivoFuente= sessionStorage.nameArchivoFuente;
+			var observaciones=$("#txtDescripcion").val();
+			var tipoCarga= $("#selCarga").val();
+			var nombreCorto= $("#nombreCorto").val();
+	                	//Guarda en la tabla TCARGAGENERAL
+	                	$.post("../../controlador/fachada.php", {
+					    	clase: 'clsCarga',
+					        oper: 'AgregarCargaGeneral',
+					        tipoCarga: tipoCarga,
+					        Observaciones: observaciones
+						     }, function(data) {
+
+						     	if(data!=""){
+							        var idTablaGeneral="";
+							        idTablaGeneral= data[0]["IdTabla"];
+							        var archivoA="Autorizacion";
+							        ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
+							         GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
+						
+						       		 setTimeout(function(){
+						        			nameArchivotmpAutorizacion= sessionStorage.nameArchivoAutorizacion;
+											GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral, nameArchivoFuente, nameArchivotmpAutorizacion, ubicacionOriginalFuente, ubicacionOriginalAutorizacion, nombreCorto, archivoA);
+						        	},2000);
+
+						       }else{
+						       		 jsRemoveWindowLoad();
+						       		 mostrarPopUpError("Error al guardar en tabla general");
+						       }  
+						       
+						     }, "json");
+
+	               },2000);
+	}
+
+
+
+
+
+	function GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral,archivoFuente,ArchivoAutorizacion,ubicacionFuente,ubicacionAutorizacion, nombreCorto,tipoArchivo){
+			//Guarda archivo en carpeta original Fuente
+			tipoarchivoF="Fuente";
+			$.post("../../controlador/fachada.php", {
+				    	clase: 'clsArchivo',
+				        oper: 'GuardarArchivoOriginal',
+				        idTablaGeneral: idTablaGeneral,
+				        archivo: archivoFuente,
+				        ubicacion: ubicacionFuente,
+				       	nombreCorto: nombreCorto,
+				        tipoArchivo: tipoarchivoF
+					     }, function(data) {
+					        if(data!=2){
+					         	archivoFuente= data;
+					         	tipoarchivoA="Autorizacion";
+					         //Guarda archivo en carpeta original autorizacion
+					         	$.post("../../controlador/fachada.php", {
+							    	clase: 'clsArchivo',
+							        oper: 'GuardarArchivoOriginal',
+							        idTablaGeneral: idTablaGeneral,
+							        archivo: ArchivoAutorizacion,
+							        ubicacion: ubicacionAutorizacion,
+							       	nombreCorto: nombreCorto,
+							        tipoArchivo: tipoarchivoA
+								     }, function(data) {
+								        if(data!=2){
+								         	archivoAutorizacion= data;
+								         	setTimeout(function(){
+								        		EvaluarArchivosFuenteAutorizacion(idTablaGeneral,archivoFuente, ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, tipoArchivo);
+								       		},2000);
+								       }else{
+								       	 	jsRemoveWindowLoad();
+								        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
+								        }
+
+									}, "json");
+
+					       }else{
+					       		  jsRemoveWindowLoad();
+					        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
+					        }
+
+			}, "json");
+
+	}
+
+
+	function GuardarDocumentoRutaOriginal(idTablaGeneral,archivoFuente,archivoEscaneado,ubicacionFuente,ubicacionEscaneado, nombreCorto,tipoArchivo){
+			$.post("../../controlador/fachada.php", {
+				    	clase: 'clsArchivo',
+				        oper: 'GuardarArchivoOriginal',
+				        idTablaGeneral: idTablaGeneral,
+				        archivo: archivoFuente,
+				        ubicacion: ubicacionFuente,
+				       nombreCorto: nombreCorto,
+				        tipoArchivo: tipoArchivo
+					     }, function(data) {
+					        if(data!=2){
+					         	archivo= data;
+					         	setTimeout(function(){
+					        		EvaluarArchivosFuente(idTablaGeneral,archivo, ubicacionFuente,archivoEscaneado,ubicacionEscaneado, nombreCorto, tipoArchivo);
+					       		},2000);
+					       }else{
+					       		jsRemoveWindowLoad();
+					        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
+					        }
+
+			}, "json");
+
 	}
 	
 	
-    function GuardarArchivo() { 		
+    function GuardarArchivo() { 	
 
-		if($("#rutaAutorizacion").val()){
-			var archivo="Autorizacion";
-			almacenarArchivos(archivo);	
-		}
-		if($("#rutaEscaneado").val()){
-			var archivo="Escaneado";
-			almacenarArchivos(archivo);				
-		}
-		if($("#rutaFuente").val()){
-			var archivo="Fuente";
-			almacenarArchivos(archivo);	
-		}
-	
-	
-	
+    	if(($("#hiddenexaminararchivosFuente").val()) && ($("#hiddenexaminararchivosEscaneado").val())){
+			if(($("#txtexaminararchivosFuente").val()) && ($("#txtexaminararchivosEscaneado").val())){
+				var archivo="Escaneado";
+				almacenarArchivos(archivo);	
+			}else{
+				jsRemoveWindowLoad();
+				mostrarPopUpError("El campo Fuente y Escaneado debe contener datos");
+			}
+    	}else if(($("#hiddenexaminararchivosFuente").val()) && ($("#hiddenexaminararchivosAutorizacion").val())){
+
+    		if(($("#txtexaminararchivosAutorizacion").val()) && ($("#txtexaminararchivosFuente").val())){
+    			var archivo="Autorizacion";
+				almacenarArchivos(archivo);	
+    		}else{
+    			jsRemoveWindowLoad();
+				mostrarPopUpError("El campo Fuente y Escaneado debe contener datos");
+    		}
+
+    	}
+   
 	
     }
+
+
+    function EvaluarArchivosFuente(idTablaGeneral,archivo,ubicacionFuente,archivoEscaneado,ubicacionEscaneado,nombreCorto,tipoArchivo) { 
+    	console.log("ubicacionFuente"+ubicacionFuente);
+    	console.log("archivo"+archivo);
+    	//se valida que tipo de carga se selecciono para subirlo
+    	var selCarga=$("#selCarga").val();
+		if (valorSeleccionado==1)
+        {
+         	EvaluarArchivo(idTablaGeneral,archivo, ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, tipoArchivo);
+        }else{ 
+	        $.post("../../controlador/fachada.php", {
+	            clase: 'clsGestorBDPlanas',
+	            oper: 'CargarArchivoPlanoFuenteEscaneado',
+	            archivo: archivo,
+	            idTablaGeneral: idTablaGeneral,
+	            ubicacionFuente: ubicacionFuente,
+	            archivoEscaneado: archivoEscaneado,
+	            ubicacionEscaneado: ubicacionEscaneado,
+	            nombreCorto: nombreCorto,
+	            selCarga: selCarga
+	        }, function(data) {
+	            $("#circulo").hide();
+	            $("#xerror").hide();
+	            $("#fondoerrores").show();
+	            $("#fondoerrores").empty();
+	            if (data.indexOf("<ul>") !== -1) {
+	                $("#circulo").show();
+	                $("#xerror").show();
+	            }
+	            $("#fondoerrores").append(data);
+	            jsRemoveWindowLoad();
+	        }
+	        );
+
+    }
+   }
+
+
+
+    function EvaluarArchivosFuenteAutorizacion(idTablaGeneral,archivo,ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion,nombreCorto,tipoArchivo) { 
+    	//se valida que tipo de carga se selecciono para subirlo
+    	
+    	console.log("ubicacionFuente"+ubicacionFuente);
+    	console.log("archivo"+archivo);
+    	var selCarga=$("#selCarga").val();
+		if (valorSeleccionado==1)
+        {
+        	// valida si es asignacion
+         	EvaluarArchivo(idTablaGeneral,archivo,ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, selCarga);
+        }else{ 
+	        $.post("../../controlador/fachada.php", {
+	            clase: 'clsGestorBDPlanas',
+	            oper: 'CargarArchivoPlanoFuenteAutorizacion',
+	            archivo: archivo,
+	            idTablaGeneral: idTablaGeneral,
+	            ubicacionFuente: ubicacionFuente,
+	            archivoAutorizacion: archivoAutorizacion,
+	            ubicacionAutorizacion: ubicacionAutorizacion,
+	            nombreCorto: nombreCorto,
+	            selCarga: selCarga
+	        }, function(data) {
+	            $("#circulo").hide();
+	            $("#xerror").hide();
+	            $("#fondoerrores").show();
+	            $("#fondoerrores").empty();
+	            if (data.indexOf("<ul>") !== -1) {
+	                $("#circulo").show();
+	                $("#xerror").show();
+	            }
+	            $("#fondoerrores").append(data);
+	            jsRemoveWindowLoad();
+	        }
+	        );
+
+    }
+   }
 
 	/*
 	* Se agrega validacion del checkbox para saber
 	*si se actualizan los terceros
 	*/
-    function EvaluarArchivo() { 
+    function EvaluarArchivo(idTablaGeneral,archivo,ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, selCarga) { 
 		if( $('#txtCheck').prop('checked') ) {
 			actualizarTercero=true;
 		}
@@ -103,13 +354,23 @@ $(function() {
 			actualizarTercero=false;
 		}
 		
+	
         $.post("../../controlador/fachada.php", {
             clase: 'clsGestorBDPlanas',
             oper: 'CargarArchivoPlano',
             nom_arc: nom_arc.replace('"',"").replace('"',""),
             pIdJornada:idJornada,
-			actualizarTercero:actualizarTercero
-        }, function(data) {
+			actualizarTercero:actualizarTercero,
+			ubicacionFuente: ubicacionFuente,
+			selCarga: selCarga,
+			archivo: archivo,
+	        idTablaGeneral: idTablaGeneral,
+	        archivoAutorizacion: archivoAutorizacion,
+	        ubicacionAutorizacion: ubicacionAutorizacion,
+	        nombreCorto: nombreCorto
+
+        }, 
+        	function(data) {
             $("#circulo").hide();
             $("#xerror").hide();
             $("#fondoerrores").show();
@@ -119,17 +380,22 @@ $(function() {
                 $("#xerror").show();
             }
             $("#fondoerrores").append(data);
-//            $(".fondoerrores").append(data);
-        }
+				jsRemoveWindowLoad();
+
+	        }
         );
    }
 
+   $("#consultarArchivos").click(function() { 
+   		window.location='consultarArchivos.html';
+   	});
+	
 	$("#btnCarga").click(function() { 
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		var valorSeleccionado = $("#selCarga").val();
 		
-		if($("[id^='txtDescripcion']").val()!='' && $("[id^='txtFecha']").val()!='' && $("[id^='txtDireccion']").val()!=''){ 
+		if($("[id^='txtDescripcion']").val()!='' && $("[id^='txtFecha']").val()!=''){ 
 			GuardarArchivo(); 
 		}else{
 			jsRemoveWindowLoad();
@@ -137,80 +403,6 @@ $(function() {
 		}
 	});
 	
-    $("[id^='txtexaminararchivos1']").change(function() { 
-        
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-		var valorSeleccionado = $("#selCarga").val(); 
-			switch (valorSeleccionado) {
-				case "1":
-					if($("[id^='txtDescripciona']").val()!='' && $("[id^='txtFechaa']").val()!='' && $("[id^='txtDirecciona']").val()!=''){ 
-						archivo ="a"; 
-						insertarConvocatoria();
-						GuardarArchivo(archivo); 
-					}
-					else{
-						mostrarPopUpError("Falta diligenciar campos")
-					}
-					break;
-				case "2":
-					if($("[id^='txtDescripcionm']").val()!='' && $("[id^='txtFecham']").val()!='' && $("[id^='txtDireccionm']").val()!=''){ 
-						archivo ="m";
-						GuardarArchivo(archivo); 
-					}
-					else{
-						mostrarPopUpError("Falta diligenciar campos")
-					}
-					
-					break;
-				case "3":
-					if($("[id^='txtDescripcionf']").val()!='' && $("[id^='txtFechaf']").val()!='' && $("[id^='txtDireccionf']").val()!=''){ 
-						archivo ="f";
-						GuardarArchivo(archivo); 
-					}
-					else{
-						mostrarPopUpError("Falta diligenciar campos")
-					}
-					
-					break;
-				case "4":
-					if($("[id^='txtDescripcione']").val()!='' && $("[id^='txtFechae']").val()!='' && $("[id^='txtDireccione']").val()!=''){ 
-						archivo ="e";
-						GuardarArchivo(archivo); 
-					}
-					else{
-						mostrarPopUpError("Falta diligenciar campos")
-					}
-					
-					break;
-				case "5":
-					if($("[id^='txtDescripcionr']").val()!='' && $("[id^='txtFechar']").val()!='' && $("[id^='txtDireccionr']").val()!=''){ 
-						archivo ="r";
-						GuardarArchivo(archivo); 
-					}
-					else{
-						mostrarPopUpError("Falta diligenciar campos")
-					}
-					
-					break;
-				case "6":
-					if($("[id^='txtDescripcionag']").val()!='' && $("[id^='txtFechaag']").val()!='' && $("[id^='txtDireccionag']").val()!=''){ 
-						archivo ="ag";
-						GuardarArchivo(archivo);  
-					}
-					else{
-						mostrarPopUpError("Falta diligenciar campos")
-					}
-					
-			}
-		
-			
-            
-				
-        
-        
-    });
-
 
     function insertarConvocatoria() { 
         $.post("../../controlador/fachada.php", {
@@ -366,14 +558,13 @@ function jsShowWindowLoad(mensaje) {
 		//$('.fecha').prop('readonly', true);
 	}
 	
-	function CargarListaCargasMasivas() {  
-		console.log("aqui");
+	function CargarListaCargasMasivas(SelectCarga) {  
     $.post("../../controlador/fachada.php", {
          clase: 'clsGestorBDPlanas',
          oper: 'CargarListaCargasMasivas',
     }, function(data) { 
         if (data !== 0) {
-            FormarOptionValueLista(data);
+            FormarOptionValueLista(data, SelectCarga);
         }
         else {
             mostrarPopUpError('No se pudo cargar la lista de cargas, intentelo nuevamente');
@@ -381,9 +572,9 @@ function jsShowWindowLoad(mensaje) {
     }, "json");
 }
 
-function FormarOptionValueLista(data) {
+function FormarOptionValueLista(data, SelectCarga) {
     $('#selCarga').find('option').remove();
-    SetParametroCursoPorDefecto("#selCarga", '00', 'Seleccione...');
+    SetParametroCursoPorDefecto(SelectCarga, '00', 'Seleccione...');
     for (i = 0; i < data.length; i++) {
         $('#selCarga').append($('<option>', {
             value: data[i].Id,
@@ -413,20 +604,20 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
     }, function(data) { 
 		console.log(data);
         if (data !== 0) {
+        	  $("#ruta").val(data[0].Ruta);
+			  $("#tabla").val(data[0].NombreTabla);
+			  $("#nombreCorto").val(data[0].NombreCorto);
            if ( data[0].ArchivoAutorizacion == "S"){
 			   $("#Autorizacion").show();
-			   $("#rutaAutorizacion").val(data[0].Ruta);
-			   $("#tablaAutorizacion").val(data[0].NombreTabla);
+			   $("#hiddenexaminararchivosAutorizacion").val("Autorizacion");
 		   }
 		   if ( data[0].ArchivoFuente == "S"){
 			   $("#Fuente").show();
-			   $("#rutaFuente").val(data[0].Ruta);
-			   $("#tablaFuente").val(data[0].NombreTabla);
+			    $("#hiddenexaminararchivosFuente").val("Fuente");
 		   }
 		   if ( data[0].ArchivoEscaneado == "S"){
 			   $("#Escaneo").show();
-			   $("#rutaEscaneo").val(data[0].Ruta);
-			   $("#tablaEscaneo").val(data[0].Ruta);
+			   $("#hiddenexaminararchivosEscaneado").val("Escaneado");
 		   }
         }
         else {
@@ -435,6 +626,9 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
     }, "json");
 }
 	
+
+
+
 
 
 });
