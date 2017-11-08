@@ -53,7 +53,7 @@ class clsArchivo {
        $valorSeleccionado= $_REQUEST['valorSeleccionado'];
 
        if($valorSeleccionado=="Autorizacion"){// Me llama el metodo que carga zip
-            $array=$this->GuardarArchivoPdf($ubicacion,$archivo);
+            $array=$this->GuardarArchivoPdf($ubicacion);
        }
 
        if($valorSeleccionado=="Fuente"){// Me llama el metodo que carga csv

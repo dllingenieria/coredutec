@@ -101,7 +101,7 @@ $(function() {
 					        tipoCarga: tipoCarga,
 					        Observaciones: observaciones
 						     }, function(data) {
-
+						     	console.log("AgregarCargaGeneral "+data);
 						     	if(data!=""){
 							        var idTablaGeneral="";
 							        idTablaGeneral= data[0]["IdTabla"];
