@@ -51,9 +51,10 @@ class clsArchivo {
 
 	   $ubicacion= $_REQUEST['ubicacion'];
        $valorSeleccionado= $_REQUEST['valorSeleccionado'];
+       $archivo= $_REQUEST['archivo'];
 
        if($valorSeleccionado=="Autorizacion"){// Me llama el metodo que carga zip
-            $array=$this->GuardarArchivoPdf($ubicacion);
+            $array=$this->GuardarArchivoPdf($ubicacion,$archivo);
        }
 
        if($valorSeleccionado=="Fuente"){// Me llama el metodo que carga csv
@@ -135,8 +136,8 @@ class clsArchivo {
         return $array;
     }
 
-    public function GuardarArchivoPdf($ubicacion){
-
+    public function GuardarArchivoPdf($ubicacion, $archivo){
+        var_dump($_FILES);
         $randName= rand(100, 10000);
         echo "fileTMP".$fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
