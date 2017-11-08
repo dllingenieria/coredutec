@@ -105,10 +105,11 @@ $(function() {
 						     	if(data!=""){
 							        var idTablaGeneral="";
 							        idTablaGeneral= data[0]["IdTabla"];
-							        archivo="Escaneado";
-							        ubicacionOriginalEscaneado = $("#ruta").val()+"/Escaneado/";
-							        GuardarArchivoCarpeta(archivo); //guardar archivo escaneado en carpeta tmp
+							        var archivoEscaneado="Escaneado";
+							        
 							        setTimeout(function(){
+							        	ubicacionOriginalEscaneado = $("#ruta").val()+"/Escaneado/";
+							        	GuardarArchivoCarpeta(archivoEscaneado); //guardar archivo escaneado en carpeta tmp
 							        	nameArchivotmpEscaneado= sessionStorage.nameArchivoEscaneado;
 										GuardarDocumentoRutaOriginal(idTablaGeneral, nameArchivoFuente, nameArchivotmpEscaneado, ubicacionOriginalFuente, ubicacionOriginalEscaneado, nombreCorto, archivo);
 							        },2000);
