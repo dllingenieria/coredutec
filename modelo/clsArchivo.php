@@ -136,14 +136,14 @@ class clsArchivo {
 
     public function GuardarArchivoPdf($ubicacion){
         $randName= rand(100, 10000);
-        echo "fileTMP".$fileTMP = $_FILES['vid']['tmp_name'];
+        $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $uploadDir = '../'.$ubicacion;
         $array1 = explode(".", $file);
         $ext = $array1[count($array1) - 1];
         $array = "";
             $nameArchivo=$randName.".".$ext;
-            echo "fullPath".$fullPath = $uploadDir . $nameArchivo;
+            $fullPath = $uploadDir . $nameArchivo;
             if (move_uploaded_file($fileTMP, $fullPath)) {
                 $array = $nameArchivo;
             } else {
