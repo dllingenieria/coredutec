@@ -70,7 +70,6 @@ class clsArchivo {
 
 
     public function GuardarArchivoZip($ubicacion){
-        var_dump($_FILES);
         $randName= rand(1000, 1000000);
         $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
@@ -113,7 +112,6 @@ class clsArchivo {
     }
 
     public function GuardarArchivoCsv($ubicacion){
-       var_dump($_FILES);
         $randName= rand(100, 10000);
         $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
