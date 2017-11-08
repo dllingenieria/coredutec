@@ -48,6 +48,7 @@ $(function() {
 		var valorSeleccionado = archivo; 		
         var archivos = document.getElementById("txtexaminararchivos"+archivo);
         var archivo = archivos.files;
+        console.log(archivo);
 
         if (typeof archivo[0] !== "undefined") {
             if (archivo[0].size < 10000485760) {
@@ -147,13 +148,12 @@ $(function() {
 							        idTablaGeneral= data[0]["IdTabla"];
 							        var archivoA="Autorizacion";
 
-						
 						       		 setTimeout(function(){
 									        ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
 									         GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
 						        			nameArchivotmpAutorizacion= sessionStorage.nameArchivoAutorizacion;
 											GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral, nameArchivoFuente, nameArchivotmpAutorizacion, ubicacionOriginalFuente, ubicacionOriginalAutorizacion, nombreCorto, archivoA);
-						        	},2000);
+						        	},3000);
 
 						       }else{
 						       		 jsRemoveWindowLoad();
