@@ -48,8 +48,6 @@ class clsGestorBDPlanas {
         $numInsercion = 0;
         $aux = '';
         $idDetalleTabla=1;
-        
-
         if (strlen($err_arc) === 0) {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
@@ -172,13 +170,15 @@ class clsGestorBDPlanas {
         $archivoEscaneado=str_replace('"','',$archivoEscaneado);
 
         $identificardorArchivo=$identificardorArchivo.".JPG";
-        $archivoEscaneado."<br>";
+        //$archivoEscaneado."<br>";
         
         $ubicacionOriginalEscaneado = "../tmp/".$archivoEscaneado."/".$identificardorArchivo;
         
         $nuevoNombre="../".$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
         
         $nombreRuta=$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
+
+        echo "ubicacion".$ubicacionOriginalEscaneado;
 
         if (file_exists($ubicacionOriginalEscaneado)) {
             copy($ubicacionOriginalEscaneado, $nuevoNombre);
