@@ -36,14 +36,14 @@ class clsArchivo {
        //rename('$archivo', '$nuevoNombre');
        $archivo="../tmp/".$archivo;
        copy($archivo, $nuevoNombre);
-      if (file_exists($nuevoNombre)) {
-        unlink($archivo);
-        $array=$nuevoNombre;
-      }else{
-        $array="2";
-      }
+          if (file_exists($nuevoNombre)) {
+            unlink($archivo);
+            $array=$nuevoNombre;
+          }else{
+            $array="2";
+          }
 
-     echo json_encode($array);
+        echo json_encode($array);
     }
 
     //Clase GuardarArchivoPlano()
@@ -135,7 +135,6 @@ class clsArchivo {
     }
 
     public function GuardarArchivoPdf($ubicacion){
-        var_dump($_FILES);
         $randName= rand(100, 10000);
         echo "fileTMP".$fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
