@@ -55,7 +55,7 @@ $(function() {
                 data.append('vid', archivo[0]);
                 $.ajax({
                     type: 'POST',
-                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion+"&archivo"+archivos,
+                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
                     data: data, //Le pasamos el objeto que creamos con los archivos
                     contentType: false, //Debe estar en false para que pase el objeto sin procesar
                     processData: false, //debe estar en false para que JQuery no procese los datos a enviar
@@ -147,13 +147,12 @@ $(function() {
 							        var idTablaGeneral="";
 							        idTablaGeneral= data[0]["IdTabla"];
 							        var archivoA="Autorizacion";
-
+							         ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
+									 GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
 						       		 setTimeout(function(){
-									        ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
-									         GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
 						        			nameArchivotmpAutorizacion= sessionStorage.nameArchivoAutorizacion;
 											GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral, nameArchivoFuente, nameArchivotmpAutorizacion, ubicacionOriginalFuente, ubicacionOriginalAutorizacion, nombreCorto, archivoA);
-						        	},3000);
+						        	},2000);
 
 						       }else{
 						       		 jsRemoveWindowLoad();
