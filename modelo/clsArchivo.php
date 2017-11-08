@@ -36,7 +36,6 @@ class clsArchivo {
        //rename('$archivo', '$nuevoNombre');
        $archivo="../tmp/".$archivo;
        copy($archivo, $nuevoNombre);
-    
       if (file_exists($nuevoNombre)) {
         unlink($archivo);
         $array=$nuevoNombre;
@@ -139,14 +138,14 @@ class clsArchivo {
     public function GuardarArchivoPdf($ubicacion){
 
         $randName= rand(100, 10000);
-        $fileTMP = $_FILES['vid']['tmp_name'];
+        echo "fileTMP".$fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $uploadDir = '../'.$ubicacion;
         $array1 = explode(".", $file);
         $ext = $array1[count($array1) - 1];
         $array = "";
             $nameArchivo=$randName.".".$ext;
-            $fullPath = $uploadDir . $nameArchivo;
+            echo "fullPath".$fullPath = $uploadDir . $nameArchivo;
             if (move_uploaded_file($fileTMP, $fullPath)) {
                 $array = $nameArchivo;
             } else {
