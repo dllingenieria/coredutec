@@ -146,10 +146,11 @@ $(function() {
 							        var idTablaGeneral="";
 							        idTablaGeneral= data[0]["IdTabla"];
 							        var archivoA="Autorizacion";
-							        ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
-							         GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
+
 						
 						       		 setTimeout(function(){
+									        ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
+									         GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
 						        			nameArchivotmpAutorizacion= sessionStorage.nameArchivoAutorizacion;
 											GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral, nameArchivoFuente, nameArchivotmpAutorizacion, ubicacionOriginalFuente, ubicacionOriginalAutorizacion, nombreCorto, archivoA);
 						        	},2000);
