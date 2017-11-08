@@ -48,7 +48,6 @@ $(function() {
 		var valorSeleccionado = archivo; 		
         var archivos = document.getElementById("txtexaminararchivos"+archivo);
         var archivo = archivos.files;
-        console.log(archivo);
 
         if (typeof archivo[0] !== "undefined") {
             if (archivo[0].size < 10000485760) {
@@ -56,7 +55,7 @@ $(function() {
                 data.append('vid', archivo[0]);
                 $.ajax({
                     type: 'POST',
-                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
+                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion+"&archivo"+archivos,
                     data: data, //Le pasamos el objeto que creamos con los archivos
                     contentType: false, //Debe estar en false para que pase el objeto sin procesar
                     processData: false, //debe estar en false para que JQuery no procese los datos a enviar
