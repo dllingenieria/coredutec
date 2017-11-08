@@ -169,7 +169,7 @@ class clsGestorBDPlanas {
         $carga = new clsCarga();
         $archivoEscaneado=str_replace('"','',$archivoEscaneado);
 
-        $identificardorArchivo=$identificardorArchivo.".JPG";
+        $identificardorArchivo=$identificardorArchivo.".jpg";
         //$archivoEscaneado."<br>";
         
         $ubicacionOriginalEscaneado = "../tmp/".$archivoEscaneado."/".$identificardorArchivo;
@@ -177,8 +177,6 @@ class clsGestorBDPlanas {
         $nuevoNombre="../".$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
         
         $nombreRuta=$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
-
-        echo "ubicacion".$ubicacionOriginalEscaneado;
 
         if (file_exists($ubicacionOriginalEscaneado)) {
             copy($ubicacionOriginalEscaneado, $nuevoNombre);
