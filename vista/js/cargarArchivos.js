@@ -154,7 +154,7 @@ $(function(){
 			{title: "EstadoNuevo" },
 			{title: "TipoArchivo" },
 			{title: "Ruta"}	,
-			{data: null, className: "center", defaultContent: '<a id="view-link" class="view-link" href="'+table.row($(this).parents('tr')).data()+'" title="Edit">Ver documento </a>'},
+			{data: null, className: "center", defaultContent: '<a id="view-link" class="view-link" href="#" title="Edit">Ver documento </a>'},
 			],
 				"paging":   false,
 				"pageLength": 7,
