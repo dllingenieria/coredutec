@@ -65,25 +65,18 @@
  $(function(){
     $("#btnMatNue").click(function(){ 
      //cargarUltimaMatricula(); 
-	 //se habilita solo el estado inactivo para preprogramaciones nuevas
-		$('#cmbEstado')
-			.find('option')
-			.remove()
-			.end()
-			.append('<option value="2">Inactivo</option>')
-			.val('2');
+	 //se selecciona el estado inactivo para preprogramaciones nuevas
+			CargarEstados();
+			setTimeout(function() { $("#cmbEstado").val(2); }, 900); 
+			
 	
  });
     $("#btnMatExi").click(function(){
 		matriculaExistente = true;
-		 //se habilita solo el estado inactivo para preprogramaciones nuevas
-		$('#cmbEstado')
-		.find('option')
-		.remove()
-		.end()
-		.append('<option value="2">Inactivo</option>')
-		.val('2');
+		 //se selecciona el estado inactivo para preprogramaciones nuevas
         cargarMatriculaExistente();
+		CargarEstados();
+			setTimeout(function() { $("#cmbEstado").val(2); }, 900); 
     });
 })
 
@@ -378,6 +371,7 @@ function guardarPreprogramacion() {
                     setTimeout(function() {
                         location.reload(true);
                     }, 2000); 
+					jsRemoveWindowLoad();
                     popUpConfirmacion("Guardado"); 
 					$('#btnGuardar').attr("disabled", false);
                 } else if (data === 0) {
