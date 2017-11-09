@@ -105,11 +105,10 @@ class clsAcademico {
             print_r($conexion->getPDO()->errorInfo()); die();
             
        }
-        	
-			
             echo json_encode($array);
     }
 
+	
     public function agregarAcademicoDetalle($param) {
         extract($param);
         $array = array();
@@ -259,6 +258,8 @@ class clsAcademico {
 		//}
         echo json_encode($array);
     }
+	
+
 	
 	/*
 	*Funcion CargarMotivosNoAsistencia

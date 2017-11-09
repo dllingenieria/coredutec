@@ -56,10 +56,12 @@ var vistas = {
     8:{"nombre":"Reportes","url":"reportes.html"},
     9:{"nombre":"Registrar Asistencia","url":"registrarAsistencia.html"},
     10:{"nombre":"Imprimir Asistencia","url":"imprimirAsistencia.html"},
-	11:{"nombre":"Configuración","url":"configuracion.html"}
+	11:{"nombre":"Configuración","url":"configuracion.html"},
+	12:{"nombre":"Anexar Soportes","url":"anexarSoporte.html"}
+	
 };
 
-var vistasAdministrador = [0,1,2,3,4,5,6,7,8,11];
+var vistasAdministrador = [0,1,2,3,4,5,6,7,8,11,12];
 var vistasMatriculador = [1,4,9,10];
 
 $(function(){
@@ -104,8 +106,8 @@ function cargarDatosSesion() {
 
     if (sessionStorage.nombreUsuario !== null && sessionStorage.nombreUsuario!== null) {
 	//if (sessionStorage.arrayDatosUsuario){ alert("xx"+arrayDatosUsuario);
-        console.log("sesionstorage"+sessionStorage.nombreUsuario);
-        console.log("sesionstorage"+sessionStorage.roles);
+        // console.log("sesionstorage"+sessionStorage.nombreUsuario);
+        // console.log("sesionstorage"+sessionStorage.roles);
 		verificarIntegridad(sessionStorage.nombreUsuario,sessionStorage.roles);
 	}
 		
