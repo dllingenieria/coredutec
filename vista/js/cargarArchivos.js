@@ -45,27 +45,33 @@ $(function(){
 					break;
 				case "1":
 					$("#form-tercero").show();	
-					$("#form-preprogramacion").hide();				 
+					$("#form-preprogramacion").hide();
+					$("#buscar").show();				 
 					break;
 				case "2":		
 					$("#form-tercero").show();
 					$("#form-preprogramacion").hide();
+					$("#buscar").show();	
 					break;
 				case "3":
 					$("#form-preprogramacion").show();
 					$("#form-tercero").hide();
+					$("#buscar").show();	
 					break;
 				case "4":
 					$("#form-tercero").show();
 					$("#form-preprogramacion").hide();
+					$("#buscar").show();
 					break;
 				case "5":
 					$("#form-preprogramacion").show();
 					$("#form-tercero").hide();
+					$("#buscar").show();
 					break;
 				case "6":
 					$("#form-preprogramacion").show();
 					$("#form-tercero").hide();
+					$("#buscar").show();
 			}
 	});
 
@@ -77,6 +83,8 @@ $(function(){
 	        jsShowWindowLoad(mensaje);
 	       var parametros= {};
 	       console.log(selCargaConsulta);
+	       consultarTabla="";
+	       console.log(selCargaConsulta);
        	switch (selCargaConsulta) {
        		case "1":
        			console.log(busqueda);
@@ -85,22 +93,23 @@ $(function(){
 						oper: 'ConsultarAsignaciones',
 						busqueda: busqueda
 						};
-
-				
-				//data ="clase: 'clsCarga', oper: 'ConsultarAsignaciones', busqueda :"+busqueda+"";
+				consultarTabla=cargarInformacionEnTablaAsignaciones;
 			break;
 			case "2":
 				busqueda=$("#identificacion").val(); 
 				parametros= { clase: 'clsCarga',
-						oper: 'ConsultarCambioEstados',
+						oper: 'ConsultarSoporteMatricula',
 						busqueda: busqueda
 						};
-
-
-				//data ="clase: 'clsCarga', oper: 'ConsultarCambioEstados', busqueda :"+busqueda;
+				consultarTabla=cargarInformacionEnTablaMatricula;
 			break;
 			case "3":
 				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+				parametros= { clase: 'clsCarga',
+						oper: 'ConsultarSoporteFirmas',
+						busqueda: busqueda
+						};
+				consultarTabla=cargarInformacionEnTablaFirmas;
 			break;
 			case "4":
 				busqueda=$("#identificacion").val(); 
@@ -108,9 +117,15 @@ $(function(){
 						oper: 'ConsultarCambioEstados',
 						busqueda: busqueda
 						};
+				consultarTabla=cargarInformacionEnTablaEstado;
 			break;
 			case "5":
 				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+				parametros= { clase: 'clsCarga',
+						oper: 'ConsultarSoporteRefrigerios',
+						busqueda: busqueda
+						};
+				consultarTabla=cargarInformacionEnTablaRefrigerios;
 			break;
 			case "6":
 				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
@@ -118,14 +133,13 @@ $(function(){
 
 
        	}
-       	console.log("data"+parametros);
 		
 		$.post("../../controlador/fachada.php", 
 					parametros
 					, function(data) {
 			if (data !== 0) {
 				if(data !== null){
-					cargarInformacionEnTabla(data);
+					consultarTabla(data);
 					jsRemoveWindowLoad();
 					$('#imprimir').hide();
 				}else{alert("error 1");}             
@@ -136,7 +150,7 @@ $(function(){
  	});
 
 
-	function cargarInformacionEnTabla(data){ 
+	function cargarInformacionEnTablaEstado(data){ 
 		console.log("data"+data);
 
 		if(typeof table !== "undefined"){
@@ -153,8 +167,157 @@ $(function(){
 			{title: "EstadoAnterior" },
 			{title: "EstadoNuevo" },
 			{title: "TipoArchivo" },
-			{title: "Ruta"}	,
-			{data: null, className: "center", defaultContent: '<a id="view-link" class="view-link" href="#" title="Edit">Ver documento </a>'},
+			{title: "Archivo"}	
+			],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "infoEmpty": "No hay registros disponibles",
+                "Search:": "Filtrar",
+				"sLoadingRecords": "Cargando..."	
+            }	
+		});
+    }
+
+    function cargarInformacionEnTablaAsignaciones(data){ 
+		console.log("data"+data);
+
+		if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaContenidoGenerado').empty();
+        }
+
+		table = $('#tablaContenidoGenerado').DataTable({
+			"data": data,
+			columns: [
+			{title: "NumeroIdentificacion"},
+			{title: "Nombres" },
+			{title: "Fecha" },
+			{title: "Modulo" },
+			{title: "TipoArchivo" },
+			{title: "Archivo"}	
+			],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "infoEmpty": "No hay registros disponibles",
+                "Search:": "Filtrar",
+				"sLoadingRecords": "Cargando..."	
+            }	
+		});
+    }
+
+
+    function cargarInformacionEnTablaMatricula(data){ 
+		console.log("data"+data);
+
+		if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaContenidoGenerado').empty();
+        }
+
+		table = $('#tablaContenidoGenerado').DataTable({
+			"data": data,
+			columns: [
+			{title: "NumeroIdentificacion"},
+			{title: "Nombres" },
+			{title: "Fecha" },
+			{title: "Id Matricula" },
+			{title: "Ruta Fuente" },
+			{title: "Ruta Soporte" },
+			],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "infoEmpty": "No hay registros disponibles",
+                "Search:": "Filtrar",
+				"sLoadingRecords": "Cargando..."	
+            }	
+		});
+    }
+
+
+ function cargarInformacionEnTablaFirmas(data){ 
+		console.log("data"+data);
+
+		if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaContenidoGenerado').empty();
+        }
+
+		table = $('#tablaContenidoGenerado').DataTable({
+			"data": data,
+			columns: [
+			{title: "Salon"},
+			{title: "Fecha" },
+			{title: "Ruta Fuente" },
+			{title: "Ruta Soporte" }
+			],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "infoEmpty": "No hay registros disponibles",
+                "Search:": "Filtrar",
+				"sLoadingRecords": "Cargando..."	
+            }	
+		});
+    }
+
+     function cargarInformacionEnTablaRefrigerios(data){ 
+		console.log("data"+data);
+
+		if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaContenidoGenerado').empty();
+        }
+
+		table = $('#tablaContenidoGenerado').DataTable({
+			"data": data,
+			columns: [
+			{title: "Salon"},
+			{title: "Fecha" },
+			{title: "Ruta Fuente" },
+			{title: "Ruta Soporte" }
 			],
 				"paging":   false,
 				"pageLength": 7,

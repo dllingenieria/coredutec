@@ -407,20 +407,29 @@ public function ReporteCallcenterGestionados($param){
     /// Listado de archivos subido en asignaciones
     public function ConsultarAsignaciones($param)  {
         extract($param);
-        $sql = "CALL SPCONSULTARCARGAMASIVA($busqueda);";
+        $resultado = array();
+        $registro = array();
+         $sql = "CALL SPCONSULTARCARGAMASIVA($busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
           if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                 foreach ($filas as $fila) {
-                    $array[] = $fila;
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                         $ruta= "<a href='".$host."/".$fila['Ruta']."'>Descargar Archivo</a>";
+                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Modulo'],$fila['TipoArchivo'], $ruta ,$value);
+                        
+                          array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
                 }
             }
-        } else {
-            $array = 0;
-        }
-            echo json_encode($array);
+            } else {
+                $registro = 0;
+            }
+            echo json_encode($resultado);
     }
 
     /// Listado de archivos subido en asignaciones
@@ -431,12 +440,104 @@ public function ReporteCallcenterGestionados($param){
         $sql = "CALL SPCONSULTARCARGAMASIVACE($busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-
+        $host= $_SERVER["HTTP_HOST"];
          if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
-                        array_push($registro, $value);
+                         $ruta= "<a href='".$host."/".$fila['Ruta']."'>Descargar Archivo</a>";
+                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['EstadoAnterior'],$fila['EstadoNuevo'],$fila['TipoArchivo'], $ruta ,$value);
+                        
+                          array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            }
+            } else {
+                $registro = 0;
+            }
+            echo json_encode($resultado);
+    }
+
+
+        /// Listado de archivos subido en asignaciones
+    public function ConsultarSoporteFirmas($param)  {
+        extract($param);
+         $resultado = array();
+        $registro = array();
+        $sql = "CALL SPCONSULTARCARGAMASIVASF($busqueda);";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $host= $_SERVER["HTTP_HOST"];
+         if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                         $rutaFuente= "<a href='".$host."/".$fila['RutaAutorizacion']."'>Descargar Archivo</a>";
+                         $rutaSoporte= "<a href='".$host."/".$fila['RutaSoporte']."'>Descargar Archivo</a>";
+
+                          array_push($registro, $fila['Salon'],$fila['Fecha'],$rutaFuente, $rutaSoporte ,$value);
+                        
+                          array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            }
+            } else {
+                $registro = 0;
+            }
+            echo json_encode($resultado);
+    }
+
+            /// Listado de archivos subido en asignaciones
+    public function ConsultarSoporteMatricula($param)  {
+        extract($param);
+         $resultado = array();
+        $registro = array();
+        $sql = "CALL SPCONSULTARCARGAMASIVASM($busqueda);";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $host= $_SERVER["HTTP_HOST"];
+         if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                         $rutaFuente= "<a href='".$host."/".$fila['RutaFuente']."'>Descargar Archivo Fuente</a>";
+                         $rutaEscaneado= "<a href='".$host."/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
+                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['IdMatricula'],$rutaFuente, $rutaEscaneado ,$value);
+                        
+                          array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            }
+            } else {
+                $registro = 0;
+            }
+            echo json_encode($resultado);
+    }
+
+                /// Listado de archivos subido en asignaciones
+    public function ConsultarSoporteRefrigerios($param)  {
+        extract($param);
+         $resultado = array();
+        $registro = array();
+        $sql = "CALL SPCONSULTARCARGAMASIVASR($busqueda);";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $host= $_SERVER["HTTP_HOST"];
+         if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                         $rutaFuente= "<a href='".$host."/".$fila['RutaAutorizacion']."'>Descargar Archivo Fuente</a>";
+                         $rutaEscaneado= "<a href='".$host."/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
+                          array_push($registro, $fila['Salon'],$fila['Fecha'],$rutaFuente, $rutaEscaneado ,$value);
+                            
+                          array_push($registro, $value);
                     }
                     array_push($resultado, $registro);
                     $registro = array();

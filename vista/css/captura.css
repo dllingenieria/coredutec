@@ -534,3 +534,16 @@ input#identificacion, input#Preprogramacion {
     font-size: 12px;
     color: #2d4191;
 }
+
+
+div#form-preprogramacion {
+    float: left;
+}
+div#form-tercero {
+    float: left;
+}
+
+.derecha {
+    margin-left: 20px;
+    margin-right: 20px;
+}
