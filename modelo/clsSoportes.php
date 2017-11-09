@@ -134,10 +134,10 @@ class clsSoportes {
 							// $resultado=1;
 						// }
 				// }
-				else
-				{
-					$resultado=0;
-				}
+				// else
+				// {
+					// $resultado=0;
+				// }
 				
             }
 			else{
