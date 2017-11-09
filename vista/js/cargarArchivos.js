@@ -1,5 +1,5 @@
 $(function(){
-
+	var table;
 	CargarListaCargasMasivas("#selCargaConsulta");
 
 	function CargarListaCargasMasivas(SelectCarga) {  
@@ -71,60 +71,111 @@ $(function(){
 
 
 		$("#buscar").click(function() {
-		var selCargaConsulta = $("#selCargaConsulta").val();
-		var mensaje="Procesando la información<br>Espere por favor";
-		var busqueda="";
-        jsShowWindowLoad(mensaje);
+			var selCargaConsulta = $("#selCargaConsulta").val();
+			var mensaje="Procesando la información<br>Espere por favor";
+			var busqueda="";
+	        jsShowWindowLoad(mensaje);
+	       var parametros= {};
+	       console.log(selCargaConsulta);
+       	switch (selCargaConsulta) {
+       		case "1":
+       			console.log(busqueda);
+				busqueda=$("#identificacion").val();
+				parametros= { clase: 'clsCarga',
+						oper: 'ConsultarAsignaciones',
+						busqueda: busqueda
+						};
 
-       	
-        if(selCargaConsulta==1 || selCargaConsulta==4 || selCargaConsulta==2){
-        	busqueda=$("#identificacion").val(); // los que buscan por tercero
-        }else if(selCargaConsulta==3 || selCargaConsulta==5 || selCargaConsulta==6){
-        	busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
-        }
+				
+				//data ="clase: 'clsCarga', oper: 'ConsultarAsignaciones', busqueda :"+busqueda+"";
+			break;
+			case "2":
+				busqueda=$("#identificacion").val(); 
+				parametros= { clase: 'clsCarga',
+						oper: 'ConsultarCambioEstados',
+						busqueda: busqueda
+						};
 
-		/*$.post("../../controlador/fachada.php", {
-		clase: 'clsMatricula',
-		oper: 'consultarMatriculas',
-		busqueda : busqueda,
-		selCargaConsulta: selCargaConsulta
-		}, function(data) {
-			if (data !== 0) {
-				if(data !== null){
-					//console.log(JSON.stringify(data[0]));
-					cargarInformacionEnTabla(data, identificacion);
-					jsRemoveWindowLoad();
-					$('#imprimir').hide();
-				}else{alert("error 1");}             
-			}else {alert("error 2");}
-		}, "json");*/
+
+				//data ="clase: 'clsCarga', oper: 'ConsultarCambioEstados', busqueda :"+busqueda;
+			break;
+			case "3":
+				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+			break;
+			case "4":
+				busqueda=$("#identificacion").val(); 
+				parametros= { clase: 'clsCarga',
+						oper: 'ConsultarCambioEstados',
+						busqueda: busqueda
+						};
+			break;
+			case "5":
+				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+			break;
+			case "6":
+				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+			break;
+
+
+       	}
+       	console.log("data"+parametros);
 		
-
- 	});
-
-
-
-	$("#buscarPreprogramacion").click(function() {
-		var selCargaConsulta = $("#selCargaConsulta").val();
-		var mensaje="Procesando la información<br>Espere por favor";
-        jsShowWindowLoad(mensaje);
-		$.post("../../controlador/fachada.php", {
-		clase: 'clsMatricula',
-		oper: 'consultarMatriculas',
-		identificacion : identificacion
-		}, function(data) {
+		$.post("../../controlador/fachada.php", 
+					parametros
+					, function(data) {
 			if (data !== 0) {
 				if(data !== null){
-					//console.log(JSON.stringify(data[0]));
-					cargarInformacionEnTabla(data, identificacion);
+					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					$('#imprimir').hide();
 				}else{alert("error 1");}             
 			}else {alert("error 2");}
 		}, "json");
 		
-		//alert('hola');
+
  	});
+
+
+	function cargarInformacionEnTabla(data){ 
+		console.log("data"+data);
+
+		if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaContenidoGenerado').empty();
+        }
+
+		table = $('#tablaContenidoGenerado').DataTable({
+			"data": data,
+			columns: [
+			{title: "NumeroIdentificacion"},
+			{title: "Nombres" },
+			{title: "Fecha" },
+			{title: "EstadoAnterior" },
+			{title: "EstadoNuevo" },
+			{title: "TipoArchivo" },
+			{title: "Ruta"}	,
+			{data: null, className: "center", defaultContent: '<a id="view-link" class="view-link" href="'+table.row($(this).parents('tr')).data()+'" title="Edit">Ver documento </a>'},
+			],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "infoEmpty": "No hay registros disponibles",
+                "Search:": "Filtrar",
+				"sLoadingRecords": "Cargando..."	
+            }	
+		});
+    }
+
 
 
 

@@ -403,6 +403,51 @@ public function ReporteCallcenterGestionados($param){
         return $inserto;
     }
 
+
+    /// Listado de archivos subido en asignaciones
+    public function ConsultarAsignaciones($param)  {
+        extract($param);
+        $sql = "CALL SPCONSULTARCARGAMASIVA($busqueda);";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+          if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+            echo json_encode($array);
+    }
+
+    /// Listado de archivos subido en asignaciones
+    public function ConsultarCambioEstados($param)  {
+        extract($param);
+         $resultado = array();
+        $registro = array();
+        $sql = "CALL SPCONSULTARCARGAMASIVACE($busqueda);";
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+
+         if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                        array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            }
+            } else {
+                $registro = 0;
+            }
+            echo json_encode($resultado);
+    }
+
 }
 
 

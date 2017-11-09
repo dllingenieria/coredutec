@@ -517,8 +517,12 @@ div#botones_carga {
 }
 
 button#consultarArchivos {
-    float: right;
     margin-right: 100px;
+    position: absolute;
+    z-index: 2;
+    border-radius: 5px 5px 5px 5px;
+    margin-left: 744px;
+    margin-top: 200px;
 }
 
 button#buscarTercero, button#buscarPreprogramacion {
