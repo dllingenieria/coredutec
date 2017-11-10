@@ -48,6 +48,7 @@ class clsGestorBDPlanas {
         $numInsercion = 0;
         $aux = '';
         $idDetalleTabla=1;
+
         if (strlen($err_arc) === 0) {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
@@ -125,6 +126,7 @@ class clsGestorBDPlanas {
         $numInsercion = 0;
         $aux = '';
         $idDetalleTabla=1;
+        
         if (strlen($err_arc) === 0) {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
@@ -158,8 +160,6 @@ class clsGestorBDPlanas {
             Se ha generado un archivo con los errores encontrados.<br><br>' . $res_gua;
         }
         $response .= '</div>';
-
-
 
         echo $response;
     }
@@ -195,17 +195,17 @@ class clsGestorBDPlanas {
         $participante = new clsParticipante();
         include_once 'clsCarga.php';
         $carga = new clsCarga();
-        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $nom_arc), $ubicacionFuente);
+        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $archivo), $ubicacionFuente);
         $err_arc = $this->ValidarArchivo($inf_arc, $selCarga);
         $con = 0;
         $numInsercion = 1;
         $aux = '';
-        if (strlen($err_arc) === 0) {
+            if (strlen($err_arc) === 0) {
             foreach ($inf_arc as $lin_txt) {
                 if(strlen(trim($lin_txt))>0){
                     $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
                     //se agrega parametro $actualizarTercero
-                    $con = $con + $participante->InscribirParticipante($numInsercion,$lin_txt, $conexion,$pIdJornada,$actualizarTercero);
+                    $con = $con + $participante->InscribirParticipante($numInsercion,$lin_txt, $conexion,$idTablaGeneral,$actualizarTercero);
                     $numInsercion ++;
                 }
                 
@@ -240,7 +240,8 @@ class clsGestorBDPlanas {
 		array_pop($inf_arc);
         foreach ($inf_arc as $lin_txt) {
             if($selCarga==1){ //valida si es asignaciones
-                $res_eva = $this->EvaluarRegistro($lin_txt);
+
+               $res_eva = $this->EvaluarRegistro($lin_txt);
             }
             if($selCarga==2){ //valida si es soporte de matriculas
                 $res_eva = $this->EvaluarRegistroMatricula($lin_txt);
@@ -299,38 +300,34 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-    private function EvaluarRegistro($lin_txt) {
+     function EvaluarRegistro($lin_txt) {
         $persona = new clsPersona();
         $participante = new clsParticipante();
         $aux_lin = explode(';', $lin_txt);
+       
         $men_err = '';
-        $men_err .= $this->EsEntero($aux_lin[0],0);
-        $men_err .= $this->EsEntero($aux_lin[1],1);
-        $men_err .= $this->EsEntero($aux_lin[4],4);
-        $men_err .= $this->EsEntero($aux_lin[5],5);
-        $men_err .= $this->EsEntero($aux_lin[6],6);
-        $men_err .= $this->EsEntero($aux_lin[7],7);
-        $men_err .= $this->EsEntero($aux_lin[8],8);
-        $men_err .= $this->EsCorreoValido($aux_lin[9],9);
-        $men_err .= $this->EsFechaValida($aux_lin[10],10);
-        $men_err .= $this->EsEntero($aux_lin[11],11);
-        $men_err .= $this->EsEntero($aux_lin[12],12);
-        $men_err .= $this->EsEntero($aux_lin[13],13);
-        $men_err .= $this->esFechaValida($aux_lin[14],14);
-        $men_err .= $this->EsEntero($aux_lin[15],15);
-        $men_err .= $this->EsEntero($aux_lin[16],16);
-        $men_err .= $this->EsEntero($aux_lin[17],17);
-        $men_err .= $this->EsEntero($aux_lin[18],18);
-        $men_err .= $this->EsEntero($aux_lin[19],19);
-        $men_err .= $this->EsEntero($aux_lin[20],20);
-        $men_err .= $this->EsEntero($aux_lin[21],21);
-        $men_err .= $this->EsEntero($aux_lin[22],22);
-        $men_err .= $this->EsEntero($aux_lin[23],23);
-        $men_err .= $this->EsEntero($aux_lin[24],24);
-        $men_err .= $this->EsEntero($aux_lin[25],25);
-        $men_err .= $this->EsEntero($aux_lin[26],26);
-        $men_err .= $this->EsEntero($aux_lin[27],27);
-        $men_err .= $this->EsEntero($aux_lin[28],28);
+        $men_err .= $this->EsEntero($aux_lin[0],0); //pNumeroIdentificacion
+        $men_err .= $this->EsEntero($aux_lin[1],1); //pTipoIdentificacion
+        $men_err .= $this->EsEntero($aux_lin[4],4); //pLugarExpedicion
+        $men_err .= $this->EsEntero($aux_lin[5],5); //pSexo
+        $men_err .= $this->EsEntero($aux_lin[6],6); //pTelefono1
+        $men_err .= $this->EsEntero($aux_lin[7],7); //pTelefono2
+        $men_err .= $this->EsEntero($aux_lin[8],8); //pTelefono3
+        $men_err .= $this->EsCorreoValido($aux_lin[9],9); //pCorreoElectronico
+        $men_err .= $this->EsFechaValida($aux_lin[10],10); //pFechaNacimiento
+        $men_err .= $this->EsEntero($aux_lin[11],11); //pGradoEscolaridad
+        $men_err .= $this->EsEntero($aux_lin[12],12); //pCiudadResidencia
+        $men_err .= $this->EsEntero($aux_lin[13],13); //pLocalidad
+        $men_err .= $this->esFechaValida($aux_lin[14],14); //pFechaAsignacion
+        $men_err .= $this->EsEntero($aux_lin[15],15); //pAgenciaEmpleo
+        $men_err .= $this->EsEntero($aux_lin[16],16); //pServicio
+        $men_err .= $this->EsEntero($aux_lin[17],17); //pConvocatoria
+        $men_err .= $this->EsEntero($aux_lin[18],18); //pInstitutoCapacitacion
+        $men_err .= $this->EsEntero($aux_lin[19],19); //pMunicipioCapacitacion
+        $men_err .= $this->EsEntero($aux_lin[20],20); //pRuta
+        $men_err .= $this->EsEntero($aux_lin[21],21); //pCurso
+        $men_err .= $this->EsEntero($aux_lin[22],22); //pModulo
+        $men_err .= $this->EsEntero($aux_lin[23],23); //pEstadoParticipante
         return $men_err;
     }
 
@@ -348,7 +345,7 @@ class clsGestorBDPlanas {
             }
             @fclose($rutaArchivo);
         }
-       
+    
         return $tex_arc;
     }
 

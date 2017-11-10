@@ -8,14 +8,11 @@ ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 // Report all errors
 error_reporting(E_ALL);
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 class clsParticipante {
-
     //==============================================================
     //                      NOTAS
     //==============================================================
@@ -289,16 +286,23 @@ class clsParticipante {
 	*Se agrega el parametro actualizarTercero
 	*/
     public function InscribirParticipante($numInsercion,$lin_inf, $conexion,$pIdJornada,$actualizarTercero) { //26
-        
 		header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
         $auxFecha = $this->obtenerFecha($registro[14]);
+        $pFecha = $this->obtenerFecha($registro[10]);
         $apellidos =($registro[2]);
         $nombres = $registro[3];
         $correo = $this->evalString(($registro[9]));
+        $observacionEstado="";
+        if(isset($registro[24])){
+            $observacionEstado=$registro[24];
+        }else{
+            $observacionEstado="sin observacion";
+        }
+
         @$sql = "CALL SPCARGAMASIVAPARTICIPANTES($registro[0],$registro[1],'$apellidos','$nombres', '$registro[4]', $registro[5], $registro[6],$registro[7],$registro[8], '$correo', '$pFecha', $registro[11],$registro[12],  $registro[13], '$auxFecha',
-		$registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],$registro[24],$IdUsuario, ".$pIdJornada.", $actualizarTercero);";
+		$registro[15], $registro[16], $registro[17], $registro[18], $registro[19], $registro[20], $registro[21], $registro[22], $registro[23],'$observacionEstado',$IdUsuario, ".$pIdJornada.", $actualizarTercero);";
 		
 		$rs=null;
 		$conexion->getPDO()->query("SET NAMES 'utf8'");

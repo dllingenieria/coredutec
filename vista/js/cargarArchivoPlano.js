@@ -475,7 +475,10 @@ function jsShowWindowLoad(mensaje) {
 	$( "#selCarga" ).change(function() { 
 			valorSeleccionado = $("#selCarga").val(); 
 			$("#fondoerrores").html("");
-			
+			$("#txtexaminararchivosEscaneado").val(null);
+			$("#txtexaminararchivosFuente").val(null);
+			$("#txtexaminararchivosAutorizacion").val(null);
+
 			$( "input[id^='txtDescripcionf']", $(".form") ).val("");
 			switch (valorSeleccionado) {
 				case "00":
