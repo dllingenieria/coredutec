@@ -432,11 +432,14 @@ function modificarPreprogramacion() {
 				inteHoraria : $("#txtInteHoraria").val(),
 				observacion : $("#txtObservacion").val(),
 				
+				
 				//campos para el correo
 				diasDelCurso : $("#cmbDiasDelCurso :selected").text(),
 				horaInicio: $("#cmbHoraInicio :selected").text(),
                 horaFinal: $("#cmbHoraFinal :selected").text(),
-				sede: $("#cmbSede :selected").text()
+				sede: $("#cmbSede :selected").text(),
+				cod_mat: $("#txtCodigoMatricula").val(),
+                cod_sal: $("#txtCodigoMatricula").val()+'.'+cod_mod_aux
 				
             }, function(data) {
                 console.log("DEBUGING DATA");
