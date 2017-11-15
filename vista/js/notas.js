@@ -31,7 +31,7 @@ $(function() {
 		$("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
 		$("#txtModulo").html(sessionStorage.IdModulo + "   " + sessionStorage.Modulo);
         $("#inscritos").html(sessionStorage.Inscritos);
-        $("#horario").html(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria );
+        $("#horario").html(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria+" Horas" );
         $("#fechaInicial").html(sessionStorage.FechaInicial);
         $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
         $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);

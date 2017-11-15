@@ -8,7 +8,7 @@ $(function() {
     function recuperarDatos() {
 
         $("#txtNombreServicioEducativo").val(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
-        $("#txtHorario").val(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria );
+        $("#txtHorario").val(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria+" Horas" );
         $("#txtFechaInicial").val(sessionStorage.FechaInicial);
         $("#txtFechaFinal").val(sessionStorage.FechaFinal);
         $("#txtSalon").val(sessionStorage.Salon);
