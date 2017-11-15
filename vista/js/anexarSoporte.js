@@ -8,6 +8,7 @@ archivosUrl= new Array();
     limpiarCampos();
     cargarTiposSoportes();
 	cargarConvocatorias();
+	cargarJornadas();
     //configuracion del calendario
 	 $.datepicker.regional['es'] = {
         currentText: 'Hoy',
@@ -32,6 +33,7 @@ archivosUrl= new Array();
 	$("#txtFechaF").datepicker();
 
 	$('#cmbTipoDeSoporte').change(function() { 
+	limpiarCampos();
 	 tipoSoporte="";
         	
             //estudiante
@@ -83,6 +85,7 @@ archivosUrl= new Array();
 				$("#derecha1").hide();
 				$('#divfecha').hide();
 				$('#derecha').hide();
+				$('#divBusquedaConvocatoria').hide();
                 PopUpError("Debe seleccionar un tipo de soporte");
             }
             
@@ -92,7 +95,7 @@ archivosUrl= new Array();
 	 
 	 
 	 
-	  $("#txtCedula").keydown(function (e) {  
+	  $("#txtCedula,#txtCedula1").keydown(function (e) {  
                if (e.shiftKey || e.ctrlKey || e.altKey) {  
                    
                }
@@ -165,7 +168,7 @@ archivosUrl= new Array();
 			
 	});
 		archivosUrl=[];
-	
+	//estudiante
 	$("#btnConsultarSoporteCedula").click(function() {  
 		
 		if($("#txtCedula").val() != ""){
@@ -189,7 +192,7 @@ archivosUrl= new Array();
 		}
 		
 	});
-	
+	//caso especial
 	$("#btnConsultarSoporteCedula1").click(function() {  
 		
 		if($("#txtCedula1").val() != ""){
@@ -215,14 +218,14 @@ archivosUrl= new Array();
 	
 	$("#btnConsultarSoporteConvocatoria").click(function() {  
 		
-		if($("#cmbConvocatoria").val() != ""){
+		if($("#cmbDescripcion").val() != "" && $("#cmbConvocatoria").val() != ""){
 			$("#derecha").show();
 			$("#derecha1").hide();
 			
 			$.post("../../controlador/fachada.php", {
 				clase: 'clsSoportes',
 				oper: 'consultarSoportesPorConvocatoria',
-				convocatoria:$("#cmbConvocatoria").val(),
+				dConvocatoria:$("#cmbDescripcion").val(),
 				tipoSoporte:$('#cmbTipoDeSoporte').val()
 			}, function(data) {
 				if (data !== 0) { 
@@ -232,7 +235,7 @@ archivosUrl= new Array();
 			}, "json");
 		}
 		else{
-			PopUpError("Debe ingresar la convocatoria para consultar");
+			PopUpError("Debe ingresar la convocatoria y la descripción para consultar");
 		}
 		
 	});
@@ -341,31 +344,67 @@ archivosUrl= new Array();
 			
 	});
 	
+	//estudiante
 	$("#btnAgregarSoporteCedula").click(function() {	
-		// $.ajax({
-			// type: "POST",
-			// url: "../../SubirArchivo/index.html",
-			// success: function(datos) {
-				// $("#derecha1").html(datos);
-			// }
-		// });
 		
-		$("#derecha1").show();
-		$("#derecha").hide();
-	});
-	
-	
-	$("#btnAgregarSoporteCaso").click(function() {	
-		
-		if($('#txtFechaI').val() == "" || $('#cmbTipoDeSoporte').val() == "" ){
-			PopUpError("Debe ingresar la fecha inicial y la fecha final");
+		if( $('#txtCedula').val() == ""){
+			PopUpError("Debe ingresar la cédula");
 		}
 		else{
-			fechaInicial = $('#txtFechaI').val();
-			fechaFinal	 = $('#txtFechaF').val();
-			$( "#Example2" ).attr( "src", "../../SubirArchivo/index.php?accion=2&tipoSoporte="+tipoSoporte+"&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal );
-			$("#derecha1").show();
-			$("#derecha").hide();
+			
+		//validacion si cedula existe
+							$.post("../../controlador/fachada.php", {
+								clase: 'clsSoportes',
+								oper: 'consultarCedulaSoportes',
+								cedula:$('#txtCedula').val()
+								
+							}, function(data) {
+								if (data == 0) { 
+									
+									PopUpError("La cédula: "+$('#txtCedula').val()+" no se encontro, intente nuevamente");
+									
+								}
+								else{
+									$("#derecha1").show();
+									$("#derecha").hide();
+								}
+								
+							}, "json");
+		}
+		
+		
+	});
+	
+	//caso especial
+	$("#btnAgregarSoporteCaso").click(function() {	
+		
+		if($('#txtFechaI').val() == "" || $('#txtFechaF').val() == "" || $('#txtCedula1').val() == ""){
+			PopUpError("Debe ingresar la fecha inicial, la fecha final y la cédula");
+		}
+		else{
+			
+			//validacion si cedula existe
+							$.post("../../controlador/fachada.php", {
+								clase: 'clsSoportes',
+								oper: 'consultarCedulaSoportes',
+								cedula:$('#txtCedula1').val()
+								
+							}, function(data) {
+								if (data == 0) { 
+									
+									PopUpError("La cédula: "+$('#txtCedula1').val()+" no se encontro, intente nuevamente");
+								}
+								else{
+									fechaInicial = $('#txtFechaI').val();
+									fechaFinal	 = $('#txtFechaF').val();
+									$( "#Example2" ).attr( "src", "../../SubirArchivo/index.php?accion=2&tipoSoporte="+tipoSoporte+"&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal );
+									$("#derecha1").show();
+									$("#derecha").hide();
+								}
+								
+							}, "json");
+			
+			
 		}
 		
 		
@@ -381,15 +420,15 @@ archivosUrl= new Array();
 		nombreCortoConvocatoria = nombreCortoConvocatoria[1];
 		// crear la cookie
 		// document.cookie = "nombreCortoConvocatoria="+nombreCortoConvocatoria; 
-		
+		descripcion = $('#cmbDescripcion').val();
 
-		if(convocatoria != "" ){
-			$( "#Example2" ).attr( "src", "../../SubirArchivo/index.php?accion=3&tipoSoporte="+tipoSoporte+"&convocatoria="+convocatoria+"&nombreCortoConvocatoria="+nombreCortoConvocatoria );
+		if(convocatoria != "" && descripcion != ""){
+			$( "#Example2" ).attr( "src", "../../SubirArchivo/index.php?accion=3&tipoSoporte="+tipoSoporte+"&convocatoria="+convocatoria+"&nombreCortoConvocatoria="+nombreCortoConvocatoria+"&descripcion="+descripcion );
 			$("#derecha1").show();
 			$("#derecha").hide();
 		}
 		else{
-			PopUpError("Debe seleccionar la convocatoria");
+			PopUpError("Debe seleccionar la convocatoria e ingresar la descripción");
 		}
 		
 	});
@@ -471,9 +510,40 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
     }));
 }
  
-       
+function cargarJornadas() {
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsCarga',
+			oper: 'CargarJornadasConvocatorias'
+		}, function(data) {
+			if (data !== 0) {
+				
+				FormarOptionValueJornadas(data);
+				
+				
+			}else {
+				PopUpError('No se cargo la descripción convocatoria');
+			}}, "json");
+	}
+ 
+function FormarOptionValueJornadas(pJornadas) {
+    $('#cmbDescripcion').find('option').remove();
+    SetParametroCursoPorDefecto("#cmbDescripcion", '', 'Seleccione...');
+    for (i = 0; i < pJornadas.length; i++) {
+        $('#cmbDescripcion').append($('<option>', { 
+            value: pJornadas[i].Id,
+            text: pJornadas[i].Descripcion
+        }));
+    }
+}
+ 
 function limpiarCampos(){
          $("#txtCedula").val('');
+         $("#txtFechaI").val('');
+         $("#txtFechaF").val('');
+         $("#txtCedula1").val('');
+         $("#cmbConvocatoria").val('');
+         $("#cmbDescripcion").val('');
+         
         
     }
 

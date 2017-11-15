@@ -72,7 +72,7 @@ class clsCarga {
             }
         } else {
             $array = 0;
-        }
+        } 
         echo json_encode($array);
     }
     

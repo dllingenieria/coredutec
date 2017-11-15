@@ -15,6 +15,7 @@ elseif(@$_GET['accion']==3)
 @$tipoSoporte=$_GET['tipoSoporte'];
 
 $nombreCortoConvocatoria =  @$_GET['nombreCortoConvocatoria'];
+$descripcion =  @$_GET['descripcion'];
 
 
 ?>
@@ -47,7 +48,7 @@ $.cookie("nombreCortoConvocatoria","<?php echo @$nombreCortoConvocatoria; ?>" );
 
 <body>
 <div>
-<form action="receptor.php?accion=<?php echo @$accion; ?>&tipoSoporte=<?php echo @$tipoSoporte ?>&fechaInicial=<?php echo @$_GET['fechaInicial'] ?>&fechaFinal=<?php echo @$_GET['fechaFinal']; ?>&convocatoria=<?php echo  @$_GET['convocatoria']; ?>" class="dropzone needsclick dz-clickable" id="subir-imagen">
+<form action="receptor.php?accion=<?php echo @$accion; ?>&tipoSoporte=<?php echo @$tipoSoporte ?>&fechaInicial=<?php echo @$_GET['fechaInicial'] ?>&fechaFinal=<?php echo @$_GET['fechaFinal']; ?>&convocatoria=<?php echo  @$_GET['convocatoria']; ?>&descripcion=<?php echo  @$_GET['descripcion']; ?>" class="dropzone needsclick dz-clickable" id="subir-imagen">
 		<div class="dz-message needsclick">
 			Arraste su archivo o click para seleccionar
 		</div>

@@ -73,8 +73,9 @@ $cedula=$cedula1[0];
 		}
 		else if($tipoNovedad == 299)
 		{
-			$convocatoria = $_GET['convocatoria'];
-			$sql = "CALL SPAGREGARSOPORTECONVOCATORIA($convocatoria,$tipoNovedad,'$ruta');";
+			//jornada de la convocatoria
+			$descripcion = $_GET['descripcion'];
+			$sql = "CALL SPAGREGARSOPORTECONVOCATORIA($descripcion,$tipoNovedad,'$ruta');";
 			
 			$rs = null;
 			if ($rs = $conexion->getPDO()->query($sql)) 

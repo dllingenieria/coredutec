@@ -70,7 +70,8 @@ class clsSoportes {
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
        
-        $sql = "CALL SPCONSULTARSOPORTESPORCONVOCATORIA($convocatoria,$tipoSoporte);";
+        //se consulta por la descripcion convocatoria
+		$sql = "CALL SPCONSULTARSOPORTESPORCONVOCATORIA($dConvocatoria,$tipoSoporte);";
         	
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
@@ -122,27 +123,13 @@ class clsSoportes {
 		
         if ($rs = $conexion->getPDO()->query($sql)) 
 		{
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) 
-			{ 
-			
-                // if ($filas[0] ==1)
-				// {
-					$resultado=1;
+            	$resultado=1;
 					//borrar archivo
 					// if(@unlink($url))
 						// {
 							// $resultado=1;
 						// }
-				// }
-				// else
-				// {
-					// $resultado=0;
-				// }
-				
-            }
-			else{
-				$resultado=0;
-			}
+            
         }
 		else 
 		{
@@ -151,6 +138,27 @@ class clsSoportes {
 		
 		
         echo json_encode($resultado);
+    }
+	
+	public function consultarCedulaSoportes($param) {
+        extract($param);
+		$rs = null;
+        
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+       
+        $sql = "CALL SPCONSULTARCEDULA($cedula);";
+		
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+					$resultado=$filas[0]['IdTercero']; //print_r($resultado);
+					
+            }
+        } else {
+            $resultado = 0; 
+			print_r($conexion->getPDO()->errorInfo()); 
+        }
+		//print_r($resultado);
+        echo json_encode($resultado); 
     }
 	
 	private function CodificarEnUtf8($fila) {
