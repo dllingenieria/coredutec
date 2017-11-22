@@ -152,6 +152,14 @@ $(function(){
 		} );
 	}
 
+
+	$("#refrigerios").click(function(){	
+		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
+			window.location.href = "ingresarAlimentacion.html";
+		}else{
+			PopUpError("Por favor seleccione un módulo");
+		}
+	});
 	
 	$("#formatoFirmas").click(function(){			
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined") {
