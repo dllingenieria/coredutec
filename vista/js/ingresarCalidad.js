@@ -1,5 +1,8 @@
 $(function() { 
+
 	
+	obtenerEvaluacionesPorCedula();
+	recuperarDatos();
 	
     if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
         window.location.href = "calidad.html";
@@ -14,24 +17,24 @@ $(function() {
         { title: "Sede" });
 		
 	
-	$("#btnConsularCedula").click(function(){ 
-		var cedula = $("#txtCedula").val();
-		if (cedula == ""){
-		PopUpError("Por favor ingrese una Cédula");	
-		}
-		else{
-			obtenerEvaluacionesPorCedula(cedula);
-		}
-	});
+	// $("#btnConsularCedula").click(function(){ 
+		// var cedula = $("#txtCedula").val();
+		// if (cedula == ""){
+		// PopUpError("Por favor ingrese una Cédula");	
+		// }
+		// else{
+			// obtenerEvaluacionesPorCedula(cedula);
+		// }
+	// });
 	
-    function obtenerEvaluacionesPorCedula(cedula){
+    function obtenerEvaluacionesPorCedula(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsCalidad',
 			oper: 'ConsultarEvaluacionesPorCedula',
-			cedula: cedula
+			IdPreprogramacion: sessionStorage.IdPreprogramacion
 			
 			}, function(data) {
 			if (data !== 0) {
@@ -42,10 +45,10 @@ $(function() {
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					// recuperarDatos();
-					// $("#formatoFirmas").css("display","");
+					
 					$("#btnVerDetalle").css("display","");
 					$("#btnAModulos").css("display","");
-					// $("#planeacion").css("display","");
+					
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
@@ -104,7 +107,32 @@ $(function() {
 		
     }
 	
-	
+	function recuperarDatos() {
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+        var saber =  new Array();
+        var hacer =  new Array();
+        var ser =  new Array();
+        var notas =  new Array();
+        
+		$("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
+		$("#txtModulo").html(sessionStorage.IdModulo + "   " + sessionStorage.Modulo);
+        // $("#inscritos").html(sessionStorage.Inscritos);
+        // $("#horario").html(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria+" Horas" );
+        // $("#fechaInicial").html(sessionStorage.FechaInicial);
+        // $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
+        // $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
+        // $("#fechaFinal").html(sessionStorage.FechaFinal);
+        // $("#duracion").html(sessionStorage.Duracion);
+		 $("#txtSalon").html(sessionStorage.Salon);
+        // $("#txtSede").html(sessionStorage.Sede); 
+		// $("#txtDocente").html(sessionStorage.Docente);
+		// $("#txtRuta").html(sessionStorage.Ruta);
+		// $("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
+		// nuevos
+		// $("#txtAsistentes").html(sessionStorage.Asistentes);
+		// $("#txtAprobados").html(sessionStorage.Aprobados);
+	}
 	
 	$("#btnAModulos").click(function(){
     window.location.href = "calidad.html";

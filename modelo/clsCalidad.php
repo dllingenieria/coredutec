@@ -16,7 +16,8 @@ class clsCalidad {
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         
-        $sql = "CALL SPCONSULTAREVALUACIONESPORCEDULA($cedula);";
+        // $sql = "CALL SPCONSULTAREVALUACIONESPORCEDULA($cedula);";
+        $sql = "CALL SPCONSULTAREVALUACIONESPORPREPROGRAMACION($IdPreprogramacion);";
 	
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
