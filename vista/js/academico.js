@@ -1,8 +1,8 @@
 $(function(){
-	// $("#formatoFirmas").css("display","none");
-	$("#btnAcademico").css("display","none");
-	// $("#formatoNotas").css("display","none");
-	// $("#planeacion").css("display","none");
+	 $("#btnAsistencias").css("display","none");
+	 $("#btnAcademico").css("display","none");
+	 $("#btnNotas").css("display","none");
+	 $("#btnPlaneacion").css("display","none");
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#descargar").hide();
@@ -15,17 +15,6 @@ $(function(){
 		obtenerIdTerceroModulos();
 		
 	});
-	
-	// $("#btnConsularSalon").click(function(){ 
-		// var salon = $("#txtSalon").val();
-		// if (salon == ""){
-		// PopUpError("Por favor ingrese un Salón");	
-		// }
-		// else{
-			// obtenerIdTerceroModulos(salon);
-		// }
-	// });
-	
 	
 	
 	function obtenerIdTerceroModulos(){
@@ -45,10 +34,10 @@ $(function(){
 					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
-					// $("#formatoFirmas").css("display","");
+					$("#btnAsistencias").css("display","");
 					$("#btnAcademico").css("display","");
-					// $("#formatoNotas").css("display","");
-					// $("#planeacion").css("display","");
+					$("#btnNotas").css("display","");
+					$("#btnPlaneacion").css("display","");
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
@@ -150,162 +139,40 @@ $(function(){
 		} );
 	}
 
-	
-	// $("#formatoFirmas").click(function(){			
-		// if (typeof(sessionStorage.IdPreprogramacion) !== "undefined") {
-			// $.post("../../controlador/fachada.php", {
-						// clase: 'clsDocente',
-						// oper: 'consultarCalendarioPreprogramacion',
-						// idPreprogramacion: sessionStorage.IdPreprogramacion
-							// }, function(data) {
-								// if (data !== 0) {
-									// if(data !== null){
-										// sessionStorage.NoSession = data;
-										// window.location.href = "formatoFirmas.html";
-									// }else{alert("error 1");}             
-								// }else {alert("error 2");}
-					// }, "json");
-				// //alert(sessionStorage.NoSession);
-
-		// }else{
-			// PopUpError("Por favor seleccione un módulo");
-		// }
-	// });
 
 	$("#btnAcademico").click(function(){                           //agregado
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			window.location.href = "ingresarAcademico.html";
+			window.location.href = "ingresarSeguimiento.html";
+		}else{
+			PopUpError("Por favor seleccione un módulo");
+		}
+	});
+	$("#btnAsistencias").click(function(){                           //agregado
+		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
+			window.location.href = "asistenciaSeguimiento.html";
 		}else{
 			PopUpError("Por favor seleccione un módulo");
 		}
 	});
 
-	// $("#formatoNotas").click(function(){                                //agregado
-		// if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			// window.location.href = "notas.html";
-		// }else{
-			// PopUpError("Por favor seleccione un módulo");
-		// }
-	// });
+	$("#btnNotas").click(function(){                           //agregado
+		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
+			window.location.href = "notasSeguimiento.html";
+		}else{
+			PopUpError("Por favor seleccione un módulo");
+		}
+	});
 
-	// $("#planeacion").click(function(){                                 //agregado
-		// if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			// window.location.href = "listarPlaneacion.html";
-		// }else{
-		// PopUpError("Por favor seleccione un módulo");
-		// }
-	// });
+	$("#btnPlaneacion").click(function(){                           //agregado
+		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
+			window.location.href = "listarPlaneacionSeguimiento.html";
+		}else{
+			PopUpError("Por favor seleccione un módulo");
+		}
+	});
+
+
 	
-
-	//Evento que edita registro//
-	// $(document).on('click', '#view-link', function() {
-			// var data = table.row($(this).parents('tr')).data();
-			// sessionStorage.id_tpar= data[0];
-			// if(data[0]!=""){
-				// //$(".cuerpo").fadeOut('slow', function(){  
-					// //$(".cuerpo").fadeIn('slow');
-					// //$(".cuerpo").load(html);
-					// cargarReporteEstudiantesSalon(data[2]);
-					// // $("#formatoFirmas").hide();
-					// $("#btnAlimentacion").hide();
-					// // $("#formatoNotas").hide();
-					// // $("#planeacion").hide();
-					// $("#regresar").show();
-				// //})
-			// }
-	// });
-
-	// //Evento que edita registro//
-	// $(document).on('click', '#asistencias-link', function() {
-			// var data = table.row($(this).parents('tr')).data();
-			// sessionStorage.id_tpar= data[0];
-			// if(data[0]!=""){
-				// var mensaje="Procesando la información<br>Espere por favor";
-
-				// jsShowWindowLoad(mensaje);
-
-					// $(".cuerpo").fadeOut('slow', function(){  
-					// $(".cuerpo").fadeIn('slow');
-					// $(".cuerpo").load('reporteExcelAsistencias.html');
-				// })
-				// //cargarReporteEstudiantesSalon(data[2]);
-					// // $("#formatoFirmas").hide();
-					// $("#btnAlimentacion").hide();
-					// // $("#formatoNotas").hide();
-					// // $("#planeacion").hide();
-					// $("#regresar").show();	
-					// $(".filtro").hide();		
-
-					// cantidadSesiones();
-			 	// jsRemoveWindowLoad();
-			// }
-	// });
-
-
-		// //Evento que edita registro//
-	// $(document).on('click', '#asistencias', function() {
-		// //sessionStorage.NoSesiones=0;
-		// //Se oculta el boton de descarga
-		// $('#descargar').hide();
-				// var mensaje="Procesando la información<br>Espere por favor";
-				// jsShowWindowLoad(mensaje);
-
-			   	// $.post("../../controlador/fachada.php", {
-					// clase: 'clsAsistencia',
-					// oper: 'consultarReporte',
-					// idPreprogramacion: sessionStorage.IdPreprogramacion,
-					// NoSesiones: sessionStorage.NoSesiones,
-					// Curso: sessionStorage.Curso,
-					// Modulo: sessionStorage.Modulo,
-					// Inscritos: sessionStorage.Inscritos,
-					// Horario: sessionStorage.Horario,
-					// FechaInicial: sessionStorage.FechaInicial,
-					// Sede: sessionStorage.Sede,
-					// Salon: sessionStorage.Salon,
-					// IdCurso: sessionStorage.IdCurso,
-					// IdModulo: sessionStorage.IdModulo,
-					// FechaFinal: sessionStorage.FechaFinal,
-					// Duracion: sessionStorage.Duracion
-					// }, function(data) {
-					// if (data.mensaje == 1 && data.html!=""){
-						// nombreArchivo=data.html;
-						// jsRemoveWindowLoad();
-						// popUpConfirmacion("Generado correctamente el reporte");
-						// $('#descargar').show();
-						
-					// }
-					// else if(data.error == 2){
-						// jsRemoveWindowLoad();
-						// popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
-						// setTimeout(function(){
-						// location.reload();},2000);
-					// }
-					// else{
-						// jsRemoveWindowLoad();
-						// mostrarPopUpError("No se ha generado el reporte");
-						// setTimeout(function(){
-						// location.reload();},2000);
-					// }		
-				// }, "json");				
-
-	// });
-
-function cantidadSesiones(){
-	$.post("../../controlador/fachada.php", {
-		clase: 'clsDocente',
-		oper: 'consultarCalendarioPreprogramacion',
-		idPreprogramacion: sessionStorage.IdPreprogramacion
-	}, function(data) {
-			if (data !== 0) {
-				if(data !== null){
-					sessionStorage.NoSesiones = data;
-				}else{
-					sessionStorage.NoSesiones=0;
-				}             
-			}else {sessionStorage.NoSesiones=0;
-				}
-	}, "json");
-}
 
 
 function popUpConfirmacion(msj){
@@ -316,74 +183,12 @@ function popUpConfirmacion(msj){
 	    });
 }
 
-// $(document).on('click', '#descargar', function() {
-			// window.location.href = "../"+nombreArchivo;
-			// setTimeout(function(){
-			// location.reload();},2000);
-			
-     // });
 
 $(document).on('click', '#regresar', function() {
 		 location.reload();
 });
 
-// function cargarReporteEstudiantesSalon(salon){
-		// var mensaje="Procesando la información<br>Espere por favor";
-		// jsShowWindowLoad(mensaje);
-		// $.post("../../controlador/fachada.php", {
-					// clase: 'clsParticipante',
-					// oper: 'consultarCargaEstudiantesPorSalonDocente',
-				    // codigo_salon: salon
-		 // }, function(data) {
-				// if (data !== 0) {
-					// if(data !== null){
-						    // $('#spanTotal').show();
-                            // $('#numero_estudiantes').text(data.length);
-						   // formatearReporteEstudiantesSalon(data);		        			
-					// }else{alert("error 1");}             
-				// }else {alert("error 2");}
-				// jsRemoveWindowLoad();	
-		// }, "json");
-                             
-// }
 
-// function formatearReporteEstudiantesSalon(data){
-		// $('.cuerpo').hide();
-		// $(".cuerpoEstudiantes").show();
-        // table = $('#tablaasistentes').DataTable({
-			// "data": data,
-			// columns: [
-			// { title: "Idtercero" },
-			// { title: "Identificación" },
-			// { title: "Apellidos" },
-			// { title: "Nombres" },
-			// { title: "Telefono" },
-			// { title: "Telefono2" },
-			// { title: "CorreoElectronico" }
-			// ],
-			// "paging":   false,
-			// "pageLength": 7,
-			// "bLengthChange": false,
-			// "bDestroy": true,
-			// "info":     false,
-			// "scrollY": "240px",
-			// "scrollX": true,
-			// "scrollCollapse": true,
-			// "columnDefs": [
-			// {"targets": [ 0 ],"visible": false,"searchable": false}
-			// ],
-			// "language": {
-				// "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
-                // "sProcessing":     "Procesando...",
-				// "sSearch": "Filtrar:",
-                // "zeroRecords": "Ningún resultado encontrado",
-                // "infoEmpty": "No hay registros disponibles",
-                // "Search:": "Filtrar",
-				// "sLoadingRecords": "Cargando..."	
-            // }	
-		// });
-
-// }
 
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla
