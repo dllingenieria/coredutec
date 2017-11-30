@@ -91,7 +91,8 @@ class clsGestorBDPlanas {
                 
             }
             $archivoEscaneado=str_replace('"','',$archivoEscaneado);
-            rmdir("../tmp/".$archivoEscaneado);
+            $this->removeDirectory("../tmp/".$archivoEscaneado);
+            //rmdir("../tmp/".$archivoEscaneado);
             $response .= $numInsercion . " registros guardados satisfactoriamente.";
             $res_gua = $this->GuardarArchivoDeLogs($aux,'LogPlanoFuente.txt');
             $response .= 'Archivo de logs líneas leídas.<br><br>' . $res_gua;
@@ -112,6 +113,35 @@ class clsGestorBDPlanas {
 
 
         echo $response;
+    }
+
+
+   public function removeDiresctory($path)
+    {
+        $path = rtrim( strval( $path ), '/' ) ;
+        
+        $d = dir( $path );
+        
+        if( ! $d )
+            return false;
+        
+        while ( false !== ($current = $d->read()) )
+        {
+            if( $current === '.' || $current === '..')
+                continue;
+            
+            $file = $d->path . '/' . $current;
+            
+            if( is_dir($file) )
+                $this->removeDirectory($file);
+            
+            if( is_file($file) )
+                unlink($file);
+        }
+        
+        rmdir( $d->path );
+        $d->close();
+        return true;
     }
 
 
@@ -169,14 +199,14 @@ class clsGestorBDPlanas {
         $carga = new clsCarga();
         $archivoEscaneado=str_replace('"','',$archivoEscaneado);
 
-        $identificardorArchivo=$identificardorArchivo.".jpg";
+        $identificardorArchivo=$identificardorArchivo.".pdf";
         //$archivoEscaneado."<br>";
         
         $ubicacionOriginalEscaneado = "../tmp/".$archivoEscaneado."/".$identificardorArchivo;
         
-        $nuevoNombre="../".$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
+        $nuevoNombre="../".$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".pdf";
         
-        $nombreRuta=$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".jpg";
+        $nombreRuta=$ubicacionEscaneado.$nombreCorto."_".$idTablaGeneral."_".$idDetalleTabla.".pdf";
 
         if (file_exists($ubicacionOriginalEscaneado)) {
             copy($ubicacionOriginalEscaneado, $nuevoNombre);
