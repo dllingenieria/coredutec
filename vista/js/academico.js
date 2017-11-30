@@ -142,7 +142,7 @@ $(function(){
 
 	$("#btnAcademico").click(function(){                           //agregado
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			window.location.href = "ingresarSeguimiento.html";
+			window.location.href = "ingresarAcademico.html";
 		}else{
 			PopUpError("Por favor seleccione un módulo");
 		}
