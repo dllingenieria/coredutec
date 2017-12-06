@@ -56,7 +56,7 @@ class clsGestorBDPlanas {
                     $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
 					
                     if($selCarga==2){
-                        $idDetalleTabla= $carga->InscribirSoporteMatricula($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
+                         $idDetalleTabla= $carga->InscribirSoporteMatricula($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
 
                         $identificardorArchivo=$lin_txt[0];
 
@@ -69,9 +69,17 @@ class clsGestorBDPlanas {
 
                         $identificardorArchivo=$lin_txt[0];
 
+
                         if($idDetalleTabla!=""){
                         $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
+                        }elseif($idDetalleTabla==0){
+                            $response .= $lin_txt."Error por favor verificar si existe salon";
                         }
+
+                        if($validarEscaneado!=""){
+                            $response .=$validarEscaneado;
+                        }
+
 
                     }else if($selCarga==5){
                         $idDetalleTabla= $carga->InscribirSoporteRefrigerio($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
@@ -98,7 +106,7 @@ class clsGestorBDPlanas {
             $response .= 'Archivo de logs líneas leídas.<br><br>' . $res_gua;
 
             $archivo=str_replace("../", "", $archivo);
-            $carga->RegistrarArchivoFuente($idTablaGeneral,301,$archivo, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,356,$archivo, $conexion);
 
         } else {
             $aux_rut = explode("/",$nom_arc);
@@ -177,8 +185,8 @@ class clsGestorBDPlanas {
             $archivo=str_replace("../", "", $archivo);
             $archivoAutorizacion= str_replace("../", "", $archivoAutorizacion);
 
-            $carga->RegistrarArchivoFuente($idTablaGeneral,301,$archivo, $conexion);
-            $carga->RegistrarArchivoFuente($idTablaGeneral,300,$archivoAutorizacion, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,356,$archivo, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,355,$archivoAutorizacion, $conexion);
 
 
         } else {
@@ -213,8 +221,11 @@ class clsGestorBDPlanas {
             unlink($ubicacionOriginalEscaneado); 
             $carga->GuardarArchivoEscaneado($idTablaGeneral,$idDetalleTabla, $nombreRuta,$conexion);
 
+         }else{
+            $msj=$ubicacionOriginalEscaneado."No existe archivo <br>";
+
          }
-       
+       return $msj;
     }
 
 
@@ -244,8 +255,8 @@ class clsGestorBDPlanas {
             $archivo=str_replace("../", "", $archivo);
             $archivoAutorizacion= str_replace("../", "", $archivoAutorizacion);
 
-            $carga->RegistrarArchivoFuente($idTablaGeneral,301,$archivo, $conexion);
-            $carga->RegistrarArchivoFuente($idTablaGeneral,300,$archivoAutorizacion, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,356,$archivo, $conexion);
+            $carga->RegistrarArchivoFuente($idTablaGeneral,355,$archivoAutorizacion, $conexion);
 
             $response .= $con . " registros guardados satisfactoriamente.";
             $res_gua = $this->GuardarArchivoDeLogs($aux,'LogPlano.txt');
@@ -310,14 +321,14 @@ class clsGestorBDPlanas {
      private function EvaluarRegistroFirma($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
-        $men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion
+        //$men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion
         return $men_err;
     }
 
     private function EvaluarRegistroRefrigerios($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
-        $men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion
+        //$men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion
         return $men_err;
     }
 

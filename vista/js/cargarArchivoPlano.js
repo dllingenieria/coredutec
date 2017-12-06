@@ -232,7 +232,7 @@ $(function() {
 					         	archivo= data;
 					         	setTimeout(function(){
 					        		EvaluarArchivosFuente(idTablaGeneral,archivo, ubicacionFuente,archivoEscaneado,ubicacionEscaneado, nombreCorto, tipoArchivo);
-					       		},2000);
+					       		},30000);
 					       }else{
 					       		jsRemoveWindowLoad();
 					        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');

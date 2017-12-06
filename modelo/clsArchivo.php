@@ -31,17 +31,25 @@ class clsArchivo {
         $array1 = explode(".", $archivo);
         $ext = $array1[count($array1) - 1];
       
-       $nuevoNombre= $nombreCorto."_".$idTablaGeneral.".".$ext;
+        $nuevoNombre= $nombreCorto."_".$idTablaGeneral.".".$ext;
        $nuevoNombre="../".$ubicacion.$nuevoNombre;
        //rename('$archivo', '$nuevoNombre');
        $archivo="../tmp/".$archivo;
-       copy($archivo, $nuevoNombre);
-          if (file_exists($nuevoNombre)) {
-            unlink($archivo);
-            $array=$nuevoNombre;
-          }else{
-            $array="2";
-          }
+       
+        if (copy($archivo, $nuevoNombre)) {
+                $array = $nuevoNombre;
+
+            if (file_exists($nuevoNombre)) {
+                 unlink($archivo);
+                $array=$nuevoNombre;
+            }else{
+                 $array="2";
+            }
+            
+        } else {
+                $array = "Error al cargar, intente nuevamente ";
+        }
+
 
         echo json_encode($array);
     }
@@ -147,7 +155,7 @@ class clsArchivo {
             if (move_uploaded_file($fileTMP, $fullPath)) {
                 $array = $nameArchivo;
             } else {
-                $array = "Error al cargar, intente nuevamente 1";
+                $array = "Error al cargar, intente nuevamente ".$_FILES["vid"]["error"];
             }
 
         return $array;

@@ -296,7 +296,7 @@ public function ReporteCallcenterGestionados($param){
                 }
             }
         } 
-        echo json_encode($array);
+        return $array;
     }
 
      /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
@@ -305,9 +305,10 @@ public function ReporteCallcenterGestionados($param){
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
        
-        $sql = "CALL SPAGREGARCARGAMASIVADETALLESF($idTablaGeneral,$registro[0]);";
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLESF($idTablaGeneral,'$registro[0]');";
         $resultado=1;
         $rs=null;
+        $array="";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -315,9 +316,14 @@ public function ReporteCallcenterGestionados($param){
                  foreach ($filas as $fila) {
                     $array = $fila['pIdTabla'];
                 }
+            }else{
+                $array="error";
             }
-        } 
-        echo json_encode($array);
+        } else{
+
+            $array="error";
+        }
+        return $array;
     }
 
 
@@ -340,7 +346,7 @@ public function ReporteCallcenterGestionados($param){
                 }
             }
         } 
-         echo json_encode($array);
+         return $array;
     }
 
 
@@ -363,7 +369,7 @@ public function ReporteCallcenterGestionados($param){
                 }
             }
         } 
-         echo json_encode($array);
+         return $array;
     }
 
        /// Guarda La La ruta del archivo fuente TAUTORIZACIONYFUENTE
@@ -388,7 +394,7 @@ public function ReporteCallcenterGestionados($param){
     public function GuardarArchivoEscaneado($idTablaGeneral,$idDetalleTabla, $nombreRuta, $conexion)  {
         header("Content-Type: text/html;charset=utf-8");   
 
-        $sql = "CALL SPAGREGARARCHIVOESCANEADO($idTablaGeneral,$idDetalleTabla,'$nombreRuta');";
+        echo $sql = "CALL SPAGREGARARCHIVOESCANEADO($idTablaGeneral,$idDetalleTabla,'$nombreRuta');";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
