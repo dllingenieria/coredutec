@@ -292,11 +292,11 @@ public function ReporteCallcenterGestionados($param){
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                  foreach ($filas as $fila) {
-                    $array = $fila['pIdTabla'];
+                    $array[] = $fila['pIdTabla'];
                 }
             }
         } 
-        return $array;
+        echo json_encode($array);
     }
 
      /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
@@ -317,7 +317,7 @@ public function ReporteCallcenterGestionados($param){
                 }
             }
         } 
-        return $array;
+        echo json_encode($array);
     }
 
 
@@ -330,6 +330,7 @@ public function ReporteCallcenterGestionados($param){
         $sql = "CALL SPAGREGARCARGAMASIVADETALLECE($idTablaGeneral,$registro[0],$registro[1],$registro[2]);";
         $resultado=1;
         $rs=null;
+        $array="";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -339,7 +340,7 @@ public function ReporteCallcenterGestionados($param){
                 }
             }
         } 
-        return $array;
+         echo json_encode($array);
     }
 
 
@@ -362,7 +363,7 @@ public function ReporteCallcenterGestionados($param){
                 }
             }
         } 
-        return $array;
+         echo json_encode($array);
     }
 
        /// Guarda La La ruta del archivo fuente TAUTORIZACIONYFUENTE

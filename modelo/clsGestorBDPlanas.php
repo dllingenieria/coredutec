@@ -116,7 +116,7 @@ class clsGestorBDPlanas {
     }
 
 
-   public function removeDiresctory($path)
+   public function removeDirectory($path)
     {
         $path = rtrim( strval( $path ), '/' ) ;
         
@@ -182,10 +182,10 @@ class clsGestorBDPlanas {
 
 
         } else {
-            $aux_rut = explode("/",$nom_arc);
-            $aux_nom_arc = explode(".",$nom_arc);
-            $nom_arc = $aux_nom_arc[0].'.txt';
-            $res_gua = $this->GuardarArchivoDeLogs($err_arc,$nom_arc);
+            //$aux_rut = explode("/",$nom_arc);
+            //$aux_nom_arc = explode(".",$nom_arc);
+            //$nom_arc = $aux_nom_arc[0].'.txt';
+            $res_gua = $this->GuardarArchivoDeLogs($err_arc,'LogPlanoFuente.txt');
             $response .= 'No ha sido posible cargar los registros del archivo por que éste contiene errores, corríjalos en intentelo de nuevo. 
             Se ha generado un archivo con los errores encontrados.<br><br>' . $res_gua;
         }

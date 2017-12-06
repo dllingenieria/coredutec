@@ -112,7 +112,7 @@ $(function() {
 							        	GuardarArchivoCarpeta(archivoEscaneado); //guardar archivo escaneado en carpeta tmp
 							        	nameArchivotmpEscaneado= sessionStorage.nameArchivoEscaneado;
 										GuardarDocumentoRutaOriginal(idTablaGeneral, nameArchivoFuente, nameArchivotmpEscaneado, ubicacionOriginalFuente, ubicacionOriginalEscaneado, nombreCorto, archivo);
-							        },2000);
+							        },30000);
 							    }else{
 							    	jsRemoveWindowLoad();
                 					mostrarPopUpError("Error al guardar en tabla general");
@@ -120,7 +120,7 @@ $(function() {
 						     
 						     }, "json");
 
-	               },2000);
+	               },30000);
 	}
 
 
@@ -152,7 +152,7 @@ $(function() {
 						       		 setTimeout(function(){
 						        			nameArchivotmpAutorizacion= sessionStorage.nameArchivoAutorizacion;
 											GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral, nameArchivoFuente, nameArchivotmpAutorizacion, ubicacionOriginalFuente, ubicacionOriginalAutorizacion, nombreCorto, archivoA);
-						        	},2000);
+						        	},30000);
 
 						       }else{
 						       		 jsRemoveWindowLoad();
@@ -161,7 +161,7 @@ $(function() {
 						       
 						     }, "json");
 
-	               },2000);
+	               },30000);
 	}
 
 
@@ -180,6 +180,8 @@ $(function() {
 				       	nombreCorto: nombreCorto,
 				        tipoArchivo: tipoarchivoF
 					     }, function(data) {
+
+					     	setTimeout(function(){	
 					        if(data!=2){
 					         	archivoFuente= data;
 					         	tipoarchivoA="Autorizacion";
@@ -209,6 +211,7 @@ $(function() {
 					       		  jsRemoveWindowLoad();
 					        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
 					        }
+					      },30000);
 
 			}, "json");
 
