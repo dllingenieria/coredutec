@@ -46,7 +46,7 @@ $(function(){
 	
 	var seleccionado = false;
 	$("#divEditar").css("display","none");
-	$("#divBoton").css("display","none");
+	$("#seguimiento").css("display","none");
 
 		 
     function listarPlaneacion(){ 
@@ -140,324 +140,72 @@ function cargarInformacionEnTabla(data){
          }
     });
 
-  //cuando se le da clic al boton de nueva planeacion
-    $("#nuevaPlaneacion").click(function(){
-        
-        if (typeof(sessionStorage.IdPreprogramacion) !== "undefined") {
-            //window.location.href = "listarPlaneacion.html";
-            window.location.href = "planeacion.html";
-        }else{
-            mostrarPopUpError("Por favor seleccione un módulo");
-        }
-    }); 
-
-     //cuando se le da clic al boton de eliminar planeacion
-    $("#eliminarPlaneacion").click(function(){
-        
-        if (typeof(sessionStorage.IdPlaneacion) !== "undefined") {
-			popUpConfirmacion3("Confirma que desea eliminar la Sesión No "+sessionStorage.Sesion+" ?", eliminarPlaneacion, quitarTrSeleccion);
-            // var r = confirm("Confirma que desea eleminar la planeación!");
-			// if (r == true) {
-				//eliminarPlaneacion();
-			// }
-        }else{
-            mostrarPopUpError("Por favor seleccione una Planeación");
-        }
-    });
-
+  
+    
      //cuando se le da clic al boton de guardar
-    $("#guardarPlaneacion").click(function(){
+    $("#guardarSeguimientoPlaneacion").click(function(){
         if (validarInformacion() == false) {
-            mostrarPopUpError("Por favor llene los campos requeridos");
+            mostrarPopUpError("Por favor la información de seguimiento");
         }else{
-            guardarPlaneacion();
+            agregarSeguimientoPlaneacion();
         }
     });
 	
-	/*Adiciona una fila para agregar un recurso*/
-	 $("#btnAdicionar").click(function(){ 
-		 
-		 var id="";
-		 var res="";
-        
-        //extraer el ultimo id fila
-		$("input[name=recurso]").each(function(){
-			id = $(this).attr("id");
-			
-    });  
-		res = id.substr(7, 8);
-		
-		
-	// alert(res);
-		
-		$.post("../../controlador/fachada.php", {
-        clase: 'clsPlaneacion',
-        oper: 'adicionarFilaRecurso',
-		res: res
-        
-		}, function(data) {
-			 if (data !== null) {
-			   
-				  //$("#div_adicionados").css("display", "");
-				  
-					  
-				  var dvAux = document.createElement( "table" );
-				  dvAux.innerHTML = data.html;
-				  
-				  //para las cajas de texto con la clase number solo se permite ingresar numeros
-						$( ".number", dvAux ).keydown(function (e) {
-						   
-						   // Permite: backspace, delete, tab, escape, enter and .
-						   if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-							   // Permite: Ctrl+A
-							   (e.keyCode == 65 && e.ctrlKey === true) ) {
-							   // solo permitir lo que no este dentro de estas condiciones es un return false
-							   return;
-						   }
-						   // Solo numeros
-						   if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-							   e.preventDefault();
-						   }
-					});
-				  
-				  $("#div_adicionados").append( dvAux.childNodes[0] );
-				  //boton adicionado desde nueva planeacion
-				  $("button[id^=btnEliminar]").click(function(){ var id = $(this).attr("id"); eliminarRecursoEditar(id); })
-					  
-			 }else {mostrarPopUpError("Se ha presentado un error");}
-		}, "json");
-    });
 	
  
-    /*Captura los datos del formulario y los envia al controlador facada.php
-  y este a la clase clsPlaneacion método guardarPlaneacion  
-*/
-    function guardarPlaneacion(){
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-        var listaRecursos = new Array();
-        var listaRecursosId = new Array();
-		 cont=0;
-		// $("input[name=recurso][type!=hidden]:visible").each(function(){
-		$("input[name=recurso][type!=hidden]:visible").each(function(){
-			id = $(this).attr("id");
-			// cont = id.substr(7, 8);
-			res = id.substr(0, 7);
+    function agregarSeguimientoPlaneacion(){ 
+	var mensaje="Procesando la información<br>Espere por favor";
+	jsShowWindowLoad(mensaje);
+	
+		
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsAcademico',
+			oper: 'agregarSeguimiento',
+			IdPreprogramacion: sessionStorage.IdPreprogramacion,
+			seguimiento: $("#txtaSeguimiento").val(),
+			tipo:3
+		},
+		
+		function(data) {
 			
-			//alert(cont);
-			listaRecursos[cont] = {};
-			
-			if(cont % 2 == 0){
-				listaRecursos[cont]['cantidad']=$(this).val();
-			}
-			else{
-				listaRecursos[cont-1]['recursos']=$(this).val();
+			if (data !== 0) {
 				
-			}
-			cont++;
-			
-		});  
-		
-		$("input[name=recurso][type=hidden]").each(function(){
-			id = $(this).attr("id");
-			contId = id.substr(8, 9);
-			// res = id.substr(0, 7);
-			
-			// alert(contId);
-			listaRecursosId[contId] = {};
-			listaRecursosId[contId]['id']=$(this).val();
-			
-			//preguntar si esa caja de texto tiene el atributo eliminar
-			if ($( this ).attr("eliminar") != undefined){
-				eliminar =2;
-			}
-			else{
-				eliminar =1;
-			}
-			
-				listaRecursosId[contId]['eliminar']=eliminar;
-		
-	}); 
-
-    $.post("../../controlador/fachada.php", {
-        clase: 'clsPlaneacion',
-        oper: 'guardarPlaneacion',
-        sesionPla: $("#txtSesion").val(),
-        fecha: $("#txtFecha").val(),
-        unidTema: $("#txtUnidadTematica").val(),
-        estrDesa: $("#txtEstrategiasDesarrollar").val(),
-        tecn: $("#txtTecnicaInstrumento").val(),
-        segu: $("#txtSeguimiento").val(),
-        reci: $("#txtRecibido").val(),
-        obse: $("#txtObservaciones").val(),
-        listaRecursos: listaRecursos,
-		listaRecursosId: listaRecursosId,
-        idPreprogramacion: sessionStorage.IdPreprogramacion
-        
-    }, function(data) {
-         if (data !== null) {
-            if(data[0].pIdPlaneacion !== ""){
-                // alert(data[0].pIdPlaneacion);
+					 
 				jsRemoveWindowLoad();
-				popUpConfirmacion("Se ha guardado exitosamente la planeación");
-				tablaPaneacion.$('tr.selected').removeClass('selected');
-				setTimeout( function(){window.location.href = "listarPlaneacion.html";},3000);
-                //se llama otra vez a la lista de planeacion
-                
-            }else{mostrarPopUpError("Se ha presentado un error");}             
-         }else {mostrarPopUpError("Se ha presentado un error");}
-    }, "json");
-}
-
-//validacion pra los campos input del formulario
+				popUpConfirmacion("Guardado Satisfactoriamente");
+						
+				            
+			}else {mostrarPopUpError("No se guardo el seguimiento");}
+		}, "json");
+	
+	
+ }
+ 
+//validacion pra los campos del formulario
     function validarInformacion(){
-    var val = true; 
-    $("input[type!=hidden]").each(function(){
-    if ($(this).val() == ''){ //alert($(this).attr("id"));
-		val = false;} 
-    });
-        return val;
+        var valido=true;
+        
+			
+			if ($("#txtaSeguimiento").val() == ""){
+				valido=false;
+			}
+        
+        return valido;
     }
 
-      //cuando se le da clic al boton de actualizar
-  $("#editarPlaneacion").click(function(){ 
-        // if (validarInformacion() == false) {
-             // alert("Por favor llene los campos requeridos");
-         // }else{
-            editarPlaneacion();
-			seleccionado = false;
-         // }
-    });
-	
 
+	
       //cuando se le da clic al boton de volver en listarPlaneacion
   $("#volverListar").click(function(){
-        window.location.href = "docente.html";
+        window.location.href = "academico.html";
     });
 
  
       //cuando se le da clic al boton de volver en planeacion (nueva)
   $("#volver").click(function(){
-        window.location.href = "listarPlaneacion.html";
+        window.location.href = "listarPlaneacionSeguimiento.html";
     }); 
 	
-	      //cuando se le da clic al boton de volver en planeacion (nueva)
-  $("#cerrarEditar").click(function(){ 
-       $("#divListar").css("display","block");
-	   $("#divEditar").css("display","none");
-	   $("#divBoton").css("display","none"); 
-	  seleccionado = false;
-	  tablaPaneacion.$('tr.selected').removeClass('selected');
-	   
-    });
-
-    /*Captura los datos del formulario y los envia al controlador fachada.php
-  y este a la clase clsPlaneacion método EditarPlaneacion  
-*/
-function editarPlaneacion(){
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
-	//array de listaRecursos
-	var listaRecursos = new Array();
-	var listaRecursosId = new Array();
-		 cont=0;
-		 var estado="";
-			
-			
-		// $("input[name=recurso]").each(function(){
-		 // $("input[name=recurso][type!=hidden]:visible").each(function(){
-	        $("input[name=recurso][type!=hidden]").each(function(){
-				
-			
-		
-			id = $(this).attr("id");
-			// cont = id.substr(7, 8);
-			res = id.substr(0, 7);
-			
-			//alert(cont);
-			listaRecursos[cont] = {};
-			
-			if(cont % 2 == 0){
-				listaRecursos[cont]['cantidad']=$(this).val();
-			}
-			else{
-				listaRecursos[cont-1]['recursos']=$(this).val();
-				
-			}
-			
-			
-			cont++;
-	});  
-	
-	 $("input[name=recurso][type=hidden]").each(function(){
-			
-			id = $(this).attr("id");
-			contId = id.substr(8, 9);
-			// res = id.substr(0, 7);
-			
-			// alert(contId);
-			listaRecursosId[contId] = {};
-			listaRecursosId[contId]['id']=$(this).val();
-			
-			//preguntar si esa caja de texto tiene el atributo eliminar
-		if ($( this ).attr("eliminar") != undefined){
-			eliminar =2;
-		}
-		else{
-			eliminar =1;
-		}
-		
-			listaRecursosId[contId]['eliminar']=eliminar;
-			//listaRecursos[contId]['eliminar']=eliminar;
-			
-	});  
-	// alert(listaRecursosId[1]['id']);
-	// var listaRecursos = new Array();
-		// listaRecursos[0] = {};
-		// listaRecursos[0]['id'] = $("#txtHidId1").val();
-		// listaRecursos[0]['cantidad'] = $("#txtCant1").val();
-		// listaRecursos[0]['recursos'] = $("#txtDesc1").val();
-		// listaRecursos[1] = {};
-		// listaRecursos[1]['id'] = $("#txtHidId2").val();
-		// listaRecursos[1]['cantidad'] = $("#txtCant2").val();
-		// listaRecursos[1]['recursos'] = $("#txtDesc2").val();
-		// listaRecursos[2] = {};
-		// listaRecursos[2]['id'] = $("#txtHidId3").val();
-		// listaRecursos[2]['cantidad'] = $("#txtCant3").val();
-		// listaRecursos[2]['recursos'] = $("#txtDesc3").val();
-	
-    $.post("../../controlador/fachada.php", {
-        clase: 'clsPlaneacion',
-        oper: 'editarPlaneacion',
-        sesionPla: $("#txtSesion").val(),
-        fecha: $("#txtFecha").val(),
-        unidTema: $("#txtUnidadTematica").val(),
-        estrDesa: $("#txtEstrategiasDesarrollar").val(),
-        tecn: $("#txtTecnicaInstrumento").val(),
-        segu: $("#txtSeguimiento").val(),
-        reci: $("#txtRecibido").val(),
-        obse: $("#txtObservaciones").val(),
-		listaRecursos: listaRecursos,
-		listaRecursosId: listaRecursosId,
-        idPreprogramacion: sessionStorage.IdPreprogramacion,
-        idPlaneacion: $("#txtIdPlaneacion").val()	
-    }, function(data) {
-        if (data !== 1) {
-            if(data !== null){ 
-				jsRemoveWindowLoad();
-                popUpConfirmacion("Se ha actualizado exitosamente la Planeación");
-				tablaPaneacion.$('tr.selected').removeClass('selected');
-                // setTimeout(function(){//se llama otra vez a la lista de planeacion
-                // $("#divEditar").css("display","none");
-                // $("#divBoton").css("display","none");
-                // $("#divListar").css("display","block");},4000);
-				setTimeout( function(){window.location.href = "listarPlaneacion.html";},3000);
-				
-				
-            }else{mostrarPopUpError(data.mensaje);}             
-        }else {mostrarPopUpError("Se ha presentado un error");}
-    }, "json");
-}
 
 
  /*Trae la informacion del detalle de una planeacion seleccionada
@@ -498,7 +246,7 @@ function editarPlaneacion(){
 					$("#txtFecha", $("#divEditar" )).datepicker();
 					
 					$("#divEditar").css("display","block");
-					$("#divBoton").css("display","block");
+					$("#seguimiento").css("display","block");
 					
 					
 					
@@ -527,25 +275,7 @@ function editarPlaneacion(){
 }
 
 
-    /*Funcion que elimina la planeacion seleccionada*/
-function eliminarPlaneacion(){
-    $.post("../../controlador/fachada.php", {
-        clase: 'clsPlaneacion',
-        oper: 'eliminarPlaneacion',
-        idPreprogramacion: sessionStorage.IdPreprogramacion,
-        idPlaneacion: sessionStorage.IdPlaneacion
-   }, function(data) {
-        if (data !== 1) {
-            if(data !== null){ 
-                popUpConfirmacion1("Se ha eliminado exitosamente la Planeación");
-                setTimeout(function(){
-				//se llama otra vez a la lista de planeacion
-                window.location.href = "listarPlaneacion.html";},3000);
-				
-            }else{alert(data.mensaje);}             
-        }else {mostrarPopUpError("Se ha presentado un error");}
-    }, "json");
-}
+    
 
 function mostrarNumeroSesiones(){ 
    //alert(sessionStorage.IdPreprogramacion);
@@ -564,17 +294,6 @@ function mostrarNumeroSesiones(){
     }
     //);
 
-//capturar los recursos y guardarlos en un array
-  function caprutarRecursos(){
-
-    var lista = new Array();
-    $("input[name=recurso]").each(function(){
-   // $("input").each(function(){
-    
-       
-    });
-        return lista;
-    }
 	
 	function recuperarDatos() { 
         // $("#nombreServicio").html(sessionStorage.Curso + " - " + sessionStorage.Modulo);
@@ -604,73 +323,6 @@ function mostrarNumeroSesiones(){
 		
 	}
 	
-	function adicionarRecursoEditar(){
-		var id="";
-		var res="";
-        
-        //extraer el ultimo id fila
-		$("input[name=recurso]").each(function(){
-			id = $(this).attr("id");
-			
-    });  
-		res = id.substr(7, 8);
-		
-		
-	// alert(res);
-		
-		$.post("../../controlador/fachada.php", {
-        clase: 'clsPlaneacion',
-        oper: 'adicionarFilaRecurso',
-		res: res
-        
-		}, function(data) {
-			 if (data !== null) {
-			   
-				  $("#div_adicionados").css("display", "");
-					  
-				  var dvAux = document.createElement( "table" );
-				  dvAux.innerHTML = data.html;
-				  
-				  //para las cajas de texto con la clase number solo se permite ingresar numeros
-						$( ".number", dvAux ).keydown(function (e) {
-						   
-						   // Permite: backspace, delete, tab, escape, enter and .
-						   if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-							   // Permite: Ctrl+A
-							   (e.keyCode == 65 && e.ctrlKey === true) ) {
-							   // solo permitir lo que no este dentro de estas condiciones es un return false
-							   return;
-						   }
-						   // Solo numeros
-						   if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-							   e.preventDefault();
-						   }
-					});
-				  
-				  $("#div_adicionados").append( dvAux.childNodes[0] );
-				  //boton adicionado desde el editar
-				  $("button[id^=btnEliminar]").click(function(){ var id = $(this).attr("id"); eliminarRecursoEditar(id); })
-					  
-			 }else {mostrarPopUpError("Se ha presentado un error");}
-		}, "json");
-    }
-	
-	function eliminarRecursoEditar(id){ //alert(id);
-		
-		//alert(id);
-		$( "#"+id ).parent().parent().hide();
-		//extraer el ultimo caracter
-		var con= id.substr(11); //alert(con);
-		//se agrega atributo para saber si ese campo es para eliminar
-		$("#txtHidId"+con).attr("eliminar",2);
-		
-		//$( "btnEliminar"+cont ).parent().parent().hide();
-		//$( "button[id^=btnEliminar]" ).parent().hide();
-		//$( "input[id^=txtCant]" ).parent().hide();
-		//$( "input[id^=txtDesc]" ).parent().hide();
-		
-		//$( "button[id^=btnEliminar]" ).parent().css('display','none');
-	}
 	
 function popUpConfirmacion(msj){
     $("#textoConfirmacion1").text(msj);
@@ -793,6 +445,9 @@ function quitarTrSeleccion(){
 	tablaPaneacion.$('tr.selected').removeClass('selected');
 }
 
+$("#volverAcademico").click(function(){
+    window.location.href = "academico.html";
+});
 
   
 

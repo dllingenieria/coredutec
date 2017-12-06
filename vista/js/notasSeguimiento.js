@@ -273,182 +273,59 @@ $(function() {
         });
    }
 
-   $('#cerrarCurso').click(function(){
-        tmp = new Array();
-        noCumple = 0;
-        for( var x = 0 ; x < numEstudiantes ; x++){
-           $('.notas'+x).each(function(){
-                tmp.push($(this).val());
-            });
-        if( (tmp[0] != '' ||  tmp[1] != '' || tmp[2] != '') && 
-            (tmp[3] != '' ||  tmp[4] != '' || tmp[5] != '') &&
-            (tmp[6] != '' ||  tmp[7] != '' || tmp[8] != '')){
-            
-        }else{
-            noCumple++;
-        }
-        tmp = [];
+   
 
-        }
-        if (noCumple == 0){
-			popUpConfirmacion1("Realmente desea cerrar el curso?", cerrarCursoPrimeraParte );
-            // var cerrar =confirm("Realmente desea cerrar el curso ?");
-            // if(cerrar){ 	
-			
-            }
-        else{
-            mostrarPopUpError("Cada estudiante debe tener al menos una nota por componente");
-        }
-   });
-
-   $("#guardarNotas").click(function(){
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-			setTimeout(function(){
-			var notas = new Array();
-			var nSaber;
-			var nHacer;
-			var nSer;
-			var idEstudiante;
-			var cont=-1;
-			var guardar = false;
-			// var cont=0;
-				//var idNota = 46;
-				for(var x = 0; x < numEstudiantes ; x++){
-
-					
-					$('.notas'+x).each(function(){
-						// notas[0] = "";
-						// notas[1] = "";
-						// notas[2] = "";
-						// notas[3] = "";
-						// notas[4] = "";
-						// notas[5] = "";
-						// notas[6] = "";
-						// notas[7] = "";
-						// notas[8] = "";
-						
-						if(cont==8)
-						{
-							cont=-1;
-							// notas = [];
-						}
-						cont++;
-						if($(this).attr('data-modified') == 'true'){
-							totalNotas[x] = {};
-							guardar = true;
-							
-							
-							// notas.push($(this).val());
-							notas[cont]=$(this).val();
-							
-							
-							idEstudiante = $(this).attr('data-estudiante');
-							
-							totalNotas[x]['idEstudiante'] =idEstudiante;
-							totalNotas[x]['idNota']= idNota;
-							// nSaber = notas[0]+','+notas[1]+','+notas[2];
-							// nHacer = notas[3]+','+notas[4]+','+notas[5];
-							// nSer   = notas[6]+','+notas[7]+','+notas[8];
-							
-						if(notas[0] ==undefined){notas[0] = "";}
-						if(notas[1] ==undefined){notas[1] = "";}
-						if(notas[2] ==undefined){notas[2] = "";}
-						if(notas[3] ==undefined){notas[3] = "";}
-						if(notas[4] ==undefined){notas[4] = "";}
-						if(notas[5] ==undefined){notas[5] = "";}
-						if(notas[6] ==undefined){notas[6] = "";}
-						if(notas[7] ==undefined){notas[7] = "";}
-						if(notas[8] ==undefined){notas[8] = "";}
-
-							totalNotas[x]['nSaber']= notas[0]+','+notas[1]+','+notas[2];
-							// totalNotas[x]['nSaber2']= notas[1];
-							// totalNotas[x]['nSaber3']= notas[2];
-							
-							totalNotas[x]['nHacer']= notas[3]+','+notas[4]+','+notas[5];
-							// totalNotas[x]['nHacer2']= notas[4];
-							// totalNotas[x]['nHacer3']= notas[5];
-							
-							totalNotas[x]['nSer']= notas[6]+','+notas[7]+','+notas[8];
-							// totalNotas[x]['nSer2']= notas[7];
-							// totalNotas[x]['nSer3']= notas[8];
-						}
-						
-						// cont++;
-					
-					});
-					
-					
-							// $('.notas'+x).each(function(){ 
-								// $(this).attr('data-modified','false');
-							// });
-							notas = [];
-					
-							
-				} //for
-				 // console.log(totalNotas);
-				//borrar posiciones null
-				myArrClean = totalNotas.filter(Boolean);
-				 
-				 
-				if (guardar == true){
-						 var serializedtotalNotas = JSON.stringify( myArrClean );
-						 console.log(serializedtotalNotas);
-						// //llamado a guardar
-						$.ajax({
-									url: '../../controlador/fachada.php',
-									type: 'POST',
-									async : false,
-									dataType: 'json',
-									data: {
-										clase: 'clsParticipante',
-										oper: 'guardarNotas',
-										serializedtotalNotas: serializedtotalNotas
-									   
-									},
-								}).done(function(data) { 
-									if (data == ""){	
-										console.log("success");
-										jsRemoveWindowLoad();	
-										popUpConfirmacion("Guardado Satisfactoriamente");
-									}
-									else{
-										console.log("fail");
-										jsRemoveWindowLoad();	
-										popUpConfirmacion("No se guardo la información");
-									}
-								});
-				}
-				totalNotas = [];
-				
-				
-		},1000);	//set time out
-	});//cerrar funcion
+  function agregarSeguimientoNotas(){ 
+	var mensaje="Procesando la información<br>Espere por favor";
+	jsShowWindowLoad(mensaje);
+	
 		
-	// } 
-           
-
-    /*$("#reporteAsistencia").click(function(){
-        window.location.href = "filtroReporteAsistencia.html";
-    });*/
-// console.log($("table.tablaNotas thead tr[role=row] th").val());
-//console.log($("th[aria-label='N°: activate to sort column descending']").val());
-    // .prepend('<tr><th rowspan="2">Name</th><th colspan="2">HR Information</th><th colspan="3">Contact</th></tr>');
-    // $("#tablaNotas thead")
-
-    function validarInformacion(){
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsAcademico',
+			oper: 'agregarSeguimiento',
+			IdPreprogramacion: sessionStorage.IdPreprogramacion,
+			seguimiento: $("#txtaSeguimiento").val(),
+			tipo:2
+		},
+		
+		function(data) {
+			
+			if (data !== 0) {
+				
+					 
+				jsRemoveWindowLoad();
+				popUpConfirmacion("Guardado Satisfactoriamente");
+						
+				            
+			}else {mostrarPopUpError("No se guardo el seguimiento");}
+		}, "json");
+	
+	
+ }//cerrar funcion
+		
+	$("#guardarSeguimientoNotas").click(function(){ 
+        if (!validarInformacion()) {
+            mostrarPopUpError("Por favor ingrese la información de seguimiento");
+        }else{
+            agregarSeguimientoNotas();
+        }
+    });
+	
+     function validarInformacion(){
         var valido=true;
-        $(".notas").each(function(e){
-            if (!$(this)[0].checkValidity()) {
-                valido=false;
-            }
-        });
+        
+			
+			if ($("#txtaSeguimiento").val() == ""){
+				valido=false;
+			}
+        
+        
         return valido;
     }
 
 
-$("#volverNotas").click(function(){
-    window.location.href = "docente.html";
+$("#volverAcademico").click(function(){
+    window.location.href = "academico.html";
 });
 
 function popUpConfirmacion(msj){
@@ -593,239 +470,9 @@ $(window).resize(function(){
  $('#bgmodal').css("top", mtop+'px');
  });
 
-function cerrarModal(dato){ 
-	window.location.href = "docente.html";
-}
-
-
-function cerrarCursoSinSiguienteModulo(){
-		$('#bgmodal').remove();
-		$('#bgtransparent').remove();
-		
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-		
-		$.post("../../controlador/fachada.php",{
-              clase : 'clsCurso',
-              oper: 'cerrarCursoMatriculaTercero',
-              idPreprogramacion : sessionStorage.IdPreprogramacion					
-         },
-          function (data) {
-						if(data.error == ""){
-									jsRemoveWindowLoad();
-									popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
-							}
-							else{
-								mostrarPopUpError(data.error);
-							}
-							
-						
-				},"json");
-	
-}
-
-
-function matricularSiguienteModulo(parametros){	
-						
-    var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
-    
-	var moduloSel = $("#SelModulo").val();
-	
-	if (moduloSel == ''){
-		jsRemoveWindowLoad();
-		mostrarPopUpError("Debe seleccionar un módulo");
-	}
-	else{
-			
-		console.log("modulosel"+moduloSel);
-		//se separan los datos del value
-		var res = moduloSel.split("-");
-		
-		var id = res[0];
-		var codigo = res[1];
-		var nombre = res[2];
-		//se extrae la secuencia de T (T1, T2, T3, etc)
-        
-        var res1 = codigo.split(".");
-        total_array= (res1.length)-1;
-        t = res1[total_array];
-
-		$.post("../../controlador/fachada.php",{
-					clase : 'clsCurso',
-					oper: 'matricularSiguienteModulo',
-					idPreprogramacion : sessionStorage.IdPreprogramacion,
-					id: id,
-					t:t,
-					codigo:codigo,
-					nombre:nombre,
-					parametros:parametros
-							
-			},
-				function (data) {
-					if(data.error == ""){	
-							
-					$.post("../../controlador/fachada.php",{
-			              clase : 'clsCurso',
-			              oper: 'cerrarCursoMatriculaTercero',
-			              idPreprogramacion : sessionStorage.IdPreprogramacion					
-			         },
-			          function (data) {						
-									if(data.error == ""){//Si cerro el curso sin problemas	
-											$('#bgmodal').remove();
-											$('#bgtransparent').remove();
-											jsRemoveWindowLoad();
-											popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
-									}
-										else{// Si no cerro el curso
-											$('#bgmodal').remove();
-											$('#bgtransparent').remove();
-											mostrarPopUpError(data.error);
-									}
-										
-									
-							},"json");
 
 
 
-						}
-							else{
-								$('#bgmodal').remove();
-								$('#bgtransparent').remove();
-								mostrarPopUpError(data.error); // Si no paso al siguiente modulo
-							}
-				},"json");
-		
-		}	
-}
-
-//boton aceptar 
-function cerrarCursoPrimeraParte(){ 
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
-	cerrarCurso=true;
-	if (cerrarCurso == true){
-                $.post("../../controlador/fachada.php",{
-                            clase : 'clsCurso',
-                            oper: 'cerrarCurso',
-                            idPreprogramacion : sessionStorage.IdPreprogramacion
-                        },
-                function (data) { 
-					jsRemoveWindowLoad();
-                                if(data.error === ""){ //console.log(data);
-									// popUpConfirmacion("Curso cerrado correctamente");
-									// window.location.href = "docente.html";
-									if (data.html != "" && data.parametros != ""){
-											//codigo para mostrar el div donde seleccionara los módulos disponibles
-											// creamos un div nuevo, con un atributo
-											 var divSeleccionModulo = $('<div>').attr({
-											 
-											 id: 'divSeleccionModulo'
-											 });
-											 
-											// agregamos nuevo div a la pagina
-											$('body').append(divSeleccionModulo);
-											
-											
-											var ancho = 600; 
-											var alto = 250;
-											
-											// fondo transparente
-											 // creamos un div nuevo, con un atributo
-											 var bgdiv = $('<div>').attr({
-											 
-											 id: 'bgtransparent'
-											 });
-											 
-											// agregamos nuevo div a la pagina
-											$('body').append(bgdiv);
-											
-											// obtenemos ancho y alto de la ventana del explorer
-											 var wscr = $(window).width();
-											 var hscr = $(window).height();
-					 
-											//establecemos el css para el div bgtransparent
-											$('#bgtransparent').css({'position':'fixed',
-																	'left':'0',
-																	'top':'0',
-																	'background-color':'#000',
-																	'opacity':'0.6',
-																	'filter':'alpha(opacity=60)',
-																	'z-index':' 10'																	
-																	});
-																	
-											
-											
-											//establecemos las dimensiones del fondo						
-											$('#bgtransparent').css("width", wscr);
-											$('#bgtransparent').css("height", hscr);
-											
-											
-											 // ventana modal
-											 // creamos otro div para la ventana modal y dos atributos
-											 var moddiv = $('<div>').attr({
-											 
-											 id: 'bgmodal'
-											 }); 
-											
-											// agregamos div a la pagina
-											$('body').append(moddiv);
-											
-											$('#bgmodal').css({
-												'position':'fixed', 
-												'background-image':'url("../images/popupblanco.png")',
-												'font-family': "Roboto-Bold",
-												'font-size': '16px',
-												'border-radius':'15px',
-												'overflow':'auto',
-												'color':'#000',
-												'padding':'20px',
-												'width':'354px',
-												'height':' 96px',
-												'padding': '10px 40px',
-												'text-align':'center',
-												'z-index':' 20'
-												});
-											
-											// $( "#bgmodal" ).addClass( "element_to_pop_upMensaje" );					
-											// agregamos contenido HTML a la ventana modal
-											// $('#bgmodal').append(contenidoHTML);
-											$('#bgmodal').html("");
-											$('#bgmodal').append(data.html);
-											
-											//response.html
-											// redimensionamos para que se ajuste al centro y mas
-											$(window).resize();
-											 $("button[id^=btnMatricularSiguienteModulo]").click(function(){ matricularSiguienteModulo(data.parametros); });
-											 $("button[id^=btnCerrarCursoSinModulos]").click(function(){ cerrarCursoSinSiguienteModulo(); });
-											 $("button[id^=btnCerrarModal]").click(function(){ cerrarModal(1); });
-											 
-											 $('.seleccionar').css({
-												 'width': '90px',
-												 'height': '27px',
-												 'background':'#003265', 
-												 'color': '#ffffff',
-												 'font-family': 'Roboto-Light', 
-												 'font-size': '16px', 
-												 'border-radius': '6px 6px 6px 6px'
-											 });
-											 
-											
-									}
-								}
-								else{ 
-									mostrarPopUpError(data.error);
-									if(data.noModulos != ""){
-										//setTimeout(function(){
-									//se llama otra vez a la lista de planeacion
-									//window.location.href = "docente.html";},4000);
-									}
-								}
-								
-                        },"json");
-                    }
-
-}
 
 });
 
