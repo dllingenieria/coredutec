@@ -135,7 +135,7 @@ $(function() {
 					else if(data!='"-1"' && data!='"0"'){
 						console.log("entre no");
 						 jsRemoveWindowLoad();
-						 mostrarPopUpError("Los siguientes Registros no existen: "+data+"<br><br>-2 La cédula no existe <br> <br>-3 La matricula no existe");
+						 mostrarPopUpError("Los siguientes Registros no existen: "+data);
 					}
 			});
 
