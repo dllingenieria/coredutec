@@ -157,6 +157,8 @@
     height: 96px;
     padding-top: 61px;
 	text-align:center;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 .popup{
