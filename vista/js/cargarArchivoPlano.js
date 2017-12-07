@@ -83,6 +83,64 @@ $(function() {
 
 	}
 
+ 	function ValidarArchivosFuente(archivo){
+ 			var tipoCarga= $("#selCarga").val();
+ 			var archivo = archivo;
+ 		$.post("../../controlador/fachada.php", {
+			clase: 'clsGestorBDPlanas',
+			oper: 'ValidarArchivosFuente',
+			archivo: archivo,
+			tipoCarga: tipoCarga
+			}, function(data) {
+				console.log("validar archivo dsadsa "+data);
+					if(data=='"0"'){
+						console.log("entre 0");
+						 jsRemoveWindowLoad();
+						 mostrarPopUpError("Los registros estan duplicados, no pueden ser guardados");
+					}
+					else if(data=='"-1"'){
+							console.log("entre -1");
+							var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
+
+							nameArchivoFuente= sessionStorage.nameArchivoFuente;
+							var observaciones=$("#txtDescripcion").val();
+							var tipoCarga= $("#selCarga").val();
+							var nombreCorto= $("#nombreCorto").val();
+					                	//Guarda en la tabla TCARGAGENERAL
+					                	$.post("../../controlador/fachada.php", {
+									    	clase: 'clsCarga',
+									        oper: 'AgregarCargaGeneral',
+									        tipoCarga: tipoCarga,
+									        Observaciones: observaciones
+										     }, function(data) {
+										     	console.log("AgregarCargaGeneral "+data);
+										     	if(data!=""){
+											        var idTablaGeneral="";
+											        idTablaGeneral= data[0]["IdTabla"];
+											        var archivoEscaneado="Escaneado";
+
+											        	ubicacionOriginalEscaneado = $("#ruta").val()+"/Escaneado/";
+											        	GuardarArchivoCarpeta(archivoEscaneado); //guardar archivo escaneado en carpeta tmp
+											        setTimeout(function(){	
+											        	nameArchivotmpEscaneado= sessionStorage.nameArchivoEscaneado;
+														GuardarDocumentoRutaOriginal(idTablaGeneral, nameArchivoFuente, nameArchivotmpEscaneado, ubicacionOriginalFuente, ubicacionOriginalEscaneado, nombreCorto, archivo);
+											        },30000);
+											    }else{
+											    	jsRemoveWindowLoad();
+				                					mostrarPopUpError("Error al guardar en tabla general");
+											    }
+										     
+										}, "json");
+					}
+					else if(data!='"-1"' && data!='"0"'){
+						console.log("entre no");
+						 jsRemoveWindowLoad();
+						 mostrarPopUpError("Los siguientes Registros no existen: "+data+"<br><br>-2 La cédula no existe <br> <br>-3 La matricula no existe");
+					}
+			});
+
+	}
+
 	function GuardarArchivoFuenteEscaneado(){
 		var archivo="Fuente";
 		var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
@@ -90,37 +148,10 @@ $(function() {
 			GuardarArchivoCarpeta(archivo); // se guarda archivo fuente en carpeta tmp
 
 			setTimeout(function(){
-			nameArchivoFuente= sessionStorage.nameArchivoFuente;
-			var observaciones=$("#txtDescripcion").val();
-			var tipoCarga= $("#selCarga").val();
-			var nombreCorto= $("#nombreCorto").val();
-	                	//Guarda en la tabla TCARGAGENERAL
-	                	$.post("../../controlador/fachada.php", {
-					    	clase: 'clsCarga',
-					        oper: 'AgregarCargaGeneral',
-					        tipoCarga: tipoCarga,
-					        Observaciones: observaciones
-						     }, function(data) {
-						     	console.log("AgregarCargaGeneral "+data);
-						     	if(data!=""){
-							        var idTablaGeneral="";
-							        idTablaGeneral= data[0]["IdTabla"];
-							        var archivoEscaneado="Escaneado";
-							        
-							        setTimeout(function(){
-							        	ubicacionOriginalEscaneado = $("#ruta").val()+"/Escaneado/";
-							        	GuardarArchivoCarpeta(archivoEscaneado); //guardar archivo escaneado en carpeta tmp
-							        	nameArchivotmpEscaneado= sessionStorage.nameArchivoEscaneado;
-										GuardarDocumentoRutaOriginal(idTablaGeneral, nameArchivoFuente, nameArchivotmpEscaneado, ubicacionOriginalFuente, ubicacionOriginalEscaneado, nombreCorto, archivo);
-							        },30000);
-							    }else{
-							    	jsRemoveWindowLoad();
-                					mostrarPopUpError("Error al guardar en tabla general");
-							    }
-						     
-						     }, "json");
+				var validarArchivo= ValidarArchivosFuente(sessionStorage.nameArchivoFuente);
+			},20000);
 
-	               },30000);
+			
 	}
 
 

@@ -93,6 +93,32 @@ class clsCarga {
         echo json_encode($array);
     }
 
+
+     public function ValidarArchivosFuente($arrayJson, $tipoCarga, $conexion){
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        if($tipoCarga==3){
+            $carga=1;
+        }elseif($tipoCarga==5){
+             $carga=2;
+        }elseif($tipoCarga==2){
+             $carga=3;
+        }
+
+        $sql = "CALL SPVERIFICARCARGA('$arrayJson',$carga);";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                     $array[] = $fila['pResultado'];
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        $array= substr($array[0],1);
+        echo json_encode($array);
+    }
+
     public function ConsultarCargaPorIdJornada($param) {
         extract($param);
 		$rs = null;
@@ -357,9 +383,10 @@ public function ReporteCallcenterGestionados($param){
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
        
-        $sql = "CALL SPAGREGARCARGAMASIVADETALLESR($idTablaGeneral,$registro[0]);";
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLESR($idTablaGeneral,'$registro[0]');";
         $resultado=1;
         $rs=null;
+        $array="";
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -394,7 +421,7 @@ public function ReporteCallcenterGestionados($param){
     public function GuardarArchivoEscaneado($idTablaGeneral,$idDetalleTabla, $nombreRuta, $conexion)  {
         header("Content-Type: text/html;charset=utf-8");   
 
-        echo $sql = "CALL SPAGREGARARCHIVOESCANEADO($idTablaGeneral,$idDetalleTabla,'$nombreRuta');";
+        $sql = "CALL SPAGREGARARCHIVOESCANEADO($idTablaGeneral,$idDetalleTabla,'$nombreRuta');";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
@@ -532,7 +559,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
          $resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARCARGAMASIVASR($busqueda);";
+       echo $sql = "CALL SPCONSULTARCARGAMASIVASR($busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $host= $_SERVER["HTTP_HOST"];

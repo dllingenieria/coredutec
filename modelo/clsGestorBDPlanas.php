@@ -36,6 +36,36 @@ class clsGestorBDPlanas {
         $response .= '</div>';
         echo $response;
     }
+
+
+    public function ValidarArchivosFuente($param){
+        extract($param);
+        $archivoRuta="../tmp/".$archivo;
+        $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $archivoRuta),"..tmp/");
+       // $arrayJson= array();
+        
+
+        if($tipoCarga==2){
+            foreach ($inf_arc as $lin_txt) {
+                $aux_lin = explode(';', $lin_txt);
+
+                $arrayJson[]= array("IdMatricula" => $aux_lin[0], "Cedula" => $aux_lin[1]);
+
+            }
+        }else{
+             foreach ($inf_arc as $lin_txt) {
+                //array_push($arrayJson, $lin_txt);
+                $arrayJson[]= array("Salon" => $lin_txt);
+            }
+        }
+
+        $arrayJson=json_encode($arrayJson);
+        $carga = new clsCarga();
+
+        $valorValidarArchivoFuente =$carga->ValidarArchivosFuente($arrayJson,$tipoCarga,$conexion);
+
+        //echo $valorValidarArchivoFuente;
+    }
     
     public function CargarArchivoPlanoFuenteEscaneado($param) {
         $response = '<div id="men_err">';
@@ -58,16 +88,17 @@ class clsGestorBDPlanas {
                     if($selCarga==2){
                          $idDetalleTabla= $carga->InscribirSoporteMatricula($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
 
-                        $identificardorArchivo=$lin_txt[0];
+                        $identificardorArchivo=$lin_txt;
 
                         if($idDetalleTabla!=""){
                         $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
                         }
 
                     }else if($selCarga==3){
+
                         $idDetalleTabla= $carga->InscribirSoporteFirma($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
 
-                        $identificardorArchivo=$lin_txt[0];
+                        $identificardorArchivo=$lin_txt;
 
 
                         if($idDetalleTabla!=""){
@@ -84,11 +115,18 @@ class clsGestorBDPlanas {
                     }else if($selCarga==5){
                         $idDetalleTabla= $carga->InscribirSoporteRefrigerio($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
 
-                        $identificardorArchivo=$lin_txt[0];
+                        $identificardorArchivo=$lin_txt;
 
                         if($idDetalleTabla!=""){
                         $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
+                        }elseif($idDetalleTabla==0){
+                            $response .= $lin_txt."Error por favor verificar si existe salon";
                         }
+
+                        if($validarEscaneado!=""){
+                            $response .=$validarEscaneado;
+                        }
+
 
                     }
                    
@@ -206,8 +244,8 @@ class clsGestorBDPlanas {
         include_once 'clsCarga.php';
         $carga = new clsCarga();
         $archivoEscaneado=str_replace('"','',$archivoEscaneado);
-
-        $identificardorArchivo=$identificardorArchivo.".pdf";
+        $msj="";
+       $identificardorArchivo=$identificardorArchivo.".pdf";
         //$archivoEscaneado."<br>";
         
         $ubicacionOriginalEscaneado = "../tmp/".$archivoEscaneado."/".$identificardorArchivo;
@@ -378,6 +416,7 @@ class clsGestorBDPlanas {
         header('Content-Type: text/html; charset=utf-8'); 
         $rutaArchivo = $archivoPlano;
         if (file_exists($rutaArchivo)) {
+            //cho "entre";
             $arc_pla = @fopen($rutaArchivo, "r") or exit("No pudo leer el archivo, verifique el nombre y la ruta ".$rutaArchivo);
             $i = 0;
             while (!feof($arc_pla)) {
