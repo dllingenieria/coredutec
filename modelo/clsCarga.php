@@ -318,7 +318,7 @@ public function ReporteCallcenterGestionados($param){
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                  foreach ($filas as $fila) {
-                    $array[] = $fila['pIdTabla'];
+                    $array= $fila['pIdTabla'];
                 }
             }
         } 
@@ -443,7 +443,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
         $resultado = array();
         $registro = array();
-         $sql = "CALL SPCONSULTARCARGAMASIVA($busqueda);";
+        $sql = "CALL SPCONSULTARCARGAMASIVA($busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
@@ -469,7 +469,7 @@ public function ReporteCallcenterGestionados($param){
     /// Listado de archivos subido en asignaciones
     public function ConsultarCambioEstados($param)  {
         extract($param);
-         $resultado = array();
+        $resultado = array();
         $registro = array();
         $sql = "CALL SPCONSULTARCARGAMASIVACE($busqueda);";
         $rs=null;
@@ -479,7 +479,7 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
-                         $ruta= "<a href='".$host."/".$fila['Ruta']."'>Descargar Archivo</a>";
+                         $ruta= "<a href='/".$fila['Ruta']."'>Descargar Archivo</a>";
                           array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['EstadoAnterior'],$fila['EstadoNuevo'],$fila['TipoArchivo'], $ruta ,$value);
                         
                           array_push($registro, $value);
@@ -508,8 +508,8 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
-                         $rutaFuente= "<a href='".$host."/".$fila['RutaAutorizacion']."'>Descargar Archivo</a>";
-                         $rutaSoporte= "<a href='".$host."/".$fila['RutaSoporte']."'>Descargar Archivo</a>";
+                         $rutaFuente= "<a href='/".$fila['RutaAutorizacion']."'>Descargar Archivo</a>";
+                         $rutaSoporte= "<a href='/".$fila['RutaSoporte']."'>Descargar Archivo</a>";
 
                           array_push($registro, $fila['Salon'],$fila['Fecha'],$rutaFuente, $rutaSoporte ,$value);
                         
@@ -538,8 +538,8 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
-                         $rutaFuente= "<a href='".$host."/".$fila['RutaFuente']."'>Descargar Archivo Fuente</a>";
-                         $rutaEscaneado= "<a href='".$host."/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
+                         $rutaFuente= "<a href='/".$fila['RutaFuente']."'>Descargar Archivo Fuente</a>";
+                         $rutaEscaneado= "<a href='/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
                           array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['IdMatricula'],$rutaFuente, $rutaEscaneado ,$value);
                         
                           array_push($registro, $value);
@@ -567,8 +567,8 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
-                         $rutaFuente= "<a href='".$host."/".$fila['RutaAutorizacion']."'>Descargar Archivo Fuente</a>";
-                         $rutaEscaneado= "<a href='".$host."/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
+                         $rutaFuente= "<a href='/".$fila['RutaAutorizacion']."'>Descargar Archivo Fuente</a>";
+                         $rutaEscaneado= "<a href='/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
                           array_push($registro, $fila['Salon'],$fila['Fecha'],$rutaFuente, $rutaEscaneado ,$value);
                             
                           array_push($registro, $value);

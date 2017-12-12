@@ -86,10 +86,18 @@ class clsGestorBDPlanas {
                     if($selCarga==2){
                          $idDetalleTabla= $carga->InscribirSoporteMatricula($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
 
-                        $identificardorArchivo=$lin_txt;
+                         $aux_lin = explode(';', $lin_txt);
+                         $men_err = '';
+                         $identificardorArchivo=$aux_lin[0];
 
                         if($idDetalleTabla!=""){
                         $validarEscaneado= $this->validarEscaneado($identificardorArchivo, $archivoEscaneado, $idDetalleTabla, $idTablaGeneral, $nombreCorto, $ubicacionEscaneado, $conexion);
+                        }elseif($idDetalleTabla==0){
+                            $response .= $lin_txt."Error por favor verificar si existe salon";
+                        }
+
+                        if($validarEscaneado!=""){
+                            $response .=$validarEscaneado;
                         }
 
                     }else if($selCarga==3){
