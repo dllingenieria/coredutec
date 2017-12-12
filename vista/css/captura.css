@@ -261,6 +261,8 @@ select#selCargaConsulta {
 	border-radius: 5px 5px 5px 5px;
 	margin-left: 744px;
 	margin-top: 24px;
+	padding: 20px;
+	font-weight: bold;
 }
 
 .TxtCarga {

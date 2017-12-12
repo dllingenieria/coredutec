@@ -105,17 +105,17 @@ class clsCarga {
              $carga=3;
         }
 
-        $sql = "CALL SPVERIFICARCARGA('$arrayJson',$carga);";
+       $sql = "CALL SPVERIFICARCARGA('$arrayJson',$carga);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
-                     $array[] = $fila['pResultado'];
+                     $array = $fila['pResultado'];
                 }
             }
         } else {
             $array = 0;
         }
-        $array= substr($array[0],1);
+        
         echo json_encode($array);
     }
 
@@ -500,7 +500,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
          $resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARCARGAMASIVASF($busqueda);";
+        $sql = "CALL SPCONSULTARCARGAMASIVASF('$busqueda');";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $host= $_SERVER["HTTP_HOST"];
@@ -530,7 +530,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
          $resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARCARGAMASIVASM($busqueda);";
+        $sql = "CALL SPCONSULTARCARGAMASIVASM('$busqueda');";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $host= $_SERVER["HTTP_HOST"];
@@ -559,7 +559,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
          $resultado = array();
         $registro = array();
-       echo $sql = "CALL SPCONSULTARCARGAMASIVASR($busqueda);";
+        $sql = "CALL SPCONSULTARCARGAMASIVASR('$busqueda');";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $host= $_SERVER["HTTP_HOST"];

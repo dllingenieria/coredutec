@@ -93,12 +93,7 @@ $(function() {
 			tipoCarga: tipoCarga
 			}, function(data) {
 				console.log("validar archivo dsadsa "+data);
-					if(data=='"0"'){
-						console.log("entre 0");
-						 jsRemoveWindowLoad();
-						 mostrarPopUpError("Los registros estan duplicados, no pueden ser guardados");
-					}
-					else if(data=='"-1"'){
+					if(data=='"-1"'){
 							console.log("entre -1");
 							var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
 
@@ -132,10 +127,14 @@ $(function() {
 										     
 										}, "json");
 					}
-					else if(data!='"-1"' && data!='"0"'){
-						console.log("entre no");
-						 jsRemoveWindowLoad();
-						 mostrarPopUpError("Los siguientes Registros no existen: "+data);
+					else {
+				          $("#fondoerrores").show();
+				          $("#fondoerrores").empty();
+				          $("#circulo").show();
+				          $("#xerror").show();
+				          $("#fondoerrores").append(data);
+				          jsRemoveWindowLoad();
+					
 					}
 			});
 
