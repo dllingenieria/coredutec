@@ -105,7 +105,7 @@ class clsCarga {
              $carga=3;
         }
 
-       echo $sql = "CALL SPVERIFICARCARGA('$arrayJson',$carga);";
+        $sql = "CALL SPVERIFICARCARGA('$arrayJson',$carga);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -451,7 +451,7 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
-                         $ruta= "<a href='".$host."/".$fila['Ruta']."'>Descargar Archivo</a>";
+                         $ruta= "<a href='/".$fila['Ruta']."'>Descargar Archivo</a>";
                           array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Modulo'],$fila['TipoArchivo'], $ruta ,$value);
                         
                           array_push($registro, $value);
