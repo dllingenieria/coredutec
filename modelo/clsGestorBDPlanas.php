@@ -54,7 +54,6 @@ class clsGestorBDPlanas {
             }
         }else{
              foreach ($inf_arc as $lin_txt) {
-                //array_push($arrayJson, $lin_txt);
                 $arrayJson[]= array("Salon" => $lin_txt);
             }
         }
@@ -64,7 +63,6 @@ class clsGestorBDPlanas {
 
         $valorValidarArchivoFuente =$carga->ValidarArchivosFuente($arrayJson,$tipoCarga,$conexion);
 
-        //echo $valorValidarArchivoFuente;
     }
     
     public function CargarArchivoPlanoFuenteEscaneado($param) {
