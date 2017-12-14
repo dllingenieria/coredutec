@@ -263,6 +263,7 @@ select#selCargaConsulta {
 	margin-top: 24px;
 	padding: 20px;
 	font-weight: bold;
+	word-wrap: break-word;
 }
 
 .TxtCarga {
