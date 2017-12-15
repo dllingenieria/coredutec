@@ -78,12 +78,14 @@ $(function() {
                 		mostrarPopUpError("Error al guardar archivo en carpeta temporal");
 	                }
                 });
+
+             },30000);
              } else {
             	jsRemoveWindowLoad();
                 mostrarPopUpError('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR EL DOCUMENTO ASEGURESE QUE SU TAMAÑO SEA MENOR.');
             }
 
-            },30000);
+
            }
 
 	}
