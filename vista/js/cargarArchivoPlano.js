@@ -50,10 +50,12 @@ $(function() {
         var archivo = archivos.files;
 
         if (typeof archivo[0] !== "undefined") {
-            if (archivo[0].size < 10000485760) {
+            if (archivo[0].size < 100004857600000000) {
             	console.log("entre");
                 var data = new FormData();
                 data.append('vid', archivo[0]);
+
+               	setTimeout(function(){ 
                 $.ajax({
                     type: 'POST',
                     url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
@@ -80,6 +82,8 @@ $(function() {
             	jsRemoveWindowLoad();
                 mostrarPopUpError('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR EL DOCUMENTO ASEGURESE QUE SU TAMAÑO SEA MENOR.');
             }
+
+            },30000);
            }
 
 	}
