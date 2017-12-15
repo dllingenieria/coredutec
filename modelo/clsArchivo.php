@@ -85,9 +85,11 @@ class clsArchivo {
         $file = $_FILES['vid']['name'];
         $type = $_FILES["vid"]["type"];
         $carpetaZip="../".$ubicacion."/".$randName."/";
+
+
             umask(0);
         if (mkdir($carpetaZip, 0777)){; // se crea carpeta donde se va a descomprimir el zip
-            chmod($dir,0777);
+            chmod($carpetaZip,0777);
             $uploadDir = '../'.$ubicacion.$randName."/";
             $name = explode(".", $file);
 
@@ -107,6 +109,7 @@ class clsArchivo {
             $fullPath = $uploadDir . $file;
 
             //echo $fullPath;
+            $error =$_FILES['upfile']['error'];
             if(move_uploaded_file($fileTMP, $fullPath)) {
             $zip = new ZipArchive();
             $x = $zip->open($fullPath);
@@ -121,7 +124,7 @@ class clsArchivo {
             } else {   
 
                 $error = error_get_last();
-                $array= "error move_uploaded_file: ".$error['message']." *fullPath: ".$fullPath." *fileTMP: ".$fileTMP." *carpetaZip ".$carpetaZip;
+                $array= "error move_uploaded_file: ".$error['message']." *fullPath: ".$fullPath." *fileTMP: ".$fileTMP." *carpetaZip ".$carpetaZip." *Error".$serror;
                 //$array = "There was a problem with the upload. Please try again.";
             }
     }else{
