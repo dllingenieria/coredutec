@@ -134,7 +134,7 @@ class clsArchivo {
             } else {   
 
                 $error = error_get_last();
-                $array= "error move_uploaded_file: ".$error['message']." *fullPath: ".$fullPath." *fileTMP: ".$fileTMP." *carpetaZip ".$carpetaZip." *Errorddd:".$error." *filee".$_FILES;
+                $array= "error move_uploaded_file: ".$error['message']." *fullPath: ".$fullPath." *fileTMP: ".$fileTMP." *carpetaZip ".$carpetaZip."  *filee".$_FILES;
                 //$array = "There was a problem with the upload. Please try again.";
             }
     }else{
