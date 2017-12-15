@@ -86,6 +86,10 @@ class clsArchivo {
         $type = $_FILES["vid"]["type"];
         $error =$_FILES['vid']['error'];
 
+        var_dump($_FILES['vid']['error']);
+        echo "xxxxxxxxx";
+        var_dump($_FILES);
+
         $carpetaZip="../".$ubicacion."/".$randName."/";
 
 
