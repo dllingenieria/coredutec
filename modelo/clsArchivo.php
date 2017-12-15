@@ -85,7 +85,9 @@ class clsArchivo {
         $file = $_FILES['vid']['name'];
         $type = $_FILES["vid"]["type"];
         $carpetaZip="../".$ubicacion."/".$randName."/";
-        if (mkdir($carpetaZip, 0777, true)){; // se crea carpeta donde se va a descomprimir el zip
+            umask(0);
+        if (mkdir($carpetaZip, 0777)){; // se crea carpeta donde se va a descomprimir el zip
+            chmod($dir,0777);
             $uploadDir = '../'.$ubicacion.$randName."/";
             $name = explode(".", $file);
 
