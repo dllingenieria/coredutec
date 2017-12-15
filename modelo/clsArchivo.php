@@ -78,45 +78,57 @@ class clsArchivo {
 
 
     public function GuardarArchivoZip($ubicacion){
+        //echo "ubicacion".$ubicacion;
         $randName= rand(1000, 1000000);
+        //echo "randname".$randName;
         $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $type = $_FILES["vid"]["type"];
         $carpetaZip="../".$ubicacion."/".$randName."/";
-        mkdir($carpetaZip, 0777, true); // se crea carpeta donde se va a descomprimir el zip
-        $uploadDir = '../'.$ubicacion.$randName."/";
-        $name = explode(".", $file);
+        if (mkdir($carpetaZip, 0777, true)){; // se crea carpeta donde se va a descomprimir el zip
+            $uploadDir = '../'.$ubicacion.$randName."/";
+            $name = explode(".", $file);
 
-        $accepted_types = array('application/zip', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
+            $accepted_types = array('application/zip', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
+            
+            foreach($accepted_types as $mime_type) {
+                if($mime_type == $type) {
+                    $okay = true;
+                    break;
+                } 
+            }
+
+            $continue = strtolower($name[1]) == 'zip' ? true : false;
+            if(!$continue) {
+                $array = "El archivo que intenta cargar no es un archivo .zip. Vuelve a intentarlo.";
+            }
+            $fullPath = $uploadDir . $file;
+
+            //echo $fullPath;
+            if(move_uploaded_file($fileTMP, $fullPath)) {
+            $zip = new ZipArchive();
+            $x = $zip->open($fullPath);
+            if ($x === true) {
+                $zip->extractTo($uploadDir); // change this to the correct site path
+                $zip->close();
         
-        foreach($accepted_types as $mime_type) {
-            if($mime_type == $type) {
-                $okay = true;
-                break;
-            } 
-        }
+                unlink($fullPath);
+                $array=$randName;
+            }
+                //$array = "Your .zip file was uploaded and unpacked.";
+            } else {   
 
-        $continue = strtolower($name[1]) == 'zip' ? true : false;
-        if(!$continue) {
-            $array = "El archivo que intenta cargar no es un archivo .zip. Vuelve a intentarlo.";
-        }
-        $fullPath = $uploadDir . $file;
-        if(move_uploaded_file($fileTMP, $fullPath)) {
-        $zip = new ZipArchive();
-        $x = $zip->open($fullPath);
-        if ($x === true) {
-            $zip->extractTo($uploadDir); // change this to the correct site path
-            $zip->close();
-    
-            unlink($fullPath);
-            $array=$randName;
-        }
-            //$array = "Your .zip file was uploaded and unpacked.";
-        } else {    
-            $array = "There was a problem with the upload. Please try again.";
-        }
+                $error = error_get_last();
+                $array= "error move_uploaded_file".$error['message'];
+                //$array = "There was a problem with the upload. Please try again.";
+            }
+    }else{
 
+            $error = error_get_last();
+            $array= "error mkdir".$error['message'];
+    }
         echo json_encode($array);
+    
     }
 
     public function GuardarArchivoCsv($ubicacion){

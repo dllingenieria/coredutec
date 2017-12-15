@@ -51,6 +51,7 @@ $(function() {
 
         if (typeof archivo[0] !== "undefined") {
             if (archivo[0].size < 10000485760) {
+            	console.log("entre");
                 var data = new FormData();
                 data.append('vid', archivo[0]);
                 $.ajax({
