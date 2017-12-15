@@ -126,7 +126,7 @@ $(function() {
 											        setTimeout(function(){	
 											        	nameArchivotmpEscaneado= sessionStorage.nameArchivoEscaneado;
 														GuardarDocumentoRutaOriginal(idTablaGeneral, nameArchivoFuente, nameArchivotmpEscaneado, ubicacionOriginalFuente, ubicacionOriginalEscaneado, nombreCorto, archivo);
-											        },120000);
+											        },220000);
 											    }else{
 											    	jsRemoveWindowLoad();
 				                					mostrarPopUpError("Error al guardar en tabla general");
