@@ -105,6 +105,7 @@ class clsCarga {
              $carga=3;
         }
 
+        
         $sql = "CALL SPVERIFICARCARGA('$arrayJson',$carga);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {

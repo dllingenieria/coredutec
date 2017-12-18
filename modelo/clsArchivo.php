@@ -91,8 +91,8 @@ class clsArchivo {
             echo "Error: " . $_FILES['vid']['error'] . "<br>";
         }
 
-        echo "otrosss";
-        var_dump($_FILES);
+        //echo "otrosss";
+        //var_dump($_FILES);
 
         $carpetaZip="../".$ubicacion."/".$randName."/";
 

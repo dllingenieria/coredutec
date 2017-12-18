@@ -40,7 +40,9 @@ class clsGestorBDPlanas {
 
     public function ValidarArchivosFuente($param){
         extract($param);
-        $archivoRuta="../tmp/".$archivo;
+        $archivo2=$archivo;
+        //echo "archivo recibido".$archivo2;
+        $archivoRuta="../tmp/".$archivo2;
         $inf_arc = $this->LeerArchivoPlano(str_replace('"', "", $archivoRuta),"..tmp/");
        // $arrayJson= array();
         

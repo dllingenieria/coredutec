@@ -90,16 +90,18 @@ $(function() {
 
 	}
 
- 	function ValidarArchivosFuente(archivo){
+ 	function ValidarArchivosFuente(){
+
  			var tipoCarga= $("#selCarga").val();
- 			var archivo = archivo;
+			var archivo2= sessionStorage.nameArchivoFuente;
+ 			console.log("textooo"+archivo2);
+ 			console.log(sessionStorage.nameArchivoFuente);
  		$.post("../../controlador/fachada.php", {
 			clase: 'clsGestorBDPlanas',
 			oper: 'ValidarArchivosFuente',
-			archivo: archivo,
+			archivo: archivo2,
 			tipoCarga: tipoCarga
 			}, function(data) {
-				console.log("validar archivo dsadsa "+data);
 					if(data=='"-1"'){
 							console.log("entre -1");
 							var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
@@ -154,19 +156,15 @@ $(function() {
 			GuardarArchivoCarpeta(archivo); // se guarda archivo fuente en carpeta tmp
 
 			setTimeout(function(){
-				var validarArchivo= ValidarArchivosFuente(sessionStorage.nameArchivoFuente);
-			},20000);
-
-			
+				var validarArchivo= ValidarArchivosFuente();
+			},20000);		
 	}
-
 
 
 	function GuardarArchivoFuenteAutorizacion(){
 		var archivoF="Fuente";
 		var ubicacionOriginalFuente = $("#ruta").val()+"/Fuente/";
 			GuardarArchivoCarpeta(archivoF); // Guarda archivo fuente en Carpeta temporal
-
 			setTimeout(function(){
 			nameArchivoFuente= sessionStorage.nameArchivoFuente;
 			var observaciones=$("#txtDescripcion").val();
