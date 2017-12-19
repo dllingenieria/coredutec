@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-
 $(function() {
 
     var nom_arc = '';
@@ -41,8 +40,6 @@ $(function() {
 		}
 	}
 
-
-
 	function GuardarArchivoCarpeta(archivo){
 		var ubicacion = "tmp/";  
 		var valorSeleccionado = archivo; 		
@@ -51,11 +48,10 @@ $(function() {
 
         if (typeof archivo[0] !== "undefined") {
             if (archivo[0].size < 100004857600000000) {
-            	console.log("entre");
                 var data = new FormData();
                 data.append('vid', archivo[0]);
 
-               	setTimeout(function(){ 
+               
                 $.ajax({
                     type: 'POST',
                     url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
@@ -64,22 +60,25 @@ $(function() {
                     processData: false, //debe estar en false para que JQuery no procese los datos a enviar
                     cache: false //Para que el formulario no guarde cache
                 }).done(function(data) { 
-
-                	if(data!=""){
-                		if(valorSeleccionado=="Escaneado"){
-                			sessionStorage.nameArchivoEscaneado=data;
-                		}else if(valorSeleccionado =="Fuente"){
-	                		sessionStorage.nameArchivoFuente=data;
-	                	}else if(valorSeleccionado=="Autorizacion"){
-	                		sessionStorage.nameArchivoAutorizacion=data;
-	                	}
-	                }else{
-	                	jsRemoveWindowLoad();
-                		mostrarPopUpError("Error al guardar archivo en carpeta temporal");
-	                }
+                	setTimeout(function(){ 
+		                if(typeof(Storage) !== "undefined") {
+		                	if(data!=""){
+		                		if(valorSeleccionado=="Escaneado"){
+		                			sessionStorage.nameArchivoEscaneado=data;
+		                		}else if(valorSeleccionado =="Fuente"){
+			                		sessionStorage.nameArchivoFuente=data;
+			                	}else if(valorSeleccionado=="Autorizacion"){
+			                		sessionStorage.nameArchivoAutorizacion=data;
+			                	}
+			                }else{
+			                	jsRemoveWindowLoad();
+		                		mostrarPopUpError("Error al guardar archivo en carpeta temporal");
+			                }
+			             }
+	             	},20000);
                 });
 
-             },30000);
+            
              } else {
             	jsRemoveWindowLoad();
                 mostrarPopUpError('EL TAMAÑO DEl  DOCUMENTO ES MAYOR A 1MB,\nPARA SUBIR EL DOCUMENTO ASEGURESE QUE SU TAMAÑO SEA MENOR.');
@@ -94,7 +93,7 @@ $(function() {
 
  			var tipoCarga= $("#selCarga").val();
 			var archivo2= sessionStorage.nameArchivoFuente;
- 			console.log("textooo"+archivo2);
+ 			console.log("archivo"+archivo2);
  			console.log(sessionStorage.nameArchivoFuente);
  		$.post("../../controlador/fachada.php", {
 			clase: 'clsGestorBDPlanas',
@@ -157,7 +156,7 @@ $(function() {
 
 			setTimeout(function(){
 				var validarArchivo= ValidarArchivosFuente();
-			},20000);		
+			},40000);		
 	}
 
 
