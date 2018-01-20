@@ -234,23 +234,7 @@ $(function() {
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 					var cont = 1;
-
-					//while para  sesion
-
-					while( cont <= sessionStorage.cantidadSesiones){						
-                           //columna sesion
-						columnas.push({"title":"Sesión "+cont});
-						sesionA.push(cont);
-							cont++;
-
-                    }
-					
-                    columnas.push({'title':'Total Horas'});
-                    columnas.push({'title':'Observaciones'});
-					columnas.push({'title':'Motivo no asistencia'});
-					columnas.push({'title':'Nota'});
-
-
+				
 					//Devuelve las fechas para la asistencia general
 					$.post("../../controlador/fachada.php", {
 		            clase: 'clsProgramacion',
@@ -325,7 +309,7 @@ $(function() {
 	                    }else if (nombreDia === "Viernes") {
 	                        diasClase = new Array("viernes"); //agregado
 	                    }
-	                    
+
 	                    var fi = data[0].FechaInicial;
 	                    fi = fi.split('-');
 	                    fi = new Date(fi[0],fi[1]-1,fi[2]);
@@ -339,25 +323,47 @@ $(function() {
 						//alert("dias clase "+diasClase);
 						var cont = 1;
 						
-						
-						//while para fechas y sesion
-						while(fi <= ff){
-	                        day = days[fi.getDay()]; 
-							
-	                        if(diasClase.indexOf(day) != -1){ //alert(day);
-								
-	                           //columna sesion
-							columnas.push({"title":"Sesión "+cont});
-							sesionA.push(cont); 
-								
-								//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
-								fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
-								//alert(fechaA);
+						console.log("xxx"+sessionStorage.cantidadSesiones);
+						//while por cantidad de sesion preprogramción
+						if(sessionStorage.cantidadSesiones>0){
+							while( cont <= sessionStorage.cantidadSesiones){						
+		                           //columna sesion
+								columnas.push({"title":"Sesión "+cont});
+								sesionA.push(cont);
 								cont++;
-	                        }
-	                        fi = new Date(fi.setTime((fi.getTime() + 86400000)));
-								
-	                    }
+
+		                    }
+							
+
+						}else{
+						//while para fechas y sesion
+							while(fi <= ff){
+		                        day = days[fi.getDay()]; 
+		                        if(diasClase.indexOf(day) != -1){ //alert(day);
+									
+		                           //columna sesion
+								columnas.push({"title":"Sesión "+cont});
+								sesionA.push(cont); 
+									
+								cont++;
+		                        }
+		                        fi = new Date(fi.setTime((fi.getTime() + 86400000)));
+									
+	                    	}
+	                  }
+
+
+	                  while(fi <= ff){
+	                  	 day = days[fi.getDay()]; 
+	                  	 if(diasClase.indexOf(day) != -1){ //alert(day);
+							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());
+						}
+	                  }
+
+	                    	columnas.push({'title':'Total Horas'});
+		                    columnas.push({'title':'Observaciones'});
+							columnas.push({'title':'Motivo no asistencia'});
+							columnas.push({'title':'Nota'});
 					
 					recuperarDatos();
 					
