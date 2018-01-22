@@ -332,34 +332,51 @@ $(function() {
 								sesionA.push(cont);
 								cont++;
 
-		                    }
+		                     }
+						while(fi <= ff){
+	                        day = days[fi.getDay()]; 
 							
+	                        if(diasClase.indexOf(day) != -1){ //alert(day);
+								
+	                        //columna sesion
+							//columnas.push({"title":"Sesión "+cont});
+							//sesionA.push(cont); 
+								
+							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
+							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
+							//alert(fechaA);
+							//cont++;
+	                        }
+	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));
+								
+	                    }
+
+		        
 
 						}else{
 						//while para fechas y sesion
-							while(fi <= ff){
-		                        day = days[fi.getDay()]; 
-		                        if(diasClase.indexOf(day) != -1){ //alert(day);
-									
-		                           //columna sesion
-								columnas.push({"title":"Sesión "+cont});
-								sesionA.push(cont); 
-									
-								cont++;
-		                        }
-		                        fi = new Date(fi.setTime((fi.getTime() + 86400000)));
-									
-	                    	}
-	                  }
+						while(fi <= ff){
+	                        day = days[fi.getDay()]; 
+							
+	                        if(diasClase.indexOf(day) != -1){ //alert(day);
+								
+	                        //columna sesion
+							columnas.push({"title":"Sesión "+cont});
+							sesionA.push(cont); 
+								
+							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
+							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
+							//alert(fechaA);
+							cont++;
+	                        }
+	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));
+								
+	                    }
+                   }
 
 
-	                  while(fi <= ff){
-	                  	 day = days[fi.getDay()]; 
-	                  	 if(diasClase.indexOf(day) != -1){ //alert(day);
-							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());
-						}
-	                  }
 
+                  
 	                    	columnas.push({'title':'Total Horas'});
 		                    columnas.push({'title':'Observaciones'});
 							columnas.push({'title':'Motivo no asistencia'});
