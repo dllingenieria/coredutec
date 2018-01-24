@@ -26,17 +26,11 @@ define('TMP_PATH', '/Applications/XAMPP/xamppfiles/htdocs/corfuturoHV/PDF' . DIR
 
 //require_once '../../includes/swiftMailer/swift_required.php';
 
-define('BASE_DATOS', 'SINFOMPC1');
-define('SERVIDOR', '190.0.49.18');
+define('BASE_DATOS', 'SINFOMPC');
+define('SERVIDOR', '201.217.194.205');
 define('PUERTO', '3306');
-define('USUARIO', 'dll');
+define('USUARIO', 'DLL-Ingenieria');
 define('CONTRASENA', 'd09;LU>l');
-
-/*define('BASE_DATOS', 'CET');
-define('SERVIDOR', '190.0.49.18');
-define('PUERTO', '3306');
-define('USUARIO', 'dit');
-define('CONTRASENA', 'd09;LU>l');*/
 
 spl_autoload_register('__autoload');
 // Para PHP 6 E_STRICT es parte de E_ALL -- error_reporting(E_ALL | E_STRICT); para verificación exhaustivo --

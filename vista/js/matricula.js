@@ -215,7 +215,7 @@ function obtenerGradoEscolaridad(){
         if (data != 0) {
             $.cookie("id_mat", data);
             $.cookie("pEstadoMatricula",'Guardada');
-            PopUpConfirmacion("Matrícula guardada satisfactoriamente.");   
+            PopUpConfirmacion("Matrícula guardada satisfactoriamente.");
         }else{
             if(data=='-1'){
                 PopUpError("No se pudo guardar la matrícula");

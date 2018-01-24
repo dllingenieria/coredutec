@@ -509,34 +509,34 @@ class clsCurso {
 		
 		//---------- ENVIAR CORREO A ESTUDIANTES
 			
-				$conexion->getPDO()->query("SET NAMES 'utf8'");
-                 $rs=null;
-				$sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
-				if ($rs = $conexion->getPDO()->query($sql)) {
-					if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-						foreach ($filas as $fila) {
-							$array[] = $fila; 
-						}
-					}
+				// $conexion->getPDO()->query("SET NAMES 'utf8'");
+    //              $rs=null;
+				// $sql = "CALL SPCONSULTARCORREOSESTUDIANTES ($idPreprogramacion);";
+				// if ($rs = $conexion->getPDO()->query($sql)) {
+				// 	if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+				// 		foreach ($filas as $fila) {
+				// 			$array[] = $fila; 
+				// 		}
+				// 	}
 					
 					
 					
-					$clave = array_pop($array)['Email'];
-					$correode=array_pop($array)['Email'];
-					if (count($array)>0){
-						for($i=0;$i<count($array);$i++){
-							$correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
+				// 	$clave = array_pop($array)['Email'];
+				// 	$correode=array_pop($array)['Email'];
+				// 	if (count($array)>0){
+				// 		for($i=0;$i<count($array);$i++){
+				// 			$correo=$this->enviarCorreoEstudiante($array[$i]['IdMatricula'], $array[$i]['Email'],$correode,$clave);
 						
-						}
-					}
-					else{
-						$data["error"]="No se encontraron correos de estudiantes";
-					}
-				}
-				else{
-					$data["error"]="No se consultaron los correos";
-					print_r($conexion->getPDO()->errorInfo()); die();
-				}	
+				// 		}
+				// 	}
+				// 	else{
+				// 		$data["error"]="No se encontraron correos de estudiantes";
+				// 	}
+				// }
+				// else{
+				// 	$data["error"]="No se consultaron los correos";
+				// 	print_r($conexion->getPDO()->errorInfo()); die();
+				// }	
 			
 		
 		//---------- FIN CORREO A ESTUDIANTES
@@ -938,7 +938,7 @@ public function cerrarCursoMatriculaTercero($param){
 	// public function enviarCorreoEstudiante($cod_mat, $correo="oscarlopez_v@hotmail.com"){
 	  
 			
-			// Motrar todos los errores de PHP
+			// Mostrar todos los errores de PHP
 			error_reporting(E_ALL);
 			// Motrar todos los errores de PHP
 			ini_set('error_reporting', E_ALL);
