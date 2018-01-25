@@ -3,14 +3,18 @@ $(document).ready(function() {
 tipoSoporte="";
 fechaInicial="";
 fechaFinal="";
-			
+		
 archivosUrl= new Array();
     limpiarCampos();
+
     cargarTiposSoportes();
+
 	cargarConvocatorias();
+
 	cargarJornadas();
+
     //configuracion del calendario
-	 $.datepicker.regional['es'] = {
+	/* $.datepicker.regional['es'] = {
         currentText: 'Hoy',
         monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
@@ -24,22 +28,28 @@ archivosUrl= new Array();
         showMonthAfterYear: false,
         yearSuffix: '',
 		
-    };
-    $.datepicker.setDefaults($.datepicker.regional['es']);
-	
-	
-	
-	$("#txtFechaI").datepicker();
-	$("#txtFechaF").datepicker();
+    };*/
 
+
+   // $.datepicker.setDefaults($.datepicker.regional['es']);
+	
+	
+	
+	//$("#txtFechaI").datepicker();
+	//$("#txtFechaF").datepicker();
+
+	//$(".campos").on('change' , $('#cmbTipoDeSoporte') , function(){
+	//$('#cmbTipoDeSoporte').unbind('change').bind('change', function (e){
 	$('#cmbTipoDeSoporte').change(function() { 
 	limpiarCampos();
 	 tipoSoporte="";
         	
+	 		console.log("val"+$('#cmbTipoDeSoporte').val());
+
             //estudiante
-			if($('#cmbTipoDeSoporte').val()==294)
+			if($('#cmbTipoDeSoporte').val()==333)
 			{
-                accion=294;
+                accion=333;
                 tipoSoporte=$('#cmbTipoDeSoporte').val();
 				$('#divBusquedaCedula').show();
 				$( "#Example3" ).attr( "src", "../../SubirArchivo/index2.php?accion="+accion);
@@ -53,9 +63,9 @@ archivosUrl= new Array();
 				
             }
 			//caso especial
-            else if($('#cmbTipoDeSoporte').val()==295)
+            else if($('#cmbTipoDeSoporte').val()==334)
 			{
-                accion=295;
+                accion=334;
 				tipoSoporte=$('#cmbTipoDeSoporte').val()
 				$("#derecha1").hide();
 				$('#divBusquedaCedula').hide();

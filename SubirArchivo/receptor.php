@@ -30,7 +30,7 @@ $cedula=$cedula1[0];
 		$tipoNovedad=$_GET['tipoSoporte'];
 		$rs = null;
 		
-		if ($tipoNovedad == 295 || $tipoNovedad == 294 )
+		if ($tipoNovedad == 333 || $tipoNovedad == 334 )
 		{
 		//llamar al procedimiento que guarda en la tabla TSOPOTE
 		$sql = "CALL SPAGREGARSOPORTE($cedula,$tipoNovedad,'$ruta');";
@@ -41,7 +41,7 @@ $cedula=$cedula1[0];
 					if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC))
 					{               
 						$filas = $filas[0]['pIdNovedad'];
-						if ($filas != "" and $tipoNovedad ==295 )
+						if ($filas != "" and $tipoNovedad ==334 )
 						{
 						   $fechaI = $_GET['fechaInicial'];
 						   $fechaF = $_GET['fechaFinal'];
