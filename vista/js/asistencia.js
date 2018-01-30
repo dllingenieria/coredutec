@@ -407,9 +407,10 @@ $(function() {
     function validarInformacion(){
         var valido=true;
         $(".asistenciaInput").each(function(e){
-			id=$( this ).attr( "id" ); 
+			id =$(this).attr("id"); 
 			var res = id.split("_");
 			var valor = parseInt($("#"+id).val());
+			
 			
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
@@ -420,12 +421,11 @@ $(function() {
 					}
 				}
 			}
-			
-			if (valor == ""){
+
+			if (isNaN(valor)){
 				valido=false;
 			}
         });
-        console.log("valido"+valido);
         return valido;
     }
 

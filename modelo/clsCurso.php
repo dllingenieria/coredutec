@@ -602,45 +602,66 @@ class clsCurso {
 						exit;
 					}
 					else{
-                        //validacion1 si un estudiante tiene asistencia > 0 la nota debe ser > 0
-                        $rs=null; 
-                        $array=array();
-                        $sql = "CALL SPCONSULTARASISTENCIAYNOTAPORSALON($idPreprogramacion);";
-                        if ($rs = $conexion->getPDO()->query($sql)) {
-                            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
-                                    foreach ($filas as $fila) {
-                                        $array[] = $fila;
-                                    }
+                            //
+                            $conexion->getPDO()->query("SET NAMES 'utf8'");
+                            $rs=null;                 
+                            $sql = "CALL SPAGREGARPORCENTAJESDEASISTENCIASPORSALON($idPreprogramacion,$IdUsuario);";
+                                if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta porcentajeAsistenciasporsalon
+                                    $conexion->getPDO()->query("SET NAMES 'utf8'");
+                                    $rs=null;                       
+                                    $sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
+                                        if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon   
+                                            //validacion1 si un estudiante tiene asistencia > 0 la nota debe ser > 0
+                                            $rs=null; 
+                                            $array=array();
+                                            $sql = "CALL SPCONSULTARASISTENCIAYNOTAPORSALON($idPreprogramacion);";
+                                            if ($rs = $conexion->getPDO()->query($sql)) {
+                                                if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                        foreach ($filas as $fila) {
+                                                            $array[] = $fila;
+                                                        }
+                                                    }
+                                                    if (count($array)>0){
+                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes con inconsistencias en las asistencias y las notas";
+                                                        echo json_encode($data);
+                                                        exit;
+                                                    }
+                                                    else{
+                                                        //validacion2 Si la nota es < 3 debe tener motivo de no asistencia
+                                                        $rs=null;
+                                                        unset($array);
+                                                        $array=array();
+                                                        $sql = "CALL SPCONSULTARNOTASMOTIVONOASISTENCIAPORSALON($idPreprogramacion);";
+                                                        if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                                    foreach ($filas as $fila) {
+                                                                        $array[] = $fila;
+                                                                    }
+                                                            }
+                                                            if (count($array)>0){
+                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes con nota menor a 3 y sin motivo de no asistencia";
+                                                                echo json_encode($data);
+                                                                exit;
+                                                            }else{
+                                                                $data['horasTotles']="ok";
+                                                            }
+                                                        }
+                                                            else{
+                                                                $data["error"]="No se pudo cerrar el curso no se consultaron notas y motivos no asistencia";
+                                                            }
+                                                    }
+                                                }else{ //validar conexion y consulta consultarnotasporsalon
+                                                                $data["error"]="No se encontraron las notas por salon";
+                                                                print_r($conexion->getPDO()->errorInfo()); die();
+                                                }   
+
+                                        }else{
+                                            $data["error"]="No se pudo cerrar el curso no se consultaron las notas y las asistencias";
+                                        }               
+                                }else{//validar conexion y consulta porcentajeAsistenciasporsalon
+                                    $data["error"]="No se agrego el porcentaje de asistencia";
                                 }
-                                if (count($array)>0){
-                                    $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes con inconsistencias en las asistencias y las notas";
-                                    echo json_encode($data);
-                                    exit;
-                                    }
-                                else{
-                                    //validacion2 Si la nota es < 3 debe tener motivo de no asistencia
-                                    $rs=null;
-                                    unset($array);
-                                    $array=array();
-                                    $sql = "CALL SPCONSULTARNOTASMOTIVONOASISTENCIAPORSALON($idPreprogramacion);";
-                                    if ($rs = $conexion->getPDO()->query($sql)) { 
-                                        if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
-                                                foreach ($filas as $fila) {
-                                                    $array[] = $fila;
-                                                }
-                                            }
-                                        if (count($array)>0){
-                                            $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes con nota menor a 3 y sin motivo de no asistencia";
-                                            echo json_encode($data);
-                                            exit;
-                                            }
-                                        }
-                                        else{
-                                            $data['horasTotles']="ok";
-                                            //$data["error"]="No se pudo cerrar el curso no se consultaron notas y motivos no asistencia";
-                                        }
-                                }
-                            }
+
 					}
 				}
 				else{
@@ -650,6 +671,14 @@ class clsCurso {
 			
 			
 		//---------- FIN VALIDACION DE HORAS TOTALES ASISTIDAS
+
+
+    
+
+
+    
+
+
 		
 		if($data['asistencias']=="ok" and $data['planeacion']=="ok" and $data['evaluacion']=="ok" and $data['horasTotles']=="ok"){//inicio validacion para cerrar
 			
@@ -764,88 +793,24 @@ public function cerrarCursoMatriculaTercero($param){
 		$parametros=array();
 		$array=array();		
 		$IdUsuario = $_SESSION['idUsuario'];		
-		
-		  $conexion->getPDO()->query("SET NAMES 'utf8'");
-                    $rs=null;                 
-                    $sql = "CALL SPAGREGARPORCENTAJESDEASISTENCIASPORSALON($idPreprogramacion,$IdUsuario);";
-                    if ($rs = $conexion->getPDO()->query($sql)) {//validar conexion y consulta porcentajeAsistenciasporsalon
-                        $conexion->getPDO()->query("SET NAMES 'utf8'");
-                       $rs=null;                       
-                        $sql = "CALL SPCALCULARNOTASDEFINITIVAS($idPreprogramacion);";
-                        if ($rs = $conexion->getPDO()->query($sql)) { //validar conexion y consulta consultarnotasporsalon                  
-                            //validacion1  si un estudiante tiene asistencia > 0 la nota debe ser > 0
-								$rs=null; 
-								$array=array();
-								$sql = "CALL SPCONSULTARASISTENCIAYNOTAPORSALON($idPreprogramacion);";
-								if ($rs = $conexion->getPDO()->query($sql)) {
-									if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
-											foreach ($filas as $fila) {
-												$array[] = $fila;
-											}
-										}
-										if (count($array)>0){
-											$data["error"]="No se pudo cerrar el curso hay ".count($array)." estudiantes con asistencias y nota 0";
-											echo json_encode($data);
-											exit;
-										}
-										else{
-											//validacion2 Si la nota es < 3 debe tener motivo de no asistencia
-											$rs=null;
-											unset($array);
-											$array=array();
-											$sql = "CALL SPCONSULTARNOTASMOTIVONOASISTENCIAPORSALON($idPreprogramacion);";
-											if ($rs = $conexion->getPDO()->query($sql)) { 
-												if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
-													foreach ($filas as $fila) {
-														$array[] = $fila;
-													}
-												}
-												if (count($array)>0){
-													$data["error"]="No se pudo cerrar el curso hay ".count($array)." estudiantes con nota menor a 3 y sin motivo no asistencia";
-													echo json_encode($data);
-													exit;
-												}
-												else{
-													$rs=null;
-													   $conexion->getPDO()->query("SET NAMES 'utf8'");
-													   $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
-															if (!$rs = $conexion->getPDO()->query($sql)) {
-																$data["error"]="Error al cerrar la matricula";
-															}
+	    
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCERRARMATRICULA($idPreprogramacion,$IdUsuario);";
+            if (!$rs = $conexion->getPDO()->query($sql)) {
+                $data["error"]="Error al cerrar la matricula";
+            }
 
-													   $rs=null;
-													   $conexion->getPDO()->query("SET NAMES 'utf8'");
-													   $sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
-															if (!$rs = $conexion->getPDO()->query($sql)) {
-																$data["error"]="No se pudo cerrar el curso";
-																print_r($conexion->getPDO()->errorInfo()); die();
-															}
-												}
-											}
-											else{
-												$data["error"]="No se pudo cerrar el curso no se consultaron notas y motivos no asistencias";
-											}
-										}
-									
-								}
-								else{
-									$data["error"]="No se pudo cerrar el curso no se consultaron las notas y las asistencias";
-								}
-							   
-							   
-            
-                    }else{ //validar conexion y consulta consultarnotasporsalon
-                        $data["error"]="No se encontraron las notas por salon";
-                        print_r($conexion->getPDO()->errorInfo()); die();
-                    }
-                
-                
-                }else{//validar conexion y consulta porcentajeAsistenciasporsalon
-                    $data["error"]="No se agrego el porcentaje de asistencia";
-                }
-                
-			//var_dump($data);
-			echo json_encode($data);
+        $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCERRARCURSO($idPreprogramacion,$IdUsuario);";
+            if (!$rs = $conexion->getPDO()->query($sql)) {
+                $data["error"]="No se pudo cerrar el curso";
+                print_r($conexion->getPDO()->errorInfo()); die();
+            }
+
+		//var_dump($data);
+		echo json_encode($data);
         
 	}
 	
