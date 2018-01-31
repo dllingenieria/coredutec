@@ -211,7 +211,6 @@ function obtenerGradoEscolaridad(){
         pIdMatricula:$("#cmbMatriculadoEnMatricula").val(),
         pIdCarga : $.cookie("pIdCarga")
     }, function(data) {
-
         if (data != 0) {
             $.cookie("id_mat", data);
             $.cookie("pEstadoMatricula",'Guardada');
