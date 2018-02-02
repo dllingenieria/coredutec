@@ -27,6 +27,7 @@ class clsUtilidades {
         $mail->Subject = "Preprogramacion Asignada";
         $mensaje = file_get_contents("../vista/html/correo_curso.html");
         $mensaje = str_replace("cod_mat", $cod_mat, $mensaje);
+        $mensaje = str_replace("usuario", $_SESSION['nombreUsuario'], $mensaje);
         $mail->Body    = $mensaje;
         $envio=-1;
         if(!$mail->Send())
