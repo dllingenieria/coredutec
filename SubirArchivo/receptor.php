@@ -71,7 +71,7 @@ $cedula=$cedula1[0];
 					
 				}
 		}
-		else if($tipoNovedad == 299)
+		else if($tipoNovedad == 358)
 		{
 			//jornada de la convocatoria
 			$descripcion = $_GET['descripcion'];

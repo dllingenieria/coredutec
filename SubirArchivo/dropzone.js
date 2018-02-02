@@ -265,7 +265,7 @@
 			{	
 				
 				//convocatoria
-				if(accion == 299){
+				if(accion == 358){
 					if (nombre_archivo == nombreCortoConvocatoria)
 						{
 							

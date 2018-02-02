@@ -13,30 +13,8 @@ archivosUrl= new Array();
 
 	cargarJornadas();
 
-    //configuracion del calendario
-	/* $.datepicker.regional['es'] = {
-        currentText: 'Hoy',
-        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-        weekHeader: 'Sm',
-        dateFormat: 'yy-mm-dd',
-        firstDay: 1,
-        isRTL: false,
-        showMonthAfterYear: false,
-        yearSuffix: '',
-		
-    };*/
-
-
-   // $.datepicker.setDefaults($.datepicker.regional['es']);
+	calendarioEspanol();
 	
-	
-	
-	//$("#txtFechaI").datepicker();
-	//$("#txtFechaF").datepicker();
 
 	//$(".campos").on('change' , $('#cmbTipoDeSoporte') , function(){
 	//$('#cmbTipoDeSoporte').unbind('change').bind('change', function (e){
@@ -77,9 +55,9 @@ archivosUrl= new Array();
 				// $("#derecha1").show();
             }
 			//convocatoria
-			else if($('#cmbTipoDeSoporte').val()==299)
+			else if($('#cmbTipoDeSoporte').val()==358)
 			{
-                accion=299;
+                accion=358;
 				tipoSoporte=$('#cmbTipoDeSoporte').val()
 				$("#derecha1").hide();
 				$('#divBusquedaCedula').hide();
@@ -249,6 +227,34 @@ archivosUrl= new Array();
 		}
 		
 	});
+
+
+
+
+	function calendarioEspanol() {
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '<Ant',
+        nextText: 'Sig>',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'MiÃ©rcoles', 'Jueves', 'Viernes', 'SÃ¡bado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'MiÃ©', 'Juv', 'Vie', 'SÃ¡b'],
+        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'SÃ¡'],
+        weekHeader: 'Sm',
+        dateFormat: 'yy-mm-dd',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+    $(function() {
+        	$("#txtFechaI").datepicker();
+			$("#txtFechaF").datepicker();
+    });
+}
 	
 	function cargarInformacionEnTabla(data){
 		
@@ -526,22 +532,20 @@ function cargarJornadas() {
 			oper: 'CargarJornadasConvocatorias'
 		}, function(data) {
 			if (data !== 0) {
-				
 				FormarOptionValueJornadas(data);
-				
-				
 			}else {
 				PopUpError('No se cargo la descripción convocatoria');
 			}}, "json");
 	}
  
 function FormarOptionValueJornadas(pJornadas) {
+
     $('#cmbDescripcion').find('option').remove();
-    SetParametroCursoPorDefecto("#cmbDescripcion", '', 'Seleccione...');
+    SetParametroCursoPorDefecto("#SetParametroCursoPorDefecto", '', 'Seleccione...');
     for (i = 0; i < pJornadas.length; i++) {
         $('#cmbDescripcion').append($('<option>', { 
             value: pJornadas[i].Id,
-            text: pJornadas[i].Descripcion
+            text: pJornadas[i].Observaciones
         }));
     }
 }
