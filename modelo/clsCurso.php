@@ -871,7 +871,7 @@ public function cerrarCursoMatriculaTercero($param){
                                  $data["error"]="No se consultaron los correos";
                                  print_r($conexion->getPDO()->errorInfo()); die();
                                 }
-                                //----- Fin envío correos a estudiantes -----//
+                                //------ Fin envío correos a estudiantes ------//
 							}
 							else{
 								$data["error"] = "No se agregaron los estudiantes";
