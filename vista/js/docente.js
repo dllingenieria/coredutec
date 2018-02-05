@@ -3,6 +3,7 @@ $(function(){
 	$("#formatoAsistencias").css("display","none");
 	$("#formatoNotas").css("display","none");
 	$("#planeacion").css("display","none");
+	$("#refrigerios").hide();
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#descargar").hide();
@@ -15,18 +16,6 @@ $(function(){
 		obtenerIdTerceroModulos();
 		
 	});
-	
-	// $("#btnConsularSalon").click(function(){ 
-		// var salon = $("#txtSalon").val();
-		// if (salon == ""){
-		// PopUpError("Por favor ingrese un Salón");	
-		// }
-		// else{
-			// obtenerIdTerceroModulos(salon);
-		// }
-	// });
-	
-	
 	
 	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
@@ -49,6 +38,7 @@ $(function(){
 					$("#formatoAsistencias").css("display","");
 					$("#formatoNotas").css("display","");
 					$("#planeacion").css("display","");
+					$("#refrigerios").css("display","");
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
@@ -220,6 +210,7 @@ $(function(){
 					$("#formatoAsistencias").hide();
 					$("#formatoNotas").hide();
 					$("#planeacion").hide();
+					$("#refrigerios").hide();
 					$("#regresar").show();
 				//})
 			}
@@ -243,6 +234,7 @@ $(function(){
 					$("#formatoAsistencias").hide();
 					$("#formatoNotas").hide();
 					$("#planeacion").hide();
+					$("#refrigerios").hide();
 					$("#regresar").show();	
 					$(".filtro").hide();		
 

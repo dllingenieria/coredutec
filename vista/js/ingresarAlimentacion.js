@@ -65,7 +65,41 @@ $(function() {
 		$("#txtDocente").html(sessionStorage.Docente);
 		$("#txtRuta").html(sessionStorage.Ruta);
 		$("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
-		//alert(sessionStorage.IdPreprogramacion);
+		
+		$.ajax({
+	        url: '../../controlador/fachada.php',
+	        type: 'POST',
+	        dataType: 'json',
+	        async :false,
+	        data: {
+	            clase: 'clsUtilidades',
+	            oper: 'consultarCantidadAsistentesPorSalon',
+	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+	            }
+	    }).done(function(data) {
+	        if(data[0].cantidadAsistentes !== null){
+        		$("#asistentes").html(data[0].cantidadAsistentes);
+	        }
+	        
+	    });
+        
+        $.ajax({
+	        url: '../../controlador/fachada.php',
+	        type: 'POST',
+	        dataType: 'json',
+	        async :false,
+	        data: {
+	            clase: 'clsUtilidades',
+	            oper: 'consultarNotaParcialPorSalon',
+	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+	            }
+	    }).done(function(data) {
+	        if(data[0].pEstudiantesGanando !== null){
+        		$("#aprobados").html(data[0].pEstudiantesGanando);
+	        }
+	        
+	    });
+
         $.post("../../controlador/fachada.php", {
             clase: 'clsParticipante',
             oper: 'consultarEstudiantesPorSalon',
@@ -302,12 +336,12 @@ $(function() {
 			
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
-				if( valor != "NA" && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 'RB'){
+				if( valor != "NA" && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 328){
 					
 					valido=false;
 					
 				}
-				else if (valor != "NA" && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 'RR-RB' ) {
+				else if (valor != "NA" && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 330 ) {
 					valido=false;
 				}
 			}

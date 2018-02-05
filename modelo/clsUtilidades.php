@@ -36,5 +36,42 @@ class clsUtilidades {
         }
         return  $envio;  
    }
+
+   //----- Función para recuperar la cantidad de estudiantes con asistencia en un módulo, se usa para los encabezados -----//
+   public function consultarCantidadAsistentesPorSalon($param) {
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARCANTIDADASISTENTESPORSALON($IdPreprogramacion);";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    //----- Función para calcular la nota parcial de los estudiantes en un módulo, se usa para los encabezados -----//
+   public function consultarNotaParcialPorSalon($param) {
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCALCULARNOTAPARCIALPORSALON($IdPreprogramacion);";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
 }
 ?>

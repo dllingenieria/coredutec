@@ -56,7 +56,41 @@ $(function() {
 		$("#txtDocente").html(sessionStorage.Docente);
 		$("#txtRuta").html(sessionStorage.Ruta);
 		$("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
-		//alert(sessionStorage.IdPreprogramacion);
+
+	    $.ajax({
+	        url: '../../controlador/fachada.php',
+	        type: 'POST',
+	        dataType: 'json',
+	        async :false,
+	        data: {
+	            clase: 'clsUtilidades',
+	            oper: 'consultarCantidadAsistentesPorSalon',
+	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+	            }
+	    }).done(function(data) {
+	        if(data[0].cantidadAsistentes !== null){
+        		$("#asistentes").html(data[0].cantidadAsistentes);
+	        }
+	        
+	    });
+        
+        $.ajax({
+	        url: '../../controlador/fachada.php',
+	        type: 'POST',
+	        dataType: 'json',
+	        async :false,
+	        data: {
+	            clase: 'clsUtilidades',
+	            oper: 'consultarNotaParcialPorSalon',
+	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+	            }
+	    }).done(function(data) {
+	        if(data[0].pEstudiantesGanando !== null){
+        		$("#aprobados").html(data[0].pEstudiantesGanando);
+	        }
+	        
+	    });
+
         $.post("../../controlador/fachada.php", {
             clase: 'clsParticipante',
             oper: 'consultarEstudiantesPorSalon',
@@ -79,7 +113,7 @@ $(function() {
                         
                         for (var j = 0; j < columnas.length-8; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
 							
-							array.push('<input type="text" size="5" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
+							array.push('<input type="text" size="5" maxlength="1" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
                             // if(j < ultimaSesion){
                                 // if(data[i] !== null){ //alert([data[i].IdTercero]);
                                     // sesionHoras = horas[j][data[i].IdTercero]; 
@@ -323,7 +357,6 @@ $(function() {
 						//alert("dias clase "+diasClase);
 						var cont = 1;
 						
-						console.log("xxx"+sessionStorage.cantidadSesiones);
 						//while por cantidad de sesion preprogramción
 						if(sessionStorage.cantidadSesiones>0){
 							while( cont <= sessionStorage.cantidadSesiones){						
@@ -888,6 +921,7 @@ function consultarUltimaSesionPorSalon(idSalon){
         if(data[0].ultimaSesion === null){
             ultimaSesion = 0;
         }else{
+        	//console.log(data[0].ultimaSesion);
             ultimaSesion = data[0].ultimaSesion;
         }
         
