@@ -14,6 +14,8 @@ $(function() {
 		
     }
 	
+   	cargarTipoAlimentacion();
+
 	var ultimaSesion = 0;
     var horas = new Array();
 	var horasTotales = new Array();
@@ -35,18 +37,25 @@ $(function() {
 	alimentacionGeneral = new Array(); 
 	
 	
-	// CargarMotivosNoalimentacion();
     consultarUltimaSesionPorSalon(sessionStorage.IdPreprogramacion);
-    //consultaralimentacionPorSalon();
-	//cargarHorasTotales();
     agregarFechasTabla();
 	
 	alimentacionDetalle =false;
-	// alimentacionObservacion=true;
-	// alimentacionMotivo=true;
+		
 	
-	
-	
+	function cargarTipoAlimentacion() {  
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsAlimentacion',
+	        oper: 'cargarTipoAlimentacion'
+	    }, function(data) {
+	        if (data !== 0) {
+	            opcionesAlimentacion=data;
+	        }
+	        else {
+	            alert('error Cargar los tipos de alimentacion');
+	        }
+	    }, "json");
+	}
 	
     
     function recuperarDatos() { 
@@ -120,21 +129,14 @@ $(function() {
                         array.push(data[i].Telefono);
 						idTerceroHorasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las horas totales 
                         
-                        for (var j = 0; j < columnas.length-4; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
-							
-							array.push('<input type="text" size="5" value="NA" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
-                            
-                                
+                        for (var j = 0; j < columnas.length; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
+							array.push('<select id="selInalimentacion_'+data[i].IdTercero+'" class="alimentacion"></select>');
                         }
-						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="alimentacionInput" data-sesion="'+data[i].IdTercero+'" data-alimentacion="'+i+'" name="row-1-position" id="columna_'+j+'">');   
-                        // array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');
-						// array.push('<select id="selInalimentacion_'+data[i].IdTercero+'" class="motivo"></select>'); 
-						// array.push('<input type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly>');
+
                         dataSet.push(array);
                     }
                     cargarInformacionEnTabla(dataSet);
-					
-					
+					//llenarSelects();
 									
 					//codigo para poner el evento onfocus a las cajas de texto para que solo envia los datos que tuvieron foco
 					$( ".alimentacionInput" ).focus(function() { 
@@ -144,7 +146,9 @@ $(function() {
 									
 					
 					//llamar a llenar cajas de texto
-					 llenarCajasTexto();   
+					 llenarCajasTexto();
+					 formarOptionValue(opcionesAlimentacion, "alimentacion");
+  
 					
 					jsRemoveWindowLoad();
 					
@@ -181,8 +185,51 @@ $(function() {
 		
     }
 	
+    function llenarSelects(){ 
 
-	
+		$.each(idTerceroHorasTotales, function() {
+		$.ajax({
+	            url: '../../controlador/fachada.php',
+	            type: 'POST',
+	            dataType: 'json',
+	            async : false,
+	            data: {
+	                clase: 'clsAsistencia',
+	                oper : 'consultarMotivosNoAsistenciaPorTercero',//validar alimentación por tercero
+	                idPreprogramacion: sessionStorage.IdPreprogramacion,
+	                idTerceroHorasTotales: this
+	            }
+	        }).done(function(data) { //console.log(data);
+	            if(data !== null){
+					
+					//se recorre data con todos los valores
+					 for (var i = 0; i < data.length; i++) {
+						 
+						//recorre los todos los textarea
+						$("[id^=selInasistencia_]").each(function(e){
+							idSelM= $(this).attr( "id" );
+							
+							var res = idSelM.split("_");
+							var idTerceroSelM = res[1];
+							
+							//se valida que ese select tenga ese tercero para poner el valor
+							if(idTerceroSelM == data[i].IdTercero){  
+								// $( this ).val( data[i].Motivo );
+								
+								$("#"+idSelM+" option[value="+ data[i].Motivo +"]").attr("selected",true);
+								//$(  this ).val( data[i].Motivo ) tambien funciona
+							}
+						});
+					 }
+	            }
+				// else{
+	                // alert("No se encontraron datos para mostrar");
+	            // }
+	        
+	        });  
+		});
+	}
+
 	function ponerFoco(cajaTexto){ 
 		var id = cajaTexto.id;  
 		//se agrega atributo para saber si ese campo es para guardar o editar
@@ -194,113 +241,123 @@ $(function() {
     function agregarFechasTabla(){ 
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
-		
-        $.post("../../controlador/fachada.php", {
-            clase: 'clsProgramacion',
-            oper: 'consultarCalendarioPreprogramacion',
-            idPreprogramacion: sessionStorage.IdPreprogramacion
-        }, function(data) {
-            if (data !== 0) {
-                if(data !== null){
-                    var diasClase=[];
-					var nombreDia = data[0].Nombre;
-					//eliminar espacios al principio y al final del nombre
-					nombreDia = $.trim( nombreDia ); 
-					
-                    if (nombreDia === "Lunes a Viernes") {
-                        diasClase = new Array("lunes","martes","miercoles","jueves","viernes");
-                    }else if (nombreDia === "Lunes a Sábado") {
-                        diasClase = new Array("lunes","martes","miercoles","jueves","viernes","sabado");
-                    }else if (nombreDia === "Lunes a Miércoles") {
-                        diasClase = new Array("lunes","martes","miercoles");
-                    }else if (nombreDia === "Jueves a Sábados") {
-                        diasClase = new Array("jueves","viernes","sabado");
-                    }else if (nombreDia === "Martes y Miércoles") {//--
-                        diasClase = new Array("martes","miercoles");
-                    }else if (nombreDia === "Martes a Sábado") {
-                        diasClase = new Array("martes","miercoles","jueves","viernes","sabado");
-                    }else if (nombreDia === "Sábado") {
-                        diasClase = new Array("sabado"); //agregado
-                    }else if (nombreDia === "Jueves a Martes") {
-                        diasClase = new Array("jueves","viernes","sabado","lunes","martes"); //agregado
-                    }else if (nombreDia === "Lunes a Jueves") {
-                        diasClase = new Array("lunes","martes","miercoles","jueves"); //agregado
-                    }else if (nombreDia === "Lunes, Viernes y Sábado") {
-                        diasClase = new Array("lunes","viernes","sabado"); //agregado
-                    }else if (nombreDia === "Martes a Viernes") {
-                        diasClase = new Array("martes","miercoles","jueves","viernes"); //agregado
-                    }else if (nombreDia === "Martes y Jueves") {
-                        diasClase = new Array("martes","miercoles","jueves"); //agregado
-                    }else if (nombreDia === "Domingo") {
-                        diasClase = new Array("domingo"); //agregado
-                    }else if (nombreDia === "Jueves") {
-                        diasClase = new Array("jueves"); //agregado
-                    }else if (nombreDia === "Jueves y Viernes") {
-                        diasClase = new Array("jueves","viernes"); //agregado
-                    }else if (nombreDia === "Lunes y Martes") {
-                        diasClase = new Array("lunes","martes"); //agregado
-                    }else if (nombreDia === "Lunes, Martes, Jueves y Viernes") {
-                        diasClase = new Array("lunes","martes","jueves","viernes"); //agregado
-                    }else if (nombreDia === "Viernes y Sábado") {
-                        diasClase = new Array("viernes","sabado"); //agregado
-                    }else if (nombreDia === "Lunes, Miércoles y Viernes") {
-                        diasClase = new Array("lunes","miercoles","viernes"); //agregado
-                    }else if (nombreDia === "Lunes y miércoles") {
-                        diasClase = new Array("lunes","miercoles"); //agregado
-                    }else if (nombreDia === "Lunes y viernes") {
-                        diasClase = new Array("lunes","viernes"); //agregado
-                    }else if (nombreDia === "Lunes martes y jueves") {
-                        diasClase = new Array("lunes","martes","jueves"); //agregado
-                    }else if (nombreDia === "Lunes") { 
-                        diasClase = new Array("lunes"); //agregado
-                    }else if (nombreDia === "Martes") {
-                        diasClase = new Array("martes"); //agregado
-                    }else if (nombreDia === "Miércoles a sábado") {
-                        diasClase = new Array("miercoles","jueves","viernes","sabado"); //agregado
-                    }else if (nombreDia === "Miércoles a viernes") {
-                        diasClase = new Array("miercoles","jueves","viernes"); //agregado
-                    }else if (nombreDia === "Miércoles y jueves") {
-                        diasClase = new Array("miercoles","jueves"); //agregado
-                    }else if (nombreDia === "Miércoles y viernes") {
-                        diasClase = new Array("miercoles","viernes"); //agregado
-                    }else if (nombreDia === "Miércoles") {
-                        diasClase = new Array("miercoles"); //agregado
-                    }else if (nombreDia === "Viernes") {
-                        diasClase = new Array("viernes"); //agregado
-                    }
-                    
-                    var fi = data[0].FechaInicial;
-                    fi = fi.split('-');
-                    fi = new Date(fi[0],fi[1]-1,fi[2]);
-                    
-                    var ff = data[0].FechaFinal;
-                    ff = ff.split('-');
-                    ff = new Date(ff[0],ff[1]-1,ff[2]);
-                    
-                    var days = ["domingo","lunes","martes","miercoles","jueves","viernes","sabado"];
-                  
-					//alert("dias clase "+diasClase);
 					var cont = 1;
-					
-					
-					//while para fechas y sesion
-					while(fi <= ff){
-                        day = days[fi.getDay()]; 
-						
-                        if(diasClase.indexOf(day) != -1){ //alert(day);
-							
+
+					//while para  sesion
+					while( cont <= sessionStorage.cantidadSesiones){						
                            //columna sesion
 						columnas.push({"title":"Sesión "+cont});
-						sesionA.push(cont); 
-							
-							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
-							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
-							//alert(fechaA);
-							cont++;
-                        }
-                        fi = new Date(fi.setTime((fi.getTime() + 86400000)));
-							
+						sesionA.push(cont);
+						cont++;
                     }
+
+					//Devuelve las fechas para la asistencia general
+					$.post("../../controlador/fachada.php", {
+		            clase: 'clsProgramacion',
+		            oper: 'consultarCalendarioPreprogramacion',
+		            idPreprogramacion: sessionStorage.IdPreprogramacion
+		        	}, function(data) {
+					if (data !== 0) {
+                	if(data !== null){
+	                    var diasClase=[];
+						var nombreDia = data[0].Nombre;
+						//eliminar espacios al principio y al final del nombre
+						nombreDia = $.trim( nombreDia ); 
+						
+	                    if (nombreDia === "Lunes a Viernes") {
+	                        diasClase = new Array("lunes","martes","miercoles","jueves","viernes");
+	                    }else if (nombreDia === "Lunes a Sábado") {
+	                        diasClase = new Array("lunes","martes","miercoles","jueves","viernes","sabado");
+	                    }else if (nombreDia === "Lunes a Miércoles") {
+	                        diasClase = new Array("lunes","martes","miercoles");
+	                    }else if (nombreDia === "Jueves a Sábados") {
+	                        diasClase = new Array("jueves","viernes","sabado");
+	                    }else if (nombreDia === "Martes y Miércoles") {//--
+	                        diasClase = new Array("martes","miercoles");
+	                    }else if (nombreDia === "Martes a Sábado") {
+	                        diasClase = new Array("martes","miercoles","jueves","viernes","sabado");
+	                    }else if (nombreDia === "Sábado") {
+	                        diasClase = new Array("sabado"); //agregado
+	                    }else if (nombreDia === "Jueves a Martes") {
+	                        diasClase = new Array("jueves","viernes","sabado","lunes","martes"); //agregado
+	                    }else if (nombreDia === "Lunes a Jueves") {
+	                        diasClase = new Array("lunes","martes","miercoles","jueves"); //agregado
+	                    }else if (nombreDia === "Lunes, Viernes y Sábado") {
+	                        diasClase = new Array("lunes","viernes","sabado"); //agregado
+	                    }else if (nombreDia === "Martes a Viernes") {
+	                        diasClase = new Array("martes","miercoles","jueves","viernes"); //agregado
+	                    }else if (nombreDia === "Martes y Jueves") {
+	                        diasClase = new Array("martes","miercoles","jueves"); //agregado
+	                    }else if (nombreDia === "Domingo") {
+	                        diasClase = new Array("domingo"); //agregado
+	                    }else if (nombreDia === "Jueves") {
+	                        diasClase = new Array("jueves"); //agregado
+	                    }else if (nombreDia === "Jueves y Viernes") {
+	                        diasClase = new Array("jueves","viernes"); //agregado
+	                    }else if (nombreDia === "Lunes y Martes") {
+	                        diasClase = new Array("lunes","martes"); //agregado
+	                    }else if (nombreDia === "Lunes, Martes, Jueves y Viernes") {
+	                        diasClase = new Array("lunes","martes","jueves","viernes"); //agregado
+	                    }else if (nombreDia === "Viernes y Sábado") {
+	                        diasClase = new Array("viernes","sabado"); //agregado
+	                    }else if (nombreDia === "Lunes, Miércoles y Viernes") {
+	                        diasClase = new Array("lunes","miercoles","viernes"); //agregado
+	                    }else if (nombreDia === "Lunes y miércoles") {
+	                        diasClase = new Array("lunes","miercoles"); //agregado
+	                    }else if (nombreDia === "Lunes y viernes") {
+	                        diasClase = new Array("lunes","viernes"); //agregado
+	                    }else if (nombreDia === "Lunes martes y jueves") {
+	                        diasClase = new Array("lunes","martes","jueves"); //agregado
+	                    }else if (nombreDia === "Lunes") { 
+	                        diasClase = new Array("lunes"); //agregado
+	                    }else if (nombreDia === "Martes") {
+	                        diasClase = new Array("martes"); //agregado
+	                    }else if (nombreDia === "Miércoles a sábado") {
+	                        diasClase = new Array("miercoles","jueves","viernes","sabado"); //agregado
+	                    }else if (nombreDia === "Miércoles a viernes") {
+	                        diasClase = new Array("miercoles","jueves","viernes"); //agregado
+	                    }else if (nombreDia === "Miércoles y jueves") {
+	                        diasClase = new Array("miercoles","jueves"); //agregado
+	                    }else if (nombreDia === "Miércoles y viernes") {
+	                        diasClase = new Array("miercoles","viernes"); //agregado
+	                    }else if (nombreDia === "Miércoles") {
+	                        diasClase = new Array("miercoles"); //agregado
+	                    }else if (nombreDia === "Viernes") {
+	                        diasClase = new Array("viernes"); //agregado
+	                    }
+	                    
+	                    var fi = data[0].FechaInicial;
+	                    fi = fi.split('-');
+	                    fi = new Date(fi[0],fi[1]-1,fi[2]);
+	                    
+	                    var ff = data[0].FechaFinal;
+	                    ff = ff.split('-');
+	                    ff = new Date(ff[0],ff[1]-1,ff[2]);
+	                    
+	                    var days = ["domingo","lunes","martes","miercoles","jueves","viernes","sabado"];
+	                  
+						//alert("dias clase "+diasClase);
+						var cont = 1;
+										
+						//while para fechas y sesion
+						while(fi <= ff){
+	                        day = days[fi.getDay()]; 
+							
+	                        if(diasClase.indexOf(day) != -1){ //alert(day);
+								
+	                           //columna sesion+
+								columnas.push({"title":"Sesión "+cont});
+								sesionA.push(cont); 
+								
+								//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
+								fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
+								//alert(fechaA);
+								cont++;
+	                        }
+	                        
+	                        fi = new Date(fi.setTime((fi.getTime() + 86400000)));
+								
+	                    }
 					
 					recuperarDatos();
 					
@@ -309,6 +366,8 @@ $(function() {
                 }else{alert("error 1");}             
             }else {alert("error 2");}
         }, "json");
+					
+
     }
 
     $("#guardarAlimentacion").click(function(){ 
@@ -327,21 +386,22 @@ $(function() {
         // window.location.href = "filtroReportealimentacion.html";
     // });
 
-    function validarInformacion(){
+ 
+ function validarInformacion(){
         var valido=true;
-        $(".alimentacionInput").each(function(e){
+        $(".alimentacion").each(function(e){
 			id=$( this ).attr( "id" ); 
 			var res = id.split("_");
 			var valor = $("#"+id).val(); 
 			
 			// if (res[1]!= "undefined" && res[2]!= "undefined"){
 			if (res[1]!= "undefined"){
-				if( valor != "NA" && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 328){
+				if( valor != "NA" && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 'RB'){
 					
 					valido=false;
 					
 				}
-				else if (valor != "NA" && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 330 ) {
+				else if (valor != "NA" && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 'RR-RB' ) {
 					valido=false;
 				}
 			}
@@ -353,53 +413,53 @@ $(function() {
     }
 
     function agregarAlimentacioGeneral(){ 
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
-	// $('#cargando').css("display","");
-	// $('#cargando').html('<div><img src="../images/carga.gif"/></div>');
-	
-	// var alimentacion = new Array(); 
-	var cont=0;
-	//se recorren las cajas de texto que no esten vacias para guardar los datos
-	$("input[id^=txtA_]").each(function(){    
-		
-			var idCaja = $( this ).attr( "id" ); //alert(idCaja);
-			var idCajasub = idCaja.substring(5, 14); //("#txtA_undefined_undefined_"+idTerceroHorasTotales[i])
-			//alert(idCajasub);
+			var mensaje="Procesando la información<br>Espere por favor";
+			jsShowWindowLoad(mensaje);
+			// $('#cargando').css("display","");
+			// $('#cargando').html('<div><img src="../images/carga.gif"/></div>');
 			
-			if ($( this ).val() !=  '' && idCajasub != "undefined" ){ //alert("no vacias");
-			//if ($( this ).val() !=  ''){ 
-				id = $(this).attr("id");
+			// var alimentacion = new Array(); 
+			var cont=0;
+			//se recorren las cajas de texto que no esten vacias para guardar los datos
+			$("input[id^=txtA_]").each(function(){    
 				
-				var res = id.split("_");
-				 
-				var noEsta= true;
-				//recorrer el array alimentacion para saber si la sesion ya esta
-				$.each( alimentacion, function() {
-					//alert(this['sesion']);
-					if( this['sesion'] == res[1]){
-						noEsta= false;
-					}
-				
-				});
-				//alert(noEsta);
-				
-				if (noEsta){ 
-					//llenar un array con preprogramacion, sesion, fecha
-					alimentacion[cont] = {};
-					alimentacion[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
-					alimentacion[cont]['sesion']=res[1]; 
-					alimentacion[cont]['fecha']=res[2];		
-					alimentacion[cont]['idTercero']=res[3];		
-					alimentacion[cont]['idCaja']=idCaja;
+					var idCaja = $( this ).attr( "id" ); //alert(idCaja);
+					var idCajasub = idCaja.substring(5, 14); //("#txtA_undefined_undefined_"+idTerceroHorasTotales[i])
+					//alert(idCajasub);
 					
-					alimentacionGeneral[cont] = {};
-					alimentacionGeneral[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
-					alimentacionGeneral[cont]['sesion']=res[1]; 
-					alimentacionGeneral[cont]['fecha']=res[2];
-				cont++;
-				}
-			}
+					if ($( this ).val() !=  '' && idCajasub != "undefined" ){ //alert("no vacias");
+					//if ($( this ).val() !=  ''){ 
+						id = $(this).attr("id");
+						
+						var res = id.split("_");
+						 
+						var noEsta= true;
+						//recorrer el array alimentacion para saber si la sesion ya esta
+						$.each( alimentacion, function() {
+							//alert(this['sesion']);
+							if( this['sesion'] == res[1]){
+								noEsta= false;
+							}
+						
+						});
+						//alert(noEsta);
+						
+						if (noEsta){ 
+							//llenar un array con preprogramacion, sesion, fecha
+							alimentacion[cont] = {};
+							alimentacion[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
+							alimentacion[cont]['sesion']=res[1]; 
+							alimentacion[cont]['fecha']=res[2];		
+							alimentacion[cont]['idTercero']=res[3];		
+							alimentacion[cont]['idCaja']=idCaja;
+							
+							alimentacionGeneral[cont] = {};
+							alimentacionGeneral[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
+							alimentacionGeneral[cont]['sesion']=res[1]; 
+							alimentacionGeneral[cont]['fecha']=res[2];
+						cont++;
+						}
+					}
 				
     }); 
 	
@@ -728,9 +788,14 @@ function mostrarPopUpError(err_men) {
     });
 }
 
-
-
-
-
-
-
+function formarOptionValue(lista, clase) { //selInasistencia_
+   $('.'+clase).find('option').remove();
+   // SetParametroCursoPorDefecto("."+clase, '0', 'Seleccione...');
+   $('.'+clase).append($("<option value='0'>NA</option>"));
+   for (i = 0; i < lista.length; i++) { 
+    $('.'+clase).append($('<option>', {
+        value: lista[i].Id,
+        text: lista[i].Nombre
+    }));
+}
+}
