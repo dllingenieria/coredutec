@@ -9,55 +9,6 @@ ini_set('display_startup_errors', TRUE);
 
 class clsAlimentacion {
 
-    // public function consultarEstudiantesAsistieronConvocatoria($param) {
-        // extract($param);
-        // $conexion->getPDO()->query("SET NAMES 'utf8'");
-        // $sql = "CALL SPCONSULTARESTUADIANTESASISTIERONCONVOCATORIA($jornada, $ruta, '$fecha', $usuario);";
-        // if ($rs = $conexion->getPDO()->query($sql)) {
-            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                // foreach ($filas as $fila) {
-                    // $array[] = $fila;
-                // }
-            // }
-        // } else {
-            // $array = 0;
-        // }
-        // echo json_encode($array);
-    // }
-
-    // public function consultarUsuariosRegistraronAsistencia($param) {
-        // extract($param);
-        // $conexion->getPDO()->query("SET NAMES 'utf8'");
-        // $sql = "CALL SPCONSULTARUSUARIOSREGISTRARONASISTENCIA($jornada, $ruta, '$fecha');";
-        // if ($rs = $conexion->getPDO()->query($sql)) {
-            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                // foreach ($filas as $fila) {
-                    // $array[] = $fila;
-                // }
-            // }
-        // } else {
-            // $array = 0;
-        // }
-        // echo json_encode($array);
-    // }
-
-    // public function consultarAsistenciaPorSalon($param) {
-        // extract($param);
-        // $conexion->getPDO()->query("SET NAMES 'utf8'");
-        // $sql = "CALL SPCONSULTARASISTENCIAPORSALON($idSalon,$sesion);";
-        // //echo $sql; die();
-		// if ($rs = $conexion->getPDO()->query($sql)) {
-            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                // foreach ($filas as $fila) {
-                    // $array[$fila['IdTercero']] = $fila['HorasAsistidas'];
-                // }
-            // }
-        // } else {
-            // $array = 0;
-        // }
-        // echo json_encode($array);
-    // }
-
     public function consultarUltimaSesionPorSalon($param) {
         extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -240,6 +191,28 @@ class clsAlimentacion {
         echo json_encode($resultado);
     }
 
+
+    // Devuelve los tipos de alimentación para ser cargados en el combo//
+    public function cargarTipoAlimentacion($param) {
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+    //for ($i=0; $i<count($idTerceroHorasTotales);$i++){
+            $sql = "CALL SPCARGARTIPOREFRIGERIO();";
+            if ($rs = $conexion->getPDO()->query($sql)) {
+                if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                    foreach ($filas as $fila) {
+                        $array[] = $fila;
+                    }
+                    unset($rs);
+                }
+            } else {
+                $array = 0;
+                print_r($conexion->getPDO()->errorInfo()); die();
+            } //print_r($array);
+        //}
+        echo json_encode($array);
+    }
 
 }
 ?>
