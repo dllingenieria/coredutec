@@ -96,7 +96,7 @@ body {
 	color: #003E7E;
 	font-size: 17px;
 	/*background: #f7ea32;*/
-	padding-left: 0.6rem;
+	padding-left: -0.4rem;
 	padding-right: 0.6rem;
 	font-family: "Roboto-Bold";
 	border-radius: 3px 3px 3px 3px;
@@ -333,3 +333,7 @@ body {
 #txtFecha {
 	position: relative; z-index:99999999;
 	}
+
+#btnConsularReporte{
+	margin-top: 0.5rem;
+}

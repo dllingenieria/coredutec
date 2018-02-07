@@ -1,8 +1,6 @@
 $(function(){
-	// $("#formatoFirmas").css("display","none");
-	$("#btnAlimentacion").css("display","none");
+	// $("#btnAlimentacion").css("display","none");
 	$("#btnReporteAlimentacion").css("display","none");
-	// $("#planeacion").css("display","none");
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#descargar").hide();
@@ -46,7 +44,7 @@ $(function(){
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					// $("#formatoFirmas").css("display","");
-					$("#btnAlimentacion").css("display","");
+					// $("#btnAlimentacion").css("display","");
 					$("#btnReporteAlimentacion").css("display","");
 					// $("#planeacion").css("display","");
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
@@ -87,11 +85,10 @@ $(function(){
 			{ title: "Ruta" },
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
-			
-			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
+			{data: null, className: "center", defaultContent: '<a id="reporteAlimentacionPorSalon" class="reporteAlimentacionPorSalon" href="#" title="Edit">Refrigerios</a>'}
 			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
-			"paging":   false,
+			"paging":   true,
 			"info":     false,
 			"order": [[ 3, "desc" ]],
 			"scrollY": "300px",
@@ -151,20 +148,21 @@ $(function(){
 	}
 
 
-	$("#btnAlimentacion").click(function(){                           //agregado
-		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			window.location.href = "ingresarAlimentacion.html";
-		}else{
-			PopUpError("Por favor seleccione un módulo");
-		}
-	});
+	// $("#btnAlimentacion").click(function(){                           //agregado
+	// 	if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
+	// 		window.location.href = "ingresarAlimentacion.html";
+	// 	}else{
+	// 		PopUpError("Por favor seleccione un módulo");
+	// 	}
+	// });
 	
-	$("#btnReporteAlimentacion").click(function(){                           //agregado
-		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-			window.location.href = "reporteAlimentacion.html";
-		}else{
-			PopUpError("Por favor seleccione un módulo");
-		}
+	$("#btnReporteAlimentacion").click(function(){
+		window.location.href = "reporteAlimentacion.html";
+		// if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
+		// 	window.location.href = "reporteAlimentacion.html";
+		// }else{
+		// 	PopUpError("Por favor seleccione un módulo");
+		// }
 	});
 
 function cantidadSesiones(){
@@ -272,5 +270,72 @@ function jsShowWindowLoad(mensaje) {
 		   speed: 450,
 		   transition: 'slideDown'
 	   });
-}
+	}
+
+	//----- Carga el reporte en pantala alimentacion por salon -----//
+	$(document).on('click', '#reporteAlimentacionPorSalon', function() {
+			var data = table.row($(this).parents('tr')).data();
+			sessionStorage.id_tpar= data[0];
+			alert(data[0]);
+			if(data[0]!=""){
+				cargarReporteAlimentacionPorSalon(data[2]);
+				$("#formatoFirmas").hide();
+			}
+	});
+
+	function cargarReporteAlimentacionPorSalon(salon){
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsParticipante',
+			oper: 'consultarCargaEstudiantesPorSalonDocente',
+		    codigo_salon: salon
+		 }, function(data) {
+				if (data !== 0) {
+					if(data !== null){
+						    $('#spanTotal').show();
+	                        $('#numero_estudiantes').text(data.length);
+						   formatearReporteAlimentacionPorSalon(data);		        			
+					}else{alert("error 1");}             
+				}else {alert("error 2");}
+				jsRemoveWindowLoad();	
+		}, "json");                
+	}
+
+	function formatearReporteAlimentacionPorSalon(data){
+			$('.cuerpo').hide();
+			$(".cuerpoEstudiantes").show();
+	        table = $('#tablaasistentes').DataTable({
+				"data": data,
+				columns: [
+				{ title: "Idtercero" },
+				{ title: "Identificación" },
+				{ title: "Apellidos" },
+				{ title: "Nombres" },
+				{ title: "Telefono" },
+				{ title: "Telefono2" },
+				{ title: "CorreoElectronico" }
+				],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+				"columnDefs": [
+				{"targets": [ 0 ],"visible": false,"searchable": false}
+				],
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+	                "sProcessing":     "Procesando...",
+					"sSearch": "Filtrar:",
+	                "zeroRecords": "Ningún resultado encontrado",
+	                "infoEmpty": "No hay registros disponibles",
+	                "Search:": "Filtrar",
+					"sLoadingRecords": "Cargando..."	
+	            }	
+			});
+	}
 });

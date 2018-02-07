@@ -381,11 +381,7 @@ $(function() {
 							//cont++;
 	                        }
 	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));
-								
 	                    }
-
-		        
-
 						}else{
 						//while para fechas y sesion
 						while(fi <= ff){
@@ -402,30 +398,19 @@ $(function() {
 							//alert(fechaA);
 							cont++;
 	                        }
-	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));
-								
+	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));	
 	                    }
                    }
-
-
-
-                  
 	                    	columnas.push({'title':'Total Horas'});
 		                    columnas.push({'title':'Observaciones'});
 							columnas.push({'title':'Motivo no asistencia'});
 							columnas.push({'title':'Nota'});
-					
 					recuperarDatos();
-					
-					
-                    
                 }else{alert("error 1");}             
             }else {alert("error 2");}
         }, "json");
-					
-
     }
-
+    
     $("#guardarAsistencia").click(function(){ 
         if (!validarInformacion()) {
             mostrarPopUpError("Por favor llene todos los campos con valores de 0 a "+sessionStorage.IntensidadHorariaDiaria);

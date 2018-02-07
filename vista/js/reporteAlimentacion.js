@@ -28,7 +28,12 @@ $(function() {
 	
     var columnas = new Array(
         
-        { title: "Id" },
+        { title: "IdPreprogramacion" },
+        { title: "Salon" },
+        { title: "Curso" },
+        { title: "Modulo" },
+        { title: "Estado" },
+        { title: "IdTercero" },
         { title: "Estudiante" },
 		{ title: "Identificación" },
 		{ title: "Cantidad" },
@@ -36,25 +41,25 @@ $(function() {
 		
 	
 	$("#btnConsularReporte").click(function(){ 
-		var fecha = $("#txtFecha").val();
-		if (fecha == ""){
-		PopUpError("Por favor ingrese una Fecha");	
+		var fechai = $("#txtFechai").val();
+        var fechaf = $("#txtFechaf").val();
+		if (fechai == "" || fechaf == ""){
+		mostrarPopUpError("Por favor ingrese una fecha inicial y una fecha final ");	
 		}
 		else{
-			obtenerReporteAlimentacion(fecha);
+			obtenerReporteAlimentacion(fechai,fechaf);
 		}
 	});
 	
-    function obtenerReporteAlimentacion(fecha){
+    function obtenerReporteAlimentacion(fechai,fechaf){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsAlimentacion',
 			oper: 'consultarReporteAlimentacionPorPreprogramacion',
-			fecha: fecha,
-			IdPreprogramacion:sessionStorage.IdPreprogramacion
-			
+			fechai: fechai,
+			fechaf: fechaf			
 			}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
@@ -66,8 +71,8 @@ $(function() {
 					
 					$("#btnAModulos").show();
 					
-				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
-			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
+				}else{mostrarPopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
+			}else {mostrarPopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
 	};
 	
@@ -88,6 +93,7 @@ $(function() {
 			"bDestroy": true,
             "columnDefs": [{"className": "dt-left", "targets": "_all"}, //alinear texto a la izquierda
 			{"targets": [ 0 ],"visible": false,"searchable": false},
+            {"targets": [ 5 ],"visible": false,"searchable": false},
 			{ "width": "13%", "targets": 1 }//se le da ancho al td de estudiante
 			//{ "width": "8%", "targets": 8 }, //se le da ancho al td de total horas
 			//{ "width": "8%", "targets": 9 } //se le da ancho al td de observacion

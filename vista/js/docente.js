@@ -79,7 +79,8 @@ $(function(){
 			{ title: "cantidadSesiones" },
 			
 			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
-			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
+			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
+			{data: null, className: "center", defaultContent: '<a id="refrigerios-link" class="refrigerios-link" href="#" title="Edit">Refrigerios</a>'}
 			],
 			"paging":   true,
 			"info":     false,
@@ -243,6 +244,16 @@ $(function(){
 			}
 	});
 
+	//----- Carga el reporte en pantala alimentacion por salon -----//
+	$(document).on('click', '#reporteAlimentacionPorSalon', function() {
+			var data = table.row($(this).parents('tr')).data();
+			sessionStorage.id_tpar= data[0];
+			alert(data[0]);
+			if(data[0]!=""){
+				cargarReporteAlimentacionPorSalon(data[1]);
+				$("#formatoFirmas").hide();
+			}
+	});
 
 		//Evento que edita registro//
 	$(document).on('click', '#asistencias', function() {
@@ -333,15 +344,15 @@ function cargarReporteEstudiantesSalon(salon){
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
-					clase: 'clsParticipante',
-					oper: 'consultarCargaEstudiantesPorSalonDocente',
-				    codigo_salon: salon
+			clase: 'clsParticipante',
+			oper: 'consultarCargaEstudiantesPorSalonDocente',
+		    codigo_salon: salon
 		 }, function(data) {
 				if (data !== 0) {
 					if(data !== null){
-						    $('#spanTotal').show();
-                            $('#numero_estudiantes').text(data.length);
-						   formatearReporteEstudiantesSalon(data);		        			
+					    $('#spanTotal').show();
+                        $('#numero_estudiantes').text(data.length);
+					   formatearReporteEstudiantesSalon(data);		        			
 					}else{alert("error 1");}             
 				}else {alert("error 2");}
 				jsRemoveWindowLoad();	
@@ -386,6 +397,61 @@ function formatearReporteEstudiantesSalon(data){
 		});
 
 }
+
+	function cargarReporteAlimentacionPorSalon(params){
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsDocente',
+			oper: 'consultarReporteAlimentacionPorSalon',
+		    idpreprogramacion: params
+		 }, function(data) {
+				if (data !== 0) {
+					if(data !== null){
+						    $('#spanTotalR').show();
+	                        $('#numero_estudiantesR').text(data.length);
+						   formatearReporteAlimentacionPorSalon(data);		        			
+					}else{alert("error 1");}             
+				}else {alert("error 2");}
+				jsRemoveWindowLoad();	
+		}, "json");                
+	}
+
+	function formatearReporteAlimentacionPorSalon(data){
+			$('.cuerpo').hide();
+			$(".cuerpoEstudiantes").hide();
+			$(".cuerpoRefrigerios").show();
+	        table = $('#tablarefrigerios').DataTable({
+				"data": data,
+				columns: [
+				{ title: "Idtercero" },
+				{ title: "Estudiante" },
+				{ title: "NumeroIdentificacion" },
+				{ title: "Cantidad" },
+				{ title: "Refrigerio" }
+				],
+				"paging":   false,
+				"pageLength": 7,
+				"bLengthChange": false,
+				"bDestroy": true,
+				"info":     false,
+				"scrollY": "240px",
+				"scrollX": true,
+				"scrollCollapse": true,
+				"columnDefs": [
+				{"targets": [ 0 ],"visible": false,"searchable": false}
+				],
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+	                "sProcessing":     "Procesando...",
+					"sSearch": "Filtrar:",
+	                "zeroRecords": "Ningún resultado encontrado",
+	                "infoEmpty": "No hay registros disponibles",
+	                "Search:": "Filtrar",
+					"sLoadingRecords": "Cargando..."	
+	            }	
+			});
+	}
 
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla
