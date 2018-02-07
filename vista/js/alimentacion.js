@@ -26,8 +26,8 @@ $(function(){
 		// }
 	// });
 	
-	
-	
+
+
 	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
