@@ -158,7 +158,7 @@ class clsAlimentacion {
 				}
 			} else {
 				$array = 0;
-				print_r($conexion->getPDO()->errorInfo()); 
+				print_r($conexion->getPDO()->errorInfo());
 			} //print_r($array);
 			//print_r($array);
         echo json_encode($array);
@@ -170,7 +170,7 @@ class clsAlimentacion {
 		$resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($IdPreprogramacion,'$fecha');";
+        $sql = "CALL SPREPORTEALIMENTACIONGENERAL('$fechai','$fechaf');";
 		
 		$rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
