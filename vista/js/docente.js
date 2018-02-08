@@ -11,6 +11,7 @@ $(function(){
 	$("#descargar").hide();
 	var table;
 	var tabla;
+	var tableRefrigerio;
 	var seleccionado = false;
 	nombreArchivo = "";
 	obtenerIdTercero(function(idDocente){
@@ -18,6 +19,7 @@ $(function(){
 		obtenerIdTerceroModulos();
 		
 	});
+
 	
 	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
@@ -384,7 +386,7 @@ function formatearReporteEstudiantesSalon(data){
 			"scrollX": true,
 			"scrollCollapse": true,
 			"columnDefs": [
-			{"targets": [ 0 ],"visible": false,"searchable": false}
+				{"targets": [ 0 ],"visible": false,"searchable": false}
 			],
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
@@ -411,6 +413,7 @@ function formatearReporteEstudiantesSalon(data){
 					if(data !== null){
 					    $('#spanTotalR').show();
                         $('#numero_estudiantesR').text(data.length);
+                        console.log("data");
 					   formatearReporteAlimentacionPorSalon(data);		        			
 					}else{alert("error 1");}             
 				//}else {alert("error 2");}
@@ -422,35 +425,39 @@ function formatearReporteEstudiantesSalon(data){
 			$('.cuerpo').hide();
 			$(".cuerpoEstudiantes").hide();
 			$(".cuerpoRefrigerios").show();
-	        table = $('#tablarefrigerios').DataTable({
+			$("#regresarR").show();
+			if(typeof table !== "undefined"){
+	            table.destroy(); 
+	       	    $('#tablarefrigerios').empty();
+        	}
+
+	         table = $('#tablarefrigerios').DataTable({
 				"data": data,
 				columns: [
-				{ title: "Idtercero" },
-				{ title: "Estudiante" },
-				{ title: "NumeroIdentificacion" },
-				{ title: "Cantidad" },
-				{ title: "Refrigerio" }
+					{ title: "Idtercero" },
+					{ title: "Estudiante" },
+					{ title: "Número de Identificación" },
+					{ title: "Cantidad" },
+					{ title: "Rfrigerio" }
 				],
-				"paging":   false,
-				"pageLength": 7,
-				"bLengthChange": false,
-				"bDestroy": true,
+				"paging":   true,
 				"info":     false,
-				"scrollY": "240px",
+				"order": [[ 3, "desc" ]],
+				"scrollY": "300px",
 				"scrollX": true,
+				"bDestroy": true,
 				"scrollCollapse": true,
 				"columnDefs": [
-				{"targets": [ 0 ],"visible": false,"searchable": false}
+					{"targets": [ 0 ],"visible": false,"searchable": false}
 				],
 				"language": {
 					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
 	                "sProcessing":     "Procesando...",
 					"sSearch": "Filtrar:",
-	                "zeroRecords": "Ningún resultado encontrado",
-	                "infoEmpty": "No hay registros disponibles",
-	                "Search:": "Filtrar",
-					"sLoadingRecords": "Cargando..."	
-	            }	
+					"zeroRecords": "Ningún resultado encontrado",
+					"infoEmpty": "No hay registros disponibles",
+					"Search:": "Filtrar"
+				}
 			});
 	}
 

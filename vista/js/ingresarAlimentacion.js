@@ -418,12 +418,12 @@ $(function() {
 			var res = id.split("_");
 			var valor = $("#"+id).val();
 			if (res[1]!= "undefined"){
-				if( valor != 0 && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 328){
+				if( valor != 0 && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 328 && valor != 357){
 					
 					valido=false;
 					
 				}
-				else if (valor != 0 && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 330 ) {
+				else if (valor != 0 && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 330 && valor != 357 ) {
 					valido=false;
 				}
 			}

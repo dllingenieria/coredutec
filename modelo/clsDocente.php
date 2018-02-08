@@ -326,6 +326,29 @@ public function ConsultarPreprogramacionesActivas($param) {
    //----- Consulta los refrigerio por Salon -----//
     public function consultarReporteAlimentacionPorSalon($param) {
         extract($param);
+        $resultado = array();
+        $registro = array();
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($idpreprogramacion)";
+        $rs=null;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                        array_push($registro, $value);
+                    }
+                        array_push($resultado, $registro);
+                       $registro = array();
+                }
+            }
+        } else {
+            $registro = 0;
+        }
+        echo json_encode($resultado);
+
+
+
+       /* extract($param);
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($idpreprogramacion);";
@@ -338,8 +361,9 @@ public function ConsultarPreprogramacionesActivas($param) {
         } else {
             $array = 0;
         }
-        echo json_encode($array);
+        echo json_encode($array);*/
     }
 }
+
 
 ?>
