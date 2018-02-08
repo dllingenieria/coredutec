@@ -6,6 +6,8 @@ $(function(){
 	$("#refrigerios").hide();
 	$("#regresar").hide();
 	$('#spanTotal').hide();
+	$("#regresarR").hide();
+	$('#spanTotalR').hide();
 	$("#descargar").hide();
 	var table;
 	var tabla;
@@ -245,10 +247,9 @@ $(function(){
 	});
 
 	//----- Carga el reporte en pantala alimentacion por salon -----//
-	$(document).on('click', '#reporteAlimentacionPorSalon', function() {
+	$(document).on('click', '#refrigerios-link', function() {
 			var data = table.row($(this).parents('tr')).data();
 			sessionStorage.id_tpar= data[0];
-			alert(data[0]);
 			if(data[0]!=""){
 				cargarReporteAlimentacionPorSalon(data[1]);
 				$("#formatoFirmas").hide();
@@ -406,13 +407,13 @@ function formatearReporteEstudiantesSalon(data){
 			oper: 'consultarReporteAlimentacionPorSalon',
 		    idpreprogramacion: params
 		 }, function(data) {
-				if (data !== 0) {
+				//if (data !== 0) {
 					if(data !== null){
-						    $('#spanTotalR').show();
-	                        $('#numero_estudiantesR').text(data.length);
-						   formatearReporteAlimentacionPorSalon(data);		        			
+					    $('#spanTotalR').show();
+                        $('#numero_estudiantesR').text(data.length);
+					   formatearReporteAlimentacionPorSalon(data);		        			
 					}else{alert("error 1");}             
-				}else {alert("error 2");}
+				//}else {alert("error 2");}
 				jsRemoveWindowLoad();	
 		}, "json");                
 	}
