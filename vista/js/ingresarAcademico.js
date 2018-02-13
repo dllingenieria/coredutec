@@ -6,7 +6,7 @@ $(function() {
     }
 		
 	recuperarDatos();
-	consultarSeguimiento();
+	consultarSeguimientoGeneral();
 		
 	
     
@@ -31,32 +31,63 @@ $(function() {
 				
     }
 	
-	function consultarSeguimiento(){ 
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
-	
-		
-		$.post("../../controlador/fachada.php", {
-			clase: 'clsAcademico',
-			oper: 'consultarSeguimiento',
-			IdPreprogramacion: sessionStorage.IdPreprogramacion
-			
-		},
-		
-		function(data) {
-			
-			if (data !== 0) {
-				
-					 
-				jsRemoveWindowLoad();
-				$("#txtSeguimientoAsistencia").html(data.asistencia);
-				$("#txtSeguimientoNotas").html(data.notas);
-				$("#txtSeguimientoPlaneacion").html(data.planeacion);
-				
-						
-				            
-			}else {mostrarPopUpError("No se consultaron los seguimientos");}
-		}, "json");
+    $("#volverAcademico").click(function(){
+    	window.location.href = "academico.html";
+	});
+
+	function consultarSeguimientoGeneral(){ 
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		 $.ajax({
+	        url: '../../controlador/fachada.php',
+	        type: 'POST',
+	        dataType: 'json',
+	        async :false,
+	        data: {
+	            clase: 'clsAcademico',
+	            oper: 'consultarSeguimiento',
+	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+	            tipo: 1,
+	            }
+	    }).done(function(data) {
+	    	jsRemoveWindowLoad();
+
+	    	if (data!="" && data!=null){
+		    	asistencia= data[0].SAsistencia;
+		    	notas=data[0].SNotas;
+		    	planeacion= data[0].SPlaneacion;
+		    	general= data[0].SGeneral;        
+
+		        if(asistencia!="" && asistencia!=null){
+		        	$("#txtSeguimientoAsistencia").text(asistencia);
+		        }else{
+		        	$("#txtSeguimientoAsistencia").text("No se han registrado datos");
+		        }
+
+		        if(notas!="" && notas!=null){
+		        	$("#txtSeguimientoNotas").text(notas);
+		        }else{
+		        	$("#txtSeguimientoNotas").text("No se han registrado datos");
+		        }
+
+				if(planeacion!="" && planeacion!=null){
+		        	$("#txtSeguimientoPlaneacion").text(planeacion);
+		        }else{
+		        	$("#txtSeguimientoPlaneacion").text("No se han registrado datos");
+		        }
+
+
+		        if(general!=""){
+		        	$("#txtSeguimiento").val(general);
+		        }
+
+	    	}else{
+	    		$("#txtSeguimientoAsistencia").text("No se han registrado datos");
+	    		$("#txtSeguimientoNotas").text("No se han registrado datos");
+	    		$("#txtSeguimientoPlaneacion").text("No se han registrado datos");
+	    	}
+
+	    });
 	
 	
  }
@@ -93,7 +124,7 @@ function agregarSeguimientoGeneral(){
 			clase: 'clsAcademico',
 			oper: 'agregarSeguimiento',
 			IdPreprogramacion: sessionStorage.IdPreprogramacion,
-			seguimiento: $("#txtaSeguimiento").val(),
+			seguimiento: $("#txtSeguimiento").val(),
 			tipo:4
 		},
 		

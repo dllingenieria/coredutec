@@ -91,3 +91,6 @@ body {
 	border-radius: 3px 3px 3px 3px;
 }
 
+div#seguimiento {
+    float: right;
+}

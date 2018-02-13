@@ -20,7 +20,7 @@ class clsAcademico {
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario =  $_SESSION['idUsuario'];
         
-        $sql = "CALL SPAGREGARSEGUIMIENTOACADEMICO('$IdPreprogramacion',$seguimiento,$tipo,$usuario);";
+        $sql = "CALL SPAGREGARSEGUIMIENTOACADEMICO('$IdPreprogramacion','$seguimiento',$tipo,$usuario);";
         
         if ($rs = $conexion->getPDO()->query($sql)) {
             // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -48,7 +48,7 @@ class clsAcademico {
         $array = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
 
-			$sql = "CALL SPCONSULTARSEGUIMIENTOPORPREPROGRAMACION($IdPreprogramacion);";
+			$sql = "CALL SPCONSULTARSEGUIMIENTOPORPREPROGRAMACION($IdPreprogramacion,$tipo);";
 			if ($rs = $conexion->getPDO()->query($sql)) {
 				if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
 					foreach ($filas as $fila) {

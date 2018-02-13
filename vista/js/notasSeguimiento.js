@@ -11,7 +11,32 @@ $(function() {
     var numEstudiantes;
     var idNota;
 	cerrarCurso="";
-	totalNotas = new Array(); 
+	totalNotas = new Array();
+    consultarSeguimientoGeneral();
+
+
+    function consultarSeguimientoGeneral(){ 
+        var mensaje="Procesando la información<br>Espere por favor";
+        jsShowWindowLoad(mensaje);
+         $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsAcademico',
+                oper: 'consultarSeguimiento',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                tipo:2,
+                }
+        }).done(function(data) {
+            if(data!=""){
+                $("#txtaSeguimiento").val(data[0].SNotas);
+            }
+
+        });
+
+     } 
     
     function recuperarDatos() {
 		var mensaje="Procesando la información<br>Espere por favor";
@@ -80,9 +105,9 @@ $(function() {
 						idTerceroNotasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las notas totales 
                         for (var j = 0; j < 11; j++) {
                             if(j == 9){ //total
-                                array.push('<input required type="text" disabled min="0" max="5" step=".1" value="" class="total'+i+j+'" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" data-fila="'+i+'" id="txtTotal_'+data[i].IdTercero+'">');
+                                array.push('<span required type="text" disabled min="0" max="5" step=".1" value="" class="total'+i+j+'" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" data-fila="'+i+'" id="txtTotal_'+data[i].IdTercero+'"></span>');
                             }else{
-                                array.push('<input required type="number" min="0" max="5" step=".1" value="'+notas[j]+'" class="notas'+i+' notas" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" data-modified="false" name="row-1-position" data-fila="'+i+'" id="txtNota_'+j+'_'+data[i].IdTercero+'">');
+                                array.push('<span required type="number" min="0" max="5" step=".1" value="'+notas[j]+'" class="notas'+i+' notas" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" data-modified="false" name="row-1-position" data-fila="'+i+'" id="txtNota_'+j+'_'+data[i].IdTercero+'">'+notas[j]+'</span>');
                             }
                         }
                         notas = [];
@@ -123,7 +148,7 @@ $(function() {
                 for(var x = 0; x < numEstudiantes ; x++){
                     
 					$('.notas'+x).each(function(){	
-						if ($(this).val()!=""){ 
+						if ($(this).text()!=""){ 
 							$(this).attr('data-modified','true');
 						}
 					});
@@ -190,7 +215,7 @@ $(function() {
 						
 						
 						// $('.total'+x+9).val(Number(otrosDatos[x]['total']).toFixed(2));
-						$('.total'+x+9).val(otrosDatos[x]['total']);
+						$('.total'+x+9).text(otrosDatos[x]['total']);
 						// $('.total'+x+9).val("3.10");
 					// }
 					//para total notas
@@ -200,75 +225,6 @@ $(function() {
 					// });
 					
                 }
-
-                $('.notas').on('change',function(){ 
-                    $(this).attr('data-modified','true');
-                    if($(this).val() > 5){
-                        $(this).val(5);
-                        $(this).focus();
-                    }
-                    
-                    if($(this).val() < 0){
-                        $(this).val(0);
-                        $(this).focus();
-                    }
-					var id = $(this).val();
-                    var fila = $(this).attr('data-fila'); //alert("valor"+"-"+id);
-                    var a =  new Array();
-                    a = $('.notas'+fila);
-                    var p1 =(parseFloat($(a[0]).val() != ''?$(a[0]).val():""));
-					var p2 =(parseFloat($(a[1]).val()!= ''?$(a[1]).val():"")); 
-					var p3 =(parseFloat($(a[2]).val()!= ''?$(a[2]).val():""));
-					var divSaber = 0;
-					var sumaSaber =0;  
-					
-					if (!isNaN(p1)){divSaber = divSaber+1;} else {p1 = 0;}
-					if (!isNaN(p2)){divSaber = divSaber+1;} else {p2 = 0;}
-					if (!isNaN(p3)){divSaber = divSaber+1;} else {p3 = 0;}
-					if(divSaber != 0){ 
-					
-					sumaSaber = (parseFloat(p1+p2+p3)/divSaber).toFixed(2); }
-					// alert("sumaSaber"+sumaSaber);
-					// alert("divSaber"+divSaber);
-					
-					var p4 =(parseFloat($(a[3]).val() != ''?$(a[3]).val():""));
-					var p5 =(parseFloat($(a[4]).val()!= ''?$(a[4]).val():""));
-					var p6 =(parseFloat($(a[5]).val()!= ''?$(a[5]).val():""));
-					var divHacer = 0;
-					var sumaHacer =0;
-					if (!isNaN(p4)){divHacer = divHacer+1;} else {p4 = 0;}
-					if (!isNaN(p5)){divHacer = divHacer+1;} else {p5 = 0;}
-					if (!isNaN(p6)){divHacer = divHacer+1;} else {p6 = 0;}
-					if(divHacer != 0){ sumaHacer = (parseFloat(p4+p5+p6)/divHacer).toFixed(2); }
-					 // alert("sumaHacer"+sumaHacer);
-					 // alert("divHacer"+divHacer);
-					
-					var p7 =(parseFloat($(a[6]).val() != ''?$(a[6]).val():""));
-					var p8 =(parseFloat($(a[7]).val()!= ''?$(a[7]).val():""));
-					var p9 =(parseFloat($(a[8]).val()!= ''?$(a[8]).val():""));
-					var divSer = 0;
-					var sumaSer =0;
-					if (!isNaN(p7)){divSer = divSer+1;} else {p7 = 0;}
-					if (!isNaN(p8)){divSer = divSer+1;} else {p8 = 0;}
-					if (!isNaN(p9)){divSer = divSer+1;} else {p9 = 0;}
-					if(divSer != 0){ sumaSer = (parseFloat(p7+p8+p9)/divSer).toFixed(2); }
-					 // alert("sumaSer"+sumaSer);
-					 // alert("divSer"+divSer);
-
-                    //$('.parcial'+x+3).val(p1); 
-                    //$('.parcial'+x+7).val(p2);
-                    //$('.parcial'+x+11).val(p3);
-					var divNotas = 0;
-					if (sumaSaber != ""){divNotas = divNotas+1; }
-					if (sumaHacer != ""){divNotas = divNotas+1;}
-					if (sumaSer != ""){divNotas = divNotas+1;}	
-					 // alert(sumaSaber+"-"+sumaHacer+"-"+sumaSer);
-					 // alert(divNotas);
-					if(divNotas != 0){
-						$('.total'+fila+9).val((((parseFloat(sumaSaber)+parseFloat(sumaHacer)+parseFloat(sumaSer)))/divNotas).toFixed(2));
-					}
-                    
-                });
             }
         });
    }

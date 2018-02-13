@@ -29,12 +29,9 @@ $(function() {
 	asistenciaGeneral = new Array(); 
 	
 	
-	CargarMotivosNoAsistencia();
-    
-    //consultarAsistenciaPorSalon();
-	//cargarHorasTotales();
     agregarFechasTabla();
-	
+	consultarSeguimientoGeneral();
+
 	asistenciaDetalle =true;
 	asistenciaObservacion=true;
 	asistenciaMotivo=true;
@@ -79,13 +76,12 @@ $(function() {
                         
                         for (var j = 0; j < columnas.length-8; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
 							
-							array.push('<input type="text" size="5" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
-                            
+							array.push('<div style="text-align:center;"><span size="15" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'"></span></div>');                               
                         }
-						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');   
-                        array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');
-						array.push('<select id="selInasistencia_'+data[i].IdTercero+'" class="motivo"></select>'); 
-						array.push('<input type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly>');
+
+                        array.push('<span class="obs" id="textArea_'+data[i].IdTercero+'"></span>');
+						array.push('<span id="selInasistencia_'+data[i].IdTercero+'" class="motivo"></span>'); 
+						array.push('<span type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly></span>');
                         dataSet.push(array);
                     }
                     cargarInformacionEnTabla(dataSet);
@@ -116,7 +112,6 @@ $(function() {
 					//llamar a llenar cajas de texto
 					llenarCajasTexto();
 					llenarTextArea();
-					formarOptionValue(opcionesNoAsistencia, "motivo");
 					llenarSelects();
 					llenarNotas();
 					jsRemoveWindowLoad();
@@ -128,6 +123,30 @@ $(function() {
             }else {alert("error 2");}
         }, "json");
     }
+
+
+    function consultarSeguimientoGeneral(){ 
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		 $.ajax({
+	        url: '../../controlador/fachada.php',
+	        type: 'POST',
+	        dataType: 'json',
+	        async :false,
+	        data: {
+	            clase: 'clsAcademico',
+	            oper: 'consultarSeguimiento',
+	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+	            tipo:1,
+	            }
+	    }).done(function(data) {
+	    	if(data!=""){
+	    		$("#txtaSeguimiento").val(data[0].SAsistencia);
+	    	}
+
+	    });
+
+	 }
 
     function cargarInformacionEnTabla(data){ //alert(data);
         var table = $('#tablaAsistencias').DataTable({
@@ -168,11 +187,12 @@ $(function() {
 		
 		// for (var i = 0; i < idTerceroHorasTotales.length; i++) { 
 		 var totalHoras=0; 
-			$("input[id$="+res+"]").each(function(){  
-				if ($( this ).val() > 0 && $( this ).val() <= (sessionStorage.IntensidadHorariaDiaria*1) ) { 
+			$("span[id$="+res+"]").each(function(){  
+				valorCampo=parseInt($( this ).text());
+				if (valorCampo > 0 && valorCampo <= (sessionStorage.IntensidadHorariaDiaria*1) ) { 
 				// if ($( this ).val() > 0 && $( this ).val() <= 8 ) { 
-					if ($( this ).val() !=  '' && this.id != "txtA_undefined_undefined_"+res && $( this ).val() !=  'NA' && this.id != "textNotas_"+res){ 
-						totalHoras=(totalHoras*1)+($(this).val()*1);   
+					if (valorCampo!=  '' && this.id != "txtA_undefined_undefined_"+res && valorCampo !=  'NA' && this.id != "textNotas_"+res){ 
+						totalHoras=(totalHoras*1)+(valorCampo*1);   
 					}
 					
 				 } 
@@ -180,7 +200,7 @@ $(function() {
 			});
 			
 			// if ($("input[id=txtA_undefined_undefined_"+res+"]")){ 
-				$("#txtA_undefined_undefined_"+res).val(totalHoras);
+				$("#txtA_undefined_undefined_"+res).text(totalHoras);
 				totalHoras=0;
 				//se aumenta el valor maximo de la caja de texto
 				$("#txtA_undefined_undefined_"+res).prop('max', 500);
@@ -217,23 +237,7 @@ $(function() {
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 					var cont = 1;
-
-					//while para  sesion
-
-					while( cont <= sessionStorage.cantidadSesiones){						
-                           //columna sesion
-						columnas.push({"title":"Sesión "+cont});
-						sesionA.push(cont);
-							cont++;
-
-                    }
-					
-                    columnas.push({'title':'Total Horas'});
-                    columnas.push({'title':'Observaciones'});
-					columnas.push({'title':'Motivo no asistencia'});
-					columnas.push({'title':'Nota'});
-
-
+				
 					//Devuelve las fechas para la asistencia general
 					$.post("../../controlador/fachada.php", {
 		            clase: 'clsProgramacion',
@@ -323,31 +327,66 @@ $(function() {
 						var cont = 1;
 						
 						
+						//while por cantidad de sesion preprogramción
+						if(sessionStorage.cantidadSesiones>0){
+							while( cont <= sessionStorage.cantidadSesiones){						
+		                           //columna sesion
+								columnas.push({"title":"Sesión "+cont});
+								sesionA.push(cont);
+								cont++;
+
+		                     }
+						while(fi <= ff){
+	                        day = days[fi.getDay()]; 
+							
+	                        if(diasClase.indexOf(day) != -1){ //alert(day);
+								
+	                        //columna sesion
+							//columnas.push({"title":"Sesión "+cont});
+							//sesionA.push(cont); 
+								
+							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
+							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
+							//alert(fechaA);
+							//cont++;
+	                        }
+	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));
+	                    }
+						}else{
 						//while para fechas y sesion
 						while(fi <= ff){
 	                        day = days[fi.getDay()]; 
 							
 	                        if(diasClase.indexOf(day) != -1){ //alert(day);
 								
-	                           //columna sesion
+	                        //columna sesion
 							columnas.push({"title":"Sesión "+cont});
 							sesionA.push(cont); 
 								
-								//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
-								fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
-								//alert(fechaA);
-								cont++;
+							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
+							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
+							//alert(fechaA);
+							cont++;
 	                        }
-	                        fi = new Date(fi.setTime((fi.getTime() + 86400000)));
-								
+	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));	
 	                    }
+                   		
+                   	}
+
+                    }
 					
+                  
+					
+					   	columnas.push({'title':'Total Horas'});
+	                    columnas.push({'title':'Observaciones'});
+						columnas.push({'title':'Motivo no asistencia'});
+						columnas.push({'title':'Nota'});
 					recuperarDatos();
-					
-					
-                    
-                }else{alert("error 1");}             
-            }else {alert("error 2");}
+                }else{alert("error 1");
+            
+            	}             
+            
+
         }, "json");
 					
 
@@ -462,7 +501,7 @@ function llenarCajasTexto(){
 				//se recorre data con todos los valores
 				 for (var i = 0; i < data.length; i++) {
 					 //se recorren todas las cajas de texto
-					$("input[id^=txtA_]").each(function(e){ 
+					$("span[id^=txtA_]").each(function(e){ 
 						id= $( this ).attr( "id" ); 
 						
 						var res = id.split("_");
@@ -470,7 +509,7 @@ function llenarCajasTexto(){
 						var sesion = res[1];  
 						//se valida que esa caja de texto tenga ese tercero y esa sesion para poner el valor
 						 if(idTercero == data[i].IdTercero && sesion == data[i].SesionNumero){
-							$( this ).val( data[i].HorasAsistidas );
+							$( this ).text( data[i].HorasAsistidas );
 							//se agrega atributo para saber si ese campo es para editar
 							$( this ).attr("IdAsistencia",data[i].IdAsistencia+"_"+data[i].IdAsistenciaDetalle);
 							
@@ -520,7 +559,7 @@ function llenarTextArea(){
 						
 						//se valida que ese textarea tenga ese tercero para poner el valor
 						if(idTerceroTextA == data[i].IdTercero){
-							$( this ).val( data[i].Observacion );
+							$( this ).text( data[i].Observacion );
 							// //se agrega atributo para saber si ese campo es para editar YA NO SE NECESITA
 							// $( this ).attr("IdAsistencia",data[i][IdAsistencia]+"_"+data[i][IdAsistenciaObservacion]);
 						}
@@ -536,7 +575,6 @@ function llenarTextArea(){
 }
 
 function llenarSelects(){ 
-	console.log(idTerceroHorasTotales);
 	$.each( idTerceroHorasTotales, function() {
 	$.ajax({
             url: '../../controlador/fachada.php',
@@ -565,8 +603,9 @@ function llenarSelects(){
 						//se valida que ese select tenga ese tercero para poner el valor
 						if(idTerceroSelM == data[i].IdTercero){  
 							// $( this ).val( data[i].Motivo );
-							
-							$("#"+idSelM+" option[value="+ data[i].Motivo +"]").attr("selected",true);
+							$( this ).text( data[i].Nombre);
+
+							//$("#"+idSelM+" option[value="+ data[i].Motivo +"]").attr("selected",true);
 							//$(  this ).val( data[i].Motivo ) tambien funciona
 						}
 					});
@@ -716,7 +755,7 @@ function llenarNotas(){
 							
 							//se valida que ese textarea tenga ese tercero para poner el valor
 							if(idTerceroTextA == data[i].IdTercero){
-								$( this ).val( data[i].Nota );
+								$( this ).text( data[i].Nota );
 								// //se agrega atributo para saber si ese campo es para editar YA NO SE NECESITA
 								// $( this ).attr("IdAsistencia",data[i][IdAsistencia]+"_"+data[i][IdAsistenciaObservacion]);
 							}
