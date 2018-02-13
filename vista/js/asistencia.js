@@ -44,7 +44,7 @@ $(function() {
 	asistenciaMotivo=true;
 	
 	    
-    function recuperarDatos() { 
+    function recuperarDatos() {
 	
         $("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
 		$("#txtModulo").html(sessionStorage.IdModulo + "   " + sessionStorage.Modulo);

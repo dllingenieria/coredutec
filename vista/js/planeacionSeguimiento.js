@@ -322,15 +322,6 @@ function mostrarNumeroSesiones(){
 
 	
 	function recuperarDatos() { 
-        // $("#nombreServicio").html(sessionStorage.Curso + " - " + sessionStorage.Modulo);
-        // $("#inscritos").html(sessionStorage.Inscritos);
-        // $("#horario").html(sessionStorage.Horario);
-        // $("#fechaInicial").html(sessionStorage.FechaInicial);
-        // $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
-        // $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
-        // $("#fechaFinal").html(sessionStorage.FechaFinal);
-        // $("#duracion").html(sessionStorage.Duracion);
-        // $("#docente").html(sessionStorage.Docente);
 		$("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
 		$("#txtModulo").html(sessionStorage.IdModulo + "   " + sessionStorage.Modulo);
         $("#inscritos").html(sessionStorage.Inscritos);
@@ -339,14 +330,46 @@ function mostrarNumeroSesiones(){
         $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
         $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
         $("#fechaFinal").html(sessionStorage.FechaFinal);
-        $("#duracion").html(sessionStorage.Duracion);
+        $("#txtDuracion").html(sessionStorage.Duracion+" Horas");
 		$("#txtSalon").html(sessionStorage.Salon);
         $("#txtSede").html(sessionStorage.Sede); 
 		$("#txtDocente").html(sessionStorage.Docente);
 		$("#txtRuta").html(sessionStorage.Ruta);
 		$("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
 		
-		
+		$.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarCantidadAsistentesPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].cantidadAsistentes !== null){
+                $("#asistentes").html(data[0].cantidadAsistentes);
+            }
+            
+        });
+        
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarNotaParcialPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].pEstudiantesGanando !== null){
+                $("#aprobados").html(data[0].pEstudiantesGanando);
+            }
+            
+        });
 	}
 	
 	

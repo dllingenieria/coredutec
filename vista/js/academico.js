@@ -80,7 +80,7 @@ $(function(){
 			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
 			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
-			"paging":   false,
+			"paging":   true,
 			"info":     false,
 			"order": [[ 3, "desc" ]],
 			"scrollY": "300px",
