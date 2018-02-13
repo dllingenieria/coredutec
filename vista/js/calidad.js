@@ -1,32 +1,17 @@
 $(function(){
-	// $("#formatoFirmas").css("display","none");
 	$("#btnEvaluaciones").css("display","none");
-	// $("#formatoNotas").css("display","none");
-	// $("#planeacion").css("display","none");
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#descargar").hide();
+	$("#btnEvaluacionesTabuladas").hide();
 	var table;
 	var tabla;
 	var seleccionado = false;
 	nombreArchivo = "";
 	obtenerIdTercero(function(idDocente){
 		idDocenteG = idDocente; 
-		obtenerIdTerceroModulos();
-		
+		obtenerIdTerceroModulos();	
 	});
-	
-	// $("#btnConsularSalon").click(function(){ 
-		// var salon = $("#txtSalon").val();
-		// if (salon == ""){
-		// PopUpError("Por favor ingrese un Salón");	
-		// }
-		// else{
-			// obtenerIdTerceroModulos(salon);
-		// }
-	// });
-	
-	
 	
 	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
@@ -45,10 +30,8 @@ $(function(){
 					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
-					// $("#formatoFirmas").css("display","");
 					$("#btnEvaluaciones").css("display","");
-					// $("#formatoNotas").css("display","");
-					// $("#planeacion").css("display","");
+					$("#btnEvaluacionesTabuladas").show();
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
@@ -62,9 +45,7 @@ $(function(){
             table.destroy(); 
             $('#tablaModulos').empty();
         }
-		
 		$(".cuerpoEstudiantes").hide();
-		
 		$("#regresar").hide();
 		 table = $('#tablaModulos').DataTable({
 			"data": data,
@@ -87,9 +68,6 @@ $(function(){
 			{ title: "Ruta" },
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
-			
-			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
-			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
 			"paging":   true,
 			"info":     false,
@@ -150,13 +128,16 @@ $(function(){
 		} );
 	}
 
-
 	$("#btnEvaluaciones").click(function(){                           //agregado
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
 			window.location.href = "ingresarCalidad.html";
 		}else{
 			PopUpError("Por favor seleccione un módulo");
 		}
+	});
+
+	$("#btnEvaluacionesTabuladas").click(function(){ 
+		window.location.href = "reporteEvaluacionTabulado.html";
 	});
 
 function cantidadSesiones(){
@@ -176,7 +157,6 @@ function cantidadSesiones(){
 	}, "json");
 }
 
-
 function popUpConfirmacion(msj){
 	    $("#textoConfirmacion1").text(msj);
 	    $('#element_to_pop_upCon').bPopup({
@@ -185,11 +165,9 @@ function popUpConfirmacion(msj){
 	    });
 }
 
-
 $(document).on('click', '#regresar', function() {
 		 location.reload();
 });
-
 
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla
@@ -247,8 +225,6 @@ function jsShowWindowLoad(mensaje) {
         $("#WindowLoad").html(imgCentro);
  
 }
-
-
 	function PopUpError(msj){
     $("#textoError").text(msj);
     $('#element_to_pop_upMen').bPopup({
