@@ -413,14 +413,13 @@ function formatearReporteEstudiantesSalon(data){
 			oper: 'consultarReporteAlimentacionPorSalon',
 		    idpreprogramacion: params
 		 }, function(data) {
-				//if (data !== 0) {
+				if (data !== 0) {
 					if(data !== null){
 					    $('#spanTotalR').show();
                         $('#numero_estudiantesR').text(data.length);
-                        console.log("data");
-					   formatearReporteAlimentacionPorSalon(data);		        			
+					    formatearReporteAlimentacionPorSalon(data);	
 					}else{alert("error 1");}             
-				//}else {alert("error 2");}
+				}else {alert("error 2");}
 				jsRemoveWindowLoad();	
 		}, "json");                
 	}

@@ -30,15 +30,10 @@ class clsCalidad {
                     array_push($resultado, $registro);
                     $registro = array();
                 }
-				// foreach ($filas as $fila) {
-                    // $array[] = $fila;
-                // }
             }
         } else {
             $registro = 0; print_r($conexion->getPDO()->errorInfo()); die();
         }
-		
-		//print_r($filas);
         echo json_encode($resultado);
     }
 
@@ -52,7 +47,6 @@ class clsCalidad {
 	 */	
     public function cargarDetalleEvaluacion($param) { 
     	extract($param); 
-        
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCONSULTARDETALLEEVALUACION($IdEvaluacion);";
 		$rs=null;
@@ -61,18 +55,12 @@ class clsCalidad {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
-				
             }
         } else {
 			print_r($conexion->getPDO()->errorInfo()); 
 			$array = 0;
-			
         }
-  
         echo json_encode($array);
-		
 	}	
-
-
 }
 ?>

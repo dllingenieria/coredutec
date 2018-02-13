@@ -585,7 +585,7 @@ function mostrarNumeroSesiones(){
         $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
         $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
         $("#fechaFinal").html(sessionStorage.FechaFinal);
-        $("#duracion").html(sessionStorage.Duracion);
+        $("#txtDuracion").html(sessionStorage.Duracion+" Horas");
 		$("#txtSalon").html(sessionStorage.Salon);
         $("#txtSede").html(sessionStorage.Sede); 
 		$("#txtDocente").html(sessionStorage.Docente);

@@ -351,7 +351,7 @@ public function ConsultarPreprogramacionesActivas($param) {
        /* extract($param);
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($idpreprogramacion);";
+        $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($IdPreprogramacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -363,6 +363,7 @@ public function ConsultarPreprogramacionesActivas($param) {
         }
         echo json_encode($array);*/
     }
+
 }
 
 

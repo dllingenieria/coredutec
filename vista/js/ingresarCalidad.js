@@ -117,21 +117,52 @@ $(function() {
         
 		$("#nombreServicio").html(sessionStorage.IdCurso + "   " + sessionStorage.Curso);
 		$("#txtModulo").html(sessionStorage.IdModulo + "   " + sessionStorage.Modulo);
-        // $("#inscritos").html(sessionStorage.Inscritos);
-        // $("#horario").html(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria+" Horas" );
-        // $("#fechaInicial").html(sessionStorage.FechaInicial);
-        // $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
-        // $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
-        // $("#fechaFinal").html(sessionStorage.FechaFinal);
-        // $("#duracion").html(sessionStorage.Duracion);
-		 $("#txtSalon").html(sessionStorage.Salon);
-        // $("#txtSede").html(sessionStorage.Sede); 
-		// $("#txtDocente").html(sessionStorage.Docente);
-		// $("#txtRuta").html(sessionStorage.Ruta);
-		// $("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
-		// nuevos
-		// $("#txtAsistentes").html(sessionStorage.Asistentes);
-		// $("#txtAprobados").html(sessionStorage.Aprobados);
+        $("#inscritos").html(sessionStorage.Inscritos);
+        $("#horario").html(sessionStorage.DiasCurso+"  "+sessionStorage.Horario+" "+sessionStorage.IntensidadHorariaDiaria+" Horas" );
+        $("#fechaInicial").html(sessionStorage.FechaInicial);
+        $("#lugar").html(sessionStorage.Sede + " - " + sessionStorage.Salon);
+        $("#codigo").html(sessionStorage.IdCurso + " - " + sessionStorage.IdModulo);
+        $("#fechaFinal").html(sessionStorage.FechaFinal);
+        $("#txtDuracion").html(sessionStorage.Duracion+" Horas");
+		$("#txtSalon").html(sessionStorage.Salon);
+        $("#txtSede").html(sessionStorage.Sede); 
+		$("#txtDocente").html(sessionStorage.Docente);
+		$("#txtRuta").html(sessionStorage.Ruta);
+		$("#txtNoSessiones").html(sessionStorage.cantidadSesiones);
+		
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarCantidadAsistentesPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].cantidadAsistentes !== null){
+                $("#asistentes").html(data[0].cantidadAsistentes);
+            }
+            
+        });
+        
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarNotaParcialPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].pEstudiantesGanando !== null){
+                $("#aprobados").html(data[0].pEstudiantesGanando);
+            }
+            
+        });
 	}
 	
 	$("#btnAModulos").click(function(){
