@@ -21,11 +21,15 @@ body {
     padding-top: 0rem !important;
 }
 
-#spanTotal {
+#spanTotal{
     float: left;
 }
 
-.botones {
+#spanTotalR{
+    float: left;
+}
+
+.botones{
     text-align: center;
     margin-top: 2rem;
 }

@@ -33,9 +33,8 @@ $(function() {
         { title: "Curso" },
         { title: "Modulo" },
         { title: "Estado" },
-        { title: "IdTercero" },
-        { title: "Estudiante" },
-		{ title: "Identificación" },
+        { title: "Sesion" },
+        { title: "Fecha" },
 		{ title: "Cantidad" },
         { title: "Refrigerio" });
 		
@@ -93,7 +92,6 @@ $(function() {
 			"bDestroy": true,
             "columnDefs": [{"className": "dt-left", "targets": "_all"}, //alinear texto a la izquierda
 			{"targets": [ 0 ],"visible": false,"searchable": false},
-            {"targets": [ 5 ],"visible": false,"searchable": false},
 			{ "width": "13%", "targets": 1 }//se le da ancho al td de estudiante
 			//{ "width": "8%", "targets": 8 }, //se le da ancho al td de total horas
 			//{ "width": "8%", "targets": 9 } //se le da ancho al td de observacion

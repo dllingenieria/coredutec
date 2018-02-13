@@ -343,6 +343,10 @@ $(document).on('click', '#regresar', function() {
 		 location.reload();
 });
 
+$(document).on('click', '#regresarR', function() {
+		 location.reload();
+});
+
 function cargarReporteEstudiantesSalon(salon){
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);

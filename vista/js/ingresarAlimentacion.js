@@ -143,8 +143,8 @@ $(function() {
 						ponerFoco(this);
 					});
 					//llamar a llenar cajas de texto
-					llenarCajasTexto();
 					formarOptionValue(opcionesAlimentacion, "alimentacion");
+					llenarCajasTexto();
 					jsRemoveWindowLoad();
                  }else{
                     alert("No existen estudiantes inscritos");
@@ -418,12 +418,10 @@ $(function() {
 			var res = id.split("_");
 			var valor = $("#"+id).val();
 			if (res[1]!= "undefined"){
-				if( valor != 0 && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 328 && valor != 357){
-					
+				if(valor != 0 && sessionStorage.IntensidadHorariaDiaria < 8 && valor != 328 && valor != 357){
 					valido=false;
-					
 				}
-				else if (valor != 0 && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 330 && valor != 357 ) {
+				else if (valor != 0 && sessionStorage.IntensidadHorariaDiaria >= 8 &&  valor != 330 && valor != 357) {
 					valido=false;
 				}
 			}
@@ -607,12 +605,12 @@ function consultaralimentacionPorSalon(){
     }
     if(error == true){
         alert("No existen estudiantes inscritos");
-        window.location.href ='alimentacion.html';
+        window.location.href ='docente.html';
     }
 }
 
 $("#volverAlimentacion").click(function(){
-    window.location.href = "alimentacion.html";
+    window.location.href = "docente.html";
 });
 
 });

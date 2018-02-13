@@ -4,6 +4,8 @@ $(function(){
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#descargar").hide();
+	$("#regresarR").hide();
+	$('#spanTotalR').hide();
 	var table;
 	var tabla;
 	var seleccionado = false;
@@ -192,7 +194,7 @@ function popUpConfirmacion(msj){
 }
 
 
-$(document).on('click', '#regresar', function() {
+$(document).on('click', '#regresarR', function() {
 		 location.reload();
 });
 
@@ -276,66 +278,69 @@ function jsShowWindowLoad(mensaje) {
 	$(document).on('click', '#reporteAlimentacionPorSalon', function() {
 			var data = table.row($(this).parents('tr')).data();
 			sessionStorage.id_tpar= data[0];
-			alert(data[0]);
 			if(data[0]!=""){
-				cargarReporteAlimentacionPorSalon(data[2]);
+				cargarReporteAlimentacionPorSalon(data[1]);
 				$("#formatoFirmas").hide();
 			}
 	});
 
-	function cargarReporteAlimentacionPorSalon(salon){
+	function cargarReporteAlimentacionPorSalon(params){
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
-			clase: 'clsParticipante',
-			oper: 'consultarCargaEstudiantesPorSalonDocente',
-		    codigo_salon: salon
+			clase: 'clsDocente',
+			oper: 'consultarReporteAlimentacionPorSalon',
+		    idpreprogramacion: params
 		 }, function(data) {
-				if (data !== 0) {
+				//if (data !== 0) {
 					if(data !== null){
-						    $('#spanTotal').show();
-	                        $('#numero_estudiantes').text(data.length);
-						   formatearReporteAlimentacionPorSalon(data);		        			
+					    $('#spanTotalR').show();
+                        $('#numero_estudiantesR').text(data.length);
+                        console.log("data");
+					   formatearReporteAlimentacionPorSalon(data);		        			
 					}else{alert("error 1");}             
-				}else {alert("error 2");}
+				//}else {alert("error 2");}
 				jsRemoveWindowLoad();	
 		}, "json");                
 	}
 
 	function formatearReporteAlimentacionPorSalon(data){
 			$('.cuerpo').hide();
-			$(".cuerpoEstudiantes").show();
-	        table = $('#tablaasistentes').DataTable({
+			$(".cuerpoEstudiantes").hide();
+			$(".cuerpoRefrigerios").show();
+			$("#regresarR").show();
+			if(typeof table !== "undefined"){
+	            table.destroy(); 
+	       	    $('#tablarefrigerios').empty();
+        	}
+
+	         table = $('#tablarefrigerios').DataTable({
 				"data": data,
 				columns: [
-				{ title: "Idtercero" },
-				{ title: "Identificación" },
-				{ title: "Apellidos" },
-				{ title: "Nombres" },
-				{ title: "Telefono" },
-				{ title: "Telefono2" },
-				{ title: "CorreoElectronico" }
+					{ title: "Idtercero" },
+					{ title: "Estudiante" },
+					{ title: "Número de Identificación" },
+					{ title: "Cantidad" },
+					{ title: "Rfrigerio" }
 				],
-				"paging":   false,
-				"pageLength": 7,
-				"bLengthChange": false,
-				"bDestroy": true,
+				"paging":   true,
 				"info":     false,
-				"scrollY": "240px",
+				"order": [[ 3, "desc" ]],
+				"scrollY": "300px",
 				"scrollX": true,
+				"bDestroy": true,
 				"scrollCollapse": true,
 				"columnDefs": [
-				{"targets": [ 0 ],"visible": false,"searchable": false}
+					{"targets": [ 0 ],"visible": false,"searchable": false}
 				],
 				"language": {
 					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
 	                "sProcessing":     "Procesando...",
 					"sSearch": "Filtrar:",
-	                "zeroRecords": "Ningún resultado encontrado",
-	                "infoEmpty": "No hay registros disponibles",
-	                "Search:": "Filtrar",
-					"sLoadingRecords": "Cargando..."	
-	            }	
+					"zeroRecords": "Ningún resultado encontrado",
+					"infoEmpty": "No hay registros disponibles",
+					"Search:": "Filtrar"
+				}
 			});
 	}
 });

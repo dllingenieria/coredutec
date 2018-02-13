@@ -15,7 +15,13 @@ body {
     padding-top: 0rem !important;
 }
 
-#spanTotal {
+.cuerpoRefrigerios{
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 0rem !important;
+}
+
+#spanTotalR {
     float: left;
 }
 
