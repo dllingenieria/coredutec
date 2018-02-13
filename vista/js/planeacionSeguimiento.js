@@ -43,6 +43,7 @@ $(function(){
     listarPlaneacion();
 	recuperarDatos();
 	mostrarNumeroSesiones();
+    consultarSeguimientoGeneral();
 	
 	var seleccionado = false;
 	$("#divEditar").css("display","none");
@@ -71,6 +72,31 @@ $(function(){
 
     
 //----------
+
+
+function consultarSeguimientoGeneral(){ 
+        var mensaje="Procesando la información<br>Espere por favor";
+        jsShowWindowLoad(mensaje);
+         $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsAcademico',
+                oper: 'consultarSeguimiento',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                tipo:3,
+                }
+        }).done(function(data) {
+            if(data!=""){
+                $("#txtaSeguimiento").val(data[0].SPlaneacion);
+            }
+
+        });
+
+     }
+
 function cargarInformacionEnTabla(data){ 
       
 	  $('#tablaPaneacion').removeClass('selected');
@@ -217,7 +243,7 @@ function cargarInformacionEnTabla(data){
 	
     $.post("../../controlador/fachada.php", {
             clase: 'clsPlaneacion',
-            oper: 'cargarDetallePlaneacion',
+            oper: 'cargarDetallePlaneacionSeguimiento',
              idPlaneacion: sessionStorage.IdPlaneacion
 			}, function(data) { 
              if (data !== 0) {

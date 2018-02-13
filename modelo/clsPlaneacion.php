@@ -182,6 +182,120 @@ class clsPlaneacion {
         echo json_encode($data);
     }
 
+
+
+       public function cargarDetallePlaneacionSeguimiento($param) { 
+    	extract($param); 
+        
+		$data = array('error'=>0, 'mensaje'=>'', 'html'=>'', 'recursos'=>'');
+		
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARDETALLEPLANEACION($idPlaneacion);";
+		$rs=null;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+				unset($rs);
+				$data[ 'recursos' ]='';
+					//se arma el html para mandar al js
+						$data[ 'html' ] ='
+					<label class="titulo">PLANEACIÓN ACADÉMICA</label>
+					<br><br>
+					<div class="PanelIzquierdo" style="width=45%">
+							<div class="LblAzul">N° Sesión</div>
+							<input type="text" id="txtSesion" value="'.$array[0]['NumeroSesion'].'" class="Txt number" DISABLED/>
+					</div>
+
+					<div class="PanelDerecho" style="width=45%">
+							<div class="LblAzul">Fecha</div>
+							<input type="text" id="txtFecha" value="'.$array[0]['Fecha'].'" class="Txt" DISABLED />
+					</div>
+							
+					</br></br>
+								
+					<label class="titulo azul">Unidad Tematica</label>
+					<br><br>
+					<div ><textarea class="TextArea" name="descripcion" id="txtUnidadTematica" placeholder="(Anote los temas a tratar en la sesión)" DISABLED>'.$array[0]['UnidadTematica'].'</textarea></div>
+					<br>
+					<label class="titulo azul">Estrategias a Desarrollar</label>
+					<br><br>
+					<div ><textarea class="TextArea" name="descripcion" id="txtEstrategiasDesarrollar" placeholder="(Anote sus estratégias a desarrollar en esta sesión)" DISABLED>'.$array[0]['Estrategia'].'</textarea></div>
+					<br>
+					<label class="titulo azul">Técnica e Instrumento De Evaluación</label>
+					<br><br>
+					<div ><textarea class="TextArea" name="descripcion" id="txtTecnicaInstrumento" placeholder="(Anote sus técnicas e instrumentos a desarrollar en esta sesión)" DISABLED>'.$array[0]['TecnicaEvaluacion'].'</textarea></div>
+					<br><br>
+					<label class="titulo">SEGUMIENTO DEL PROCESO</label>
+					<br><br>
+					<div ><textarea class="TextArea" name="descripcion" id="txtSeguimiento" placeholder="(Anote el seguimiento que ha realizado en el proceso)" DISABLED>'.$array[0]['Seguimiento'].'</textarea></div>
+					<br><br>
+					<label class="titulo">PLANEACIÓN DE RECURSOS</label>
+					<br><br>
+					<label class="titulo azul">Materiales y equipos</label>
+					<br><br>';
+					$data[ 'recursos' ].='<table id="div_adicionados"><tr>';
+							$data[ 'recursos' ].='
+						<tr>
+							<td class="titulo azul cantidad">Cantidad</td><td class="titulo azul descripcion">Descripción</td><td width="100px"></td>
+						</tr>';
+				//se llama al procedimiento que trae el detalle de los recursos
+				$sql = "CALL SPCONSULTARDETALLERECURSO($idPlaneacion);";
+				$rs=null;
+				if ($rs = $conexion->getPDO()->query($sql)) {
+					if ($filasR = $rs->fetchAll(PDO::FETCH_ASSOC)) {			
+						$cont=0;
+						foreach ($filasR as $filaR) {
+						$arrayR[] = $filaR;
+						
+							$data[ 'recursos' ].='<input type="hidden" id="txtHidId'.$cont.'" name="recurso" value="'.$filaR['Id'].'" class=""/>
+								<td><input type="text" id="txtCant'.$cont.'" name="recurso" class="Txt1 number" value="'.$filaR['Cantidad'].'" size="6" DISABLED/></td><td><input type="text" id="txtDesc'.$cont.'" name="recurso" class="Txt2" value="'.$filaR['Descripcion'].'" DISABLED/></td>';
+							if ($cont != 0){
+								$data['recursos' ].='<td>';	
+							}
+
+							$data['recursos'].='</tr>';
+						
+							$cont++;
+						}					
+					}else{
+						$data[ 'recursos' ].= "
+				<tr>
+					<input type='hidden' id='txtHidId0' name='recurso' value='' class=''/>
+					<td><input type='text' id='txtCant0' name='recurso' class='Txt1 number' size='6'/>
+					</td><td><input type='text' id='txtDesc0' name='recurso' class='Txt2'/></td>
+					<td></td>
+				</tr>";
+
+					}
+					$data[ 'recursos' ].='</table>';
+					$data[ 'html' ] .= $data['recursos'];
+					
+					$data[ 'html' ] .='<br><br>
+					<label class="titulo">EJECUCIÓN</label>
+					<br><br>
+					<label class="titulo azul">Chequeo ok o especifique</label>
+					<br><br>
+					<div id=""><textarea class="TextArea" name="descripcion" id="txtObservaciones" placeholder="(Anote firma recibido de recursos a satisfaccíon)" DISABLED>'.$array[0]['Observaciones'].'</textarea></div>
+					<br><br>
+					<label class="titulo azul">Firma de recibido de recursos a satisfacción</label>
+					<br><br>
+					<div id=""><textarea class="TextArea" name="descripcion" id="txtRecibido" placeholder="(Anote chequeo ok o especifique)" DISABLED>'.$array[0]['Recibido'].'</textarea></div><br />
+				';
+				}
+				else{
+					print_r($conexion->getPDO()->errorInfo()); die();
+					$array = 0;
+				}
+            }
+        } else {
+			print_r($conexion->getPDO()->errorInfo()); die();
+			$array = 0;
+        }
+        echo json_encode($data);
+	}	
+
     //devuelve todo
 /**
 	 * Metodo cargarDetallePlaneacion
