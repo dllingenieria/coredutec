@@ -1,6 +1,6 @@
 $(function() { 
 
-	$("#btnAModulos").hide();
+	$("#btnVolver").hide();
 	//configuracion del calendario
 	 $.datepicker.regional['es'] = {
         currentText: 'Hoy',
@@ -18,35 +18,49 @@ $(function() {
 		
     };
     $.datepicker.setDefaults($.datepicker.regional['es']);
-	
 	$("#txtFecha").datepicker();
 	obtenerFechaActual();
-	
     if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
         window.location.href = "calidad.html";
     }
-    var columnas = new Array(
-        { title: "IdPreprogramacion" },
-        { title: "Salon" },
-        { title: "Curso" },
-        { title: "Modulo" },
-        { title: "Estado" },
-        { title: "Sesion" },
-        { title: "Fecha" },
-		{ title: "Cantidad" },
-        { title: "Refrigerio" });
 
 	$("#btnConsularReporte").click(function(){ 
 		var fechai = $("#txtFechai").val();
         var fechaf = $("#txtFechaf").val();
 		if (fechai == "" || fechaf == ""){
-		mostrarPopUpError("Por favor ingrese una fecha inicial y una fecha final ");	
+		mostrarPopUpError("Por favor ingrese una fecha inicial y una fecha final ");
 		}
 		else{
-			obtenerReporteAlimentacion(fechai,fechaf);
+			recuperarDatos(fechai,fechaf);
 		}
 	});
 	
+    function recuperarDatos(fechai,fechaf){ //alert(data);
+        var mensaje="Procesando la información<br>Espere por favor";
+        jsShowWindowLoad(mensaje);
+        $("#sectCuerpo").show();
+        $("#btnVolver").show();
+        //----- Recupera los resultados de Satisfaccion -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 1,
+                }
+        }).done(function(data) {
+            if(data[0].Satisfaccion == 1){
+                $("#txt1").html(data[1].TotalSatisfaccion);
+            }
+            
+        });
+    }
+
     function obtenerReporteAlimentacion(fechai,fechaf){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
@@ -62,40 +76,13 @@ $(function() {
 					$("#sectCuerpo").show();
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
-					$("#btnAModulos").show();
+					$("#btnVolver").show();
 				}else{mostrarPopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {mostrarPopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
 	};
 
-    function cargarInformacionEnTabla(data){ //alert(data);
-	if(typeof table !== "undefined"){
-            table.destroy(); 
-            $('#tablaReporteAlimentacion').empty();
-        }
-        var table = $('#tablaReporteAlimentacion').DataTable({
-            "data": data,
-            columns: columnas,
-            "paging":   false,
-            "info":     false,
-			"scrollY": "300px",
-			"scrollX": true,
-			"bDestroy": true,
-            "columnDefs": [{"className": "dt-left", "targets": "_all"}, 
-			{"targets": [ 0 ],"visible": false,"searchable": false},
-			{ "width": "13%", "targets": 1 }
-			],
-            "scrollY": "300px",
-            "scrollX": true,
-            "scrollCollapse": true,
-            "language": {
-                "sSearch": "Filtrar:",
-                "zeroRecords": "Ningún resultado encontrado",
-                "infoEmpty": "No hay registros disponibles",
-                "Search:": "Filtrar"
-            }
-        });
-    }
+    
 	
 	function obtenerFechaActual(){
 		var hoy = new Date();
@@ -112,8 +99,8 @@ $(function() {
 		$(".fecha").val(hoy);
 	}
 	
-	$("#btnAModulos").click(function(){
-    window.location.href = "alimentacion.html";
+	$("#btnVolver").click(function(){
+    window.location.href = "calidad.html";
 });
 
 function jsRemoveWindowLoad() {
