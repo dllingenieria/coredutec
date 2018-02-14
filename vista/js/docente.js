@@ -281,7 +281,10 @@ $(function(){
 					IdCurso: sessionStorage.IdCurso,
 					IdModulo: sessionStorage.IdModulo,
 					FechaFinal: sessionStorage.FechaFinal,
-					Duracion: sessionStorage.Duracion
+					Duracion: sessionStorage.Duracion,
+					Docente: sessionStorage.Docente,
+					DiasCurso: sessionStorage.DiasCurso,
+					Ruta: sessionStorage.Ruta
 					}, function(data) {
 					if (data.mensaje == 1 && data.html!=""){
 						nombreArchivo=data.html;
