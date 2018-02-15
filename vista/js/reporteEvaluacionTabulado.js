@@ -60,8 +60,9 @@ $(function() {
                 for (var i = 0; i < data.length; i++){
                     for(var j = 1; j < 6; j++){
                         if(data[i].Satisfaccion == j){
-                            console.log("Ingresó a colocar el varlor en el html. Valor devuelto: "+data[i].Satisfaccion+" Valor de j: "+j);
-                            $("#txt"+(j)).html(data[i].TotalSatisfaccion);
+                            /*console.log("Ingresó a colocar el varlor en el html. Valor devuelto: "+data[i].Satisfaccion+" Valor de j: "+j);
+                            console.log(data[i].TotalSatisfaccion);*/
+                            $("#txt"+j).html(data[i].TotalSatisfaccion);
                             Total = Total + parseInt(data[i].TotalSatisfaccion);
                             switch (j){
                                 case 1:
@@ -81,7 +82,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txt"+(i+1)).html(0);
+                            //$("#txt"+j).html(0);
                         }
                     }
                 }
@@ -112,7 +113,7 @@ $(function() {
                 for (var i = 0; i < data.length; i++){
                     for(var j = 1; j < 6; j++){
                         if(data[i].Claridad == j){
-                            console.log("Ingresó a colocar el varlor en el html. Valor devuelto: "+data[i].Claridad+" Valor de j: "+j);
+                            //console.log("Ingresó a colocar el varlor en el html. Valor devuelto: "+data[i].Claridad+" Valor de j: "+j);
                             $("#txtR1"+j).html(data[i].TotalClaridad);
                             Total = Total + parseInt(data[i].TotalClaridad);
                             switch (j){
@@ -133,7 +134,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR1"+j).html(0);
+                            //$("#txtR1"+j).html(0);
                         }
                     }
                 }
@@ -159,7 +160,6 @@ $(function() {
                 }
         }).done(function(data) {
             if(data !== null){
-                console.log(data);
                 var Total = 0;
                 var Puntos = 0;
                 for (var i = 0; i < data.length; i++){
@@ -185,7 +185,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR2"+j).html(0);
+                            //$("#txtR2"+j).html(0);
                         }
                     }
                 }
@@ -211,7 +211,6 @@ $(function() {
                 }
         }).done(function(data) {
             if(data !== null){
-                console.log(data);
                 var Total = 0;
                 var Puntos = 0;
                 for (var i = 0; i < data.length; i++){
@@ -237,7 +236,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR3"+j).html(0);
+                            //$("#txtR3"+j).html(0);
                         }
                     }
                 }
@@ -263,7 +262,6 @@ $(function() {
                 }
         }).done(function(data) {
             if(data !== null){
-                console.log(data);
                 var Total = 0;
                 var Puntos = 0;
                 for (var i = 0; i < data.length; i++){
@@ -289,7 +287,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR4"+j).html(0);
+                            //$("#txtR4"+j).html(0);
                         }
                     }
                 }
@@ -315,7 +313,6 @@ $(function() {
                 }
         }).done(function(data) {
             if(data !== null){
-                console.log(data);
                 var Total = 0;
                 var Puntos = 0;
                 for (var i = 0; i < data.length; i++){
@@ -341,7 +338,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR5"+j).html(0);
+                            //$("#txtR5"+j).html(0);
                         }
                     }
                 }
@@ -367,7 +364,6 @@ $(function() {
                 }
         }).done(function(data) {
             if(data !== null){
-                console.log(data);
                 var Total = 0;
                 var Puntos = 0;
                 for (var i = 0; i < data.length; i++){
@@ -393,7 +389,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR6"+j).html(0);
+                            //$("#txtR6"+j).html(0);
                         }
                     }
                 }
@@ -419,7 +415,6 @@ $(function() {
                 }
         }).done(function(data) {
             if(data !== null){
-                console.log(data);
                 var Total = 0;
                 var Puntos = 0;
                 for (var i = 0; i < data.length; i++){
@@ -445,7 +440,7 @@ $(function() {
                                     break;
                             }
                         }else{
-                            $("#txtR7"+j).html(0);
+                            //$("#txtR7"+j).html(0);
                         }
                     }
                 }
