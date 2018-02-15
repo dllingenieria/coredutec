@@ -19,7 +19,7 @@ body {
 .tablaEscalaValoracion{
 	font-size: 0.8rem;
 	margin: 0 auto;
-	margin-top: 2rem;
+	margin-top: 0.9rem;
 }
 
 .tablaEscalaValoracion td{
@@ -45,6 +45,7 @@ body {
 .botones {
     text-align: right;
     margin-top: 0.9rem;
+    margin-bottom: 0.9rem;
 }
 
 #DivAsistencia{
@@ -120,6 +121,7 @@ body {
     /* margin: 0 auto; */
     text-align: center;
     margin-right: 20px;
+    margin-top: -1rem;
 
 }
 

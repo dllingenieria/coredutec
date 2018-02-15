@@ -36,7 +36,7 @@
 		<section class="cabecera"></section>
 		<!-- FIN CABECERA -->
 		<!-- BARRA DE NAVEGACIÓN -->
-		<nav class="barraNavegacion">
+		<nav style="height: 1.5rem;" class="barraNavegacion">
 		</nav>
 		<!-- FIN BARRA DE NAVEGACIÓN -->
 	</section>
@@ -52,6 +52,7 @@
 		<label class="tituloSalon">Hasta</label><input id="txtFechaf" type="date" class="fecha"/>
 		<div class="botonesDown">
 			<button id="btnConsularReporte" type="button" class="boton">Consultar</button>
+			<button id="btnVolver" type="button" class="boton">Volver</button>
 		</div>
 	</div>
 	</section>
@@ -152,9 +153,105 @@
 				<td id="txtPuntos"></td>
 			</tr>	
 		</table>
-		<table id="tablaReporteAlimentacion" class="display" cellspacing="0" width="100%" ></table>
+		<table id="tablaAspectosGenerales" class="tablaEscalaValoracion" width="80%" border="1" cellspacing="0">
+			<tr>
+				<th style="width: 50%" colspan="2">Aspectos Generales del Servicio</th>
+				<th style="width: 6%">1</th>
+				<th style="width: 6%">2</th>
+				<th style="width: 6%">3</th>
+				<th style="width: 6%">4</th>
+				<th style="width: 6%">5</th>
+				<th style="width: 6%">NR</th>
+				<th style="width: 7%">Total</th>
+				<th style="width: 7%">Puntos</th>
+			</tr>
+			<tr>
+				<td style="width: 5%" id="txtId1">1</td>
+				<td style="width: 45%" id="txtPregunta1">Claridad del alcance u objetivos previstos para el curso del programa</td>
+				<td id="txtR11"></td>
+				<td id="txtR12"></td>
+				<td id="txtR13"></td>
+				<td id="txtR14"></td>
+				<td id="txtR15"></td>
+				<td id="txtRNR1"></td>
+				<td id="txtRTotal1"></td>
+				<td id="txtRPuntos1"></td>
+			</tr>
+			<tr>
+				<td id="txtId2">2</td>
+				<td id="txtPregunta2">Metodolog&iacute;a implementada por el docente</td>
+				<td id="txtR21"></td>
+				<td id="txtR22"></td>
+				<td id="txtR23"></td>
+				<td id="txtR24"></td>
+				<td id="txtR25"></td>
+				<td id="txtRNR2"></td>
+				<td id="txtRTotal2"></td>
+				<td id="txtRPuntos2"></td>
+			</tr>
+			<tr>
+				<td id="txtId3">3</td>
+				<td id="txtPregunta3">Contenidos del curso o programa</td>
+				<td id="txtR31"></td>
+				<td id="txtR32"></td>
+				<td id="txtR33"></td>
+				<td id="txtR34"></td>
+				<td id="txtR35"></td>
+				<td id="txtRNR3"></td>
+				<td id="txtRTotal3"></td>
+				<td id="txtRPuntos3"></td>
+			</tr>
+			<tr>
+				<td id="txtId4">4</td>
+				<td id="txtPregunta4">Material de apoyo utilizando durante el curso o programa</td>
+				<td id="txtR41"></td>
+				<td id="txtR42"></td>
+				<td id="txtR43"></td>
+				<td id="txtR44"></td>
+				<td id="txtR45"></td>
+				<td id="txtRNR4"></td>
+				<td id="txtRTotal4"></td>
+				<td id="txtRPuntos4"></td>
+			</tr>
+			<tr>
+				<td id="txtId5">5</td>
+				<td id="txtPregunta3">Instalaciones en las que se prest&oacute; o est&aacute; prestando el curso o programa</td>
+				<td id="txtR51"></td>
+				<td id="txtR52"></td>
+				<td id="txtR53"></td>
+				<td id="txtR54"></td>
+				<td id="txtR55"></td>
+				<td id="txtRNR5"></td>
+				<td id="txtRTotal5"></td>
+				<td id="txtRPuntos5"></td>
+			</tr>
+			<tr>
+				<td id="txtId6">6</td>
+				<td id="txtPregunta6">Cumplimiento de los objetivos planteados para el curso o programa</td>
+				<td id="txtR61"></td>
+				<td id="txtR62"></td>
+				<td id="txtR63"></td>
+				<td id="txtR64"></td>
+				<td id="txtR65"></td>
+				<td id="txtRNR6"></td>
+				<td id="txtRTotal6"></td>
+				<td id="txtRPuntos6"></td>
+			</tr>
+			<tr>
+				<td id="txtId7">7</td>
+				<td id="txtPregunta7">Cumplimiento de los objetivos planteados para el curso o programa</td>
+				<td id="txtR71"></td>
+				<td id="txtR72"></td>
+				<td id="txtR73"></td>
+				<td id="txtR74"></td>
+				<td id="txtR75"></td>
+				<td id="txtRNR7"></td>
+				<td id="txtRTotal7"></td>
+				<td id="txtRPuntos7"></td>
+			</tr>
+		</table>
 		<div class="botones">
-			<button id="btnVolver" type="button" class="boton">Volver</button>
+			<!-- <button id="btnVolver" type="button" class="boton">Volver</button> -->
 		</div>
     </section>  
 	<div id="divBoton" class="cuerpo" style="display:none">

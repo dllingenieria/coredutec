@@ -20,26 +20,26 @@ $(function() {
     $.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtFecha").datepicker();
 	obtenerFechaActual();
-    if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
-        window.location.href = "calidad.html";
-    }
+    // if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
+    //     window.location.href = "calidad.html";
+    // }
 
 	$("#btnConsularReporte").click(function(){ 
-		var fechai = $("#txtFechai").val();
-        var fechaf = $("#txtFechaf").val();
+		var fechai = "";
+        var fechaf = "";
+        fechai = $("#txtFechai").val();
+        fechaf = $("#txtFechaf").val();
 		if (fechai == "" || fechaf == ""){
 		mostrarPopUpError("Por favor ingrese una fecha inicial y una fecha final ");
 		}
 		else{
+            var mensaje="Procesando la información<br>Espere por favor";
+            jsShowWindowLoad(mensaje);
 			recuperarDatos(fechai,fechaf);
 		}
 	});
 	
     function recuperarDatos(fechai,fechaf){ //alert(data);
-        var mensaje="Procesando la información<br>Espere por favor";
-        jsShowWindowLoad(mensaje);
-        $("#sectCuerpo").show();
-        $("#btnVolver").show();
         //----- Recupera los resultados de Satisfaccion -----//
         $.ajax({
             url: '../../controlador/fachada.php',
@@ -54,11 +54,411 @@ $(function() {
                 bandera: 1,
                 }
         }).done(function(data) {
-            if(data[0].Satisfaccion == 1){
-                $("#txt1").html(data[1].TotalSatisfaccion);
+            if(data !== null){
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Satisfaccion == j){
+                            console.log("Ingresó a colocar el varlor en el html. Valor devuelto: "+data[i].Satisfaccion+" Valor de j: "+j);
+                            $("#txt"+(j)).html(data[i].TotalSatisfaccion);
+                            Total = Total + parseInt(data[i].TotalSatisfaccion);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalSatisfaccion)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalSatisfaccion)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalSatisfaccion)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalSatisfaccion)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalSatisfaccion)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txt"+(i+1)).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtNR").html(0);
+                $("#txtTotal").html(Total);
+                $("#txtPuntos").html(Puntos);
             }
-            
         });
+
+        //----- Recupera los resultados de la Pregunta1 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 2,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Claridad == j){
+                            console.log("Ingresó a colocar el varlor en el html. Valor devuelto: "+data[i].Claridad+" Valor de j: "+j);
+                            $("#txtR1"+j).html(data[i].TotalClaridad);
+                            Total = Total + parseInt(data[i].TotalClaridad);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalClaridad)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalClaridad)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalClaridad)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalClaridad)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalClaridad)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR1"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR1").html(0);
+                $("#txtRTotal1").html(Total);
+                $("#txtRPuntos1").html(Puntos);
+            }
+        });
+
+        //----- Recupera los resultados de la Pregunta2 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 3,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                console.log(data);
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Metodologia == j){
+                            $("#txtR2"+j).html(data[i].TotalMetodologia);
+                            Total = Total + parseInt(data[i].TotalMetodologia);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalMetodologia)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalMetodologia)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalMetodologia)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalMetodologia)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalMetodologia)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR2"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR2").html(0);
+                $("#txtRTotal2").html(Total);
+                $("#txtRPuntos2").html(Puntos);
+            }
+        });
+
+        //----- Recupera los resultados de la Pregunta3 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 4,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                console.log(data);
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Contenidos == j){
+                            $("#txtR3"+j).html(data[i].TotalContenidos);
+                            Total = Total + parseInt(data[i].TotalContenidos);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalContenidos)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalContenidos)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalContenidos)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalContenidos)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalContenidos)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR3"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR3").html(0);
+                $("#txtRTotal3").html(Total);
+                $("#txtRPuntos3").html(Puntos);
+            }
+        });
+
+        //----- Recupera los resultados de la Pregunta4 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 5,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                console.log(data);
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Material == j){
+                            $("#txtR4"+j).html(data[i].TotalMaterial);
+                            Total = Total + parseInt(data[i].TotalMaterial);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalMaterial)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalMaterial)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalMaterial)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalMaterial)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalMaterial)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR4"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR4").html(0);
+                $("#txtRTotal4").html(Total);
+                $("#txtRPuntos4").html(Puntos);
+            }
+        });
+
+        //----- Recupera los resultados de la Pregunta5 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 6,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                console.log(data);
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Instalaciones == j){
+                            $("#txtR5"+j).html(data[i].TotalInstalaciones);
+                            Total = Total + parseInt(data[i].TotalInstalaciones);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalInstalaciones)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalInstalaciones)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalInstalaciones)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalInstalaciones)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalInstalaciones)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR5"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR5").html(0);
+                $("#txtRTotal5").html(Total);
+                $("#txtRPuntos5").html(Puntos);
+            }
+        });
+
+        //----- Recupera los resultados de la Pregunta6 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 7,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                console.log(data);
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Objetivos == j){
+                            $("#txtR6"+j).html(data[i].TotalObjetivos);
+                            Total = Total + parseInt(data[i].TotalObjetivos);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalObjetivos)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalObjetivos)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalObjetivos)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalObjetivos)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalObjetivos)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR6"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR6").html(0);
+                $("#txtRTotal6").html(Total);
+                $("#txtRPuntos6").html(Puntos);
+            }
+        });
+
+        //----- Recupera los resultados de la Pregunta7 -----//
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsCalidad',
+                oper: 'consultarEvaluacionTabulada',
+                fechai: fechai,
+                fechaf: fechaf,
+                bandera: 8,
+                }
+        }).done(function(data) {
+            if(data !== null){
+                console.log(data);
+                var Total = 0;
+                var Puntos = 0;
+                for (var i = 0; i < data.length; i++){
+                    for(var j = 1; j < 6; j++){
+                        if(data[i].Tiempos == j){
+                            $("#txtR7"+j).html(data[i].TotalTiempos);
+                            Total = Total + parseInt(data[i].TotalTiempos);
+                            switch (j){
+                                case 1:
+                                    Puntos = Puntos + parseInt(data[i].TotalTiempos)*0.2;
+                                    break;
+                                case 2:
+                                    Puntos = Puntos + parseInt(data[i].TotalTiempos)*0.4;
+                                    break;
+                                case 3:
+                                    Puntos = Puntos + parseInt(data[i].TotalTiempos)*0.6;
+                                    break;
+                                case 4:
+                                    Puntos = Puntos + parseInt(data[i].TotalTiempos)*0.8;
+                                    break;
+                                case 5:
+                                    Puntos = Puntos + parseInt(data[i].TotalTiempos)*1;
+                                    break;
+                            }
+                        }else{
+                            $("#txtR7"+j).html(0);
+                        }
+                    }
+                }
+                Puntos = Math.round((Puntos / Total)*100);
+                $("#txtRNR7").html(0);
+                $("#txtRTotal7").html(Total);
+                $("#txtRPuntos7").html(Puntos);
+            }
+        });
+
+        $("#sectCuerpo").show();
+        $("#btnVolver").show();
+        jsRemoveWindowLoad();
     }
 
     function obtenerReporteAlimentacion(fechai,fechaf){
