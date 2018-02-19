@@ -1,0 +1,79 @@
+body {
+	background-image: url(../images/Fw.jpg);
+}
+
+
+.cuerpo{
+	padding-left: 4rem;
+	padding-right: 4rem;
+	padding-top: 1.7rem;
+	text-align: center;
+}
+
+.cuerpo th{
+	font-size: 0.8rem;
+	font-family: "Roboto-Bold"
+	background-color: #003265;
+	color: white; 
+}
+
+.botones {
+    text-align: right;
+    margin-top: 0.9rem;
+    margin-bottom: 0.9rem;
+}
+
+.tituloSalon{ 
+	color: #003E7E;
+	font-size: 17px;
+	padding-left: -0.4rem;
+	padding-right: 0.6rem;
+	font-family: "Roboto-Bold";
+	border-radius: 3px 3px 3px 3px;
+}
+
+.txtGeneral {
+	width:200px;
+	height:24px;
+	z-index:10;
+	background:#ffffff;
+	border-radius: 0px 3px 3px 0px;
+	font-family: "Roboto-Regular";
+	font-size: 14px;
+	color: #2d4191;
+	padding-left: 5px;
+	padding-top: 1px;
+	border:1px solid #c5c5c5;
+}
+
+/* Seccion Botones */
+
+.BotonCambiar {
+	margin-top: 1rem;
+	margin-right: 0rem;
+	width:120px;
+	height:29px;
+	color: #ffffff;
+	font-family: "Roboto-Medium";
+	font-size: 17px;
+	border-radius: 6px 6px 6px 6px;
+	background-color: #003265;
+	z-index: 7;
+	transition-property: all;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+	border:1px solid #003265;
+	cursor:pointer;
+}
+
+.BotonCambiar:hover {
+	text-decoration:none;
+    background-color:#ffffff;
+	font-family: "Roboto-Bold";
+    color: #003265;
+	border-top:1px solid #ffffff;
+	border-right:1px solid #ffffff;
+	border-bottom:1px solid #ffffff;
+	border-left:1px solid #ffffff;
+	cursor:pointer;
+}

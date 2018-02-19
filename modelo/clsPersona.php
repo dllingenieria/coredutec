@@ -172,8 +172,6 @@ class clsPersona {
         $rs=null;
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) {
-           // include_once '../controlador/clsControlador_Sesion.php';
-            //$sesion = new clsControlador_Sesion();
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
@@ -181,30 +179,26 @@ class clsPersona {
                     $idTercero = $fila['IdTercero'];
                     $idUsuario = $fila['Id'];
                     $roles = $fila['Roles'];
-            
-                       $_SESSION['idTercero'] = $idTercero;
-                       $_SESSION['idUsuario'] = $idUsuario;
-                       $_SESSION['nombreUsuario'] = $nombreUsuario;
-                       $rolesUsuario = explode (",",$roles);
-                       $esAdministrador = strcmp($rolesUsuario[0], "1") === 0;
-                       $esDocente = strcmp($rolesUsuario[1], "1") === 0;
-                       $esMatriculador = strcmp($rolesUsuario[2], "1") === 0;
-                       $esCallCenter = strcmp($rolesUsuario[3], "1") === 0;
-                       $_SESSION['esAdministrador'] = $esAdministrador;
-                       $_SESSION['esDocente'] = $esDocente;
-                       $_SESSION['esMatriculador'] = $esMatriculador;
-                       $_SESSION['esCallCenter'] = $esCallCenter;
-                       $_SESSION['ult_mov'] = '';
-
-                    //$sesion->iniciarSesion($nombreUsuario, $idTercero, $idUsuario, $roles);
+                    $_SESSION['idTercero'] = $idTercero;
+                    $_SESSION['idUsuario'] = $idUsuario;
+                    $_SESSION['nombreUsuario'] = $nombreUsuario;
+                    $rolesUsuario = explode (",",$roles);
+                    $esAdministrador = strcmp($rolesUsuario[0], "1") === 0;
+                    $esDocente = strcmp($rolesUsuario[1], "1") === 0;
+                    $esMatriculador = strcmp($rolesUsuario[2], "1") === 0;
+                    $esCallCenter = strcmp($rolesUsuario[3], "1") === 0;
+                    $_SESSION['esAdministrador'] = $esAdministrador;
+                    $_SESSION['esDocente'] = $esDocente;
+                    $_SESSION['esMatriculador'] = $esMatriculador;
+                    $_SESSION['esCallCenter'] = $esCallCenter;
+                    $_SESSION['ult_mov'] = '';
                 }
+            }else{
+                $array = 0;
             }
-        } else {
-            $array = 0;
-        }
           echo json_encode($array);
-
-    }
+        }
+    }    
 
     /*
      * agregarDesdeArchivoPlano()

@@ -128,5 +128,22 @@ class clsUtilidades {
         echo json_encode($array);
     }
 
+    //----- Función para retornar los datos de la cuenta y contraseña para enviar correos -----//
+   public function consultarDatosCorreo() {
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARDATOSCORREO();";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
 }
 ?>

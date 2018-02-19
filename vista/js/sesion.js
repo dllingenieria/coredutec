@@ -29,7 +29,7 @@ function popUpConfirmacionSesion(msj, fn, fn1){
         if( fn ) fn(); 
     } );
     
-    $("[id=btnCerrar]:button", contenedor ).click(function(){ 
+    $("[id=btnCerrar]:button", contenedor ).click(function(){
         if( fn1 ) fn1(); 
     } );
     
@@ -102,17 +102,10 @@ $(function(){
 });
 
 function cargarDatosSesion() {
-
-
     if (sessionStorage.nombreUsuario !== null && sessionStorage.nombreUsuario!== null) {
-	//if (sessionStorage.arrayDatosUsuario){ alert("xx"+arrayDatosUsuario);
-        // console.log("sesionstorage"+sessionStorage.nombreUsuario);
-        // console.log("sesionstorage"+sessionStorage.roles);
 		verificarIntegridad(sessionStorage.nombreUsuario,sessionStorage.roles);
-	}
-		
+	}	
 }
-	
 
 function ObtSesion(id) {
 	var ruta="";
@@ -133,8 +126,8 @@ function ObtSesion(id) {
             sessionStorage.roles =data[1];
         }
         else { 
-            alert("Por favor inicie sesión");
-            window.location = "../../";
+            $("#textoError").text("Usuario o Contraseña incorrectos");
+            $('#element_to_pop_upMen').bPopup({speed: 450,transition: 'slideDown'});
         }
     }, "json");
 }
@@ -198,13 +191,7 @@ function cargarCabezote(user){
 		data+='<button type="button" id="cambiarRol" class="boton cerrarSesion">Cambiar Rol</button>';
 		data+='<button type="button" id="cerrarSesion" class="boton cerrarSesion">Cerrar Sesión</button>';
 		data+='</div>';
-	}else{
-		data+='<div class="contenedorSesion">';
-        data+='<button type="button" id="registro" class="boton botonRegistro">Registro</button>';
-        data+='</div>';
 	}
-	
-	
 	$(".cabecera").html(data);	
 }
 
@@ -254,30 +241,6 @@ function validarPermisosPorRol(roles){
         $("#btnAdministracion").remove();
         $("#btnReportes").remove();
     }
-
-    // if (roles.esAdministrador && !roles.esDocente) {
-    //     if (!(vista === "captura.html" || vista === "busqueda.html" || vista === "formato.html" || 
-    //         vista === "preprogramacion.html" || vista === "novedades.html" || vista === "consultarMatriculas.html" ||
-    //         vista === "iniciarSesion.html" || vista === "matricula.html")) {
-    //         window.location = "../../";}
-    // }else if (roles.esMatriculador && !roles.esAdministrador && !roles.esDocente) {
-    //     if (!(vista === "iniciarSesion.html" || vista === "matriculador.html" || 
-    //         vista === "matricula.html" || vista === "consultarMatriculas.html")) {
-    //         window.location = "../../"; }
-    // }else if (roles.esMatriculador && !roles.esAdministrador && roles.esDocente) {
-    //     if (!(vista === "iniciarSesion.html" || vista === "busqueda.html" || 
-    //         vista === "formato.html" || vista === "matricula.html" || vista === "consultarMatriculas.html" || 
-    //         vista === "docente.html" || vista === "asistencia.html" || 
-    //         vista === "notas.html" || vista === "filtroReporteAsistencia.html" ||
-    //         vista === "reporteAsistencia.html" ||vista === "formatoFirmas.html")) {
-    //         window.location = "../../"; }
-    // }else if (!roles.esMatriculador && !roles.esAdministrador && roles.esDocente) {
-    //     if (!(vista === "iniciarSesion.html" || vista === "docente.html" || 
-    //         vista === "asistencia.html" || vista === "notas.html" ||
-    //         vista === "filtroReporteAsistencia.html" || vista === "reporteAsistencia.html" ||
-    //         vista === "formatoFirmas.html")) {
-    //         window.location = "../../"; }
-    // }
 }   
 
 function cargarVistas(){
@@ -343,14 +306,10 @@ function IniciarSesion() {
             pNic_usu: $("#txtUsuario").val(),
             pCon_usu: $("#txtContrasena").val()
         }, function(data) {
-        
-            if (data !== null) { 
-                
-                 //verificarIntegridad(arrayDatosUsuario);       
+            if (data !== null) {   
 				ObtSesion(1); 
           
             setTimeout(function(){
-                //alert("prueba"+data);
                 var roles = data[0].Roles.split(",");
                 sessionStorage.esAdministrador=roles[0];
                 sessionStorage.esDocente=roles[1];
@@ -367,10 +326,6 @@ function IniciarSesion() {
                 }
                 if (rolesDisponibles>1) {
                     window.location = "vista/html/iniciarSesion.html";
-					// setTimeout(function(){
-							//verificarIntegridad(arrayDatosUsuario);		},1000);
-							
-					
                 }else{
                     if (sessionStorage.esAdministrador==="1") {
                         window.location = "vista/html/captura.html";

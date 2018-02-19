@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../images/favicon.ico"/>
     <script src="../../includes/jquery-2.0.3.min.js" type="text/javascript" ></script>
     <script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
-    <!-- <script src="../js/sesion.js" type="text/javascript"></script> -->
+    <script src="../js/recuperarContrasena.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -28,6 +28,7 @@
             <div class="contenedorLogo">
                 <img class="imgLogo" src="../images/logocet2.png" alt="">
             </div>
+			
         </section>
         <!-- FIN CABECERA -->
 
@@ -40,20 +41,42 @@
 
     <!-- CUERPO -->
     <section class="cuerpo">
-        <label id="lblTitulo">Ingrese su n&uacute;mero de c&eacute;dula</label>
+        <div class="contenedorIniciarSesion">
+            <div class="tituloIniciarSesion">Recuperar Contraseña</div>
+            <div class="formulario">
+                <div>
+                    <img class="icono" src="../images/user.png" alt="Cedula" /><input name="txtCedula" id="txtCedula" type="text" class="campoIniciarSesion" placeholder="Número de Cédula" required/>
+                </div>
+                <br>
+                <div>
+                    <img class="icono" src="../images/email.png" alt="Email" /><input name="txtEmail" id="txtEmail" type="text" class="campoIniciarSesion" placeholder="Email" required />
+                </div>
+                <div ><input id="btnRecuperar" class="BotonEntrar" name="btnRecuperar" type="button" value="Recuperar" /></div>
+				<!-- <input id="page" class="page" name="page" type="hidden" value="home" /> -->
+			</div>
+
+            <!-- Sección Recuperar Contraseña -->
+            <div id="recuperarContrasena" style="display: none">
+                <div id="formaCuadroAzulError"></div>
+                <div id="lblDatosIncorrectos"><label>Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico con las instrucciones</label></div>
+            </div>
+        </div>
     </section>
     <!-- FIN CUERPO -->
     
     <!-- FOOTER -->
-    <footer >
+    <footer>
         <div class="contenedorTitulo">
             <div class="titulo1">SIREX - Sistema de Información - Proceso Relacionamiento con el Sector Externo</div>
         </div>
         <img class="imgLogos" src="../images/barraLogos.png" alt="">
     </footer>
     <!-- FIN FOOTER -->
-
-    <!-- Sección Pop Ups 
+    
+    
+    
+    <!-- Sección Pop Ups -->
+    
     <div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
         <div>
             <table id="tblPopup" width="300" align="left" border="0">
@@ -66,7 +89,6 @@
             </table>
         </div>
     </div>
-    
     
     <div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
         <div>
@@ -82,21 +104,18 @@
         </div>
     </div>    
     
-    
     <div id="element_to_pop_upPregunta" class="element_to_pop_upPregunta">
         <div>
             <label id="textoConfirmacion" class="popup" style="margin-left: 46px; font-family: 'Roboto-Regular'; font-size: 21px"> </label>
         </div>
         <br></br>
         <div style="margin-top: -44px">
-            <label id="textoPregunta1" class="popup" style="margin-left: 34px; font-family: 'Roboto-Regular'; font-size: 19px"> </label></div>
-
-            <div>
-
-                <input type="button" name="element_to_pop_upConf" value="Nuevo" id="btnMatNue"  class="b-close" style="margin-left: 46px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" ></input>
-                <input type="button" name="element_to_pop_upConf" value="Existente" id="btnMatExi"  class="b-close" style="margin-left: 11px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" ></input>
-            </div>
-        </div> -->     
-        
+            <label id="textoPregunta1" class="popup" style="margin-left: 34px; font-family: 'Roboto-Regular'; font-size: 19px"> </label>
+        </div>
+        <div>
+            <input type="button" name="element_to_pop_upConf" value="Nuevo" id="btnMatNue"  class="b-close" style="margin-left: 46px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" ></input>
+            <input type="button" name="element_to_pop_upConf" value="Existente" id="btnMatExi"  class="b-close" style="margin-left: 11px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" ></input>
+        </div>
+    </div>        
     </body>
     </html>
