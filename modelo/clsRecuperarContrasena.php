@@ -73,7 +73,7 @@ class clsRecuperarContrasena {
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPCAMBIARCONTRASENA('$token','$Contrasena');";
-        print_r($sql);
+        //print_r($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {

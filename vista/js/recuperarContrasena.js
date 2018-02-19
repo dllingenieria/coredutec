@@ -52,6 +52,9 @@ $(function() {
             if(data == 1){
                 $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico con las instrucciones");
                 $("#recuperarContrasena").show();
+                setTimeout(function() {
+                    window.location.href = "../../index.html";
+                }, 5000);
             }else{
                 $("#lblDatosIncorrectos").html("No ha sido posible enviar el correo, por favor rectif&iacute;quelo e intente de nuevo");
                 $("#recuperarContrasena").show();

@@ -428,7 +428,7 @@ function cargarDatosGeneralesEvaluacion(){ //alert("entro");
 					sessionStorage.servicio=data[0]['Nombre'];
 					sessionStorage.docente=data[0]['IdDocente'];
 					sessionStorage.lugar=data[0]['Sede']; 
-					sessionStorage.nombreDocente=data[0]['Docente']; 
+					sessionStorage.nombreDocente=data[0]['Docente'];
 					var f = new Date();
 					var mes = f.getMonth();
 					var mes1=(mes*1)+1;

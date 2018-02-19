@@ -24,14 +24,23 @@ $(function() {
                             Contrasena: Contrasena1,
                             }
                         }).done(function(data) {
-                            if(data == 1){
+                            if(data[0].Resultado == 1){
                                 mostrarPopUpError("La contraseña fue cambiada con éxito");
+                                setTimeout(function() {
+                                    window.location.href = "../../index.html";
+                                }, 5000);
                             }else{
                                 mostrarPopUpError("La contraseña no fue cambiada, intente de nuevo");
+                                setTimeout(function() {
+                                    window.location.href = "../../index.html";
+                                }, 5000);
                             }
                         }, "json");
                 }else{
                     mostrarPopUpError("La solicitud de cambio ha caducado");
+                    setTimeout(function() {
+                        window.location.href = "../../index.html";
+                    }, 5000);
                 }
             }else{
                 mostrarPopUpError("Las contrasenas no son iguales");
