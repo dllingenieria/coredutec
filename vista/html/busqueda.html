@@ -64,7 +64,13 @@
 			</div>
 			<div class="derecha">
 				<label class="titulo">Módulos Disponibles</label>
-				<span class="modulosDisponibles"><input id="identificacion" type="text" class="cedula" placeholder="Ingrese la cédula"><button id="buscar" class="boton">Buscar</button></span><br><br>
+				<span class="modulosDisponibles">
+					<select id="cmbTipoIdentificacion" class="cedula">
+						<option value="0">Seleccione...</option>
+					</select>
+					<input id="identificacion" type="text" class="cedula" placeholder="Ingrese la cédula">
+					<button id="buscar" class="boton">Buscar</button>
+				</span><br><br>
 				<table id="tablaDinamica" class="display compact" cellspacing="0" width="100%"></table>
 				<!-- <table id="tablaModulos" class="tablaModulos">
 					<tr>
@@ -77,6 +83,8 @@
 			</div>
 			<br><br>
 			<button id="matricular" class="boton matricular">Matricular</button>
+			<button id="btnAsignacion" class="boton Asignacion">Asignacion</button>
+			<button id="btnTercero" class="boton Tercero">Tercero</button>
 		</div>
 	</br></br>
 	<div class="inferior">
