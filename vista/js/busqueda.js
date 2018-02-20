@@ -7,6 +7,7 @@ $(function() {
 	var tabla;
 	idTerceroCarga="";
 	informacionTabla=[];
+	cargarTipoDocumento();
 
 	$.extend( true, $.fn.dataTable.defaults, {
 		"order": [[ 0, "asc" ]],
@@ -284,6 +285,35 @@ $(function() {
 				type: "error"});
 		}
 	}
+
+	function cargarTipoDocumento() {
+        $.post("../../controlador/fachada.php", {
+            clase: 'clsUtilidades',
+            oper: 'consultarTipoIdentificacion'
+        }, function(data) {
+            if (data !== 0) { 
+                setParametroPorDefecto("#cmbTipoIdentificacion", '3', "Cédula Ciudadanía");
+                formarOptionValueTipoDocumento(data);
+            }
+        }, "json");
+    }
+
+	function setParametroPorDefecto(atributo, valor, texto) {
+        $(atributo).append($('<option>', {
+            value: valor,
+            text: texto
+        }));
+    }
+
+    function formarOptionValueTipoDocumento(tipoDocumento) { 
+        for (i = 0; i < tipoDocumento.length; i++) { 
+            $('#cmbTipoIdentificacion').append($('<option>', {
+				value: tipoDocumento[i][0],
+                text: tipoDocumento[i][1]
+            }));
+        }
+    }
+
 });
 
 
