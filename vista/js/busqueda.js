@@ -56,11 +56,19 @@ $(function() {
 				}, function(data){
 					console.log(data);
 					if(data == 0){
-						swal({title: "No se encontró el estudiante",
-							text: "",
-							timer: 3000,
-							showConfirmButton: false,
-							type: "error"});
+						swal({title: "No se encontró el Oferente",
+								text: "",
+								showConfirmButton: true,
+								showCancelButton: true,
+								confirmButtonClass: "btn-danger",
+	  							confirmButtonText: "Agregar Oferente",
+								type: "error"
+							},
+							function(isConfirm) {
+							  if (isConfirm) {
+							   	window.location.href = "../html/asignacion.html";
+							  } 
+							});
 							$('#modulosCursados').text('');
 							$("#nombreApellido").val('')
 							$("#telefono").val('');
