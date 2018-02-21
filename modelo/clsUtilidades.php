@@ -146,10 +146,27 @@ class clsUtilidades {
     }
 
     //----- Funcion para cargar la lista de tipos de identificacion -----//
-    public function consultarTipoIdentificacion() {
-        $rs = null;
+    // public function consultarTipoIdentificacion() {
+    //     $rs = null;
+    //     $conexion->getPDO()->query("SET NAMES 'utf8'");
+    //     $sql = "CALL SPCARGARTIPOIDENTIFICACION($IdP);";
+    //     if ($rs = $conexion->getPDO()->query($sql)) {
+    //         if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+    //             foreach ($filas as $fila) {
+    //                 $array[] = $fila;
+    //             }
+    //         }
+    //     } else {
+    //         $array = 0;
+    //     }
+    //     echo json_encode($array);
+    // }
+
+    public function cargarListas($param) {
+        extract($param);
+        $sql = "CALL ".$procedimiento."();";
+        $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCARGARTIPOIDENTIFICACION($IdP);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {

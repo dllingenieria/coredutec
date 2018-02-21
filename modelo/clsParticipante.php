@@ -439,7 +439,7 @@ class clsParticipante {
     public function ConsultarParticipante($param) {
 		extract($param);
 		$array = array();
-        $sql = "CALL SPBUSCARPARTICIPANTEPORCEDULA($pNumeroIdentificacion);";
+        $sql = "CALL SPBUSCARPARTICIPANTEPORCEDULA($pNumeroIdentificacion,$pTipoIdentificacion);";
 		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -451,6 +451,27 @@ class clsParticipante {
 			else{
 				$array = 0;
 			}
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    public function verificarParticipante($param) {
+        extract($param);
+        $array = array();
+        $sql = "CALL SPVERIFICAROFERENTE($pNumeroIdentificacion,$pTipoIdentificacion);";
+        $rs=null;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $fila = $this->codificarEnUtf8($fila);
+                    $array[] = $fila;
+                }
+            }
+            else{
+                $array = 0;
+            }
         } else {
             $array = 0;
         }
