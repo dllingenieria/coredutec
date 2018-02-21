@@ -62,6 +62,7 @@ $(function() {
 								showCancelButton: true,
 								confirmButtonClass: "btn-danger",
 	  							confirmButtonText: "Agregar Oferente",
+	  							cancelButtonText: "Cancelar",
 								type: "error"
 							},
 							function(isConfirm) {
