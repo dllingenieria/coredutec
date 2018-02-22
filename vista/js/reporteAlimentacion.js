@@ -21,11 +21,6 @@ $(function() {
 	
 	$("#txtFecha").datepicker();
 	obtenerFechaActual();
-	
-    // if (typeof(sessionStorage.IdPreprogramacion) === "undefined") {
-    //     window.location.href = "calidad.html";
-    // }
-	
     var columnas = new Array(
         
         { title: "IdPreprogramacion" },
