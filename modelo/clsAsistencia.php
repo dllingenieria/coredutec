@@ -9,6 +9,22 @@ ini_set('display_startup_errors', TRUE);
 
 class clsAsistencia {
 
+	public function consultarTipoIdentificacion() {
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+       $sql = "CALL SPCARGARTIPOIDENTIFICACION();";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
     public function consultarEstudiantesAsistieronConvocatoria($param) {
         extract($param);
 		$rs = null;
@@ -444,10 +460,10 @@ class clsAsistencia {
     //Reporte Asistencias en excel//
   public function consultarReporte($param){
 	extract($param); 
-//var_dump($param); 
-  
+
+	/** Inicializa libreria se copia igual **/
  	define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />'); 
- 	date_default_timezone_set('Europe/London'); 
+ 	date_default_timezone_set('America/Bogota'); 
  	/** PHPExcel_IOFactory */ 
  	  
  	require_once dirname(__FILE__) . '/../includes/PHPExcel/PHPExcel/IOFactory.php'; 
@@ -468,143 +484,105 @@ class clsAsistencia {
  	$objReader->setLoadAllSheets(); 
   
   
+    extract($param); 
+ 	$data = array('error'=>0,'mensaje'=>'','html'=>''); 
+ 	$sesiones=(int)$NoSesiones; 
   
- 	//$objPHPExcel = $objReader->load("../includes/PHPExcel/PHPExcel/Templates/template.xls"); 
- 	 
-         extract($param); 
- 		$data = array('error'=>0,'mensaje'=>'','html'=>''); 
-
- 			$sesiones=(int)$NoSesiones; 
-  
- 				//Array de Datos Columnas 
- 			/*	$dataColumnasDatos = array('No', 'Apellidos', 'Nombres', 'Identificacion');		 
- 				$sesiones=(int)$NoSesiones; 
- 				$int=1; 
- 				$finInt=13; 
- 				if($sesiones!==0){ 
- 					for($i=1; $i<=$finInt;$i++) { 
- 						$sesion= "s".$int; 
- 						array_push($dataColumnasDatos, $sesion); 
- 						$int++; 
- 					} 
- 				}   
- 				array_push($dataColumnasDatos, 'T/Horas', 'Observaciones', 'Motivo no asistencia', 'Nota'); */
-  
-   				$objPHPExcel = $objReader->load("../includes/PHPExcel/PHPExcel/Templates/templateReporteAsistencias.xls"); 
- 				$objPHPExcel->setActiveSheetIndex(0); 
- 				$objPHPExcel->getActiveSheet()->getPageMargins()->setTop(0);  
- 				$objPHPExcel->getActiveSheet()->getPageMargins()->SetRight(0,4);  
- 				$objPHPExcel->getActiveSheet()->getPageMargins()->setLeft(0,4);  
- 				$objPHPExcel->getActiveSheet()->getPageMargins()->setBottom(0); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('E9', $IdCurso."-".$Curso); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('T9', $IdModulo."-".$Modulo); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('E10', $DiasCurso." - ".$Horario); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('T10', $Sede); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('E11', $FechaInicial); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('I11', $FechaFinal); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('E12', $Salon); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('L12', $sesiones); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('R12', $Duracion); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('T12', $Inscritos); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('T11', $Docente); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('H12', $Ruta); 
- 				/*$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Nombre del Servicio educativo'); 
+	$objPHPExcel = $objReader->load("../includes/PHPExcel/PHPExcel/Templates/templateReporteAsistencias.xls"); 
+	$objPHPExcel->setActiveSheetIndex(0); 
+	$objPHPExcel->getActiveSheet()->getPageMargins()->setTop(0);  
+	$objPHPExcel->getActiveSheet()->getPageMargins()->SetRight(0,4);  
+	$objPHPExcel->getActiveSheet()->getPageMargins()->setLeft(0,4);  
+	$objPHPExcel->getActiveSheet()->getPageMargins()->setBottom(0); 
+	$objPHPExcel->getActiveSheet()->setCellValue('E9', $IdCurso."-".$Curso); 
+	$objPHPExcel->getActiveSheet()->setCellValue('T9', $IdModulo."-".$Modulo); 
+	$objPHPExcel->getActiveSheet()->setCellValue('E10', $DiasCurso." - ".$Horario); 
+	$objPHPExcel->getActiveSheet()->setCellValue('T10', $Sede); 
+	$objPHPExcel->getActiveSheet()->setCellValue('E11', $FechaInicial); 
+	$objPHPExcel->getActiveSheet()->setCellValue('I11', $FechaFinal); 
+	$objPHPExcel->getActiveSheet()->setCellValue('E12', $Salon); 
+	$objPHPExcel->getActiveSheet()->setCellValue('L12', $sesiones); 
+	$objPHPExcel->getActiveSheet()->setCellValue('R12', $Duracion); 
+	$objPHPExcel->getActiveSheet()->setCellValue('T12', $Inscritos); 
+	$objPHPExcel->getActiveSheet()->setCellValue('T11', $Docente); 
+	$objPHPExcel->getActiveSheet()->setCellValue('H12', $Ruta); 
  				 
- 				$objPHPExcel->getActiveSheet()->setCellValue('C2', 'Centro/Sede/Lugar de Servicio'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('D2', $Sede." - ".$Salon); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('C3', 'Fecha de Inicio'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('D3', $FechaInicial); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('G2', 'Horario'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('H2', $Horario); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('G3', 'Código'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('H3', $IdCurso." - ".$IdModulo); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('I1', 'Inscritos'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('J1', $Inscritos); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('I2', 'Fecha de Finalización'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('J2', $FechaFinal); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('I3', 'Duración del Módulo'); 
- 				$objPHPExcel->getActiveSheet()->setCellValue('J3', $Duracion); 
- 				*/ 
- 				 
- 		    $arrayMasSessiones=[];  
- 			$baseRowDatos = 15; 
- 			$columnDatos=0; 
-            $inis=1;
-            $fins=13;
+	$arrayMasSessiones=[];  
+	$baseRowDatos = 15; 
+	$columnDatos=0; 
+	$inis=1;
+	$fins=13;
 
- 			$dataColumnasDatos=$this->ArrayColummns($inis,$fins, $sesiones);
+	$dataColumnasDatos=$this->ArrayColummns($inis,$fins,$sesiones);
 
- 			foreach($dataColumnasDatos as $dataRow) { 
- 					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnDatos, $baseRowDatos, $dataRow);      
- 					$columnDatos++;                     
- 				}	 
+	foreach($dataColumnasDatos as $dataRow) { 
+		$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnDatos, $baseRowDatos, $dataRow);
+		$columnDatos++;                     
+	}	 
  			 
- 			$hojaActual=0;   
-             $objClonedWorksheet1 =  clone $objPHPExcel->getSheet(0); 
-             $hojaActual=$hojaActual+1; 
-             $objClonedWorksheet1->setTitle('Informe'.$hojaActual); 
- 			$objPHPExcel->addSheet($objClonedWorksheet1); 
- 			$objPHPExcel->setActiveSheetIndex($hojaActual);		                  
+	$hojaActual=0;   
+ 	$objClonedWorksheet1 =  clone $objPHPExcel->getSheet(0); 
+ 	$hojaActual=$hojaActual+1; 
+ 	$objClonedWorksheet1->setTitle('Informe'.$hojaActual); 
+	$objPHPExcel->addSheet($objClonedWorksheet1); 
+	$objPHPExcel->setActiveSheetIndex($hojaActual);		                  
   
- 			$baseRow = 16; 
- 			$columnRow= 0; 
-			$rs = null;
- 			$conexion->getPDO()->query("SET NAMES 'utf8'"); 
- 			$sql = "CALL SPCONSULTARESTUDIANTESPORSALON1($idPreprogramacion);"; 
- 			if ($rs = $conexion->getPDO()->query($sql)) { 
- 					if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
-                        //$rs->closeCursor();
- 						$data['mensaje'] = 1; 
- 						$Estudiantes= count($filas); 
-                        $Estudiantes1=count($filas); 
+	$baseRow = 16; 
+	$columnRow= 0; 
+	$rs = null;
+	$conexion->getPDO()->query("SET NAMES 'utf8'"); 
+
+	$sql = "CALL SPCONSULTARESTUDIANTESPORSALON1($idPreprogramacion);"; 
+		if ($rs = $conexion->getPDO()->query($sql)) { 
+			if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+			$data['mensaje'] = 1; 
+			$Estudiantes= count($filas); 
+		    $Estudiantes1=count($filas); 
+			$totalEstudiantes=0; 
+		    $varId=0;
+
+			foreach ($filas as  $r =>$fila) { 
+	        	$varId++;
+				$columnRow=0; 
+				$row = $baseRow	+ $totalEstudiantes;	
+	            
+	            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila['IdTercero']); 	
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $varId); 
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Apellidos']); 
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Nombres']); 
+				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Identificacion']);						 
+	        
+	        	$totalEstudiantes++;     
+
+				if($totalEstudiantes>19){	 
+						$hojaActual=$hojaActual+1; 
+						$objClonedWorksheet = clone $objPHPExcel->getSheet(0); 
+			            $objClonedWorksheet->setTitle('Informe'.$hojaActual); 
+			            $objPHPExcel->addSheet($objClonedWorksheet); 
+			            $objPHPExcel->setActiveSheetIndex($hojaActual);		 
+						$baseRow = 16; 
+						$columnRow= 0; 
 						$totalEstudiantes=0; 
-                        $varId=0;
- 						foreach ($filas as  $r =>$fila) { 
-                            $varId++;
- 							$columnRow=0; 
- 							$row = $baseRow	+ $totalEstudiantes;	
-                                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila['IdTercero']); 	 
- 								$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $varId); 
- 								$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Apellidos']); 
- 								$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Nombres']); 
- 								$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Identificacion']);						 
- 								//$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Telefono1']);
-                            
-                            $totalEstudiantes++;     
-
-							if($totalEstudiantes>19){	 
- 								$hojaActual=$hojaActual+1; 
- 								$objClonedWorksheet = clone $objPHPExcel->getSheet(0); 
- 					            $objClonedWorksheet->setTitle('Informe'.$hojaActual); 
- 					            $objPHPExcel->addSheet($objClonedWorksheet); 
- 					            $objPHPExcel->setActiveSheetIndex($hojaActual);		 
- 					            //$objPHPExcel= $objClonedWorksheet; 
- 								$baseRow = 16; 
- 								$columnRow= 0; 
- 								$totalEstudiantes=0; 
- 								//echo $fila['IdTercero']; 
- 							} 
-
-                              
+				} 
+			} 
+ 
+ 				unset($rs); 
   
- 						} 
-  
- 							unset($rs); 
-  
- 						$Estudiantes=$Estudiantes+16; 
- 						$sheetCount = ($objPHPExcel->getSheetCount())-1;
+ 				$Estudiantes=$Estudiantes+16; 
+ 				$sheetCount = ($objPHPExcel->getSheetCount())-1;
                    
-                        $typeSession="";
- 					if($sesiones!==0){ 
-
-                    if($sesiones>13){
+                $typeSession="";
+ 				if($sesiones!==0){ 
+                  	
+                  	if($sesiones>13){
                           $typeSession="1";
                           $sesiones=13;
                     } 
+
                     $ises=1;
                     $sheetCountIni=$sheetCount;
-   					for($m=1;$m<=$sheetCount;$m++){ //inicio cantidad sheet 
 
+   					for($m=1;$m<=$sheetCount;$m++){ //inicio cantidad sheet 
                         if($typeSession=="1"){
                                $inis=14;
                                $fins=$inis+12;
@@ -621,9 +599,10 @@ class clsAsistencia {
                                $objPHPExcel->getActiveSheet()->setCellValue('V14', $sheetCountIni); 
                                $sheetCountotal=$sheetCount*2;
                                $objPHPExcel->getActiveSheet()->setCellValue('X14', $sheetCountotal); 
+                               
                                foreach($dataColumnasDatos as $dataRow) { 
                                        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnDatos, $baseRowDatos, $dataRow);      
-                                $columnDatos++;                     
+                                		$columnDatos++;                     
                                 }    
                              $arrayMasSessiones[]= $ahoraHojaActual;
                              $ises++;
@@ -641,7 +620,6 @@ class clsAsistencia {
                         $objPHPExcel->getActiveSheet()->setCellValue('X14', $sheetCountotal); 
 
  						for($i=16;$i<=35;$i++){     
-
  							$columnRow=4; 
  							$row = $i; 
  							$idTerceroAsistencia=$objPHPExcel->getActiveSheet()->getCell("A".$i)->getValue(); 
@@ -654,19 +632,18 @@ class clsAsistencia {
  							if($rs2 = $conexion->getPDO()->query($sql2)){ 
  								if ($filasAsistencia = $rs2->fetchAll(PDO::FETCH_ASSOC)) { 
                                      $sum=0;
-                                       foreach ($filasAsistencia as $r =>$filaasiscount) {
+                                     foreach ($filasAsistencia as $r =>$filaasiscount) {
                                                $sum=$sum+$filaasiscount['HorasAsistidas'];
-                                        }
+                                      }
 
-
-                                    	   $horasAsistidas="NA"; 
+                                    	 $horasAsistidas="NA"; 
  										 for($j=1;$j<=$sesiones;$j++){     
                                              $sesion=0;             
      											foreach ($filasAsistencia as $s =>$filaasis) {
          												if($filaasis['SesionNumero']==$j){ 
                                                                 $sesion=1;
          														$horasAsistidas=$filaasis['HorasAsistidas']; 
-                                                                    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $horasAsistidas); 
+                                                                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $horasAsistidas); 
          												}	
 
                                               						 
@@ -674,17 +651,13 @@ class clsAsistencia {
                                        
                                        if($sesion==0){
      											$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, "NA"); 
-     												 
-
                                         }     	
 
  										 } 
   
  										 	$totalSesionesFaltantes=13-$sesiones; 
- 										  	//echo "<br>col".$columnRow; 
                                             if($totalSesionesFaltantes>0){
          										  	for($k=1;$k<=$totalSesionesFaltantes;$k++){  
-         										  		//cellColor($row.$columnRow+1, 'F28A8C'); 
         										  		$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($columnRow=$columnRow+1, $row)->getFill()->applyFromArray(array( 
          												        'type' => PHPExcel_Style_Fill::FILL_SOLID, 
          												        'startcolor' => array( 

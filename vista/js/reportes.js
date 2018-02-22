@@ -405,6 +405,7 @@ $(function(){
 	  if(necesitaFecha==1 && fechaIni == ""){
 					mostrarPopUpError("Debe llenar los campos fecha inicial");
 	  }else{
+	  	
 				var mensaje="Procesando la información<br>Espere por favor";
 				jsShowWindowLoad(mensaje);
 			   	$.post("../../controlador/fachada.php", {

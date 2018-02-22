@@ -44,6 +44,7 @@ class Fachada {
      * @throws Exception En caso de no encontrarse la clase o el método solicitado
      */
     function ejecutar($args) {
+       // var_dump($args);
 //    // Verifique el estado de las sesiones
 //    if (session_status() === PHP_SESSION_ACTIVE) {
 //        error_log('ID de la sesión: ' . session_id());
@@ -71,7 +72,12 @@ class Fachada {
                 }
             } else {
                 $obj = new $clase();
+
                 if (method_exists($obj, $metodo)) {
+                   // print_r($obj);
+                    //echo "aqui";
+                    //echo "obj".$obj->{$metodo}($args);
+
                     $obj->{$metodo}($args);
                 } else {
                     throw new Exception("Imposible responder al mensaje enviado. Argumentos recibidos:\n" . print_r($_REQUEST, 1));

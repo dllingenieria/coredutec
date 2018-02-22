@@ -23,7 +23,6 @@ $(function() {
 			pNumeroIdentificacion: pIdentificacion,
 			pTipoIdentificacion: pTipoIdentificacion
 			}, function(data) {
-				console.log(data[0]);
 				if(data !== null){
 		        	$("#txtNumeroIdentificacion").val(pIdentificacion);
 	        		$("#txtNombres").val(data[0][1]);

@@ -15,7 +15,6 @@ $(function(){
 		obtenerIdTerceroModulos();
 		
 	});
-	
 	// $("#btnConsularSalon").click(function(){ 
 		// var salon = $("#txtSalon").val();
 		// if (salon == ""){
@@ -283,6 +282,7 @@ function jsShowWindowLoad(mensaje) {
 				$("#formatoFirmas").hide();
 			}
 	});
+
 
 	function cargarReporteAlimentacionPorSalon(params){
 		var mensaje="Procesando la información<br>Espere por favor";
