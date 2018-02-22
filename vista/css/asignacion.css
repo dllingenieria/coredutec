@@ -1,0 +1,53 @@
+body {
+	background-image: url(../images/patrones.png);
+	background-size: cover;
+}
+
+.cuerpo{
+	padding-left: 8rem;
+	padding-right: 8rem;
+	padding-top: 4rem;
+}
+
+.asignacion{
+	width: 60rem;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.campos {
+	margin-top: 1rem;
+}
+
+.azul{
+	display: inline-block;
+	width:11rem;
+	font-family: "Roboto-Light";
+	padding-bottom: 0.3rem;
+	padding-top: 0.3rem;
+	font-size: 14px;
+	border-radius: 3px 0px 0px 3px;
+	margin-bottom: 1rem;
+}
+
+.izquierdo{
+	margin-left: 5rem;
+}
+
+.campo{
+	vertical-align: middle;
+	width: 14rem;
+	font-family: "Roboto-Light";
+	padding-bottom: 0.2rem;
+	padding-top: 0.2rem;
+	padding-left: 0.6rem;
+	font-size: 12px;
+	border-radius: 0px 5px 5px 0px;
+}
+
+.Botones{
+	margin-top: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+	width: 12rem;
+}

@@ -7,7 +7,6 @@ $(function() {
 	var tabla;
 	idTerceroCarga="";
 	informacionTabla=[];
-	cargarTipoDocumento();
 
 	$.extend( true, $.fn.dataTable.defaults, {
 		"order": [[ 0, "asc" ]],
@@ -26,6 +25,7 @@ $(function() {
 	});
 
 	inicializar();
+	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
 
 	function inicializar(){
 		$("#buscar").click(consultarCargasTercero);
@@ -47,56 +47,116 @@ $(function() {
 		// 	showConfirmButton: false,
 		// 	type: "success"});
 		var identificacion = $("#identificacion").val();
+		var tipoidentificacion = $("#cmbTipoIdentificacion").val();
 		$.post("../../controlador/fachada.php", {
-			clase: 'clsParticipante',
-			oper: 'ConsultarParticipante',
-			pNumeroIdentificacion: identificacion
-		}, function(data) {
-			if(data !== null){
-				if (data !== 0) { 
-					data.forEach(function(carga){
-						$.cookie("nombre", carga[0]);
-						$.cookie("apellido", carga[1]);
-						$("#nombreApellido").val($.cookie("nombre") + " " + $.cookie("apellido"));
-						var telefonos = carga[2] + " - " + carga[3] + " - " + carga[4];
-						$.cookie("telefono", telefonos);
-						$("#telefono").val(telefonos);
-						$.cookie("convocatoria", carga[5]);
-						$.cookie("curso", carga[6]);
-						$.cookie("cursoId", carga[7]);
-						$.cookie("fechaAsignacion", carga[8]);
-						$.cookie("estado", carga[9]);
-						$("#estado").val($.cookie("estado"));
-						$.cookie("cargaId", carga[10]);
-						$.cookie("rutaId", carga[11]);
-						idTerceroCarga=carga[12]; //alert(idTerceroCarga);
-						$.cookie("tercertoId", idTerceroCarga);
-						//$.cookie("tercertoId", carga[12]);
-						
-						cursosInscritos.push({"rutaId": $.cookie("rutaId"),
-							"cursoId":$.cookie("cursoId"),
-							"curso":$.cookie("curso"),
-							"convocatoria":$.cookie("convocatoria"),
-							"cargaId":$.cookie("cargaId")
-						});
+					clase: 'clsParticipante',
+					oper: 'verificarParticipante',
+					pNumeroIdentificacion: identificacion,
+					pTipoIdentificacion: tipoidentificacion
+				}, function(data){
+					console.log(data);
+					if(data == 0){
+						swal({title: "No se encontró el Oferente",
+								text: "",
+								showConfirmButton: true,
+								showCancelButton: true,
+								confirmButtonClass: "btn-danger",
+	  							confirmButtonText: "Agregar Oferente",
+	  							cancelButtonText: "Cancelar",
+								type: "error"
+							},
+							function(isConfirm) {
+							  if (isConfirm) {
+							   	window.location.href = "../html/oferente.html";
+							  } 
+							});
+							$('#modulosCursados').text('');
+							$("#nombreApellido").val('')
+							$("#telefono").val('');
+							$("#estado").val('');
+							$('#tablaDinamica').empty();
+					}else{
+						$.post("../../controlador/fachada.php", { 
+							clase: 'clsParticipante',
+							oper: 'ConsultarParticipante',
+							pNumeroIdentificacion: identificacion,
+							pTipoIdentificacion: tipoidentificacion
+						}, function(data) {
+							if(data !== null){
+								if (data !== 0) { 
+									data.forEach(function(carga){
+										$.cookie("nombre", carga[0]);
+										$.cookie("apellido", carga[1]);
+										$("#nombreApellido").val($.cookie("nombre") + " " + $.cookie("apellido"));
+										var telefonos = carga[2] + " - " + carga[3] + " - " + carga[4];
+										$.cookie("telefono", telefonos);
+										$("#telefono").val(telefonos);
+										$.cookie("convocatoria", carga[5]);
+										$.cookie("curso", carga[6]);
+										$.cookie("cursoId", carga[7]);
+										$.cookie("fechaAsignacion", carga[8]);
+										$.cookie("estado", carga[9]);
+										$("#estado").val($.cookie("estado"));
+										$.cookie("cargaId", carga[10]);
+										$.cookie("rutaId", carga[11]);
+										idTerceroCarga=carga[12]; //alert(idTerceroCarga);
+										$.cookie("tercertoId", idTerceroCarga);
+										//$.cookie("tercertoId", carga[12]);
+										
+										cursosInscritos.push({"rutaId": $.cookie("rutaId"),
+											"cursoId":$.cookie("cursoId"),
+											"curso":$.cookie("curso"),
+											"convocatoria":$.cookie("convocatoria"),
+											"cargaId":$.cookie("cargaId")
+										});
 
-					});
-					consultarModulosVistos();
-				}else{
-						swal({title: "No se encontraron registros",   
-						text: "",
-						timer: 2000,
-						showConfirmButton: false,
-						type: "error"});
-					}
-			}else{
-						swal({title: "No se encontraron registros",   
-						text: "",
-						timer: 2000,
-						showConfirmButton: false,
-						type: "error"});
-			}
-		},"json");
+									});
+									consultarModulosVistos();
+								}else{
+									swal({title: "El estudiante existe, pero no tiene cursos inscritos",
+									text: "",
+									showConfirmButton: true,
+									showCancelButton: true,
+									confirmButtonClass: "btn-danger",
+	  								confirmButtonText: "Agregar Asignación",
+	  								cancelButtonText: "Cancelar",
+									type: "error"
+									},
+									function(isConfirm) {
+									  if (isConfirm) {
+									   	window.location.href = "../html/asignacion.html?tipoidentificacion="+tipoidentificacion+"&&identificacion="+identificacion;
+									  } 
+									});
+									$('#modulosCursados').text('');
+									$("#nombreApellido").val('')
+									$("#telefono").val('');
+									$("#estado").val('');
+									$('#tablaDinamica').empty();
+								}
+							}else{
+								swal({title: "El estudiante existe, pero no tiene cursos inscritos",
+								text: "",
+								showConfirmButton: true,
+								showCancelButton: true,
+								confirmButtonClass: "btn-danger",
+  								confirmButtonText: "Agregar Asignación",
+  								cancelButtonText: "Cancelar",
+								type: "error"
+								},
+								function(isConfirm) {
+								  if (isConfirm) {
+								   	window.location.href = "../html/asignacion.html?tipoidentificacion="+tipoidentificacion+"&&identificacion="+identificacion;
+								  } 
+								});
+								$('#modulosCursados').text('');
+								$("#nombreApellido").val('')
+								$("#telefono").val('');
+								$("#estado").val('');
+								$('#tablaDinamica').empty();
+							}
+			},"json");
+		}
+	},"json");
 	}
 
 	function consultarModulosVistos(){ 
@@ -286,33 +346,39 @@ $(function() {
 		}
 	}
 
-	function cargarTipoDocumento() {
-        $.post("../../controlador/fachada.php", {
-            clase: 'clsUtilidades',
-            oper: 'consultarTipoIdentificacion'
-        }, function(data) {
-            if (data !== 0) { 
-                setParametroPorDefecto("#cmbTipoIdentificacion", '3', "Cédula Ciudadanía");
-                formarOptionValueTipoDocumento(data);
-            }
-        }, "json");
-    }
+	function cargarListas(objeto,procedimiento) {
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsUtilidades',
+	        oper: 'cargarListas',
+	        objeto: objeto,
+	        procedimiento: procedimiento
+	    }, function(data) {
+	        if (data !== 0) {
+	            formarOptionValueLista(data,objeto);
+	        }
+	        else {
+	            alert('error');
+	        }
+	    }, "json");
+	} 
+
+	function formarOptionValueLista(data,objeto) {
+	    $('#'+objeto).find('option').remove();
+	    setParametroPorDefecto('#'+objeto, '3', 'Cédula Ciudadanía');
+	    for (i = 0; i < data.length; i++) {
+	        $('#'+objeto).append($('<option>', {
+	            value: data[i].Id,
+	            text: data[i].Nombre
+	        }));
+	    }
+	} 
 
 	function setParametroPorDefecto(atributo, valor, texto) {
-        $(atributo).append($('<option>', {
-            value: valor,
-            text: texto
-        }));
-    }
-
-    function formarOptionValueTipoDocumento(tipoDocumento) { 
-        for (i = 0; i < tipoDocumento.length; i++) { 
-            $('#cmbTipoIdentificacion').append($('<option>', {
-				value: tipoDocumento[i][0],
-                text: tipoDocumento[i][1]
-            }));
-        }
-    }
+	    $(atributo).append($('<option>', {
+	        value: valor,
+	        text: texto
+	    }));
+	}
 
 });
 

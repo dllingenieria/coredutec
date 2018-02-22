@@ -172,11 +172,8 @@ class clsModulo {
 		} else {
 			$array = 0;
 		}
-		// print_r($array);
 		echo json_encode($array);
 	}
-
-
 
 	function codificarEnUtf8($fila) {
         $aux;
