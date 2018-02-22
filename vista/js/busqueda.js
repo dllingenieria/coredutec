@@ -67,7 +67,7 @@ $(function() {
 							},
 							function(isConfirm) {
 							  if (isConfirm) {
-							   	window.location.href = "../html/asignacion.html";
+							   	window.location.href = "../html/oferente.html";
 							  } 
 							});
 							$('#modulosCursados').text('');
@@ -76,7 +76,7 @@ $(function() {
 							$("#estado").val('');
 							$('#tablaDinamica').empty();
 					}else{
-						$.post("../../controlador/fachada.php", {
+						$.post("../../controlador/fachada.php", { 
 							clase: 'clsParticipante',
 							oper: 'ConsultarParticipante',
 							pNumeroIdentificacion: identificacion,
@@ -115,9 +115,18 @@ $(function() {
 								}else{
 									swal({title: "El estudiante existe, pero no tiene cursos inscritos",
 									text: "",
-									timer: 3000,
-									showConfirmButton: false,
-									type: "error"});
+									showConfirmButton: true,
+									showCancelButton: true,
+									confirmButtonClass: "btn-danger",
+	  								confirmButtonText: "Agregar Asignación",
+	  								cancelButtonText: "Cancelar",
+									type: "error"
+									},
+									function(isConfirm) {
+									  if (isConfirm) {
+									   	window.location.href = "../html/asignacion.html?tipoidentificacion="+tipoidentificacion+"&&identificacion="+identificacion;
+									  } 
+									});
 									$('#modulosCursados').text('');
 									$("#nombreApellido").val('')
 									$("#telefono").val('');
@@ -127,9 +136,18 @@ $(function() {
 							}else{
 								swal({title: "El estudiante existe, pero no tiene cursos inscritos",
 								text: "",
-								timer: 3000,
-								showConfirmButton: false,
-								type: "error"});
+								showConfirmButton: true,
+								showCancelButton: true,
+								confirmButtonClass: "btn-danger",
+  								confirmButtonText: "Agregar Asignación",
+  								cancelButtonText: "Cancelar",
+								type: "error"
+								},
+								function(isConfirm) {
+								  if (isConfirm) {
+								   	window.location.href = "../html/asignacion.html?tipoidentificacion="+tipoidentificacion+"&&identificacion="+identificacion;
+								  } 
+								});
 								$('#modulosCursados').text('');
 								$("#nombreApellido").val('')
 								$("#telefono").val('');
