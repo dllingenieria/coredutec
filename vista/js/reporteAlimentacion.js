@@ -49,6 +49,35 @@ $(function() {
 			obtenerReporteAlimentacion(fechai,fechaf);
 		}
 	});
+
+    $(document).on('click', '#btnDescargarReporte', function() {
+    //$("#btnDescargarReporte").click(function(){ 
+            var fechai = $("#txtFechai").val();
+            var fechaf = $("#txtFechaf").val();
+            //descargar reporte alimentación excel
+            $.post("../../controlador/fachada.php", {
+                    clase: 'clsAlimentacion',
+                    oper: 'consultarReporteAlimentacion',
+                    fechai:fechai,
+                    fechaf: fechaf
+                    }, function(data) {
+                    if (data.mensaje == 1 && data.html!=""){
+                        nombreArchivo=data.html;
+                        jsRemoveWindowLoad();
+                        window.location.href = "../"+nombreArchivo;
+                        popUpConfirmacion("Generado correctamente el reporte");
+                            
+                    }
+                    else if(data.error == 2){
+                        jsRemoveWindowLoad();
+                        popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+                    }
+                    else{
+                        jsRemoveWindowLoad();
+                        mostrarPopUpError("No se ha generado el reporte");
+                    }       
+                }, "json"); 
+    });
 	
     function obtenerReporteAlimentacion(fechai,fechaf){
 		/*mensaje de procesando*/
