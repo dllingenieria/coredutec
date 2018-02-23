@@ -19,6 +19,7 @@
 	<script src="../js/asignacion.js" type="text/javascript" ></script>
 	<script src="../js/sesion.js" type="text/javascript" ></script>
 	<script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- Inicio Manejo de sesión -->
 	<script type="text/javascript" src="../../includes/jquery.idle.js"></script>
 	<!-- Fin Manejo de sesión -->
@@ -47,7 +48,7 @@
 				<label class="titulo azul izquierdo">Nombre de M&oacute;dulo</label><input id="txtNombreModulo" class="campo" type="text" readonly="readonly">
 				<label class="titulo azul compacto">Ruta</label><input id="txtRuta" class="campo" type="text" readonly="readonly">
 				<label class="titulo azul izquierdo">Convocatoria</label><select id="cmbConvocatoria" class="campo" type="text" tabindex="2"></select>
-				<label class="titulo azul compacto">Fecha de Asignaci&oacute;n</label><input id="txtFechaA" class="campo" type="text" tabindex="3">
+				<label class="titulo azul compacto">Fecha de Asignaci&oacute;n</label><input id="txtFechaA" class="campo" type="date" tabindex="3">
 				<label class="titulo azul izquierdo">Agencia</label><select id="cmbAgencia" class="campo" type="text" tabindex="4"></select>
 				<label class="titulo azul compacto">Servicio</label><select id="cmbServicio" class="campo" type="text" tabindex="5"></select>
 				<label class="titulo azul izquierdo">Instituto de Capacitac&oacute;n</label><select id="cmbInstitutoC" class="campo" type="text" tabindex="6"></select>
@@ -90,5 +91,18 @@
 <!-- FOOTER -->
 <footer></footer>
 		<!-- FIN FOOTER -->
-	</body>
-	</html>
+<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+        <div>
+            <table id="tblPopup" width="410" align="left" border="0">
+                <tr>
+                    <td align="center">
+                        <label id="textoError" class="popup"></label>
+                        <br></br>
+                        <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;"></input>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
