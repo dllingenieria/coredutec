@@ -1,6 +1,7 @@
 $(function() { 
 
 	$("#btnVolver").hide();
+    $("#btnConsularReporteDetallado").hide();
 	//configuracion del calendario
 	 $.datepicker.regional['es'] = {
         currentText: 'Hoy',
@@ -38,6 +39,43 @@ $(function() {
 			recuperarDatos(fechai,fechaf);
 		}
 	});
+
+
+    $("#btnConsularReporteDetallado").click(function(){ 
+        var fechai = "";
+        var fechaf = "";
+        fechai = $("#txtFechai").val();
+        fechaf = $("#txtFechaf").val();
+        if (fechai == "" || fechaf == ""){
+        mostrarPopUpError("Por favor ingrese una fecha inicial y una fecha final ");
+        }
+        else{
+            var mensaje="Procesando la información<br>Espere por favor";
+            jsShowWindowLoad(mensaje);
+            $.post("../../controlador/fachada.php", {
+                    clase: 'clsCalidad',
+                    oper: 'consultarEvaluacionTabuladaDetalle',
+                    fechai:fechai,
+                    fechaf: fechaf
+                    }, function(data) {
+                    if (data.mensaje == 1 && data.html!=""){
+                        nombreArchivo=data.html;
+                        jsRemoveWindowLoad();
+                        window.location.href = "../"+nombreArchivo;
+                        popUpConfirmacion("Generado correctamente el reporte");
+                            
+                    }
+                    else if(data.error == 2){
+                        jsRemoveWindowLoad();
+                        popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+                    }
+                    else{
+                        jsRemoveWindowLoad();
+                        mostrarPopUpError("No se ha generado el reporte");
+                    }       
+                }, "json"); 
+        }
+    });
 	
     function recuperarDatos(fechai,fechaf){ //alert(data);
         //----- Recupera los resultados de Satisfaccion -----//
@@ -453,6 +491,7 @@ $(function() {
 
         $("#sectCuerpo").show();
         $("#btnVolver").show();
+        $("#btnConsularReporteDetallado").show();
         jsRemoveWindowLoad();
     }
 

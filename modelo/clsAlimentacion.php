@@ -215,7 +215,7 @@ class clsAlimentacion {
     //genera informe en archivo excel alimentación
     public function consultarReporteAlimentacion ($param){
         define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-        date_default_timezone_set('Europe/London');
+        date_default_timezone_set('America/Bogota');
         /** PHPExcel_IOFactory */
          
         require_once dirname(__FILE__) . '/../includes/PHPExcel/PHPExcel/IOFactory.php';
@@ -296,11 +296,10 @@ class clsAlimentacion {
          $objPHPExcel->getDefaultStyle()->applyFromArray($styleArray);
         
         //foreach externo
-         //$objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
          $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         
          $FechaMod=strtotime("now");
-         $filename = '../tmp/reporteAlimentacion/reporteAlimentacion_'.$FechaMod.'.xls';
+         $filename = '../anexos/reportes/reporteAlimentacion_'.$FechaMod.'.xls';
          $objWriter->save(str_replace('.php', '.xls', $filename));
          $data['html']=$filename;
 
