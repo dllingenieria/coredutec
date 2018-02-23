@@ -3,6 +3,26 @@ $(function() {
 	var pTipoIdentificacion = getQueryVariable("tipoidentificacion");
 	var pIdentificacion = getQueryVariable("identificacion");
 
+	//----- Configura el campo de fecha, colocando por defecto la fecha actual -----//
+	$.datepicker.regional['es'] = {
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+        weekHeader: 'Sm',
+        dateFormat: 'yy-mm-dd',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+		
+    };
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+	$("#txtFechaA").datepicker();
+	obtenerFechaActual();
+
 	//----- Carga todas las listas desplegables -----//
 	cargarListas('cmbConvocatoria','SPCARGARCONVOCATORIA');
 	cargarListas('cmbAgencia','SPCARGARAGENCIAS');
@@ -13,6 +33,28 @@ $(function() {
 	cargarListas('cmbInstitutoC','SPCARGARINSTITUTOCAPACITACION');
 	cargarListas('cmbCertificacion','SPCARGARCERTIFICACION');
 	cargarInformacionTercero(pTipoIdentificacion,pIdentificacion);
+
+	//----- Busca los datos del curso y los coloca en el formulario -----//
+	$('#txtCodigoCurso').change(function() {
+        CargarDatosPorCodigoCurso($("#txtCodigoCurso").val());
+    });
+
+    function CargarDatosPorCodigoCurso(codCurso) {    
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsCurso',
+	        oper: 'CargarCursosPorCodigo',
+	        codCurso: codCurso
+	    }, function(data) {
+	        // console.log("pasa");
+	        // console.log(data);
+	        if (data !== 0) {
+	            FormarOptionValueCursos(data);
+	        }
+	        else {
+	             mostrarPopUpError('No se cargaron los cursos por código');
+	        }
+	    }, "json");
+	}
 
 	//----- Consulta la informaicion del tercero y la coloca en el formulario -----//
 	function cargarInformacionTercero(pTipoIdentificacion,pIdentificacion) {
@@ -40,7 +82,6 @@ $(function() {
 	        procedimiento: procedimiento
 	    }, function(data) {
 	        if (data !== 0) {
-	        	var seleccionado = 3;
 	            formarOptionValueLista(data,objeto);
 	        }
 	        else {
@@ -66,6 +107,21 @@ $(function() {
 	// 	    }
 	//     }
 	// } 
+
+	function obtenerFechaActual(){
+		var hoy = new Date();
+		var dd = hoy.getDate();
+		var mm = hoy.getMonth()+1; //hoy es 0!
+		var yyyy = hoy.getFullYear();
+		if(dd<10) {
+			dd='0'+dd
+		} 
+		if(mm<10) {
+			mm='0'+mm
+		} 
+		hoy = yyyy+'-'+mm+'-'+dd;
+		$("#txtFechaA").val(hoy);
+	}
 
 	function formarOptionValueLista(data,objeto) {
 	    $('#'+objeto).find('option').remove();
