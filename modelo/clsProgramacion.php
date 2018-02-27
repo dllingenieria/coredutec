@@ -257,7 +257,8 @@ class clsProgramacion {
             $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion','$codSalon');";
         $rs=null;
 		// echo json_encode(array($sql));
-        if ($rs = $conexion->getPDO()->query($sql)) {          
+        if ($rs = $conexion->getPDO()->query($sql)) {     
+            $utilidades = new clsUtilidades();     
             $array = 1;
 			$correo=$utilidades->enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
             $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
