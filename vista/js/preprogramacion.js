@@ -442,16 +442,14 @@ function modificarPreprogramacion() {
                 cod_sal: $("#txtCodigoMatricula").val()+'.'+cod_mod_aux
 				
             }, function(data) {
-                console.log("DEBUGING DATA");
-                console.log(data);
                 if (data === 1) {
-                    popUpConfirmacion("Modificado");
+                    popUpConfirmacion("Preprogramacion modificada de manera correcta");
                     setTimeout(function() {
                         location.reload(true);
                     }, 1500); 
                 } else if (data === 0) {
 					jsRemoveWindowLoad();
-                    mostrarPopUpError("Error modificarPreprogramacion.");
+                    mostrarPopUpError("Error al modificar la preprogramacion.");
                 }
 				else if (data === -1) {
 					setTimeout(function() {
