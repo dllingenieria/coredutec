@@ -29,9 +29,12 @@ class clsAlimentacion {
     {  
         extract($param);
 		$array = array();
-		$rs = null;	
+		$rs = null;		
+        // print_r($serializedAsistencia);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario =  $_SESSION['idUsuario'];
+        // $fecha = date('Y-m-d');
+        // $sql = "CALL SPAGREGARASISTENCIA($idPreprogramacion,'$fecha', $sesion,$usuario);";
         $sql = "CALL SPAGREGARALIMENTACION('$serializedAlimentacion',$usuario);";
         
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -39,7 +42,9 @@ class clsAlimentacion {
                 
                 $filas = substr($filas[0]['pIdAlimentacion1'],1);
                 $res = explode(",", $filas);
+                //var_dump($res);
                 foreach ($res as $resul) {
+                	//var_dump($resul);
                     $array[] = array('IdAlimentacion' => $resul);
 
                 }
@@ -60,15 +65,76 @@ class clsAlimentacion {
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
         $rs = null;
+        // $sql = "CALL SPAGREGARASISTENCIADETALLE($idAsistencia, $idTercero, $valorAsistencia,  $idAsistenciaDetalle, $usuario);";
         $sql = "CALL SPAGREGARALIMENTACIONDETALLE('$serializedalimentacionD', $usuario);";
+        //print_r($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
+            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                // foreach ($filas as $fila) {
+                    // $array[] = $fila;
+                // }
+            // }
 			$array = 1;
         } else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); die();
         }
+		//print_r($array);
         echo json_encode($array);
     }
+	
+	   
+
+    // public function consultarAsistenciaEstudiantes($param) {
+        // extract($param);
+        // $resultado = array();
+        // $registro = array();
+        // $conexion->getPDO()->query("SET NAMES 'utf8'");
+        // $sql = "CALL SPCONSULTARASISTENCIAPORSALON($idPreprogramacion,$sesion);";
+        // if ($rs = $conexion->getPDO()->query($sql)) {
+            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                // foreach ($filas as $fila) {
+                    // foreach ($fila as $key => $value) {
+                        // array_push($registro, $value);
+                    // }
+                    // array_push($resultado, $registro);
+                    // $registro = array();
+                // }
+            // }
+        // } else {
+            // $registro = 0;
+        // }
+        // echo json_encode($resultado);
+    // }
+	
+	/*
+	*Funcion consultarAsistenciasPorSalon
+	*params: IdPreprogramacion
+	*return: array con IdTercero y horas asistidas
+	*/
+	// public function consultarAsistenciasPorSalon($param) {
+        // extract($param);
+        // $resultado = array();
+        // $registro = array();
+        // $conexion->getPDO()->query("SET NAMES 'utf8'");
+		// for ($i=0; $i<=$registros;$i++){
+			// $sql = "CALL SPCONSULTARASISTENCIASPORSALON($idPreprogramacion);";
+			// if ($rs = $conexion->getPDO()->query($sql)) {
+				// if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+					// foreach ($filas as $fila) {
+						// foreach ($fila as $key => $value) {
+							// array_push($registro, $value);
+						// }
+						// array_push($resultado, $registro);
+						// $registro = array();
+					// }
+				// }
+			// } else {
+				// $registro = 0;
+			// } //print_r($resultado); die();
+		// }
+        // echo json_encode($resultado);
+    // }
 	
 	/*
 	*Funcion consultaralimentacionPorPreprogramacion
@@ -81,6 +147,7 @@ class clsAlimentacion {
         //print_r("llego");
         $conexion->getPDO()->query("SET NAMES 'utf8'");
 			$sql = "CALL SPCONSULTARALIMENTACIONPORPREPROGRAMACION($idPreprogramacion);";
+			//print_r($sql);
 			if ($rs = $conexion->getPDO()->query($sql)) {
 				if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
 					foreach ($filas as $fila) {
@@ -90,7 +157,8 @@ class clsAlimentacion {
 			} else {
 				$array = 0;
 				print_r($conexion->getPDO()->errorInfo());
-			} 
+			} //print_r($array);
+			//print_r($array);
         echo json_encode($array);
     }
 	
@@ -127,6 +195,7 @@ class clsAlimentacion {
         extract($param);
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
+    //for ($i=0; $i<count($idTerceroHorasTotales);$i++){
             $sql = "CALL SPCARGARTIPOREFRIGERIO();";
             if ($rs = $conexion->getPDO()->query($sql)) {
                 if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -138,14 +207,19 @@ class clsAlimentacion {
             } else {
                 $array = 0;
                 print_r($conexion->getPDO()->errorInfo()); die();
-            } 
+            } //print_r($array);
+        //}
         echo json_encode($array);
     }
 
     //genera informe en archivo excel alimentación
     public function consultarReporteAlimentacion ($param){
         define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+<<<<<<< HEAD
+        date_default_timezone_set('Europe/London');
+=======
         date_default_timezone_set('America/Bogota');
+>>>>>>> 24f2e6a1282d5e08b867d4b55aaf5c4c271a9b84
         /** PHPExcel_IOFactory */
          
         require_once dirname(__FILE__) . '/../includes/PHPExcel/PHPExcel/IOFactory.php';
@@ -188,10 +262,14 @@ class clsAlimentacion {
     $conexion->getPDO()->query("SET NAMES 'utf8'");
     $sql = "CALL SPREPORTEALIMENTACIONGENERAL('$fechai','$fechaf');";
     $rs=null;
+    // $sql = "CALL SPREPORTEASISTENCIADETALLE1('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";
+    // //print_r($sql);
     if ($rs = $conexion->getPDO()->query($sql)) {
     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
     $data['mensaje'] = 1;
+    //print_r($filas);
     foreach ($filas as  $r =>$fila) {
+        //$array[] = $fila;
         $columnRow=0;
         $row = $baseRow + $r;
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila['Salon']);
@@ -222,10 +300,18 @@ class clsAlimentacion {
          $objPHPExcel->getDefaultStyle()->applyFromArray($styleArray);
         
         //foreach externo
+<<<<<<< HEAD
+         //$objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
+         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        
+         $FechaMod=strtotime("now");
+         $filename = '../tmp/reporteAlimentacion/reporteAlimentacion_'.$FechaMod.'.xls';
+=======
          $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         
          $FechaMod=strtotime("now");
          $filename = '../anexos/reportes/reporteAlimentacion_'.$FechaMod.'.xls';
+>>>>>>> 24f2e6a1282d5e08b867d4b55aaf5c4c271a9b84
          $objWriter->save(str_replace('.php', '.xls', $filename));
          $data['html']=$filename;
 

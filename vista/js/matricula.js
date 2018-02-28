@@ -212,6 +212,7 @@ function obtenerGradoEscolaridad(){
         pIdCarga : $.cookie("pIdCarga")
     }, function(data) {
         if (data != 0) {
+            EnviarCorreo(data);
             $.cookie("id_mat", data);
             $.cookie("pEstadoMatricula",'Guardada');
             PopUpConfirmacion("Matrícula guardada satisfactoriamente.");
@@ -227,6 +228,22 @@ function obtenerGradoEscolaridad(){
 	}else{
 		PopUpError("Faltan algun(os) campos obligatorios por llenar.");
 	}
+}
+
+function EnviarCorreo(IdMatricula){ 
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsMatricula',
+        oper: 'enviarCorreo',
+        IdMatricula: IdMatricula
+    }, function(data) {
+        if (data != 0) {
+            PopUpConfirmacion("Correo enviado satisfactoriamente");
+        }else{
+            if(data=='-1'){
+                PopUpError("No se pudo enviar el correo");
+            }
+        }   
+    }, "json");
 }
 
 function CargarDatosModulo(pCodigo){
