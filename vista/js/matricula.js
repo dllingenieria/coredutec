@@ -212,10 +212,10 @@ function obtenerGradoEscolaridad(){
         pIdCarga : $.cookie("pIdCarga")
     }, function(data) {
         if (data != 0) {
-            EnviarCorreo(data);
             $.cookie("id_mat", data);
             $.cookie("pEstadoMatricula",'Guardada');
             PopUpConfirmacion("Matrícula guardada satisfactoriamente.");
+            //EnviarCorreo(data);
         }else{
             if(data=='-1'){
                 PopUpError("No se pudo guardar la matrícula");
