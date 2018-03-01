@@ -8,7 +8,7 @@ set_time_limit(0);
  */
 class clsUtilidades {
     //----- Función que envía correo luego de una matrícula -----//
-    public function enviarCorreoEstudiante($cod_mat, $correo,$correode,$clave){
+    public function enviarCorreoEstudiante($estudiante,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
@@ -20,14 +20,31 @@ class clsUtilidades {
         $mail->SMTPSecure = "ssl";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
-        $mail->AddAddress($correo);                  // name is optional
+        $mail->AddAddress($correoElectronico);                  // name is optional
         $mail->WordWrap = 50;                                 // set word wrap to 50 characters
         $mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
         $mail->IsHTML(true);                                  // set email format to HTML
         $mail->Subject = "Confirmacion de Matricula";
         $mensaje = file_get_contents("../vista/html/correo_curso.html");
-        $mensaje = str_replace("cod_mat", $cod_mat, $mensaje);
-        $mensaje = str_replace("usuario", $_SESSION['nombreUsuario'], $mensaje);
+        $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
+        $mensaje = str_replace("estudiante", $estudiante, $mensaje);
+        $mensaje = str_replace("cod-salon", $salon, $mensaje);
+        $mensaje = str_replace("capacitacion", $curso, $mensaje);
+        $mensaje = str_replace("ruta", $ruta, $mensaje);
+        $mensaje = str_replace("duracioncurso", $duracionCurso, $mensaje);
+        $mensaje = str_replace("diascurso", $diasCurso, $mensaje);
+        $mensaje = str_replace("finicial", $fechaInicial, $mensaje);
+        $mensaje = str_replace("ffinal", $fechaFinal, $mensaje);
+        $mensaje = str_replace("horai", $horaInicial, $mensaje);
+        $mensaje = str_replace("horaf", $horaFinal, $mensaje);
+        $mensaje = str_replace("modulo", $modulo, $mensaje);
+        $mensaje = str_replace("duracionm", $duracionModulo, $mensaje);
+        $mensaje = str_replace("modalidad", $modalidad, $mensaje);
+        $mensaje = str_replace("sede", $sede, $mensaje);
+        $mensaje = str_replace("estado", $estado, $mensaje);
+        $mensaje = str_replace("cod_mat", $IdMatricula, $mensaje);
+        $mensaje = str_replace("usuario", $usuario, $mensaje);
+        $mensaje = str_replace("emailu", $usuarioe, $mensaje);
         $mail->Body = $mensaje;
         $envio=-1;
         if(!$mail->Send())
