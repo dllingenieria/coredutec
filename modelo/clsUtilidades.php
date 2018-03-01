@@ -55,57 +55,54 @@ class clsUtilidades {
    }
 
    //----- Funcion que envía correo a los docentes luego que son preprogramados o modificados -----//
-   public function enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
-        $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
-        $tip_cer,$pre_est,$canSesiones,$capSalon,$inteHoraria,$observacion,$conexion){
-        $array=array();
-        $envio = "";
-        $rs = null;
-        $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARCORREODOCENTE($id_doc);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila;
-                }
-                require_once("../includes/PHPMailer/class.phpmailer.php");
-                $mail = new PHPMailer();
-                $mail->IsSMTP();                                      // set mailer to use SMTP
-                $mail->Host = "smtp.zoho.com";  // specify main and backup server
-                $mail->SMTPAuth = true;     // turn on SMTP authentication
-                $mail->Username = $array[1]['Email'];  // SMTP username
-                $mail->Password = $array[2]['Email']; // SMTP password
-                $mail->Port = 465;
-                $mail->SMTPSecure = "ssl";
-                $mail->From = $array[1]['Email'];
-                $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";                 // name is optional
-                $mail->AddAddress($array[0]['Email']); 
-                $mail->WordWrap = 50; 
-                $mail->IsHTML(true);                                  // set email format to HTML
-                $mail->Subject = "Preprogramacion Asignada";
-                $mensaje = file_get_contents("../vista/html/correo_preprogramacion.html");
-                $mensaje = str_replace("cod_sal",$cod_sal, $mensaje);
-                $mensaje = str_replace("cur_cod",$cur_cod, $mensaje);
-                $mensaje = str_replace("cur_dia",$diasDelCurso, $mensaje);
-                $mensaje = str_replace("hra_ini",$horaInicio, $mensaje);
-                $mensaje = str_replace("hra_fin",$horaFinal, $mensaje);
-                $mensaje = str_replace("id_sed" ,$sede,  $mensaje);
-                $mensaje = str_replace("fec_ini",$fec_ini, $mensaje);
-                $mensaje = str_replace("fec_fin",$fec_fin, $mensaje);
-                $mensaje = str_replace("id_docente", $_SESSION['nombreUsuario'], $mensaje);
-                $mail->Body = $mensaje;
-                $envio=-1;
-                if(!$mail->Send())
-                {
-                 $envio = "";
-                }
-                else{
-                    $envio=1;
-                }
-            }
-        } else {
-            $envio = "";
+   public function enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave){
+        require_once("../includes/PHPMailer/class.phpmailer.php");
+        $mail = new PHPMailer();
+        $mail->IsSMTP();                                      // set mailer to use SMTP
+        $mail->Host = "smtp.zoho.com";  // specify main and backup server
+        $mail->SMTPAuth = true;     // turn on SMTP authentication
+        $mail->Username = $correode;  // SMTP username
+        $mail->Password = $clave; // SMTP password
+        $mail->Port = 465;
+        $mail->SMTPSecure = "ssl";
+        $mail->From = $correode;
+        $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";                 // name is optional
+        $mail->AddAddress($correoElectronico); 
+        $mail->WordWrap = 50; 
+        $mail->IsHTML(true);                                  // set email format to HTML
+        $mail->Subject = "Preprogramacion Asignada";
+        $mensaje = file_get_contents("../vista/html/correo_preprogramacion.html");
+        $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
+        $mensaje = str_replace("capacitador", $docente, $mensaje);
+        $mensaje = str_replace("cod-salon", $salon, $mensaje);
+        $mensaje = str_replace("cod-curso", $codigocurso, $mensaje);
+        $mensaje = str_replace("capacitacion", $curso, $mensaje);
+        $mensaje = str_replace("ruta", $ruta, $mensaje);
+        $mensaje = str_replace("duracioncurso", $duracionCurso, $mensaje);
+        $mensaje = str_replace("diascurso", $diasCurso, $mensaje);
+        $mensaje = str_replace("finicial", $fechaInicial, $mensaje);
+        $mensaje = str_replace("ffinal", $fechaFinal, $mensaje);
+        $mensaje = str_replace("horai", $horaInicial, $mensaje);
+        $mensaje = str_replace("horaf", $horaFinal, $mensaje);
+        $mensaje = str_replace("modulo", $modulo, $mensaje);
+        $mensaje = str_replace("duracionm", $duracionModulo, $mensaje);
+        $mensaje = str_replace("ihoraria", $intensidadhoraria, $mensaje);
+        $mensaje = str_replace("sesiones", $cantidadsesiones, $mensaje);
+        $mensaje = str_replace("modalidad", $modalidad, $mensaje);
+        $mensaje = str_replace("sede", $sede, $mensaje);
+        $mensaje = str_replace("observacion", $observaciones, $mensaje);
+        $mensaje = str_replace("estado", $estado, $mensaje);
+        $mensaje = str_replace("usuario", $usuario, $mensaje);
+        $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mail->Body = $mensaje;
+        $envio=-1;
+        if(!$mail->Send())
+        {
+         $envio = "";
         }
+        else{
+            $envio=1;
+        }   
    return $envio;
    }
 
