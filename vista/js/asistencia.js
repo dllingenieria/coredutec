@@ -29,7 +29,7 @@ $(function() {
 	asistenciaGeneral = new Array(); 
 	
 	
-	CargarMotivosNoAsistencia();
+	CargarMotivosNoAsistencia(); 
     consultarUltimaSesionPorSalon(sessionStorage.IdPreprogramacion);
     //consultarAsistenciaPorSalon();
 	//cargarHorasTotales();

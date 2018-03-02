@@ -34,29 +34,57 @@ $(function() {
 	cargarListas('cmbCertificacion','SPCARGARCERTIFICACION');
 	cargarInformacionTercero(pTipoIdentificacion,pIdentificacion);
 
-	//----- Busca los datos del curso y los coloca en el formulario -----//
+	//----- Rregresa a BUsqueda -----//
+	$("#btnRegresar").click(function(){ 
+		window.location.href = "../html/busqueda.html"; 
+	});
+
+	//----- Valida cuando se presiona la tecla enter -----//
 	$('#txtCodigoCurso').change(function() {
-        CargarDatosPorCodigoCurso($("#txtCodigoCurso").val());
+        if($("#txtCodigoCurso").val() != ""){
+        	var pCodigoCurso = $("#txtCodigoCurso").val();
+        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
+        	CargarDatosPorCodigoCurso(pCodigoCurso,pTipoIdentificacion,pNumeroIdentificacion);
+        }else{
+        	mostrarPopUpError('Por favor escriba un código para buscar');
+        }  
     });
 
-    function CargarDatosPorCodigoCurso(codCurso) {    
+	//----- Valida que el curso no haya sido asignado anteriormente -----//
+    function CargarDatosPorCodigoCurso(pCodigoCurso,pTipoIdentificacion,pNumeroIdentificacion){   
 	    $.post("../../controlador/fachada.php", {
-	        clase: 'clsCurso',
+	        clase: 'clsAsignacion',
 	        oper: 'CargarCursosPorCodigo',
-	        codCurso: codCurso
+	        pCodigoCurso: pCodigoCurso,
+	        pTipoIdentificacion: pTipoIdentificacion,
+	        pNumeroIdentificacion: pNumeroIdentificacion
 	    }, function(data) {
-	        // console.log("pasa");
-	        // console.log(data);
-	        if (data !== 0) {
-	            FormarOptionValueCursos(data);
+	        if (data[0]['pResultado'] == '0') {
+	            mostrarPopUpError('Verifique el código del curso que ingresó, está errado');
+	            $("#txtCodigoCurso").val('');
+	            $("#txtNombreCurso").val('');
+	            $("#txtCodigoModulo").val('');
+	            $("#txtNombreModulo").val('');
+	            $("#txtRuta").val('');
 	        }
 	        else {
-	             mostrarPopUpError('No se cargaron los cursos por código');
+	             if (data[0]['pResultado'] == '-1'){
+	             	mostrarPopUpError('El oferente ya tiene asignado el curso consultado');
+	             	$("#txtCodigoCurso").val('');
+	             	//$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+	             }else{
+	             	$("#txtCodigoCurso").val(data[0]['CodigoCurso']);
+	             	$("#txtNombreCurso").val(data[0]['NombreCurso']);
+	             	$("#txtCodigoModulo").val(data[0]['CodigoModulo']);
+	             	$("#txtNombreModulo").val(data[0]['NombreModulo']);
+	             	$("#txtRuta").val(data[0]['Ruta']);
+	             }
 	        }
 	    }, "json");
 	}
 
-	//----- Consulta la informaicion del tercero y la coloca en el formulario -----//
+	//----- Consulta la informacion del tercero y la coloca en el formulario -----//
 	function cargarInformacionTercero(pTipoIdentificacion,pIdentificacion) {
 		if(pTipoIdentificacion !== null){	
 			$.post("../../controlador/fachada.php", {
@@ -74,6 +102,7 @@ $(function() {
 		}
 	}
 
+	//----- Consulta en la base de datos los valores de las listas -----//
 	function cargarListas(objeto,procedimiento) {
 	    $.post("../../controlador/fachada.php", {
 	        clase: 'clsUtilidades',
@@ -90,24 +119,7 @@ $(function() {
 	    }, "json");
 	} 
 
-	// function formarOptionValueLista(data,objeto) {
-	//     $('#'+objeto).find('option').remove();
-	//     for (i = 0; i < data.length; i++) {
-	//     	if (data[i].Id == 7){
-	//     		console.log("Ingreso al seleccionado: "+data[i].Id+data[i].Nombre);
-	// 	        $('#'+objeto).append($('<option selected>', {
-	// 	            value: data[i].Id,
-	// 	            text: data[i].Nombre
-	// 	        }));
-	// 	    }else{
-	// 	    	$('#'+objeto).append($('<option>', {
-	// 	            value: data[i].Id,
-	// 	            text: data[i].Nombre
-	// 	        }));
-	// 	    }
-	//     }
-	// } 
-
+	//----- Coloca la fecha de hoy en el campo fecha -----//
 	function obtenerFechaActual(){
 		var hoy = new Date();
 		var dd = hoy.getDate();
@@ -123,6 +135,7 @@ $(function() {
 		$("#txtFechaA").val(hoy);
 	}
 
+	//----- Llena las listas -----//
 	function formarOptionValueLista(data,objeto) {
 	    $('#'+objeto).find('option').remove();
 	    for (i = 0; i < data.length; i++) {
@@ -133,6 +146,7 @@ $(function() {
 	    }
 	} 
 
+	//----- Establece los valores por defecto de las listas -----//
 	function setParametroPorDefecto(atributo, valor, texto) {
 	    $(atributo).append($('<option>', {
 	        value: valor,
@@ -140,6 +154,7 @@ $(function() {
 	    }));
 	}
 
+	//----- Recupera las variables enviadas desde la pagina anterior -----//
 	function getQueryVariable(variable)
     {
        var query = window.location.search.substring(1);
@@ -150,6 +165,15 @@ $(function() {
        }
        return(false);
     }
+
+    //----- Muestra el PopUp -----//
+    function mostrarPopUpError(err_men) {
+	    $("#textoError").text(err_men);
+	    $('#element_to_pop_upMen').bPopup({
+	        speed: 450,
+	        transition: 'slideDown'
+	    });
+	}
 
 });
 

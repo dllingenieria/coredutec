@@ -12,12 +12,12 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host = "smtp.zoho.com";  // specify main and backup server
+        $mail->Host = "smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; 
-        $mail->Port = 465;
-        $mail->SMTPSecure = "ssl";
+        $mail->Port = 587;
+        $mail->SMTPSecure = "tls";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
         $mail->AddAddress($correoElectronico);                  // name is optional
@@ -59,12 +59,12 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host = "smtp.zoho.com";  // specify main and backup server
+        $mail->Host = "smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; // SMTP password
-        $mail->Port = 465;
-        $mail->SMTPSecure = "ssl";
+        $mail->Port = 587;
+        $mail->SMTPSecure = "tls";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";                 // name is optional
         $mail->AddAddress($correoElectronico); 
@@ -158,23 +158,6 @@ class clsUtilidades {
         }
         echo json_encode($array);
     }
-
-    //----- Funcion para cargar la lista de tipos de identificacion -----//
-    // public function consultarTipoIdentificacion() {
-    //     $rs = null;
-    //     $conexion->getPDO()->query("SET NAMES 'utf8'");
-    //     $sql = "CALL SPCARGARTIPOIDENTIFICACION($IdP);";
-    //     if ($rs = $conexion->getPDO()->query($sql)) {
-    //         if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-    //             foreach ($filas as $fila) {
-    //                 $array[] = $fila;
-    //             }
-    //         }
-    //     } else {
-    //         $array = 0;
-    //     }
-    //     echo json_encode($array);
-    // }
 
     public function cargarListas($param) {
         extract($param);
