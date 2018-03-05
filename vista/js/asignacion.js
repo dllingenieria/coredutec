@@ -22,6 +22,7 @@ $(function() {
     $.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtFechaA").datepicker();
 	obtenerFechaActual();
+	cargarOpcionesArchivos();
 
 	//----- Carga todas las listas desplegables -----//
 	cargarListas('cmbConvocatoria','SPCARGARCONVOCATORIA');
@@ -34,9 +35,24 @@ $(function() {
 	cargarListas('cmbCertificacion','SPCARGARCERTIFICACION');
 	cargarInformacionTercero(pTipoIdentificacion,pIdentificacion);
 
-	//----- Rregresa a BUsqueda -----//
+	//----- Regresa a Busqueda -----//
 	$("#btnRegresar").click(function(){ 
 		window.location.href = "../html/busqueda.html"; 
+	});
+
+	//----- Da inicio al guardado de la nueva asignacion -----//
+	$("#btnGuardar").click(function(){ 
+		if($("#txtCodigoModulo").val() != "" && $("#txtCodigoCurso").val() != ""){
+			if($("#txtexaminararchivosAutorizacion").val() != ""){
+				var mensaje="Procesando la información<br>Espere por favor";
+				jsShowWindowLoad(mensaje);
+				GuardarArchivoFuenteAutorizacion();
+			}else{
+				mostrarPopUpError('Por favor seleccione el archivo de autorización');	
+			}
+		}else{
+			mostrarPopUpError('Por favor diligencie los campos referentes al curso');
+		}
 	});
 
 	//----- Valida cuando se presiona la tecla enter -----//
@@ -173,6 +189,200 @@ $(function() {
 	        speed: 450,
 	        transition: 'slideDown'
 	    });
+	}
+
+	//----- Carga los controles ocultos del html necesarios para realizar la nueva asignacion y subir el archivo -----//
+	function cargarOpcionesArchivos() { 
+	    $.post("../../controlador/fachada.php", {
+	         clase: 'clsGestorBDPlanas',
+	         oper: 'cargarOpcionesArchivos',
+			 valor: 1
+	    }, function(data) { 
+			console.log(data);
+	        if (data !== 0) {
+				$("#ruta").val(data[0].Ruta);
+				$("#tabla").val(data[0].NombreTabla);
+				$("#nombreCorto").val(data[0].NombreCorto);
+				$("#hiddenexaminararchivosAutorizacion").val("Autorizacion");
+	        }
+	        else {
+	            mostrarPopUpError('No se pudo cargar la lista de opciones archivos');
+	        }
+	    }, "json");
+	}
+
+	//----- Inserta en la tabla general y envia a guardar el archivo -----//
+	function GuardarArchivoFuenteAutorizacion(){
+		var observaciones = "Carga a través de InHouse";
+		var tipoCarga = 1;
+		var nombreCorto= $("#nombreCorto").val();
+    	//Guarda en la tabla TCARGAGENERAL
+    	$.post("../../controlador/fachada.php", {
+	    	clase: 'clsCarga',
+	        oper: 'AgregarCargaGeneral',
+	        tipoCarga: tipoCarga,
+	        Observaciones: observaciones
+		    }, function(data) {
+		     	if(data != ""){
+			        var idTablaGeneral = "";
+			        idTablaGeneral = data[0]["IdTabla"];
+			        var archivoA = "Autorizacion";
+			         ubicacionOriginalAutorizacion = $("#ruta").val()+"/Autorizacion/";
+					 GuardarArchivoCarpeta(archivoA); //Guardar archivo autorizacion en carpeta
+		       		 setTimeout(function(){
+	        			nameArchivotmpAutorizacion = sessionStorage.nameArchivoAutorizacion;
+						GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral, nameArchivotmpAutorizacion, ubicacionOriginalAutorizacion, nombreCorto, archivoA);
+		        	},15000);
+		       }else{
+		       		 jsRemoveWindowLoad();
+		       		 mostrarPopUpError("Error al guardar en tabla general");
+		       }  
+		    }, "json");
+	}
+
+	//----- Guarda el archivo en la carpeta temporal del servidor -----//
+	function GuardarArchivoCarpeta(archivo){
+		var ubicacion = "tmp/";  
+		var valorSeleccionado = archivo; 		
+        var archivos = document.getElementById("txtexaminararchivos"+archivo);
+        var archivo = archivos.files;
+        if (typeof archivo[0] !== "undefined") {
+            if (archivo[0].size < 100004857600000000) {
+                var data = new FormData();
+                data.append('vid', archivo[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarArchivoPlano&valorSeleccionado="+valorSeleccionado+"&ubicacion="+ubicacion,
+                    data: data, //Le pasamos el objeto que creamos con los archivos
+                    contentType: false, //Debe estar en false para que pase el objeto sin procesar
+                    processData: false, //debe estar en false para que JQuery no procese los datos a enviar
+                    cache: false //Para que el formulario no guarde cache
+                }).done(function(data) { 
+                	setTimeout(function(){ 
+		                if(typeof(Storage) !== "undefined") {
+		                	if(data != ""){
+			                	sessionStorage.nameArchivoAutorizacion = data;
+			                }else{
+			                	jsRemoveWindowLoad();
+		                		mostrarPopUpError("Error al guardar archivo en carpeta temporal");
+			                }
+			             }
+	             	},7500);
+                });
+             } else {
+            	jsRemoveWindowLoad();
+                mostrarPopUpError('El tamaño del documento es demasiado grande, por favor redúzcalo');
+            }
+        }
+	}
+
+	//----- Guarda el archivo en la carpeta definitiva del servidor -----//
+	function GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral,ArchivoAutorizacion,ubicacionAutorizacion,nombreCorto,tipoArchivo){
+		//Guarda archivo en carpeta original Fuente
+     	tipoarchivoA="Autorizacion";
+     	//Guarda archivo en carpeta original autorizacion
+     	$.post("../../controlador/fachada.php", {
+	    	clase: 'clsArchivo',
+	        oper: 'GuardarArchivoOriginal',
+	        idTablaGeneral: idTablaGeneral,
+	        archivo: ArchivoAutorizacion,
+	        ubicacion: ubicacionAutorizacion,
+	       	nombreCorto: nombreCorto,
+	        tipoArchivo: tipoarchivoA
+		    }, function(data) {
+		        if(data != 2){
+		         	archivoAutorizacion = data;
+	         		$.post("../../controlador/fachada.php", {
+			    	clase: 'clsAsignacion',
+			        oper: 'guardarAsignacion',
+			        pIdTablaGeneral: idTablaGeneral,
+			        pArchivo: archivoAutorizacion,
+			        pFechaAsignacion: $("#txtFechaA").val(),
+			        pAgenciaEmpleo: $("#cmbAgencia option:selected").val(),
+			        pServicioCapacitacion: $("#cmbServicio option:selected").val(),
+			        pConvocatoria: $("#cmbConvocatoria option:selected").val(),
+			        pInstitutoCapacitacion: $("#cmbInstitutoC option:selected").val(),
+			        pMunicipioCapacitacion: $("#cmbMunicipioC option:selected").val(),
+			        pRuta: $("#txtRuta").val(),
+			        pCodigoCurso: $("#txtCodigoCurso").val(),
+			        pCodigoModulo: $("#txtCodigoModulo").val(),
+			        pEstadoParticipante: $("#cmbEstadoP option:selected").val(),
+			        pNovedadEstado: $("#txtNovedad").val(),
+			        pTipoIdentificacion: $("#cmbTipoIdentificacion option:selected").val(),
+			        pNumeroIdentificacion: $("#txtNumeroIdentificacion").val()
+				    }, function(data) {
+				        if(data == 0){
+				        	jsRemoveWindowLoad();
+				        	mostrarPopUpError('No fue posible agregar la nueva Asignación');
+				        	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });	
+				        }else{
+				       	 	jsRemoveWindowLoad();
+				        	mostrarPopUpError('Asignación agregada de manera satisfactoria');
+				        	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+				        }
+					}, "json");
+		       }else{
+		       	 	jsRemoveWindowLoad();
+		        	mostrarPopUpError('No fue posible guardar el archivo de autorización');
+		        	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+		        }
+			}, "json");       
+	}
+
+	//----- Quita la Cortina -----//
+	function jsRemoveWindowLoad() {
+	    // eliminamos el div que bloquea pantalla
+	    $("#WindowLoad").remove();
+	 
+	}
+	
+	//----- Configuracion general de la cortina -----// 
+	function jsShowWindowLoad(mensaje) {
+	    //eliminamos si existe un div ya bloqueando
+	    jsRemoveWindowLoad();
+	 
+	    //si no enviamos mensaje se pondra este por defecto
+	    if (mensaje === undefined) mensaje = "Procesando la información<br>Espere por favor";
+	 
+	    //centrar imagen gif
+	    height = 20;//El div del titulo, para que se vea mas arriba (H)
+	    var ancho = 0;
+	    var alto = 0;
+	 
+	    //obtenemos el ancho y alto de la ventana de nuestro navegador, compatible con todos los navegadores
+	    if (window.innerWidth == undefined) ancho = window.screen.width;
+	    else ancho = window.innerWidth;
+	    if (window.innerHeight == undefined) alto = window.screen.height;
+	    else alto = window.innerHeight;
+	 
+	    //operación necesaria para centrar el div que muestra el mensaje
+	    var heightdivsito = alto/2 - parseInt(height)/2;//Se utiliza en el margen superior, para centrar
+	 
+	   //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
+	    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + mensaje + "</div><img src='../images/loading.gif' width='107' height='106'></div>";
+	 
+	        //creamos el div que bloquea grande------------------------------------------
+	        div = document.createElement("div");
+	        div.id = "WindowLoad"
+	        div.style.width = ancho + "px";
+	        div.style.height = alto + "px";
+	        $("body").append(div);
+	 
+	        //creamos un input text para que el foco se plasme en este y el usuario no pueda escribir en nada de atras
+	        input = document.createElement("input");
+	        input.id = "focusInput";
+	        input.type = "text"
+	 
+	        //asignamos el div que bloquea
+	        $("#WindowLoad").append(input);
+	 
+	        //asignamos el foco y ocultamos el input text
+	        $("#focusInput").focus();
+	        $("#focusInput").hide();
+	 
+	        //centramos el div del texto
+	        $("#WindowLoad").html(imgCentro);
+	 
 	}
 
 });

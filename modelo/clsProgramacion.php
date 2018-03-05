@@ -60,7 +60,7 @@ class clsProgramacion {
 						}
 					}
 				} 
-                //----- Inicio envío correo a todos los estudiantes matriculados -----//
+                //----- Inicio envío correo al docente involucrado -----//
                 $rs1=null;
                 $array1=array();
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -97,8 +97,8 @@ class clsProgramacion {
                                     $array3[] = $fila3; 
                                 }
                             }
+                            $rs3->closeCursor();
                         }
-                        $rs3->closeCursor();
                         $usuario = $_SESSION['nombreUsuario'];
                         $usuarioe = $array3[0]['CorreoElectronico'];
                         if (count($array2)>0){
@@ -318,7 +318,7 @@ class clsProgramacion {
         $rs=null;
 		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {    
-            //----- Inicio envío correo a todos los estudiantes matriculados -----//
+            //----- Inicio envío correo al docente involucrado -----//
                 $rs1=null;
                 $array1=array();
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -355,8 +355,8 @@ class clsProgramacion {
                                     $array3[] = $fila3; 
                                 }
                             }
+                            $rs3->closeCursor();
                         }
-                        $rs3->closeCursor();
                         $usuario = $_SESSION['nombreUsuario'];
                         $usuarioe = $array3[0]['CorreoElectronico'];
                         if (count($array2)>0){

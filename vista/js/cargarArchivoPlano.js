@@ -350,7 +350,7 @@ $(function() {
 		if (valorSeleccionado==1)
         {
         	// valida si es asignacion
-         	EvaluarArchivo(idTablaGeneral,archivo,ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, selCarga);
+         	EvaluarArchivo(idTablaGeneral,archivo,ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion,nombreCorto,selCarga);
         }else{ 
 	        $.post("../../controlador/fachada.php", {
 	            clase: 'clsGestorBDPlanas',
@@ -390,8 +390,6 @@ $(function() {
 		else{
 			actualizarTercero=false;
 		}
-		
-	
         $.post("../../controlador/fachada.php", {
             clase: 'clsGestorBDPlanas',
             oper: 'CargarArchivoPlano',
@@ -405,7 +403,6 @@ $(function() {
 	        archivoAutorizacion: archivoAutorizacion,
 	        ubicacionAutorizacion: ubicacionAutorizacion,
 	        nombreCorto: nombreCorto
-
         }, 
         	function(data) {
             $("#circulo").hide();
@@ -665,10 +662,4 @@ function SetParametroCursoPorDefecto(atributo, valor, texto) {
         }
     }, "json");
 }
-	
-
-
-
-
-
 });

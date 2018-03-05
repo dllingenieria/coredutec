@@ -43,7 +43,7 @@
 		<div class="asignacion">
 			<label class="titulo">Nueva Asignaci&oacute;n</label><br>
 			<div class="campos">
-				<label class="titulo azul compacto">C&oacute;digo de Curso</label><input id="txtCodigoCurso" class="campo" type="text" tabindex="1" placeholder="Presione Enter para Buscar">
+				<label class="titulo azul compacto">C&oacute;digo de Curso</label><input id="txtCodigoCurso" class="campo" type="text" tabindex="1" placeholder="Presione Enter para Buscar" maxlength="10">
 				<label class="titulo azul izquierdo">Nombre de Curso</label><input id="txtNombreCurso" class="campo" type="text" readonly="readonly">
 				<label class="titulo azul compacto">C&oacute;digo de M&oacute;dulo</label><input id="txtCodigoModulo" class="campo" type="text" readonly="readonly">
 				<label class="titulo azul izquierdo">Nombre de M&oacute;dulo</label><input id="txtNombreModulo" class="campo" type="text" readonly="readonly">
@@ -56,15 +56,20 @@
 				<label class="titulo azul compacto">Municipio de Capacitaci&oacute;n</label><select id="cmbMunicipioC" class="campo" type="text" tabindex="7"></select>
 				<label class="titulo azul izquierdo">Certificaci&oacute;n</label><select id="cmbCertificacion" class="campo" type="text" tabindex="8"></select>
 				<label class="titulo azul compacto">Estado Participante</label><select id="cmbEstadoP" class="campo" type="text" tabindex="9"></select>
-				<label class="titulo azul izquierdo">Novedad Estado</label><input id="txtNovedad" class="campo" type="text" tabindex="10">
-				<label class="titulo azul compacto">Tipo de Identificaci&oacute;n</label><select id="cmbTipoIdentificacion" class="campo" type="text" tabindex="11"></select>
-				<label class="titulo azul izquierdo">Numero de Identificaci&oacute;n</label><input id="txtNumeroIdentificacion" class="campo" type="text" tabindex="12">
-				<label class="titulo azul compacto">Nombres</label><input id="txtNombres" class="campo" type="text" tabindex="13">
-				<label class="titulo azul izquierdo">Apellidos</label><input id="txtApellidos" class="campo" type="text" tabindex="14">
+				<label class="titulo azul izquierdo">Novedad Estado</label><input id="txtNovedad" class="campo" type="text" tabindex="10" maxlength="500">
+				<label class="titulo azul compacto">Tipo de Identificaci&oacute;n</label><select id="cmbTipoIdentificacion" class="campo" type="text" tabindex="11" disabled="disabled"></select>
+				<label class="titulo azul izquierdo">Numero de Identificaci&oacute;n</label><input id="txtNumeroIdentificacion" class="campo" type="text" tabindex="12" readonly="readonly">
+				<label class="titulo azul compacto">Nombres</label><input id="txtNombres" class="campo" type="text" tabindex="13" readonly="readonly">
+				<label class="titulo azul izquierdo">Apellidos</label><input id="txtApellidos" class="campo" type="text" tabindex="14" readonly="readonly">
+				<label class="titulo azul compacto">Archivo Autorizaci&oacute;n</label><input type="file"  id="txtexaminararchivosAutorizacion" class="campo" required/>
+				<input type="hidden" id="ruta"/>
+				<input type="hidden" id="tabla"/>
+				<input type="hidden" id="nombreCorto"/>
+				<input type="hidden" id="hiddenexaminararchivosAutorizacion"/>
 			</div>
 			<div class="botones">
 				<button id="btnGuardar" class="boton">Guardar</button>
-				<button id="btnSubirSoporte" class="boton">Soporte</button>
+				<!-- <button id="btnSubirSoporte" class="boton">Soporte</button> -->
 				<button id="btnRegresar" class="boton">Volver</button>
 			</div>
 		</div>

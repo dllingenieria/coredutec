@@ -28,7 +28,16 @@ $(function() {
 	cargarListas('cmbLocalidad','SPCARGARLOCALIDAD');
 	cargarListas('cmbCiudad','SPCARGARCIUDADES');
 
-	//----- Rregresa a BUsqueda -----//
+	//----- Dispara el proceso para guardar un nuevo oferente -----//
+	$("#btnGuardar").click(function(){ 
+		if(($("#txtNumeroIdentificacion").val() == "") || ($("#txtNombres").val() == "") || ($("#txtApellidos").val() == "") || ($("#txtTelefono1").val() == "") || ($("#txtTelefono2").val() == "") || ($("#txtTelefono3").val() == "") || ($("#txtEmail1").val() == "") || ($("#txtEmail2").val() == "") || ($("#txtDireccion").val() == "")){
+			mostrarPopUpError('Por favor diligencie todos los campos');
+		}else{
+			guardarOferente();
+		}
+	});
+
+	//----- Rregresa a Busqueda -----//
 	$("#btnRegresar").click(function(){ 
 		window.location.href = "../html/busqueda.html"; 
 	});
@@ -67,19 +76,20 @@ $(function() {
 		        	$("#txtNumeroIdentificacion").val(pNumeroIdentificacion);
 	        		$("#txtNombres").val(data[0][1]);
 	        		$("#txtApellidos").val(data[0][2]);
+	        		$("#txtFechaN").val(data[0][4]);
 	        		$("#txtTelefono1").val(data[0][8]);
 	        		$("#txtTelefono2").val(data[0][9]);
 	        		$("#txtTelefono3").val(data[0][10]);
 	        		$("#txtEmail1").val(data[0][12]);
-	        		$("#txtEmail2").val(data[0][12]);
+	        		$("#txtEmail2").val(data[0][13]);
 	        		$("#txtDireccion").val(data[0][11]);
 	        		cargarValorSelected('#cmbTipoIdentificacion',pTipoIdentificacion,500);
 	        		cargarValorSelected('#cmbExpedicion',data[0][3],500);
 	        		cargarValorSelected('#cmbSexo',data[0][5],500);
 	        		cargarValorSelected('#cmbEstadoCivil',data[0][6],500);
 	        		cargarValorSelected('#cmbGradoEscolaridad',data[0][7],500);
-	        		cargarValorSelected('#cmbLocalidad',data[0][13],500);
-	        		cargarValorSelected('#cmbCiudad',data[0][14],500);
+	        		cargarValorSelected('#cmbLocalidad',data[0][14],500);
+	        		cargarValorSelected('#cmbCiudad',data[0][15],500);
 				}else{
 					mostrarPopUpError('El oferente no existe, puede continuar');
 					$("#txtNombres").val('');
@@ -98,7 +108,6 @@ $(function() {
 					cargarListas('cmbLocalidad','SPCARGARLOCALIDAD');
 					cargarListas('cmbCiudad','SPCARGARCIUDADES');
 				}
-				console.log("Antes del cerrar la cortina");
 				jsRemoveWindowLoad();
 			},"json");
 		}
@@ -121,6 +130,45 @@ $(function() {
 	    }, "json");
 	} 
 
+	//----- Guarda la informacion del oferente -----//
+	function guardarOferente() {
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsAsignacion',
+	        oper: 'guardarOferente',
+	        pTipoIdentificacion: $("#cmbTipoIdentificacion option:selected").val(),
+        	pNumeroIdentificacion: $("#txtNumeroIdentificacion").val(),
+        	pExpedicion: $("#cmbExpedicion option:selected").val(),
+        	pNombres: $("#txtNombres").val(),
+	        pApellidos: $("#txtApellidos").val(),
+	        pFechaN: $("#txtFechaN").val(),
+	        pSexo: $("#cmbSexo option:selected").val(),
+	        pEstadoCivil: $("#cmbEstadoCivil option:selected").val(),
+	        pGradoEscolaridad: $("#cmbGradoEscolaridad option:selected").val(),
+	        pTelefono1: $("#txtTelefono1").val(),
+	        pTelefono3: $("#txtTelefono2").val(),
+	        pTelefono3: $("#txtTelefono3").val(),
+	        pDireccion: $("#txtDireccion").val(),
+	        pEmail1: $("#txtEmail1").val(),
+	        pEmail2: $("#txtEmail2").val(),
+	        pLocalidad: $("#cmbLocalidad option:selected").val(),
+	        pCiudad: $("#cmbCiudad option:selected").val()
+	    }, function(data) {
+	        if (data == 0) {
+	           mostrarPopUpError('No fue posible agregar o modificar el Oferente');
+	           $("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+	        }
+	        else {
+	            if(data[0]['pResultado'] == 'A') {
+	            	mostrarPopUpError('Oferente agregado correctamente');
+	            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+	            }else{
+	            	mostrarPopUpError('Oferente actualizado correctamente');
+	            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+	            }
+	        }
+	    }, "json");
+	}
+	
 	//----- Coloca la fecha de hoy en el campo fecha -----//
 	function obtenerFechaActual(){
 		var hoy = new Date();
@@ -171,7 +219,7 @@ $(function() {
 	 
 	}
 	
-	//----- COnfiguracion general de la cortina -----// 
+	//----- Configuracion general de la cortina -----// 
 	function jsShowWindowLoad(mensaje) {
 	    //eliminamos si existe un div ya bloqueando
 	    jsRemoveWindowLoad();

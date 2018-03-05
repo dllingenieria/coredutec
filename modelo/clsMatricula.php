@@ -17,8 +17,8 @@ class clsMatricula {
     if ($rs = $conexion->getPDO()->query($sql)) {      
         if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)){
             $IdMatricula = $filas[0]['pIdTabla'];
-            $rs->closeCursor();
         }
+        $rs->closeCursor();
         $rs1=null;
         $array1=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -53,8 +53,8 @@ class clsMatricula {
                                 $array3[] = $fila3; 
                             }
                         }
+                        $rs3->closeCursor();
                     }
-                    $rs3->closeCursor();
                     if (count($array2)>0){
                         $estudiante = $array1[0]['Estudiante'];
                         $correoElectronico = $array1[0]['CorreoElectronico'];

@@ -32,9 +32,9 @@ class clsArchivo {
         $ext = $array1[count($array1) - 1];
       
         $nuevoNombre= $nombreCorto."_".$idTablaGeneral.".".$ext;
-       $nuevoNombre="../".$ubicacion.$nuevoNombre;
-       //rename('$archivo', '$nuevoNombre');
-       $archivo="../tmp/".$archivo;
+        $nuevoNombre="../".$ubicacion.$nuevoNombre;
+        //rename('$archivo', '$nuevoNombre');
+        $archivo="../tmp/".$archivo;
        
         if (copy($archivo, $nuevoNombre)) {
                 $array = $nuevoNombre;
@@ -49,8 +49,6 @@ class clsArchivo {
         } else {
                 $array = "Error al cargar, intente nuevamente ";
         }
-
-
         echo json_encode($array);
     }
 

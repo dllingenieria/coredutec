@@ -857,8 +857,8 @@ public function cerrarCursoMatriculaTercero($param){
                                                     $array3[] = $fila3; 
                                                 }
                                             }
+                                            $rs3->closeCursor();
                                         }
-                                        $rs3->closeCursor();
                                         $usuario = $_SESSION['nombreUsuario'];
                                         $usuarioe = $array3[0]['CorreoElectronico'];
                                         if (count($array2)>0){
