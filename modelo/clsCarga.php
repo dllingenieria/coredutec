@@ -541,7 +541,7 @@ public function ReporteCallcenterGestionados($param){
                     foreach ($fila as $key => $value) {
                          $rutaFuente= "<a href='/".$fila['RutaFuente']."'>Descargar Archivo Fuente</a>";
                          $rutaEscaneado= "<a href='/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
-                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['IdMatricula'],$rutaFuente, $rutaEscaneado ,$value);
+                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Salon'],$rutaFuente, $rutaEscaneado ,$value);
                         
                           array_push($registro, $value);
                     }

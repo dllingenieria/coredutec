@@ -76,7 +76,7 @@ $(function(){
 			{ title: "Ruta" },
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
-			
+			{ title: "Estado" },
 			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
 			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],

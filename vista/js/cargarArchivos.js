@@ -36,7 +36,7 @@ $(function(){
 
 
 	$( "#selCargaConsulta" ).change(function() { 
-			valorSeleccionado = $("#selCargaConsulta").val(); 
+			valorSeleccionado = $("#selCargaConsulta").val();
 			
 			switch (valorSeleccionado) {
 				case "00":
@@ -242,7 +242,7 @@ $(function(){
 			{title: "NumeroIdentificacion"},
 			{title: "Nombres" },
 			{title: "Fecha" },
-			{title: "Id Matricula" },
+			{title: "Salon" },
 			{title: "Ruta Fuente" },
 			{title: "Ruta Soporte" },
 			],
