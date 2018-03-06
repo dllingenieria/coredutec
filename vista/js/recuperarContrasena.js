@@ -1,32 +1,34 @@
 $(function() { 
+    //$('#txtLogin').validCampoFranz1('abcdefghijklmnopqrstuvwxyz');
+
 	$("#btnRecuperar").click(function(){ 
-		var cedula = "";
+		var login = "";
         var email = "";
-        cedula = $("#txtCedula").val();
+        login = $("#txtLogin").val();
         email = $("#txtEmail").val();
-		if (cedula == "" || email == ""){
+		if (login == "" || email == ""){
 		mostrarPopUpError("Por favor ingrese los datos solicitados");
 		}
 		else{
             // var mensaje="Procesando la información<br>Espere por favor";
             // jsShowWindowLoad(mensaje);
-			generarLinkTemporal(cedula,email);
+			generarLinkTemporal(login,email);
 		}
 	});
 
-    function generarLinkTemporal(cedula, email){
+    function generarLinkTemporal(login, email){
         // Se genera una cadena para validar el cambio de contraseña
-        var token = cedula+email+Math.random(1,9999999);
+        var token = login+email+Math.random(1,9999999);
         $.post("../../controlador/fachada.php", {
             clase: 'clsRecuperarContrasena',
             oper: 'insertarLinkToken',
-            cedula: cedula,
+            login: login,
             token: token
             }, function(data) {
             if (data[0].pEmail == 0) {
+                //jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("Por favor verifique el número de cédula ingresado");
                 $("#recuperarContrasena").show();
-                // jsRemoveWindowLoad();
             }else{
                 var res = data[0].pEmail.split("_");
                 var para = res[0];
@@ -50,12 +52,18 @@ $(function() {
             }
         }).done(function(data) {
             if(data == 1){
+                /*jsRemoveWindowLoad();
+                reemplazar = substr(2,(reemplazar.length - 2));
+                para = replace(reemplazar, '********', para);
+                para = para.replace(/reemplazar/g, "**********");
+                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico a la direcci&oacute;n "+para+" con las instrucciones");*/
                 $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico con las instrucciones");
                 $("#recuperarContrasena").show();
                 setTimeout(function() {
                     window.location.href = "../../index.html";
                 }, 5000);
             }else{
+                //jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("No ha sido posible enviar el correo, por favor rectif&iacute;quelo e intente de nuevo");
                 $("#recuperarContrasena").show();
             }       
