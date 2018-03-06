@@ -26,6 +26,7 @@ $(function() {
 
 	inicializar();
 	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
+	cargarValorSelected('#cmbTipoIdentificacion',3,500);
 
 	function inicializar(){
 		$("#buscar").click(consultarCargasTercero);
@@ -33,6 +34,23 @@ $(function() {
 		//$('input[id=identificacion]').change(consultarCargasTercero);
 
 	}
+
+	$("#btnAsignacion").click(function(){ 
+		var pTipoIdentificacion = "";
+        var pNumeroIdentificacion = "";
+        pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+        pNumeroIdentificacion = $("#identificacion").val();
+		if (pNumeroIdentificacion == ""){
+			mostrarPopUpError("Por favor ingrese un número de identificación");
+		}
+		else{
+            window.location.href = "../html/asignacion.html?tipoidentificacion="+pTipoIdentificacion+"&&identificacion="+pNumeroIdentificacion;
+		}
+	});
+
+	$("#btnOferente").click(function(){
+            window.location.href = "../html/oferente.html";
+	});
 
 	function consultarCargasTercero(){
 		var cookies = $.cookie();
@@ -364,7 +382,6 @@ $(function() {
 
 	function formarOptionValueLista(data,objeto) {
 	    $('#'+objeto).find('option').remove();
-	    setParametroPorDefecto('#'+objeto, '3', 'Cédula Ciudadanía');
 	    for (i = 0; i < data.length; i++) {
 	        $('#'+objeto).append($('<option>', {
 	            value: data[i].Id,
@@ -373,11 +390,19 @@ $(function() {
 	    }
 	} 
 
-	function setParametroPorDefecto(atributo, valor, texto) {
-	    $(atributo).append($('<option>', {
-	        value: valor,
-	        text: texto
-	    }));
+	//----- Establece los valores por defecto de las listas -----//
+	function cargarValorSelected(objeto,value,tiempo){
+        setTimeout(function() {
+            $(objeto+' option[value="'+value+'"]').attr('selected','selected');    
+        }, tiempo);       
+    }
+
+	function mostrarPopUpError(err_men) {
+	    $("#textoError").text(err_men);
+	    $('#element_to_pop_upMen').bPopup({
+	        speed: 450,
+	        transition: 'slideDown'
+	    });
 	}
 
 });

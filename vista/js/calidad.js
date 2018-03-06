@@ -68,6 +68,7 @@ $(function(){
 			{ title: "Ruta" },
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
+			{ title: "Estado" },
 			],
 			"paging":   true,
 			"info":     false,

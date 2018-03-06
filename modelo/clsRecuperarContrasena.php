@@ -12,13 +12,16 @@ class clsRecuperarContrasena {
         $token = sha1($token);
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPAGREGARLINKTOKEN($cedula,'$token');";
+        $sql = "CALL SPAGREGARLINKTOKEN('$login','$token');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
+            $rs->closeCursor();
             }
+        }else{
+            $array = 0;
         }
         echo json_encode($array); 
     }
@@ -39,13 +42,13 @@ class clsRecuperarContrasena {
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
                 $mail->IsSMTP();                                      // set mailer to use SMTP
-                $mail->Host = "smtp.zoho.com";  // specify main and backup server
+                $mail->Host = "smtp.office365.com";  // specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
-                $mail->Username = $array[0]['Parametro'];  // SMTP username
-                $mail->Password = $array[1]['Parametro'];
-                $mail->Port = 465;
-                $mail->SMTPSecure = "ssl";
-                $mail->From = $array[0]['Parametro']; 
+                $mail->Username = $array[1]['Parametro'];  // SMTP username
+                $mail->Password = $array[0]['Parametro'];
+                $mail->Port = 587;
+                $mail->SMTPSecure = "tls";
+                $mail->From = $array[1]['Parametro']; 
                 $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
@@ -54,11 +57,13 @@ class clsRecuperarContrasena {
                 $mensaje = file_get_contents("../vista/html/correo_restablecimiento_contrasena.html");
                 $mensaje = str_replace("link", $link, $mensaje);
                 $mail->Body = $mensaje;
-                $envio=1;
+                //$envio=1;
                 if(!$mail->Send())
                 {
                     $envio=0;
-                } 
+                }else{
+                    $envio=1;
+                }
             }else{
                 $envio=0;
             }
@@ -79,7 +84,10 @@ class clsRecuperarContrasena {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
+            $rs->closeCursor();
             }
+        }else{
+            $array = 0;
         }
         echo json_encode($array); 
     }

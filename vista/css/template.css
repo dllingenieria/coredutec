@@ -181,3 +181,12 @@ footer {
     float: right;
     margin-right: 50px;
 }
+
+.Ubicacion{ 
+  position: absolute;
+  color: #003265;
+  font-size: 17px;
+  padding-left: 4rem;
+  margin-top: 8px;
+  font-family: "Roboto-Bold";
+}

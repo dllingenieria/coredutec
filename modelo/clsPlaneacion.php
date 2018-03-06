@@ -82,7 +82,7 @@ class clsPlaneacion {
 	 */
 
 	 public function ListarPlaneacion($param) {
-	 	 extract($param); 
+	 	extract($param); 
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -339,19 +339,19 @@ class clsPlaneacion {
 								
 					<label class="titulo azul">Unidad Tematica</label>
 					<br><br>
-					<div ><textarea class="TextArea" name="descripcion" id="txtUnidadTematica" placeholder="(Anote los temas a tratar en la sesión)" >'.$array[0]['UnidadTematica'].'</textarea></div>
+					<div ><textarea class="TextArea" name="descripcion" id="txtUnidadTematica" placeholder="(Anote los temas a tratar en la sesión)" maxlength="500">'.$array[0]['UnidadTematica'].'</textarea></div>
 					<br>
 					<label class="titulo azul">Estrategias a Desarrollar</label>
 					<br><br>
-					<div ><textarea class="TextArea" name="descripcion" id="txtEstrategiasDesarrollar" placeholder="(Anote sus estratégias a desarrollar en esta sesión)">'.$array[0]['Estrategia'].'</textarea></div>
+					<div ><textarea class="TextArea" name="descripcion" id="txtEstrategiasDesarrollar" placeholder="(Anote sus estratégias a desarrollar en esta sesión)" maxlength="5000">'.$array[0]['Estrategia'].'</textarea></div>
 					<br>
 					<label class="titulo azul">Técnica e Instrumento De Evaluación</label>
 					<br><br>
-					<div ><textarea class="TextArea" name="descripcion" id="txtTecnicaInstrumento" placeholder="(Anote sus técnicas e instrumentos a desarrollar en esta sesión)">'.$array[0]['TecnicaEvaluacion'].'</textarea></div>
+					<div ><textarea class="TextArea" name="descripcion" id="txtTecnicaInstrumento" placeholder="(Anote sus técnicas e instrumentos a desarrollar en esta sesión)" maxlength="5000">'.$array[0]['TecnicaEvaluacion'].'</textarea></div>
 					<br><br>
 					<label class="titulo">SEGUMIENTO DEL PROCESO</label>
 					<br><br>
-					<div ><textarea class="TextArea" name="descripcion" id="txtSeguimiento" placeholder="(Anote el seguimiento que ha realizado en el proceso)">'.$array[0]['Seguimiento'].'</textarea></div>
+					<div ><textarea class="TextArea" name="descripcion" id="txtSeguimiento" placeholder="(Anote el seguimiento que ha realizado en el proceso)" maxlength="5000">'.$array[0]['Seguimiento'].'</textarea></div>
 					<br><br>
 					<label class="titulo">PLANEACIÓN DE RECURSOS</label>
 					<br><br>
@@ -409,11 +409,11 @@ class clsPlaneacion {
 					<br><br>
 					<label class="titulo azul">Chequeo ok o especifique</label>
 					<br><br>
-					<div id=""><textarea class="TextArea" name="descripcion" id="txtObservaciones" placeholder="(Anote firma recibido de recursos a satisfaccíon)">'.$array[0]['Observaciones'].'</textarea></div>
+					<div id=""><textarea class="TextArea" name="descripcion" id="txtObservaciones" placeholder="(Anote firma recibido de recursos a satisfaccíon)" maxlength="5000">'.$array[0]['Observaciones'].'</textarea></div>
 					<br><br>
 					<label class="titulo azul">Firma de recibido de recursos a satisfacción</label>
 					<br><br>
-					<div id=""><textarea class="TextArea" name="descripcion" id="txtRecibido" placeholder="(Anote chequeo ok o especifique)">'.$array[0]['Recibido'].'</textarea></div>
+					<div id=""><textarea class="TextArea" name="descripcion" id="txtRecibido" placeholder="(Anote chequeo ok o especifique)" maxlength="900">'.$array[0]['Recibido'].'</textarea></div>
 				</form>';
 				}
 				else{

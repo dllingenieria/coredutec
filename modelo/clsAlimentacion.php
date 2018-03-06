@@ -173,7 +173,7 @@ class clsAlimentacion {
         
         $objPHPExcel->getActiveSheet()->setCellValue('C3', 'INFORME AlIMENTACIÓN');
         //Array de Datos Columnas
-        $dataColumnasDatos = array('Salón','Curso', 'Modulo', 'Estado', 'Sesion', 'Fecha',  'Cantidad', 'Refrigerio');                    
+        $dataColumnasDatos = array('Fecha Entrega','Sede donde se debe entregar','Número de refrigerios que solicita', 'Tipo de alimentación', 'Código del curso que está orientando actualmente ( Completo)', 'Nombre del curso que está dictando.', 'Nombre del módulo que está dictando',  'Nombre del docente que solicita los refrigerios', 'Tipo de Asignación','Observaciones: Reporte novedad sobre su solicitud', 'Número Celular', 'Estado', 'Sesion');                    
         
         $baseRowDatos = 5;
         $columnDatos=0;
@@ -189,23 +189,30 @@ class clsAlimentacion {
     $sql = "CALL SPREPORTEALIMENTACIONGENERAL('$fechai','$fechaf');";
     $rs=null;
     if ($rs = $conexion->getPDO()->query($sql)) {
-    if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-    $data['mensaje'] = 1;
-    foreach ($filas as  $r =>$fila) {
-        $columnRow=0;
-        $row = $baseRow + $r;
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila['Salon']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Curso']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Modulo']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Estado']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Sesion']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Fecha']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Cantidad']);
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Refrigerio']);    
-        }
-        }else{
-             $data['error']=2;
-        }
+        if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+            $data['mensaje'] = 1;
+            foreach ($filas as $r =>$fila) {
+                $columnRow=0;
+                $row = $baseRow + $r;
+
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow, $row, $fila['Fecha']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1,   $row, $fila['Sede']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Cantidad']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Refrigerio']);  
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1,   $row, $fila['Salon']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Curso']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Modulo']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Docente']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Convocatoria']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, "");
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Telefono']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Estado']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Sesion']);
+                 
+                }
+            }else{
+                 $data['error']=2;
+            }
         }else {
              $data['error'] = 0;
              print_r($conexion->getPDO()->errorInfo()); die();

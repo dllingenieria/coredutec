@@ -20,6 +20,43 @@ $(function() {
         $("#txtRuta").val(sessionStorage.Ruta);
         $("#txtNoSessiones").val(sessionStorage.cantidadSesiones);
 
+
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarCantidadAsistentesPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].cantidadAsistentes !== null){
+                $("#txtAsistentes").val(data[0].cantidadAsistentes);
+            }
+            
+        });
+        
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarNotaParcialPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].pEstudiantesGanando !== null){
+                $("#txtAprobados").val(data[0].pEstudiantesGanando);
+            }
+            
+        });
+
+
+
         $.post("../../controlador/fachada.php", {
             clase: 'clsParticipante',
             oper: 'consultarEstudiantesPorSalonFormatoFirmas',

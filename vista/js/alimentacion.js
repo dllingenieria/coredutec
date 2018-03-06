@@ -86,6 +86,7 @@ $(function(){
 			{ title: "Ruta" },
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
+			{ title: "Estado" },
 			{data: null, className: "center", defaultContent: '<a id="reporteAlimentacionPorSalon" class="reporteAlimentacionPorSalon" href="#" title="Edit">Refrigerios</a>'}
 			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
