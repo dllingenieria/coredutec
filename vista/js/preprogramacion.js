@@ -323,8 +323,8 @@ function cargarUltimaMatricula() {
  }, "json");
 }
 function guardarPreprogramacion() {	
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
+	//var mensaje="Procesando la información<br>Espere por favor";
+	//jsShowWindowLoad(mensaje);
     var val_cam = validarCamposFormulario();
     if (val_cam.length === 0) {
         if (validarFechas()) {
@@ -371,27 +371,27 @@ function guardarPreprogramacion() {
                     setTimeout(function() {
                         location.reload(true);
                     }, 2000); 
-					jsRemoveWindowLoad();
+					//jsRemoveWindowLoad();
                     popUpConfirmacion("Guardado"); 
 					$('#btnGuardar').attr("disabled", false);
                 } else if (data === 0) {
 					setTimeout(function() {
                         location.reload(true);
                     }, 3000); 
-                    jsRemoveWindowLoad();
+                    //jsRemoveWindowLoad();
                     mostrarPopUpError("Su registro no pudo guardarse, posiblemente esta repetido o verifique su conexión y vuelva a intentarlo");
                 }
 				else if (data === -1) {
 					setTimeout(function() {
                         location.reload(true);
                     }, 3000); 
-                    jsRemoveWindowLoad();
+                    //jsRemoveWindowLoad();
                     mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");  
         }
     } else {
-        jsRemoveWindowLoad();
+        //jsRemoveWindowLoad();
         mostrarPopUpError('Faltan algun(os) campos obligatorios por llenar.');
     }
 }
@@ -399,8 +399,8 @@ function guardarPreprogramacion() {
 
 
 function modificarPreprogramacion() {
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);	
+	//var mensaje="Procesando la información<br>Espere por favor";
+	//jsShowWindowLoad(mensaje);	
     var val_cam = validarCamposFormulario();
     if (val_cam.length === 0) {
         if (validarFechas()) {
@@ -448,14 +448,14 @@ function modificarPreprogramacion() {
                         location.reload(true);
                     }, 1500); 
                 } else if (data === 0) {
-					jsRemoveWindowLoad();
+					//jsRemoveWindowLoad();
                     mostrarPopUpError("Error al modificar la preprogramacion.");
                 }
 				else if (data === -1) {
 					setTimeout(function() {
                         location.reload(true);
                     }, 3000); 
-                    jsRemoveWindowLoad();
+                    //jsRemoveWindowLoad();
                     mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");
