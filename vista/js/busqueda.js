@@ -41,7 +41,7 @@ $(function() {
         pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
         pNumeroIdentificacion = $("#identificacion").val();
 		if (pNumeroIdentificacion == ""){
-			mostrarPopUpError("Por favor ingrese un número de cédula");
+			mostrarPopUpError("Por favor ingrese un número de identificación");
 		}
 		else{
             window.location.href = "../html/asignacion.html?tipoidentificacion="+pTipoIdentificacion+"&&identificacion="+pNumeroIdentificacion;

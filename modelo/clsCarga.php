@@ -277,7 +277,7 @@ public function ReporteCallcenterGestionados($param){
                              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
                             
                              $FechaMod=strtotime("now");
-                             $filename = '../tmp/reporteCallcenter/reporteCallcenterJornadaGestionados'.$FechaMod.'.xls';
+                             $filename = '../anexos/reportes/reporteCallcenterJornadaGestionados'.$FechaMod.'.xls';
                              $objWriter->save(str_replace('.php', '.xls', $filename));
                              $data['html']=$filename;
 

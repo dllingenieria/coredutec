@@ -118,7 +118,7 @@ $(function(){
 			if (data !== 0) {
 				$('#jornadas').find('option').remove();
 				for (i = 0; i < data.length; i++) {
-					agregarOptionSelect("#jornadas", data[i].Id,data[i].Descripcion);
+					agregarOptionSelect("#jornadas", data[i].Id,data[i].Observaciones);
 				}
 				if (typeof sessionStorage.jornada !== "undefined") {
 					$('#jornadas').val(sessionStorage.jornada+"");

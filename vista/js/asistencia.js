@@ -138,7 +138,7 @@ $(function() {
                             // }
                         }
 						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');   
-                        array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'"></textarea>');
+                        array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'" maxlength="200"></textarea>');
 						array.push('<select id="selInasistencia_'+data[i].IdTercero+'" class="motivo"></select>'); 
 						array.push('<input type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly>');
                         dataSet.push(array);
