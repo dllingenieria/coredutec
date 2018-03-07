@@ -46,8 +46,8 @@ class clsRecuperarContrasena {
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
                 $mail->Username = $array[0]['Parametro'];
                 $mail->Password = $array[1]['Parametro']; //c3T-C0lsUBs1d10*S13mpr3$
-                $mail->Port = 465; //587;
-                $mail->SMTPSecure = "ssl"; //"tls";
+                $mail->Port = 587; //587;
+                $mail->SMTPSecure = "tls"; //"tls";
                 $mail->From = $array[0]['Parametro'];
                 $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
                 $mail->AddAddress($para);                  // name is optional
