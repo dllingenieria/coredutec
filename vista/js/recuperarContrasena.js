@@ -10,8 +10,8 @@ $(function() {
 		mostrarPopUpError("Por favor ingrese los datos solicitados");
 		}
 		else{
-            // var mensaje="Procesando la información<br>Espere por favor";
-            // jsShowWindowLoad(mensaje);
+            var mensaje="Procesando la información<br>Espere por favor";
+            jsShowWindowLoad(mensaje);
 			generarLinkTemporal(login,email);
 		}
 	});
@@ -26,7 +26,7 @@ $(function() {
             token: token
             }, function(data) {
             if (data[0].pEmail == 0) {
-                //jsRemoveWindowLoad();
+                jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("Por favor verifique el número de cédula ingresado");
                 $("#recuperarContrasena").show();
             }else{
@@ -52,18 +52,14 @@ $(function() {
             }
         }).done(function(data) {
             if(data == 1){
-                /*jsRemoveWindowLoad();
-                reemplazar = substr(2,(reemplazar.length - 2));
-                para = replace(reemplazar, '********', para);
-                para = para.replace(/reemplazar/g, "**********");
-                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico a la direcci&oacute;n "+para+" con las instrucciones");*/
+                jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico con las instrucciones");
                 $("#recuperarContrasena").show();
                 setTimeout(function() {
                     window.location.href = "../../index.html";
                 }, 5000);
             }else{
-                //jsRemoveWindowLoad();
+                jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("No ha sido posible enviar el correo, por favor rectif&iacute;quelo e intente de nuevo");
                 $("#recuperarContrasena").show();
             }       
