@@ -85,8 +85,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $correode = $array2[0]['Parametro'];
-                        $clave = $array2[1]['Parametro'];
+                        print_r($correode = $array2[0]['Parametro']);
+                        print_r($clave = $array2[1]['Parametro']);
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
