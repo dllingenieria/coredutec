@@ -38,11 +38,12 @@ class clsRecuperarContrasena {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
-                print_r("Correo desde el que se envia: ".$array[1]['Parametro']);
-                print_r("Contraseña: ".$array[0]['Parametro']);
+                
+                
                 $link = "http://sinfompc.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
+                $mail->SMTPDebug = 4; 
                 $mail->IsSMTP();                                      // set mailer to use SMTP
                 $mail->Host = "smtp.office365.com";  // specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
