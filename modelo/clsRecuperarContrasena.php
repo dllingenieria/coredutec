@@ -41,7 +41,6 @@ class clsRecuperarContrasena {
                 $link = "http://sinfompc.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
-                $mail->SMTPDebug = 2;
                 $mail->IsSMTP();                                      // set mailer to use SMTP
                 $mail->Host = "smtp.gmail.com";//"smtp.zoho.com"; //"smtp.office365.com"; specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
