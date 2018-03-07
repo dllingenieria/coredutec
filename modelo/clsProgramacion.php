@@ -85,8 +85,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $correode = $array2[1]['Parametro'];
-                        $clave = $array2[0]['Parametro'];
+                        $correode = $array2[0]['Parametro'];
+                        $clave = $array2[1]['Parametro'];
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -122,7 +122,8 @@ class clsProgramacion {
                             $sede = $array1[0]['Sede'];
                             $observaciones = $array1[0]['Observaciones'];
                             $estado = $array1[0]['Estado'];
-                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave);
+                            $asunto = "Preprogramacion asignada";
+                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
                         }else{
                             print_r("Error2");
                             $data["error"]="No se encontraron correos de estudiantes";
@@ -343,8 +344,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $correode = $array2[1]['Parametro'];
-                        $clave = $array2[0]['Parametro'];
+                        $correode = $array2[0]['Parametro'];
+                        $clave = $array2[1]['Parametro'];
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -380,7 +381,8 @@ class clsProgramacion {
                             $sede = $array1[0]['Sede'];
                             $observaciones = $array1[0]['Observaciones'];
                             $estado = $array1[0]['Estado'];
-                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave);
+                            $asunto = "Preprogramacion modificada";
+                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
                         }else{
                             print_r("Error2");
                             $data["error"]="No se encontraron correos de estudiantes";

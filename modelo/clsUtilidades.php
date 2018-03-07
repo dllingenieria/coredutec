@@ -12,7 +12,7 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host =  "smtp.zoho.com"; //"smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "smtp.gmail.com"; //"smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; 
@@ -55,11 +55,11 @@ class clsUtilidades {
    }
 
    //----- Funcion que envía correo a los docentes luego que son preprogramados o modificados -----//
-   public function enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave){
+   public function enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host =  "smtp.zoho.com"; //"smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "smtp.gmail.com"; //"smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; // SMTP password
@@ -70,7 +70,7 @@ class clsUtilidades {
         $mail->AddAddress($correoElectronico); 
         $mail->WordWrap = 50; 
         $mail->IsHTML(true);                                  // set email format to HTML
-        $mail->Subject = "Preprogramacion Asignada";
+        $mail->Subject = $asunto;
         $mensaje = file_get_contents("../vista/html/correo_preprogramacion.html");
         $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
         $mensaje = str_replace("capacitador", $docente, $mensaje);
