@@ -7,7 +7,11 @@ $(function() {
         login = $("#txtLogin").val();
         email = $("#txtEmail").val();
 		if (login == "" || email == ""){
-		mostrarPopUpError("Por favor ingrese los datos solicitados");
+            //var cadena = "ceo@dllingenieria.com.co";
+            //var reemplazar = cadena.substr(2,(parseInt(cadena.length;)-5));
+            //var nuevacadena = cadena.replace(cadena.substr(2,(parseInt(cadena.length)-5)), "******");
+            //console.log(cadena.replace(cadena.substr(2,(parseInt(cadena.length)-5)), "******"));
+            mostrarPopUpError("Por favor ingrese los datos solicitados");
 		}
 		else{
             var mensaje="Procesando la información<br>Espere por favor";
@@ -39,6 +43,7 @@ $(function() {
     }
 
     function enviarCorreo(para, link){
+        //console.log(dimension = lemgth(para));
         $.ajax({
         url: '../../controlador/fachada.php',
         type: 'POST',
@@ -53,7 +58,8 @@ $(function() {
         }).done(function(data) {
             if(data == 1){
                 jsRemoveWindowLoad();
-                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico con las instrucciones");
+                var correoparamostrar = para.replace(para.substr(2,(parseInt(para.length)-5)), "******");
+                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico a la direcci&oacute;n "+correoparamostrar+" con las instrucciones");
                 $("#recuperarContrasena").show();
                 setTimeout(function() {
                     window.location.href = "../../index.html";

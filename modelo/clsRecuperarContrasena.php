@@ -56,6 +56,7 @@ class clsRecuperarContrasena {
                 $mail->Subject = "Restablecimiento contrasena";
                 $mensaje = file_get_contents("../vista/html/correo_restablecimiento_contrasena.html");
                 $mensaje = str_replace("link", $link, $mensaje);
+                $mail->CharSet = 'UTF-8';
                 $mail->Body = $mensaje;
                 if(!$mail->Send())
                 {   echo "Mailer Error: " . $mail->ErrorInfo;

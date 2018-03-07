@@ -45,6 +45,7 @@ class clsUtilidades {
         $mensaje = str_replace("cod_mat", $IdMatricula, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mail->CharSet = 'UTF-8';
         $mail->Body = $mensaje;
         if(!$mail->Send()){
             $envio = 0;
@@ -94,6 +95,7 @@ class clsUtilidades {
         $mensaje = str_replace("estado", $estado, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mail->CharSet = 'UTF-8';
         $mail->Body = $mensaje;
         if(!$mail->Send()){
             $envio = 0;
