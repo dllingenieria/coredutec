@@ -38,23 +38,17 @@ class clsRecuperarContrasena {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
-                
                 $link = "http://sinfompc.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
                 $mail->IsSMTP();                                      // set mailer to use SMTP
-                //$mail->Host = "smtp.office365.com";  // specify main and backup server
-                $mail->Host = "smtp.zoho.com"; 
+                $mail->Host = "smtp.zoho.com"; //"smtp.office365.com"; specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
-                //$mail->Username = "infosirex@cetcolsubsidio.edu.co";  // SMTP username
-                $mail->Username ="ld@dllingenieria.com.co";
-                //$mail->Password = "c3T-C0lsUBs1d10*S13mpr3$";
-                $mail->Password ="cIew9Oac";
-                //$mail->Port = 587;
-                $mail->Port = 465;
-                //$mail->SMTPSecure = "tls";
-                $mail->SMTPSecure = "ssl";
-                $mail->From = "ld@dllingenieria.com.co"; 
+                $mail->Username = $array[1]['Parametro'];
+                $mail->Password = $array[0]['Parametro'];
+                $mail->Port = 465; //587;
+                $mail->SMTPSecure = "ssl"; //"tls";
+                $mail->From = $array[1]['Parametro'];
                 $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
@@ -63,7 +57,6 @@ class clsRecuperarContrasena {
                 $mensaje = file_get_contents("../vista/html/correo_restablecimiento_contrasena.html");
                 $mensaje = str_replace("link", $link, $mensaje);
                 $mail->Body = $mensaje;
-                //$envio=1;
                 if(!$mail->Send())
                 {   echo "Mailer Error: " . $mail->ErrorInfo;
                     $envio=0;

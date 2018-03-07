@@ -323,8 +323,8 @@ function cargarUltimaMatricula() {
  }, "json");
 }
 function guardarPreprogramacion() {	
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);
+	//var mensaje="Procesando la información<br>Espere por favor";
+	//jsShowWindowLoad(mensaje);
     var val_cam = validarCamposFormulario();
     if (val_cam.length === 0) {
         if (validarFechas()) {
@@ -366,31 +366,32 @@ function guardarPreprogramacion() {
 				sede: $("#cmbSede :selected").text()
 				
             }, function(data) {
-                if (data == 1) {
+                if (data === 1) {
+                    //alert($("#txtCodigoMatricula").val() + " guardado satisfactoriamente.");
                     setTimeout(function() {
                         location.reload(true);
-                    }, 4000); 
-					jsRemoveWindowLoad();
-                    popUpConfirmacion("Preprogramación guardada de manera satisfactoria"); 
+                    }, 2000); 
+					//jsRemoveWindowLoad();
+                    popUpConfirmacion("Guardado"); 
 					$('#btnGuardar').attr("disabled", false);
-                } else if (data == 0) {
+                } else if (data === 0) {
 					setTimeout(function() {
                         location.reload(true);
-                    }, 4000); 
-                    jsRemoveWindowLoad();
+                    }, 3000); 
+                    //jsRemoveWindowLoad();
                     mostrarPopUpError("Su registro no pudo guardarse, posiblemente esta repetido o verifique su conexión y vuelva a intentarlo");
                 }
-				else if (data == -1) {
+				else if (data === -1) {
 					setTimeout(function() {
                         location.reload(true);
-                    }, 4000); 
-                    jsRemoveWindowLoad();
+                    }, 3000); 
+                    //jsRemoveWindowLoad();
                     mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");  
         }
     } else {
-        jsRemoveWindowLoad();
+        //jsRemoveWindowLoad();
         mostrarPopUpError('Faltan algun(os) campos obligatorios por llenar.');
     }
 }
@@ -398,8 +399,8 @@ function guardarPreprogramacion() {
 
 
 function modificarPreprogramacion() {
-	var mensaje="Procesando la información<br>Espere por favor";
-	jsShowWindowLoad(mensaje);	
+	//var mensaje="Procesando la información<br>Espere por favor";
+	//jsShowWindowLoad(mensaje);	
     var val_cam = validarCamposFormulario();
     if (val_cam.length === 0) {
         if (validarFechas()) {
@@ -441,27 +442,26 @@ function modificarPreprogramacion() {
                 cod_sal: $("#txtCodigoMatricula").val()+'.'+cod_mod_aux
 				
             }, function(data) {
-                if (data == null) {
-                	jsRemoveWindowLoad();
+                if (data === 1) {
                     popUpConfirmacion("Preprogramacion modificada de manera correcta");
                     setTimeout(function() {
                         location.reload(true);
-                    }, 4000); 
-                } else if (data == 0) {
-					jsRemoveWindowLoad();
+                    }, 1500); 
+                } else if (data === 0) {
+					//jsRemoveWindowLoad();
                     mostrarPopUpError("Error al modificar la preprogramacion.");
                 }
-				else if (data == -1) {
-					jsRemoveWindowLoad();
+				else if (data === -1) {
 					setTimeout(function() {
                         location.reload(true);
-                    }, 4000); 
+                    }, 3000); 
+                    //jsRemoveWindowLoad();
                     mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");
         }
     } else {
-        mostrarPopUpError('Faltan algun(os) campos obligatorios por llenar');
+        mostrarPopUpError('Faltan algun(os) campos obligatorios por llenar.');
         
     }
 }
@@ -623,6 +623,8 @@ function CargarCursosPorCodigo(codCurso) {
         oper: 'CargarCursosPorCodigo',
         codCurso: codCurso
     }, function(data) {
+        // console.log("pasa");
+        // console.log(data);
         if (data !== 0) {
             FormarOptionValueCursos(data);
         }

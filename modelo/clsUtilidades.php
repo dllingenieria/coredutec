@@ -12,12 +12,12 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host = "smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "smtp.zoho.com"; //"smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; 
-        $mail->Port = 587;
-        $mail->SMTPSecure = "tls";
+        $mail->Port = 465; //587;
+        $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
         $mail->AddAddress($correoElectronico);                  // name is optional
@@ -46,12 +46,12 @@ class clsUtilidades {
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
         $mail->Body = $mensaje;
-        $envio=-1;
-        if(!$mail->Send())
-        {
-         $envio=0;
+        if(!$mail->Send()){
+            $envio = 0;
+        }else{
+            $envio =- 1;
         }
-        return  $envio;  
+        return $envio;
    }
 
    //----- Funcion que envía correo a los docentes luego que son preprogramados o modificados -----//
@@ -59,12 +59,12 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host = "smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "smtp.zoho.com"; //"smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; // SMTP password
-        $mail->Port = 587;
-        $mail->SMTPSecure = "tls";
+        $mail->Port = 465; //587;
+        $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";                 // name is optional
         $mail->AddAddress($correoElectronico); 
@@ -95,13 +95,11 @@ class clsUtilidades {
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
         $mail->Body = $mensaje;
-        $envio=-1;
-        if(!$mail->Send())
-        {
-         $envio = "";
+        if(!$mail->Send()){
+            $envio = 0;
         }
         else{
-            $envio=1;
+            $envio = 1;
         }   
    return $envio;
    }
