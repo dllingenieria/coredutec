@@ -43,13 +43,18 @@ class clsRecuperarContrasena {
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
                 $mail->IsSMTP();                                      // set mailer to use SMTP
-                $mail->Host = "smtp.office365.com";  // specify main and backup server
+                //$mail->Host = "smtp.office365.com";  // specify main and backup server
+                $mail->Host = "smtp.zoho.com"; 
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
-                $mail->Username = "infosirex@cetcolsubsidio.edu.co";  // SMTP username
-                $mail->Password = "c3T-C0lsUBs1d10*S13mpr3$";
-                $mail->Port = 587;
-                $mail->SMTPSecure = "tls";
-                $mail->From = $array[1]['Parametro']; 
+                //$mail->Username = "infosirex@cetcolsubsidio.edu.co";  // SMTP username
+                $mail->Username ="ld@dllingenieria.com.co";
+                //$mail->Password = "c3T-C0lsUBs1d10*S13mpr3$";
+                $mail->Password ="cIew9Oac";
+                //$mail->Port = 587;
+                $mail->Port = 465;
+                //$mail->SMTPSecure = "tls";
+                $mail->SMTPSecure = "ssl";
+                $mail->From = "ld@dllingenieria.com.co"; 
                 $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
