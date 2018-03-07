@@ -85,8 +85,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $clave = array_pop($array2)['Parametro'];
-                        $correode = ($array2)[0]['Parametro'];
+                        $clave = ($array2)[0]['Parametro'];
+                        $correode = array_pop($array2)['Parametro'];
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -343,8 +343,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $clave = array_pop($array2)['Parametro'];
-                        $correode = ($array2)[0]['Parametro'];
+                        $clave = ($array2)[0]['Parametro'];
+                        $correode = array_pop($array2)['Parametro'];
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");

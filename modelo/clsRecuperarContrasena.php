@@ -38,6 +38,8 @@ class clsRecuperarContrasena {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
+                print_r("Correo desde el que se envia: ".$array[1]['Parametro']);
+                print_r("Contraseña: ".$array[0]['Parametro']);
                 $link = "http://sinfompc.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
