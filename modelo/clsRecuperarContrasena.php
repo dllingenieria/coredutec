@@ -39,16 +39,14 @@ class clsRecuperarContrasena {
                     $array[] = $fila;
                 }
                 
-                
                 $link = "http://sinfompc.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
-                $mail->SMTPDebug = 4; 
                 $mail->IsSMTP();                                      // set mailer to use SMTP
                 $mail->Host = "smtp.office365.com";  // specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
                 $mail->Username = $array[1]['Parametro'];  // SMTP username
-                $mail->Password = $array[0]['Parametro'];
+                $mail->Password = "".$array[0]['Parametro']."";
                 $mail->Port = 587;
                 $mail->SMTPSecure = "tls";
                 $mail->From = $array[1]['Parametro']; 
@@ -62,7 +60,7 @@ class clsRecuperarContrasena {
                 $mail->Body = $mensaje;
                 //$envio=1;
                 if(!$mail->Send())
-                {
+                {   echo "Mailer Error: " . $mail->ErrorInfo;
                     $envio=0;
                 }else{
                     $envio=1;
