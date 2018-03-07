@@ -45,7 +45,7 @@ class clsRecuperarContrasena {
                 $mail->IsSMTP();                                      // set mailer to use SMTP
                 $mail->Host = "smtp.office365.com";  // specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
-                $mail->Username = $array[1]['Parametro'];  // SMTP username
+                $mail->Username = "".$array[1]['Parametro']."";  // SMTP username
                 $mail->Password = "".$array[0]['Parametro']."";
                 $mail->Port = 587;
                 $mail->SMTPSecure = "tls";
