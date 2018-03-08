@@ -42,13 +42,13 @@ class clsRecuperarContrasena {
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
                 $mail->IsSMTP();                                      // set mailer to use SMTP
-                $mail->Host = "smtp.office365.com";  // specify main and backup server
+                $mail->Host = "smtp.gmail.com";//"smtp.zoho.com"; //"smtp.office365.com"; specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
-                $mail->Username = $array[1]['Parametro'];  // SMTP username
-                $mail->Password = $array[0]['Parametro'];
-                $mail->Port = 587;
-                $mail->SMTPSecure = "tls";
-                $mail->From = $array[1]['Parametro']; 
+                $mail->Username = $array[0]['Parametro'];
+                $mail->Password = $array[1]['Parametro']; //c3T-C0lsUBs1d10*S13mpr3$
+                $mail->Port = 465; //587;
+                $mail->SMTPSecure = "ssl"; //"tls";
+                $mail->From = $array[0]['Parametro'];
                 $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
@@ -56,10 +56,10 @@ class clsRecuperarContrasena {
                 $mail->Subject = "Restablecimiento contrasena";
                 $mensaje = file_get_contents("../vista/html/correo_restablecimiento_contrasena.html");
                 $mensaje = str_replace("link", $link, $mensaje);
+                $mail->CharSet = 'UTF-8';
                 $mail->Body = $mensaje;
-                //$envio=1;
                 if(!$mail->Send())
-                {
+                {   echo "Mailer Error: " . $mail->ErrorInfo;
                     $envio=0;
                 }else{
                     $envio=1;

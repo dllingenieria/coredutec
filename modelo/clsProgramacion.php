@@ -35,7 +35,7 @@ class clsProgramacion {
     public function AgregarPreprogramacion($param) { 
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
-		//id_doc docente
+		$conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPAGREGARPREPROGRAMACION('$cod_mat', '$cod_sal',$tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin, '$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
             $tip_cer,".$IdUsuario.",$pre_est,'$canSesiones','$capSalon','$inteHoraria','$observacion');";
@@ -85,8 +85,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $clave = ($array2)[0]['Parametro'];
-                        $correode = array_pop($array2)['Parametro'];
+                        $correode = $array2[0]['Parametro'];
+                        $clave = $array2[1]['Parametro'];
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -122,7 +122,8 @@ class clsProgramacion {
                             $sede = $array1[0]['Sede'];
                             $observaciones = $array1[0]['Observaciones'];
                             $estado = $array1[0]['Estado'];
-                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave);
+                            $asunto = "Preprogramacion asignada";
+                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
                         }else{
                             print_r("Error2");
                             $data["error"]="No se encontraron correos de estudiantes";
@@ -311,19 +312,19 @@ class clsProgramacion {
     public function ActualizarPreprogramacion($param) {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
-        // $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARPREPROGRAMACION($pre_id, $tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin,'$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
             $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion','$codSalon');";
         $rs=null;
 		// echo json_encode(array($sql));
-        if ($rs = $conexion->getPDO()->query($sql)) {    
+        if ($rs = $conexion->getPDO()->query($sql)) {
             //----- Inicio envío correo al docente involucrado -----//
                 $rs1=null;
                 $array1=array();
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
                 $sql = "CALL SPCONSULTARDATOSCORREOMATRICULAPORPREPROGRAMACIONDOCENTE($pre_id);";
-                if ($rs1 = $conexion->getPDO()->query($sql)){      
+                if ($rs1 = $conexion->getPDO()->query($sql)){ 
                     if($filas = $rs1->fetchAll(PDO::FETCH_ASSOC)){
                         foreach ($filas as $fila){
                             $array1[] = $fila; 
@@ -343,8 +344,8 @@ class clsProgramacion {
                             }
                         }
                         $rs2->closeCursor();
-                        $clave = ($array2)[0]['Parametro'];
-                        $correode = array_pop($array2)['Parametro'];
+                        $correode = $array2[0]['Parametro'];
+                        $clave = $array2[1]['Parametro'];
                         $rs3=null;
                         $array3=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -380,7 +381,8 @@ class clsProgramacion {
                             $sede = $array1[0]['Sede'];
                             $observaciones = $array1[0]['Observaciones'];
                             $estado = $array1[0]['Estado'];
-                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave);
+                            $asunto = "Preprogramacion modificada";
+                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
                         }else{
                             print_r("Error2");
                             $data["error"]="No se encontraron correos de estudiantes";
@@ -391,20 +393,10 @@ class clsProgramacion {
                         print_r($conexion->getPDO()->errorInfo()); die();
                     }
                 }
-                //----- Fin envío correo a todos los estudiantes matriculados -----// 
-   //          $utilidades = new clsUtilidades();     
-   //          $array = 1;
-			// $correo=$utilidades->enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
-   //          $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
-   //          $tip_cer,$pre_est,$canSesiones,$capSalon,$inteHoraria,$observacion,$conexion);
-			// if($correo == ""){
-			// 	$array = -1;
-			// }
-        } else {
+        }else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); 
         }
-            // echo $sql;
         echo json_encode($array);
     }
 

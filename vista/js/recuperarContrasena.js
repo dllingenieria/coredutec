@@ -7,11 +7,15 @@ $(function() {
         login = $("#txtLogin").val();
         email = $("#txtEmail").val();
 		if (login == "" || email == ""){
-		mostrarPopUpError("Por favor ingrese los datos solicitados");
+            //var cadena = "ceo@dllingenieria.com.co";
+            //var reemplazar = cadena.substr(2,(parseInt(cadena.length;)-5));
+            //var nuevacadena = cadena.replace(cadena.substr(2,(parseInt(cadena.length)-5)), "******");
+            //console.log(cadena.replace(cadena.substr(2,(parseInt(cadena.length)-5)), "******"));
+            mostrarPopUpError("Por favor ingrese los datos solicitados");
 		}
 		else{
-            // var mensaje="Procesando la información<br>Espere por favor";
-            // jsShowWindowLoad(mensaje);
+            var mensaje="Procesando la información<br>Espere por favor";
+            jsShowWindowLoad(mensaje);
 			generarLinkTemporal(login,email);
 		}
 	});
@@ -26,7 +30,7 @@ $(function() {
             token: token
             }, function(data) {
             if (data[0].pEmail == 0) {
-                //jsRemoveWindowLoad();
+                jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("Por favor verifique el número de cédula ingresado");
                 $("#recuperarContrasena").show();
             }else{
@@ -39,6 +43,7 @@ $(function() {
     }
 
     function enviarCorreo(para, link){
+        //console.log(dimension = lemgth(para));
         $.ajax({
         url: '../../controlador/fachada.php',
         type: 'POST',
@@ -52,18 +57,15 @@ $(function() {
             }
         }).done(function(data) {
             if(data == 1){
-                /*jsRemoveWindowLoad();
-                reemplazar = substr(2,(reemplazar.length - 2));
-                para = replace(reemplazar, '********', para);
-                para = para.replace(/reemplazar/g, "**********");
-                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico a la direcci&oacute;n "+para+" con las instrucciones");*/
-                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico con las instrucciones");
+                jsRemoveWindowLoad();
+                var correoparamostrar = para.replace(para.substr(2,(parseInt(para.length)-5)), "******");
+                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico a la direcci&oacute;n "+correoparamostrar+" con las instrucciones");
                 $("#recuperarContrasena").show();
                 setTimeout(function() {
                     window.location.href = "../../index.html";
                 }, 5000);
             }else{
-                //jsRemoveWindowLoad();
+                jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("No ha sido posible enviar el correo, por favor rectif&iacute;quelo e intente de nuevo");
                 $("#recuperarContrasena").show();
             }       

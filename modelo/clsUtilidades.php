@@ -12,12 +12,12 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host = "smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "smtp.gmail.com"; //"smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; 
-        $mail->Port = 587;
-        $mail->SMTPSecure = "tls";
+        $mail->Port = 465; //587;
+        $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
         $mail->AddAddress($correoElectronico);                  // name is optional
@@ -45,39 +45,40 @@ class clsUtilidades {
         $mensaje = str_replace("cod_mat", $IdMatricula, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mail->CharSet = 'UTF-8';
         $mail->Body = $mensaje;
-        $envio=-1;
-        if(!$mail->Send())
-        {
-         $envio=0;
+        if(!$mail->Send()){
+            $envio = 0;
+        }else{
+            $envio =- 1;
         }
-        return  $envio;  
+        return $envio;
    }
 
    //----- Funcion que envía correo a los docentes luego que son preprogramados o modificados -----//
-   public function enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave){
+   public function enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host = "smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "smtp.gmail.com"; //"smtp.office365.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; // SMTP password
-        $mail->Port = 587;
-        $mail->SMTPSecure = "tls";
+        $mail->Port = 465; //587;
+        $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
         $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";                 // name is optional
         $mail->AddAddress($correoElectronico); 
         $mail->WordWrap = 50; 
         $mail->IsHTML(true);                                  // set email format to HTML
-        $mail->Subject = "Preprogramacion Asignada";
+        $mail->Subject = $asunto;
         $mensaje = file_get_contents("../vista/html/correo_preprogramacion.html");
         $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
         $mensaje = str_replace("capacitador", $docente, $mensaje);
         $mensaje = str_replace("cod-salon", $salon, $mensaje);
         $mensaje = str_replace("cod-curso", $codigocurso, $mensaje);
         $mensaje = str_replace("capacitacion", $curso, $mensaje);
-        $mensaje = str_replace("ruta", $ruta, $mensaje);
+        $mensaje = str_replace("prut", $ruta, $mensaje);
         $mensaje = str_replace("duracioncurso", $duracionCurso, $mensaje);
         $mensaje = str_replace("diascurso", $diasCurso, $mensaje);
         $mensaje = str_replace("finicial", $fechaInicial, $mensaje);
@@ -88,20 +89,19 @@ class clsUtilidades {
         $mensaje = str_replace("duracionm", $duracionModulo, $mensaje);
         $mensaje = str_replace("ihoraria", $intensidadhoraria, $mensaje);
         $mensaje = str_replace("sesiones", $cantidadsesiones, $mensaje);
-        $mensaje = str_replace("modalidad", $modalidad, $mensaje);
+        $mensaje = str_replace("pmodal", $modalidad, $mensaje);
         $mensaje = str_replace("sede", $sede, $mensaje);
         $mensaje = str_replace("observacion", $observaciones, $mensaje);
         $mensaje = str_replace("estado", $estado, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mail->CharSet = 'UTF-8';
         $mail->Body = $mensaje;
-        $envio=-1;
-        if(!$mail->Send())
-        {
-         $envio = "";
+        if(!$mail->Send()){
+            $envio = 0;
         }
         else{
-            $envio=1;
+            $envio = 1;
         }   
    return $envio;
    }
