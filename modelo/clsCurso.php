@@ -846,8 +846,8 @@ public function cerrarCursoMatriculaTercero($param){
                                             }
                                         }
                                         $rs2->closeCursor();
-                                        $clave = ($array2)[0]['Parametro'];
-                                        $correode = array_pop($array2)['Parametro'];
+                                        $correode = $array2[0]['Parametro'];
+                                        $clave = $array2[1]['Parametro'];
                                         $rs3=null;
                                         $array3=array();
                                         $sql3 = "CALL SPCONSULTARCORREOUSUARIO($IdUsuario);";

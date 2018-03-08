@@ -159,7 +159,6 @@ class clsAsistencia {
 		$rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
-        // $sql = "CALL SPAGREGARASISTENCIAOBSERVACION($idAsistencia, $idTercero, '$observacion',$idPreprogramacion, $usuario);";
         $sql = "CALL SPAGREGARASISTENCIAOBSERVACION('$serializedAsistenciaO', $usuario);";
         
         //print_r($sql);

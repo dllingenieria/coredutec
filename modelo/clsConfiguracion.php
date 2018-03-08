@@ -263,11 +263,9 @@ class clsConfiguracion {
         // session_start();
         extract($param);
 		$rs = null;
-        //var_dump("parametros".$param);
         $IdUsuario = $_SESSION['idUsuario'];
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARUSUARIO($idTer,$tIdenUsu,$IdeUsu,$LExpUsu,'$NomUsu','$ApeUsu','$FNacUsu',$sexUsu,$ECivUsu,$gEscUsu,'$te1Usu','$te2Usu', '$te3Usu', '$dirUsu','$emaUsu',$locUsu,$ciuUsu,'$estUsu', '$idUsu','$usuUsu','$passUsu','$rolUsu', '$idDocUsu', '$carUsu', '$IdUsuario');";
-        //echo ($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
              if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 $array = 1;
@@ -275,10 +273,8 @@ class clsConfiguracion {
                 $array = 1;
             }
         } else {
-            //print_r($conexion->getPDO()->errorInfo()); die();
             $array = 0;
         }
-        //print_r("Arrays ".$array);
         echo json_encode($array);
     }
 
