@@ -930,3 +930,15 @@ div#lblDuracionCursoMatricula {
 footer {	
     z-index: 30 !important;	
 }
+
+#WindowLoad
+{
+    position:fixed;
+    top:0px;
+    left:0px;
+    z-index:3200;
+    filter:alpha(opacity=65);
+   -moz-opacity:65;
+    opacity:0.65;
+    background:#999;
+}

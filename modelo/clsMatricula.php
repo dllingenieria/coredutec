@@ -57,6 +57,7 @@ class clsMatricula {
                     }
                     if (count($array2)>0){
                         $estudiante = $array1[0]['Estudiante'];
+                        $cedula = $array1[0]['NumeroIdentificacion'];
                         $correoElectronico = $array1[0]['CorreoElectronico'];
                         $salon = $array1[0]['Salon'];
                         $curso = $array1[0]['Curso'];
@@ -74,7 +75,7 @@ class clsMatricula {
                         $estado = $array1[0]['Estado'];
                         $usuario = $_SESSION['nombreUsuario'];
                         $usuarioe = $array3[0]['CorreoElectronico'];
-                        $correo=$utilidades->enviarCorreoEstudiante($estudiante,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
+                        $correo=$utilidades->enviarCorreoEstudiante($estudiante,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
                     }else{
                         print_r("Error2");
                         $data["error"]="No se encontraron correos de estudiantes";

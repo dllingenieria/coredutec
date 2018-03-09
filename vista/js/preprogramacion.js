@@ -557,12 +557,14 @@ location.reload(true);
 		
     });
     $('#cmbHoraInicio').change(function() {
-        hin_id = $(this).val();
-        validarHoras(hin_id, hfi_id);
+        hin_text = $("#cmbHoraInicio option:selected").text();
+        hfi_text = $("#cmbHoraFinal option:selected").text();
+        validarHoras(hin_text, hfi_text);
     });
     $('#cmbHoraFinal').change(function() {
-        hfi_id = $(this).val();
-        validarHoras(hin_id, hfi_id);
+    	hin_text = $("#cmbHoraInicio option:selected").text();
+        hfi_text = $("#cmbHoraFinal option:selected").text();
+        validarHoras(hin_text, hfi_text);
     });
     $('#txtFechaInicio').change(function() {
      validarFechas();
@@ -1001,9 +1003,11 @@ function obtenerCodigoModulo(mod) {
     return aux[0];
 }
 
-function validarHoras(hin_id, hfi_id) {
+function validarHoras(hin_text, hfi_text) {
     var flag = true;
-    if (parseInt(hin_id) >= parseInt(hfi_id)) {
+    console.log("Hora inicial "+hin_text);
+    console.log("Hora inicial "+hfi_text);
+    if (parseInt(hin_text) >= parseInt(hfi_text)) {
         flag = false;
         mostrarPopUpError("La hora inicial debe ser mayor \n a la hora final");
     }
