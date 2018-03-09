@@ -8,7 +8,7 @@ set_time_limit(0);
  */
 class clsUtilidades {
     //----- Función que envía correo luego de una matrícula -----//
-    public function enviarCorreoEstudiante($estudiante,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave){
+    public function enviarCorreoEstudiante($estudiante,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
@@ -28,6 +28,7 @@ class clsUtilidades {
         $mensaje = file_get_contents("../vista/html/correo_curso.html");
         $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
         $mensaje = str_replace("estudiante", $estudiante, $mensaje);
+        $mensaje = str_replace("pNumeroIdentificacion", $cedula, $mensaje);
         $mensaje = str_replace("cod-salon", $salon, $mensaje);
         $mensaje = str_replace("capacitacion", $curso, $mensaje);
         $mensaje = str_replace("ruta", $ruta, $mensaje);
@@ -78,7 +79,7 @@ class clsUtilidades {
         $mensaje = str_replace("cod-salon", $salon, $mensaje);
         $mensaje = str_replace("cod-curso", $codigocurso, $mensaje);
         $mensaje = str_replace("capacitacion", $curso, $mensaje);
-        $mensaje = str_replace("ruta", $ruta, $mensaje);
+        $mensaje = str_replace("prut", $ruta, $mensaje);
         $mensaje = str_replace("duracioncurso", $duracionCurso, $mensaje);
         $mensaje = str_replace("diascurso", $diasCurso, $mensaje);
         $mensaje = str_replace("finicial", $fechaInicial, $mensaje);
@@ -89,7 +90,7 @@ class clsUtilidades {
         $mensaje = str_replace("duracionm", $duracionModulo, $mensaje);
         $mensaje = str_replace("ihoraria", $intensidadhoraria, $mensaje);
         $mensaje = str_replace("sesiones", $cantidadsesiones, $mensaje);
-        $mensaje = str_replace("modalidad", $modalidad, $mensaje);
+        $mensaje = str_replace("pmodal", $modalidad, $mensaje);
         $mensaje = str_replace("sede", $sede, $mensaje);
         $mensaje = str_replace("observacion", $observaciones, $mensaje);
         $mensaje = str_replace("estado", $estado, $mensaje);

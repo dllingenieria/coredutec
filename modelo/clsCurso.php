@@ -865,6 +865,7 @@ public function cerrarCursoMatriculaTercero($param){
                                             for($i=0;$i<count($array1);$i++){
                                                 $IdMatricula = $array1[$i]['Id'];
                                                 $estudiante = $array1[$i]['Estudiante'];
+                                                $cedula = $array1[$i]['NumeroIdentificacion'];
                                                 $correoElectronico = $array1[$i]['CorreoElectronico'];
                                                 $salon = $array1[$i]['Salon'];
                                                 $curso = $array1[$i]['Curso'];
@@ -880,7 +881,7 @@ public function cerrarCursoMatriculaTercero($param){
                                                 $modalidad = $array1[$i]['Modalidad'];
                                                 $sede = $array1[$i]['Sede'];
                                                 $estado = $array1[$i]['Estado'];
-                                                $correo=$utilidades->enviarCorreoEstudiante($estudiante,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
+                                                $correo=$utilidades->enviarCorreoEstudiante($estudiante,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
                                             }
                                         }else{
                                             print_r("Error2");
