@@ -529,10 +529,10 @@ class clsCurso {
 			
 		//---------- FIN VALIDACION DE ASISTENCIA
 		
-        //---------- VALIDACION DE PLANEACION
+        //---------- VALIDACION DE PLANEACION Y REFRIGERIOS
 			if($numeroSesiones !== -1){
 				$conexion->getPDO()->query("SET NAMES 'utf8'");
-                 $rs=null;
+                $rs=null;
 				$sql = "CALL SPCONSULTARTOTALPLANEACIONPORPREPROGRAMACION ($idPreprogramacion,$numeroSesiones);";
 				if ($rs = $conexion->getPDO()->query($sql)) {
 					$fila = $rs->fetch(PDO::FETCH_ASSOC);
@@ -542,7 +542,26 @@ class clsCurso {
 						exit;
 					}
 					else{
-						$data['planeacion']="ok";
+                        $rs->closeCursor();
+                        $conexion->getPDO()->query("SET NAMES 'utf8'");
+                        $rs1=null;
+                        $sql1 = "CALL SPCONSULTARTOTALREFRIGERIOSPORPREPROGRAMACION($idPreprogramacion,$numeroSesiones);";
+                        if ($rs1 = $conexion->getPDO()->query($sql1)) {
+                            $fila1 = $rs1->fetch(PDO::FETCH_ASSOC);
+                            if ($fila1['NumeroRefrigerios'] == 0){
+                                $data["error"]="No se puede cerrar el curso, faltan refrigerios por ingresar";
+                                echo json_encode($data);
+                                exit;
+                            }
+                            else{
+                                $rs1->closeCursor();
+                                $data['planeacion']="ok";
+                            }
+                        }
+                        else{
+                            $data["error"]="No se consultaron los refrigerios";
+                            print_r($conexion->getPDO()->errorInfo()); die();
+                        }
 					}
 				}
 				else{
@@ -551,7 +570,7 @@ class clsCurso {
 				}	
 			}
 		
-		//---------- FIN VALIDACION DE PLANEACION
+		//---------- FIN VALIDACION DE PLANEACION Y REFRIGERIOS
 
         //---------- VALIDACION DE EVALUACION
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -865,6 +884,7 @@ public function cerrarCursoMatriculaTercero($param){
                                             for($i=0;$i<count($array1);$i++){
                                                 $IdMatricula = $array1[$i]['Id'];
                                                 $estudiante = $array1[$i]['Estudiante'];
+                                                $tipoidentificacion = $array1[$i]['TipoIdentificacion'];
                                                 $cedula = $array1[$i]['NumeroIdentificacion'];
                                                 $correoElectronico = $array1[$i]['CorreoElectronico'];
                                                 $salon = $array1[$i]['Salon'];
@@ -881,7 +901,7 @@ public function cerrarCursoMatriculaTercero($param){
                                                 $modalidad = $array1[$i]['Modalidad'];
                                                 $sede = $array1[$i]['Sede'];
                                                 $estado = $array1[$i]['Estado'];
-                                                $correo=$utilidades->enviarCorreoEstudiante($estudiante,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
+                                                $correo=$utilidades->enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
                                             }
                                         }else{
                                             print_r("Error2");

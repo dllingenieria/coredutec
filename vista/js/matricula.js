@@ -218,7 +218,6 @@ function obtenerGradoEscolaridad(){
             $.cookie("id_mat", data);
             $.cookie("pEstadoMatricula",'Guardada');
             PopUpConfirmacion("Matrícula guardada satisfactoriamente.");
-            //EnviarCorreo(data);
         }else{
             if(data=='-1'){
                 jsRemoveWindowLoad();

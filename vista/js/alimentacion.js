@@ -1,5 +1,4 @@
 $(function(){
-	// $("#btnAlimentacion").css("display","none");
 	$("#btnReporteAlimentacion").css("display","none");
 	$("#regresar").hide();
 	$('#spanTotal').hide();
@@ -15,17 +14,6 @@ $(function(){
 		obtenerIdTerceroModulos();
 		
 	});
-	// $("#btnConsularSalon").click(function(){ 
-		// var salon = $("#txtSalon").val();
-		// if (salon == ""){
-		// PopUpError("Por favor ingrese un Salón");	
-		// }
-		// else{
-			// obtenerIdTerceroModulos(salon);
-		// }
-	// });
-	
-
 
 	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
@@ -44,10 +32,7 @@ $(function(){
 					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
-					// $("#formatoFirmas").css("display","");
-					// $("#btnAlimentacion").css("display","");
 					$("#btnReporteAlimentacion").css("display","");
-					// $("#planeacion").css("display","");
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
@@ -148,23 +133,9 @@ $(function(){
 			}
 		} );
 	}
-
-
-	// $("#btnAlimentacion").click(function(){                           //agregado
-	// 	if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-	// 		window.location.href = "ingresarAlimentacion.html";
-	// 	}else{
-	// 		PopUpError("Por favor seleccione un módulo");
-	// 	}
-	// });
 	
 	$("#btnReporteAlimentacion").click(function(){
 		window.location.href = "reporteAlimentacion.html";
-		// if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
-		// 	window.location.href = "reporteAlimentacion.html";
-		// }else{
-		// 	PopUpError("Por favor seleccione un módulo");
-		// }
 	});
 
 function cantidadSesiones(){

@@ -29,10 +29,45 @@ $(function() {
 	cargarValorSelected('#cmbTipoIdentificacion',3,500);
 
 	function inicializar(){
-		$("#buscar").click(consultarCargasTercero);
+		$("#buscar").click(function(){ 
+			var pTipoIdentificacion = "";
+	        var pNumeroIdentificacion = "";
+	        pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+	        pNumeroIdentificacion = $("#identificacion").val();
+			if (pNumeroIdentificacion == ""){
+				mostrarPopUpError("Por favor ingrese un número de identificación");
+			}
+			else{
+	            consultarCargasTercero();
+			}
+		});
 		$('#matricular').click(matricularModulo);
-		//$('input[id=identificacion]').change(consultarCargasTercero);
+	}
 
+	//Captura el control para aplicar validacion al presionar una tecla
+	window.addEventListener("load", function() {
+		document.getElementById("identificacion").addEventListener("keypress", soloNumeros, false);
+		});
+
+	//Solo permite introducir numeros y la tecla enter.
+	function soloNumeros(e){
+		var key = window.event ? e.which : e.keyCode;
+		if (key != 13){
+			if (key < 48 || key > 57) {
+				e.preventDefault();
+			}
+		}else{
+			var pTipoIdentificacion = "";
+	        var pNumeroIdentificacion = "";
+	        pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+	        pNumeroIdentificacion = $("#identificacion").val();
+			if (pNumeroIdentificacion == ""){
+				mostrarPopUpError("Por favor ingrese un número de identificación");
+			}
+			else{
+	            consultarCargasTercero();
+			}
+		}
 	}
 
 	$("#btnAsignacion").click(function(){ 
@@ -59,11 +94,6 @@ $(function() {
 		}
 		cursosInscritos=[];
 		$('#modulosCursados').text('');
-		// swal({title: "Consultando Información",   
-		// 	text: "Espere un momento...",
-		// 	timer: 3000,
-		// 	showConfirmButton: false,
-		// 	type: "success"});
 		var identificacion = $("#identificacion").val();
 		var tipoidentificacion = $("#cmbTipoIdentificacion").val();
 		$.post("../../controlador/fachada.php", {
@@ -72,7 +102,6 @@ $(function() {
 					pNumeroIdentificacion: identificacion,
 					pTipoIdentificacion: tipoidentificacion
 				}, function(data){
-					console.log(data);
 					if(data == 0){
 						swal({title: "No se encontró el Oferente",
 								text: "",
@@ -119,7 +148,7 @@ $(function() {
 										$.cookie("rutaId", carga[11]);
 										idTerceroCarga=carga[12]; //alert(idTerceroCarga);
 										$.cookie("tercertoId", idTerceroCarga);
-										//$.cookie("tercertoId", carga[12]);
+										$.cookie("rutasoporte", carga[13]);
 										
 										cursosInscritos.push({"rutaId": $.cookie("rutaId"),
 											"cursoId":$.cookie("cursoId"),
@@ -185,15 +214,9 @@ $(function() {
 		}, function(data) {
 			if(data !== null){ 
 				if (data !== 0) { 
-					 for(i = 0; i < data.length; i++) {
-						//modulosVistos.push(modulo.Nombre );
+					for(i = 0; i < data.length; i++) {
 						$("#modulosCursados").append(data[i].Nombre + ", " + data[i].NombreCurso + ", " + data[i].Salon+ ", " + data[i].Estado + "\n-------------------\n") ; 
-					 
-					 }
-					// data.forEach(function(modulo){ alert("hola");
-						// modulosVistos.push(modulo.Nombre );
-						// $("#modulosCursados").append(modulo.Nombre + ", " + modulo.NombreCurso + ", " + modulo.Salon+ ", " + modulo.Estado + "\n-------------------\n") ;
-					// });
+					}
 				}
 				llenarTablaModulos();
 			}else{alert("Error en la búsqueda - Módulos");}
@@ -203,17 +226,15 @@ $(function() {
 	function llenarTablaModulos(){
 		obtenerInformacionCursoRecursivo(0, [], [], [], function(informacionTabla){
 			generarTabla(formatearInformacion(informacionTabla));
-		});
+	});
 	}
 
 	function obtenerInformacionCursoRecursivo(indice, modulosAgregados, modulosAgregadosId,informacionTabla, callback){
-		
 		if (indice >= cursosInscritos.length) {
 			callback(informacionTabla);
 			return;
 		}else{
-			var curso = cursosInscritos[indice]; //console.log(cursosInscritos);
-			//alert(curso.rutaId+"-"+curso.cursoId);
+			var curso = cursosInscritos[indice]; 
 			$.post("../../controlador/fachada.php", {
 				clase: 'clsModulo',
 				oper: 'ConsultarModulosPorRutaCurso',
@@ -223,26 +244,20 @@ $(function() {
 				if(data !== null){
 					if (data !== 0) {
 						for (var i = 0; i < data.length; i++) { 
-						//if(i==0){alert(i);modulosAgregados.length=0;}
-						
-							var modulo = data[i];					
-							//if (!isInArray(modulo.Modulo,modulosVistos)) {
-						
-								//if (!isInArray(modulo.Modulo, modulosAgregados)) {
-								  if(!isInArray(modulo.IdModulo, modulosAgregadosId)) {
-										modulo.idCarga = curso.cargaId;
-									if (modulo.rutaId === "1" || modulo.rutaId === "10") {
-										modulo.Curso = modulo.Modulo;
-									}else{
-										modulo.Curso = curso.curso;
-									}
-									modulo.Convocatoria = curso.convocatoria;
-									modulosAgregados.push(modulo.Modulo);
-									informacionTabla.push(modulo);
-									modulosAgregadosId.push(modulo.IdModulo);
-									
+							var modulo = data[i];
+							if(!isInArray(modulo.IdModulo, modulosAgregadosId)) {
+								modulo.idCarga = curso.cargaId;
+								if (modulo.rutaId === "1" || modulo.rutaId === "10") {
+									modulo.Curso = modulo.Modulo;
+								}else{
+									modulo.Curso = curso.curso;
 								}
-							//}
+								modulo.Convocatoria = curso.convocatoria;
+								modulo.rutasoporte = '<a href="'+"../"+$.cookie("rutasoporte")+'" target="_blank">Soporte</a>';
+								modulosAgregados.push(modulo.Modulo);
+								informacionTabla.push(modulo);
+								modulosAgregadosId.push(modulo.IdModulo);
+							}
 						}
 						indice++;
 						obtenerInformacionCursoRecursivo(indice, modulosAgregados, modulosAgregadosId,informacionTabla, callback);
@@ -291,7 +306,7 @@ $(function() {
 	//Genera la base de datos de manera genérica con la información de entrada
 	function generarTabla(informacion){ 
 		destruirTablaSiExiste();
-		var nombresColumnas = {0:"Módulo", 1:"Ruta", 2:"idModulo", 3:"idCarga", 4:"Ruta Id", 5:"Curso", 6:"Convocatoria"};
+		var nombresColumnas = {0:"Módulo", 1:"Ruta", 2:"idModulo", 3:"idCarga", 4:"Ruta Id", 5:"Curso", 6:"Convocatoria", 7:"Soporte"};
 		informacion = reemplazarColumnas(nombresColumnas, informacion);
 		var definicionColumnas = [{"className": "dt-center", "targets": "_all"}];
 		definicionColumnas.unshift({"visible": false, "searchable": false,"targets": [2,3,4]});
@@ -301,7 +316,7 @@ $(function() {
 			"columnDefs": definicionColumnas,
 			colReorder: true
 		});
-		tabla.colReorder.order( [ 1, 0, 2, 3, 4, 5, 6] );
+		tabla.colReorder.order( [ 1, 0, 2, 3, 4, 5, 6,7] );
 		hacerTablaSeleccionable();
 	}
 

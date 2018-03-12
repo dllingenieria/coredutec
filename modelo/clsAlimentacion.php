@@ -25,7 +25,7 @@ class clsAlimentacion {
         echo json_encode($array);
     }
 
-  public function agregarAlimentacioGeneral($param) 
+  public function agregarAlimentacioGeneral($param)
     {  
         extract($param);
 		$array = array();
@@ -117,7 +117,7 @@ class clsAlimentacion {
         }else {
             $resultado = 0;
 			print_r($conexion->getPDO()->errorInfo());
-        } //print_r($array); die();
+        }
         echo json_encode($resultado);
     }
 
@@ -173,7 +173,7 @@ class clsAlimentacion {
         
         $objPHPExcel->getActiveSheet()->setCellValue('C3', 'INFORME AlIMENTACIÓN');
         //Array de Datos Columnas
-        $dataColumnasDatos = array('Fecha Entrega','Sede donde se debe entregar','Número de refrigerios que solicita', 'Tipo de alimentación', 'Código del curso que está orientando actualmente ( Completo)', 'Nombre del curso que está dictando.', 'Nombre del módulo que está dictando',  'Nombre del docente que solicita los refrigerios', 'Tipo de Asignación','Observaciones: Reporte novedad sobre su solicitud', 'Número Celular', 'Estado', 'Sesion');                    
+        $dataColumnasDatos = array('Fecha Solicitud','Fecha Entrega','Sede donde se debe entregar','Número de refrigerios que solicita', 'Tipo de alimentación', 'Código del curso que está orientando actualmente ( Completo)', 'Nombre del curso que está dictando.', 'Nombre del módulo que está dictando',  'Nombre del docente que solicita los refrigerios', 'Tipo de Asignación','Observaciones: Reporte novedad sobre su solicitud', 'Número Celular', 'Estado', 'Sesion');                    
         
         $baseRowDatos = 5;
         $columnDatos=0;
@@ -195,11 +195,12 @@ class clsAlimentacion {
                 $columnRow=0;
                 $row = $baseRow + $r;
 
-                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow, $row, $fila['Fecha']);
-                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1,   $row, $fila['Sede']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow, $row, $fila['FechaSolicitud']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Fecha']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Sede']);
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Cantidad']);
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Refrigerio']);  
-                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1,   $row, $fila['Salon']);
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Salon']);
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Curso']);
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Modulo']);
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Docente']);

@@ -7,10 +7,6 @@ $(function() {
         login = $("#txtLogin").val();
         email = $("#txtEmail").val();
 		if (login == "" || email == ""){
-            //var cadena = "ceo@dllingenieria.com.co";
-            //var reemplazar = cadena.substr(2,(parseInt(cadena.length;)-5));
-            //var nuevacadena = cadena.replace(cadena.substr(2,(parseInt(cadena.length)-5)), "******");
-            //console.log(cadena.replace(cadena.substr(2,(parseInt(cadena.length)-5)), "******"));
             mostrarPopUpError("Por favor ingrese los datos solicitados");
 		}
 		else{
@@ -34,16 +30,16 @@ $(function() {
                 $("#lblDatosIncorrectos").html("Por favor verifique el número de cédula ingresado");
                 $("#recuperarContrasena").show();
             }else{
+                var FromName = "Corporacion de Educacion Tecnologica Colsubsidio - Airbus Group";
                 var res = data[0].pEmail.split("_");
                 var para = res[0];
                 var link = res[1];
-                enviarCorreo(para,link);
+                enviarCorreo(para,link,FromName);
             } 
         }, "json");
     }
 
-    function enviarCorreo(para, link){
-        //console.log(dimension = lemgth(para));
+    function enviarCorreo(para,link,FromName){
         $.ajax({
         url: '../../controlador/fachada.php',
         type: 'POST',
@@ -54,6 +50,7 @@ $(function() {
             oper: 'enviarCorreoContrasena',
             para: para,
             link: link,
+            FromName: FromName,
             }
         }).done(function(data) {
             if(data == 1){

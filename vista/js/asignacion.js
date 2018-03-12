@@ -55,17 +55,31 @@ $(function() {
 		}
 	});
 
-	//----- Valida cuando se presiona la tecla enter -----//
-	$('#txtCodigoCurso').change(function() {
-        if($("#txtCodigoCurso").val() != ""){
-        	var pCodigoCurso = $("#txtCodigoCurso").val();
-        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
-        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
-        	CargarDatosPorCodigoCurso(pCodigoCurso,pTipoIdentificacion,pNumeroIdentificacion);
-        }else{
-        	mostrarPopUpError('Por favor escriba un código para buscar');
-        }  
-    });
+	//Captura el control para aplicar validacion al presionar una tecla
+	window.addEventListener("load", function() {
+		document.getElementById("txtCodigoCurso").addEventListener("keypress", soloNumeros, false);
+		});
+
+	//Solo permite introducir numeros, el punto y la tecla enter.
+	function soloNumeros(e){
+		var key = window.event ? e.which : e.keyCode;
+		if (key != 13){
+			if (key != 46){
+				if (key < 48 || key > 57){
+					e.preventDefault();
+				}
+			}
+		}else{
+			if($("#txtCodigoCurso").val() != ""){
+	        	var pCodigoCurso = $("#txtCodigoCurso").val();
+	        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+	        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
+	        	CargarDatosPorCodigoCurso(pCodigoCurso,pTipoIdentificacion,pNumeroIdentificacion);
+	        }else{
+	        	mostrarPopUpError('Por favor escriba un código para buscar');
+	        }  
+		}
+	}
 
 	//----- Valida que el curso no haya sido asignado anteriormente -----//
     function CargarDatosPorCodigoCurso(pCodigoCurso,pTipoIdentificacion,pNumeroIdentificacion){   
