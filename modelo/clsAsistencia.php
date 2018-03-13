@@ -131,25 +131,17 @@ class clsAsistencia {
 
     public function agregarAsistenciaDetalle($param) {
         extract($param);
-        var_dump($serializedAsistenciaD);
 		$array = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
         $rs = null;
-        // $sql = "CALL SPAGREGARASISTENCIADETALLE($idAsistencia, $idTercero, $valorAsistencia,  $idAsistenciaDetalle, $usuario);";
         $sql = "CALL SPAGREGARASISTENCIADETALLE('$serializedAsistenciaD', $usuario);";
-        //print_r($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila;
-                }
-            }
+        	$array = 1;
         } else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); die();
         }
-		// $array = 0;
         echo json_encode($array);
     }
 	
@@ -160,19 +152,11 @@ class clsAsistencia {
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $usuario = $_SESSION['idUsuario'];
         $sql = "CALL SPAGREGARASISTENCIAOBSERVACION('$serializedAsistenciaO', $usuario);";
-        
-        //print_r($sql);
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila;
-                }
-            }
+        	$array = 1;
         } else {
             $array = 0;
-			print_r($conexion->getPDO()->errorInfo()); die();
         }
-		// $array = 0;
         echo json_encode($array);
     }
 
@@ -318,22 +302,15 @@ class clsAsistencia {
         extract($param);
 		$array = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $usuario = $_SESSION['idUsuario']; //FALTA EL NOMBRE
-        // $sql = "CALL SPAGREGARMOTIVONOASISTENCIA($idAsistencia, $idTercero, '$motivo',$idPreprogramacion, $usuario);";
+        $usuario = $_SESSION['idUsuario']; 
         $rs = null;
-		$sql = "CALL SPAGREGARMOTIVONOASISTENCIA('$serializedAsistenciaM', $usuario);";
-        
+		$sql = "CALL SPAGREGARMOTIVONOASISTENCIA('$serializedAsistenciaM', $usuario);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila;
-                }
-            }
+            $array = 1;
         } else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); die();
         }
-		// $array = 0;
         echo json_encode($array);
     }
 	

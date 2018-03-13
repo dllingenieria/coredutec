@@ -99,6 +99,22 @@ class clsTercero{
         echo json_encode($array);
     }
 
+    function obtenerSexo($params){
+        extract($params);
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCARGARSEXO();";  
+        $rs=null;       
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = array(0 => $fila['Id'], 1 => $fila['Nombre']);
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
 
     function obtenerCiudades($params){
     	extract($params);

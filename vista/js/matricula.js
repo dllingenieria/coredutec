@@ -35,6 +35,8 @@ $(function() {
 	cuposSalones="";
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtfechaNacimiento").datepicker();
+    obtenerTipoIdentificacion();
+    obtenerSexo();
     obtenerEstadoCivil();
     obtenerGradoEscolaridad();
     obtenerCiudades();
@@ -61,7 +63,7 @@ $(function() {
             GuardarMatricula();        
         });
         $("#btnAceCon").click(function() {
-            AgregarObservacion();
+            //AgregarObservacion();
             GuardarInfo();
             window.location = "../html/formato.html";
         });
@@ -81,16 +83,12 @@ $(function() {
             $('#txtCodigoModuloMatricula').val(aux_dur[0]);
             $('#txtDuracionModuloMatricula').val(aux_dur[1]);
             CargarDatosModulo(aux_dur[0]);
-
-          
                 if(sessionStorage.rolSeleccionado==3){
                     CargarMatriculasPre();
                 }
                 else if(sessionStorage.rolSeleccionado==1){
                     CargarMatriculasPre2();
                 }
-        
-
         });
         $('#cmbMatriculadoEnMatricula').change(function() {
 			
@@ -102,6 +100,8 @@ $(function() {
             window.location = "novedades.html";
         });   
         $("#btnActualizar").click(function() {
+            var mensaje="Procesando la información<br>Espere por favor";
+            jsShowWindowLoad(mensaje);
             ActualizarTercero();        
         });
 		
@@ -112,7 +112,43 @@ $(function() {
 		});
     });
 
- function obtenerEstadoCivil(){
+    function obtenerTipoIdentificacion(){
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                clase: 'clsTercero',
+                oper: 'obtenerTipoIdentificacion'
+            },
+            async:false,
+        }).done(function(data) {
+          for(var x = 0 ; x < data.length; x++){
+            tidentificacion = data;
+          }
+        });
+        
+    }
+
+    function obtenerSexo(){
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                clase: 'clsTercero',
+                oper: 'obtenerSexo'
+            },
+            async:false,
+        }).done(function(data) {
+          for(var x = 0 ; x < data.length; x++){
+            sexo = data;
+          }
+        });
+        
+    }
+
+    function obtenerEstadoCivil(){
         $.ajax({
             url: '../../controlador/fachada.php',
             type: 'POST',
@@ -130,7 +166,7 @@ $(function() {
         
     }
 
-function obtenerGradoEscolaridad(){
+    function obtenerGradoEscolaridad(){
         $.ajax({
             url: '../../controlador/fachada.php',
             type: 'POST',
@@ -181,7 +217,6 @@ function obtenerGradoEscolaridad(){
             localidades = data;
           }
         });
-        
     }
 
     function formarOptionValue(idObjeto,dataSet, identifier){
@@ -205,7 +240,7 @@ function obtenerGradoEscolaridad(){
         clase: 'clsMatricula',
         oper: 'AgregarMatricula',
         pTerceroNit: $.cookie("pIdTercero"),
-        pIdConvocatoria:$("#txtTipoDeConvocatoriaMatriculaOculta").val(), 
+        pIdConvocatoria:$("#txtTipoDeConvocatoriaMatriculaOculta").val(),
         pIdRuta: $("#txtRutaNumeroMatriculaOculta").val(),
         pCodigoCurso:$("#cmbNombreCursoMatricula").val(),
         pIdModalidad:$("#cmbModalidadMatricula").val(),
@@ -450,6 +485,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 var telefono2 = data[0].Telefono2;
                 var telefono3 = data[0].Telefono3;
                 var correo = data[0].CorreoElectronico;
+                var correo2 = data[0].CorreoElectronicoAlternativo;
                 var numeroIdentificacion = data[0].NumeroIdentificacion;
                 var observaciones = data[0].Observaciones;
                 var estadoCivil = data[0].IdEstadoCivil;
@@ -468,17 +504,20 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 var modulo = data[0].Modulo;
                 var moduloDuracion = data[0].DuracionCurso;
                 var fechaNacimiento = data[0].FechaNacimiento;
-                var sexo = data[0].Sexo;
+                var Sexo = data[0].Sexo;
                 var direccion =  data[0].Direccion;
                 var ciudadResidencia = data[0].CiudadResidencia;
                 var tipoIdentificacion = data[0].TipoIdentificacion;
                 var today = new Date();
                 var olday = new Date(data[0].FechaNacimiento);
-                $("#txtEdad").val(dateDiff(olday,today));
+                $("#edad").val(dateDiff(olday,today));
+                formarOptionValue("#selectTipoIdentificacion", tidentificacion,tipoIdentificacion);
+                formarOptionValue("#selectSexo", sexo,Sexo);
                 formarOptionValue("#selectEstadoCivil", estadocivil,estadoCivil);
                 formarOptionValue("#selectGradoEscolaridad", grado, escolaridad);
                 formarOptionValue("#selectLugarExpedicion", ciudades,lugarExpedicion);
                 formarOptionValue("#selectLocalidad", localidades,localidad);
+                formarOptionValue("#selectCiudad", ciudades,ciudadResidencia);
 				estadoParticipante= data[0].EstadoParticipante;
 				//estadoParticipante= "Cumple";
                 $("#txtNombre").val(nombres);
@@ -489,23 +528,19 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 $("#txtTelefonoCelular").val(telefono2);
                 $("#txtTelefonoAlterno").val(telefono3);
                 $("#txtCorreoElectronico").val(correo);
+                $("#txtCorreoElectronico2").val(correo2);
                 $("#txtGradoEscolaridad").val(escolaridad);
-                $("#txtMesAsignacion").val(mesAsignacion);
+                $("#mesasignacion").val(mesAsignacion);
                 $("#txtLugarExpedicion").val(lugarExpedicion);
                 $("#txtLocalidad").val(localidad);
                 $("#txtfechaNacimiento").val(fechaNacimiento); 
-                $("#sexo").val(sexo);
-                $("#direccion").val(direccion);
-                $("#ciudad").val(ciudadResidencia);
+                $("#txtDireccion").val(direccion);
                 $("#txtTipoDeConvocatoriaCarga").val($.cookie("convocatoria"));
                 $("#txtTipoDeConvocatoriaMatricula").val($.cookie("convocatoria"));
-                //$("#txtRutaNumeroCarga").val($.cookie("ruta"));
                 $("#txtRutaNumeroCarga").val(idRutaFormacion);
-                //$("#txtRutaNumeroMatricula").val($.cookie("ruta"));
                 $("#txtRutaNumeroMatricula").val(idRuta);
                 $("#txtEstadoCarga").val(estadoParticipante); //llena el estado
                 $("#txtObservaciones").val(observaciones);
-                $("#tipoIdentificacion").val(tipoIdentificacion);
 				
                 $.post("../../controlador/fachada.php", {
                     clase: 'clsParticipante',
@@ -608,7 +643,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
         $.cookie("tel_cel", $("#txtTelefonoCelular").val());
         $.cookie("tel_alt", $("#txtTelefonoAlterno").val());
         $.cookie("cor_ele", $("#txtCorreoElectronico").val());
-        $.cookie("eda_usu", $("#txtEdad").val());
+        $.cookie("eda_usu", $("#edad").val());
        //$.cookie("gra_esc", $("#txtGradoEscolaridad").val());
         $.cookie("gra_esc", $('#selectGradoEscolaridad :selected').text());
         //$.cookie("loc_usu", $("#txtLocalidad").val());
@@ -848,29 +883,29 @@ function ActualizarTercero(){
         clase: 'clsPersona',
         oper: 'ActualizarTercero',
         id:  $.cookie("pIdTercero"),
-        tipoIdentificacion : $("#tipoIdentificacion").val(),
-        identificacion: $("#txtIdentificacion").val(),
+        tipoIdentificacion : $("#selectTipoIdentificacion").val(),
         lugarExpedicion : $("#selectLugarExpedicion").val(),
         nombres: $("#txtNombre").val(),
         apellidos: $("#txtApellido").val(),
         fechaNacimiento : $("#txtfechaNacimiento").val(),
-        sexo : $("#sexo").val(),
+        sexo : $("#selectSexo").val(),
         estadoCivil : $("#selectEstadoCivil").val(),
         gradoEscolaridad : $("#selectGradoEscolaridad").val(),
         tel_fijo: $("#txtTelefonoFijo").val(),
         tel_celular:$("#txtTelefonoCelular").val(),
         tel_alterno:$("#txtTelefonoAlterno").val(),
-        direccion : $("#direccion").val()!=''?$("#direccion").val():'No suministrado',
-        correo_electronico:$("#txtCorreoElectronico").val(),
+        direccion : $("#txtDireccion").val()!=''?$("#txtDireccion").val():'No suministrado',
+        correo_electronico:$("#txtCorreoElectronico").val(),        
+        correo_electronico2: $("#txtCorreoElectronico2").val(),
         localidad : $("#selectLocalidad").val(),
-        ciudad: $("#ciudad").val(),
-        observaciones : $("#txtObservaciones").val()!=''?$("#txtObservaciones").val():'No suministrado'
+        ciudad: $("#selectCiudad").val()
     }, function(data) {
         if (data == 1) {
-            alert("Actualizado con éxito");
+            jsRemoveWindowLoad();
+            PopUpError("Oferente actualizado satisfactoriamente.");
         }else {
-            console.log(data);
-            alert('error actualizando tercero');
+            jsRemoveWindowLoad();
+            PopUpError("No se pudo actualizar el Oferente");
         }}, "json");
 }
 

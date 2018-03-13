@@ -50,18 +50,30 @@ $(function() {
 	$('#txtNombres').validCampoFranz('ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ ');
 	$('#txtApellidos').validCampoFranz('ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ ');
 	
-	//----- Valida cuando se presiona la tecla enter -----//
-	$('#txtNumeroIdentificacion').change(function() {
-        if($("#txtNumeroIdentificacion").val() != ""){
-        	var mensaje="Procesando la información<br>Espere por favor";
-			jsShowWindowLoad(mensaje);
-        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
-        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
-        	cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion);
-        }else{
-        	mostrarPopUpError('Por favor escriba un número de cédula');
-        }  
-    });
+	//Captura el control para aplicar validacion al presionar una tecla
+	window.addEventListener("load", function() {
+		document.getElementById("txtNumeroIdentificacion").addEventListener("keypress", soloNumeros, false);
+		});
+
+	//Solo permite introducir numeros y la tecla enter.
+	function soloNumeros(e){
+		var key = window.event ? e.which : e.keyCode;
+		if (key != 13){
+			if (key < 48 || key > 57) {
+				e.preventDefault();
+			}
+		}else{
+			if($("#txtNumeroIdentificacion").val() != ""){
+	        	var mensaje="Procesando la información<br>Espere por favor";
+				jsShowWindowLoad(mensaje);
+	        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+	        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
+	        	cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion);
+	        }else{
+	        	mostrarPopUpError('Por favor escriba un número de cédula');
+	        }
+		}
+	}
 
 	//----- Consulta la informacion del tercero y la coloca en el formulario -----//
 	function cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion) {
