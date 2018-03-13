@@ -405,6 +405,7 @@ function cantidadSesiones(){
 		oper: 'consultarCalendarioPreprogramacion',
 		idPreprogramacion: sessionStorage.IdPreprogramacion
 	}, function(data) {
+			console.log(data);
 			if (data !== 0) {
 				if(data !== null){
 					sessionStorage.NoSesiones = data;
