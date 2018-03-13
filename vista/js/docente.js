@@ -289,61 +289,57 @@ $(function(){
 
 	//----- Carga el reporte en pantala alimentacion por salon -----//
 	$(document).on('click', '#refrigerios-link', function() {
-			/*var data = table.row($(this).parents('tr')).data();
-			sessionStorage.id_tpar= data[0];
-			if(data[0]!=""){
-				cargarReporteAlimentacionPorSalon(data[1]);
-				$("#formatoFirmas").hide();
-			}*/
-			//sessionStorage.NoSesiones=0;
-		//Se oculta el boton de descarga
-	
-				var mensaje="Procesando la información<br>Espere por favor";
-				jsShowWindowLoad(mensaje);
-				aprobadosAsistentesFormato();	
-
-			   	$.post("../../controlador/fachada.php", {
-					clase: 'clsAlimentacion',
-					oper: 'consultarReporteAlimentacionPorEstudiante',
-					idPreprogramacion: sessionStorage.IdPreprogramacion,
-					NoSesiones: sessionStorage.NoSesiones,
-					Curso: sessionStorage.Curso,
-					Modulo: sessionStorage.Modulo,
-					Inscritos: sessionStorage.Inscritos,
-					Horario: sessionStorage.Horario,
-					FechaInicial: sessionStorage.FechaInicial,
-					Sede: sessionStorage.Sede,
-					Salon: sessionStorage.Salon,
-					IdCurso: sessionStorage.IdCurso,
-					IdModulo: sessionStorage.IdModulo,
-					FechaFinal: sessionStorage.FechaFinal,
-					Duracion: sessionStorage.Duracion,
-					Docente: sessionStorage.Docente,
-					DiasCurso: sessionStorage.DiasCurso,
-					Ruta: sessionStorage.Ruta,
-					CantidadAsistentes: sessionStorage.cantidadAsistentes,
-					EstudiantesGanando: sessionStorage.EstudiantesGanando
-					}, function(data) {
-					if (data.mensaje == 1 && data.html!=""){
-						nombreArchivo=data.html;
-						jsRemoveWindowLoad();
-						popUpConfirmacion("Generado correctamente el reporte");
-						window.location.href = "../"+nombreArchivo;
+				
+				cantidadSesiones();
+				aprobadosAsistentesFormato();
+		
+				setTimeout(function(){
+					var mensaje="Procesando la información<br>Espere por favor";
+					jsShowWindowLoad(mensaje);
 						
-					}
-					else if(data.error == 2){
-						jsRemoveWindowLoad();
-						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
-						setTimeout(function(){
-						location.reload();},2000);
-					}
-					else{
-						jsRemoveWindowLoad();
-						mostrarPopUpError("No se ha generado el reporte");
-						setTimeout(function(){
-						location.reload();},2000);
-					}		
-				}, "json");			
+				   	$.post("../../controlador/fachada.php", {
+						clase: 'clsAlimentacion',
+						oper: 'consultarReporteAlimentacionPorEstudiante',
+						idPreprogramacion: sessionStorage.IdPreprogramacion,
+						NoSesiones: sessionStorage.NoSesiones,
+						Curso: sessionStorage.Curso,
+						Modulo: sessionStorage.Modulo,
+						Inscritos: sessionStorage.Inscritos,
+						Horario: sessionStorage.Horario,
+						FechaInicial: sessionStorage.FechaInicial,
+						Sede: sessionStorage.Sede,
+						Salon: sessionStorage.Salon,
+						IdCurso: sessionStorage.IdCurso,
+						IdModulo: sessionStorage.IdModulo,
+						FechaFinal: sessionStorage.FechaFinal,
+						Duracion: sessionStorage.Duracion,
+						Docente: sessionStorage.Docente,
+						DiasCurso: sessionStorage.DiasCurso,
+						Ruta: sessionStorage.Ruta,
+						CantidadAsistentes: sessionStorage.cantidadAsistentes,
+						EstudiantesGanando: sessionStorage.EstudiantesGanando
+						}, function(data) {
+						if (data.mensaje == 1 && data.html!=""){
+							nombreArchivo=data.html;
+							jsRemoveWindowLoad();
+							popUpConfirmacion("Generado correctamente el reporte");
+							window.location.href = "../"+nombreArchivo;
+							
+						}
+						else if(data.error == 2){
+							jsRemoveWindowLoad();
+							popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+							setTimeout(function(){
+							location.reload();},2000);
+						}
+						else{
+							jsRemoveWindowLoad();
+							mostrarPopUpError("No se ha generado el reporte");
+							setTimeout(function(){
+							location.reload();},2000);
+						}		
+					}, "json");		
+				},2000);	
 	});
 
 		//Evento que carga informe de asistencias//
@@ -498,25 +494,6 @@ function formatearReporteEstudiantesSalon(data){
 		});
 
 }
-
-	function cargarReporteAlimentacionPorSalon(params){
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-		$.post("../../controlador/fachada.php", {
-			clase: 'clsDocente',
-			oper: 'consultarReporteAlimentacionPorSalon',
-		    idpreprogramacion: params
-		 }, function(data) {
-				if (data !== 0) {
-					if(data !== null){
-					    $('#spanTotalR').show();
-                        $('#numero_estudiantesR').text(data.length);
-					    formatearReporteAlimentacionPorSalon(data);	
-					}else{alert("error 1");}             
-				}else {alert("error 2");}
-				jsRemoveWindowLoad();	
-		}, "json");                
-	}
 
 	function formatearReporteAlimentacionPorSalon(data){
 			$('.cuerpo').hide();

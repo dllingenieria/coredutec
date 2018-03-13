@@ -264,7 +264,6 @@ class clsAlimentacion {
       //Reporte Asistencias en excel//
   public function consultarReporteAlimentacionPorEstudiante($param){
     extract($param); 
-
     /** Inicializa libreria se copia igual **/
     define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />'); 
     date_default_timezone_set('America/Bogota'); 
