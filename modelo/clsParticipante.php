@@ -350,7 +350,6 @@ class clsParticipante {
         } else {
             $array = 0;
         }
-        //echo json_encode($sql);
         echo json_encode($array);
     }
     

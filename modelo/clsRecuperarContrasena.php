@@ -49,7 +49,7 @@ class clsRecuperarContrasena {
                 $mail->Port = 465; //587;
                 $mail->SMTPSecure = "ssl"; //"tls";
                 $mail->From = $array[0]['Parametro'];
-                $mail->FromName = "Corporacion de Educacion Tecnologica - Airbus Group";
+                $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
                 $mail->IsHTML(true);                                  // set email format to HTML

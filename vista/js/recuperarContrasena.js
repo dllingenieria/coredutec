@@ -6,13 +6,16 @@ $(function() {
         var email = "";
         login = $("#txtLogin").val();
         email = $("#txtEmail").val();
-		if (login == "" || email == ""){
-            mostrarPopUpError("Por favor ingrese los datos solicitados");
-		}
-		else{
-            var mensaje="Procesando la información<br>Espere por favor";
-            jsShowWindowLoad(mensaje);
-			generarLinkTemporal(login,email);
+		if (login == ""){
+            mostrarPopUpError("Por favor escriba el login usado");
+		}else{
+            if (email == ""){
+                mostrarPopUpError("Por favor escriba el email registrado");
+            }else{
+                var mensaje="Procesando la información<br>Espere por favor";
+                jsShowWindowLoad(mensaje);
+                generarLinkTemporal(login,email);
+            }
 		}
 	});
 
@@ -27,14 +30,13 @@ $(function() {
             }, function(data) {
             if (data[0].pEmail == 0) {
                 jsRemoveWindowLoad();
-                $("#lblDatosIncorrectos").html("Por favor verifique el número de cédula ingresado");
+                $("#lblDatosIncorrectos").html("Por favor verifique el login suministrado");
                 $("#recuperarContrasena").show();
             }else{
-                var FromName = "Corporacion de Educacion Tecnologica Colsubsidio - Airbus Group";
                 var res = data[0].pEmail.split("_");
                 var para = res[0];
                 var link = res[1];
-                enviarCorreo(para,link,FromName);
+                enviarCorreo(para,link);
             } 
         }, "json");
     }

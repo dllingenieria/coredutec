@@ -19,7 +19,7 @@ class clsUtilidades {
         $mail->Port = 465; //587;
         $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
-        $mail->FromName = "Corporacion de Educacion Tecnologica Colsubsidio - AIRBUS Group";
+        $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";
         $mail->AddAddress($correoElectronico);                  // name is optional
         $mail->WordWrap = 50;                                 // set word wrap to 50 characters
         $mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
@@ -69,7 +69,7 @@ class clsUtilidades {
         $mail->Port = 465; //587;
         $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
-        $mail->FromName = "Corporacion de Educacion Tecnologica Colsubsidio - AIRBUS Group";               // name is optional
+        $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";               // name is optional
         $mail->AddAddress($correoElectronico); 
         $mail->WordWrap = 50; 
         $mail->IsHTML(true);                                  // set email format to HTML
