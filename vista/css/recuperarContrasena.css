@@ -202,6 +202,13 @@ body {
 	color: #003265;
 }
 
+#botones{
+	display: none;
+	width: 26rem;
+    margin-top: 9rem;
+    margin-left: -5rem;
+}
+
 /* Seccion Media Queries */
 
 	@media(max-width: 1920px) {

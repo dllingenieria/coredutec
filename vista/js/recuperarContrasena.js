@@ -36,12 +36,25 @@ $(function() {
                 var res = data[0].pEmail.split("_");
                 var para = res[0];
                 var link = res[1];
-                enviarCorreo(para,link);
+                var nombres = res[2];
+                var correoparamostrar = para.replace(para.substr(2,(parseInt(para.length)-5)), "******");
+                jsRemoveWindowLoad();
+                $("#lblDatosIncorrectos").html("Se enviará un mensaje con instrucciones a la dirección "+correoparamostrar+" que aparece registrada. <br> ¿Desea continuar?");
+                $("#recuperarContrasena").show();
+                $("#botones").show();
+                $("#btnSi").click(function(){ 
+                    var mensaje="Procesando la información<br>Espere por favor";
+                    jsShowWindowLoad(mensaje);
+                    $("#recuperarContrasena").hide();
+                    $("#botones").hide();
+                    enviarCorreo(para,link,nombres)
+                });
+                $("#btnNo").click(function(){ window.location.href = "../../index.html"; });
             } 
         }, "json");
     }
 
-    function enviarCorreo(para,link,FromName){
+    function enviarCorreo(para,link,nombres){
         $.ajax({
         url: '../../controlador/fachada.php',
         type: 'POST',
@@ -52,17 +65,17 @@ $(function() {
             oper: 'enviarCorreoContrasena',
             para: para,
             link: link,
-            FromName: FromName,
+            nombres: nombres,
             }
         }).done(function(data) {
             if(data == 1){
                 jsRemoveWindowLoad();
                 var correoparamostrar = para.replace(para.substr(2,(parseInt(para.length)-5)), "******");
-                $("#lblDatosIncorrectos").html("Hemos recibido su solicitud, en breve recibir&aacute; un correo electr&oacute;nico a la direcci&oacute;n "+correoparamostrar+" con las instrucciones");
+                $("#lblDatosIncorrectos").html("El proceso terminó satisfactoriamente. Un mensaje con instrucciones del proceso fue enviado al correo. Por favor verifique");
                 $("#recuperarContrasena").show();
                 setTimeout(function() {
                     window.location.href = "../../index.html";
-                }, 5000);
+                }, 8000);
             }else{
                 jsRemoveWindowLoad();
                 $("#lblDatosIncorrectos").html("No ha sido posible enviar el correo, por favor rectif&iacute;quelo e intente de nuevo");

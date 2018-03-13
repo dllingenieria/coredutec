@@ -53,9 +53,11 @@ class clsRecuperarContrasena {
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
                 $mail->IsHTML(true);                                  // set email format to HTML
-                $mail->Subject = "Restablecimiento contrasena";
+                $mail->Subject = "Solicitud recuperacion clave de acceso";
                 $mensaje = file_get_contents("../vista/html/correo_restablecimiento_contrasena.html");
-                $mensaje = str_replace("link", $link, $mensaje);
+                $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
+                $mensaje = str_replace("pNombres", $nombres, $mensaje);
+                $mensaje = str_replace("pLink", $link, $mensaje);
                 $mail->CharSet = 'UTF-8';
                 $mail->Body = $mensaje;
                 if(!$mail->Send())

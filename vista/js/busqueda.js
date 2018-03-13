@@ -225,7 +225,7 @@ $(function() {
 
 	function llenarTablaModulos(){
 		obtenerInformacionCursoRecursivo(0, [], [], [], function(informacionTabla){
-			generarTabla(formatearInformacion(informacionTabla));
+		generarTabla(formatearInformacion(informacionTabla));
 	});
 	}
 
