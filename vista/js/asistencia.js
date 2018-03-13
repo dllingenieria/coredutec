@@ -554,7 +554,7 @@ function agregarAsistenciaDetalle(asistencia){
    			jsRemoveWindowLoad();
 			popUpConfirmacion("Error guardando Asistencias Detalle");
 		}else{
-			agregarAsistenciaObservacion(asistencia);
+			agregarMotivoNoAsistencia(asistencia);
 		}
 	});
 }
@@ -612,7 +612,8 @@ var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serialize
 	   			jsRemoveWindowLoad();
 				popUpConfirmacion("Error guardando Observaciones");
 			}else{
-				agregarMotivoNoAsistencia(asistencia);
+				jsRemoveWindowLoad();
+				popUpConfirmacion("Asistencias guardadas satisfactoriamente");
 			}
 		});
 	}else{
@@ -673,8 +674,7 @@ function agregarMotivoNoAsistencia(asistencia){
 	   			jsRemoveWindowLoad();
 				popUpConfirmacion("Error guardando Motivos de No Asistencia");
 			}else{
-				jsRemoveWindowLoad();
-				popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+				agregarAsistenciaObservacion(asistencia);
 			}
 		});
 	}else{
