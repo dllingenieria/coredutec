@@ -1,9 +1,9 @@
 $(function() {
-	 if ($("#nombre").length) {
+	 if ($("#nombre").length > 0) {
         $("#nombre").html(sessionStorage.nombreUsuario);
     }
     //Vieja  implementacion
-    if ($("#titulo3").length) {
+    if ($("#titulo3").length > 0) {
         $("#titulo3").empty();
         $("#titulo3").append("Bienvenido (a)          " + sessionStorage.nombreUsuario);
     }
@@ -23,7 +23,7 @@ $(function() {
 		$("#usuarios").append($("<option></option>").attr("value",5).html("Alimentaci&oacute;n"));
 	}
 	if (sessionStorage.esAcademico==="1") {
-		$("#usuarios").append($("<option></option>").attr("value",6).html("Acad&eacute;mico"));
+		$("#usuarios").append($("<option></option>").attr("value",6).html("Seguimiento"));
 	}
 	if (sessionStorage.esCalidad==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",7).html("Calidad"));

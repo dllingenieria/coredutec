@@ -130,7 +130,6 @@ $(function() {
     function cargarInformacionEnTabla(data,otrosDatos){
        table = $('#tablaNotas').DataTable({
         "data": data,
-		 
         "paging":   false,
         "info":     false,
             //"columnDefs": [{"targets": [ ],"visible": false,"searchable": false}],
@@ -144,28 +143,22 @@ $(function() {
                 "Search:": "Filtrar"
             },
             "initComplete": function(settiings, json){
-
                 for(var x = 0; x < numEstudiantes ; x++){
-                    
 					$('.notas'+x).each(function(){	
 						if ($(this).val()!=""){ 
 							$(this).attr('data-modified','true');
 						}
 					});
-					
 					var a =  new Array();
                     a = $('.notas'+x); 
 					/*Se recorre el array a verificando cada valor, si esta vacio se pone un 0 y sobre ese se hacen los calculos
 					* de cada una de los tipos de notas y sobre estos se calcula la nota final
 					*/
-					
-					
 					var p1 =(parseFloat($(a[0]).val() != ''?$(a[0]).val():""));
 					var p2 =(parseFloat($(a[1]).val()!= ''?$(a[1]).val():"")); 
 					var p3 =(parseFloat($(a[2]).val()!= ''?$(a[2]).val():""));
 					var divSaber = 0;
 					var sumaSaber =0;  
-					
 					
 					if (!isNaN(p1)){divSaber = divSaber+1;} else {p1 = 0;}
 					if (!isNaN(p2)){divSaber = divSaber+1;} else {p2 = 0;}
@@ -173,8 +166,6 @@ $(function() {
 					if(divSaber != 0){ 
 					
 					sumaSaber = (parseFloat(p1+p2+p3)/divSaber).toFixed(2); }
-					// alert("sumaSaber"+sumaSaber);
-					// alert("divSaber"+divSaber);
 					
 					var p4 =(parseFloat($(a[3]).val() != ''?$(a[3]).val():""));
 					var p5 =(parseFloat($(a[4]).val()!= ''?$(a[4]).val():""));
@@ -185,8 +176,6 @@ $(function() {
 					if (!isNaN(p5)){divHacer = divHacer+1;} else {p5 = 0;}
 					if (!isNaN(p6)){divHacer = divHacer+1;} else {p6 = 0;}
 					if(divHacer != 0){ sumaHacer = (parseFloat(p4+p5+p6)/divHacer).toFixed(2); }
-					 // alert("sumaHacer"+sumaHacer);
-					 // alert("divHacer"+divHacer);
 					
 					var p7 =(parseFloat($(a[6]).val() != ''?$(a[6]).val():""));
 					var p8 =(parseFloat($(a[7]).val()!= ''?$(a[7]).val():""));
@@ -197,48 +186,24 @@ $(function() {
 					if (!isNaN(p8)){divSer = divSer+1;} else {p8 = 0;}
 					if (!isNaN(p9)){divSer = divSer+1;} else {p9 = 0;} 
 					if(divSer != 0){ sumaSer = (parseFloat(p7+p8+p9)/divSer).toFixed(2); }
-					 // alert("sumaSer"+sumaSer);
-					 // alert("divSer"+divSer);
-
-                    //$('.parcial'+x+3).val(p1); 
-                    //$('.parcial'+x+7).val(p2);
-                    //$('.parcial'+x+11).val(p3);
 					var divNotas = 0;
 					if (sumaSaber != ""){divNotas = divNotas+1; }
 					if (sumaHacer != ""){divNotas = divNotas+1;}
-					if (sumaSer != ""){divNotas = divNotas+1;}	
-					 // alert(sumaSaber+"-"+sumaHacer+"-"+sumaSer);
-					 // alert(divNotas);
-					// if(divNotas != 0){
-						// $('.total'+x+9).val((((parseFloat(sumaSaber)+parseFloat(sumaHacer)+parseFloat(sumaSer)))/divNotas).toFixed(2));
-						
-						
-						
-						// $('.total'+x+9).val(Number(otrosDatos[x]['total']).toFixed(2));
-						$('.total'+x+9).val(otrosDatos[x]['total']);
-						// $('.total'+x+9).val("3.10");
-					// }
-					//para total notas
-					// $('.total'+x+9).each(function(){	
-						// $(this).val(otrosDatos[x]['total']);
-						
-					// });
-					
+					if (sumaSer != ""){divNotas = divNotas+1;}
+					$('.total'+x+9).val(otrosDatos[x]['total']);
                 }
-
                 $('.notas').on('change',function(){ 
                     $(this).attr('data-modified','true');
                     if($(this).val() > 5){
                         $(this).val(5);
                         $(this).focus();
                     }
-                    
                     if($(this).val() < 0){
                         $(this).val(0);
                         $(this).focus();
                     }
 					var id = $(this).val();
-                    var fila = $(this).attr('data-fila'); //alert("valor"+"-"+id);
+                    var fila = $(this).attr('data-fila');
                     var a =  new Array();
                     a = $('.notas'+fila);
                     var p1 =(parseFloat($(a[0]).val() != ''?$(a[0]).val():""));
@@ -246,15 +211,11 @@ $(function() {
 					var p3 =(parseFloat($(a[2]).val()!= ''?$(a[2]).val():""));
 					var divSaber = 0;
 					var sumaSaber =0;  
-					
 					if (!isNaN(p1)){divSaber = divSaber+1;} else {p1 = 0;}
 					if (!isNaN(p2)){divSaber = divSaber+1;} else {p2 = 0;}
 					if (!isNaN(p3)){divSaber = divSaber+1;} else {p3 = 0;}
-					if(divSaber != 0){ 
-					
-					sumaSaber = (parseFloat(p1+p2+p3)/divSaber).toFixed(2); }
-					// alert("sumaSaber"+sumaSaber);
-					// alert("divSaber"+divSaber);
+					if(divSaber != 0){
+						sumaSaber = (parseFloat(p1+p2+p3)/divSaber).toFixed(2); }
 					
 					var p4 =(parseFloat($(a[3]).val() != ''?$(a[3]).val():""));
 					var p5 =(parseFloat($(a[4]).val()!= ''?$(a[4]).val():""));
@@ -265,8 +226,6 @@ $(function() {
 					if (!isNaN(p5)){divHacer = divHacer+1;} else {p5 = 0;}
 					if (!isNaN(p6)){divHacer = divHacer+1;} else {p6 = 0;}
 					if(divHacer != 0){ sumaHacer = (parseFloat(p4+p5+p6)/divHacer).toFixed(2); }
-					 // alert("sumaHacer"+sumaHacer);
-					 // alert("divHacer"+divHacer);
 					
 					var p7 =(parseFloat($(a[6]).val() != ''?$(a[6]).val():""));
 					var p8 =(parseFloat($(a[7]).val()!= ''?$(a[7]).val():""));
@@ -277,18 +236,10 @@ $(function() {
 					if (!isNaN(p8)){divSer = divSer+1;} else {p8 = 0;}
 					if (!isNaN(p9)){divSer = divSer+1;} else {p9 = 0;}
 					if(divSer != 0){ sumaSer = (parseFloat(p7+p8+p9)/divSer).toFixed(2); }
-					 // alert("sumaSer"+sumaSer);
-					 // alert("divSer"+divSer);
-
-                    //$('.parcial'+x+3).val(p1); 
-                    //$('.parcial'+x+7).val(p2);
-                    //$('.parcial'+x+11).val(p3);
 					var divNotas = 0;
 					if (sumaSaber != ""){divNotas = divNotas+1; }
 					if (sumaHacer != ""){divNotas = divNotas+1;}
 					if (sumaSer != ""){divNotas = divNotas+1;}	
-					 // alert(sumaSaber+"-"+sumaHacer+"-"+sumaSer);
-					 // alert(divNotas);
 					if(divNotas != 0){
 						$('.total'+fila+9).val((((parseFloat(sumaSaber)+parseFloat(sumaHacer)+parseFloat(sumaSer)))/divNotas).toFixed(2));
 					}

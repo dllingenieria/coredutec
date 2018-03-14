@@ -243,21 +243,17 @@ $(function(){
 
 	//Evento que edita registro//
 	$(document).on('click', '#view-link', function() {
-			var data = table.row($(this).parents('tr')).data();
-			sessionStorage.id_tpar= data[0];
-			if(data[0]!=""){
-				//$(".cuerpo").fadeOut('slow', function(){  
-					//$(".cuerpo").fadeIn('slow');
-					//$(".cuerpo").load(html);
-					cargarReporteEstudiantesSalon(data[2]);
-					$("#formatoFirmas").hide();
-					$("#formatoAsistencias").hide();
-					$("#formatoNotas").hide();
-					$("#planeacion").hide();
-					$("#refrigerios").hide();
-					$("#regresar").show();
-				//})
-			}
+		var data = table.row($(this).parents('tr')).data();
+		sessionStorage.id_tpar= data[0];
+		if(data[0]!=""){
+			cargarReporteEstudiantesSalon(data[2]);
+			$("#formatoFirmas").hide();
+			$("#formatoAsistencias").hide();
+			$("#formatoNotas").hide();
+			$("#planeacion").hide();
+			$("#refrigerios").hide();
+			$("#regresar").show();
+		}
 	});
 
 	//Evento que edita registro//
@@ -266,23 +262,19 @@ $(function(){
 			sessionStorage.id_tpar= data[0];
 			if(data[0]!=""){
 				var mensaje="Procesando la información<br>Espere por favor";
-
 				jsShowWindowLoad(mensaje);
-
-					$(".cuerpo").fadeOut('slow', function(){  
+				$(".cuerpo").fadeOut('slow', function(){  
 					$(".cuerpo").fadeIn('slow');
 					$(".cuerpo").load('reporteExcelAsistencias.html');
 				})
-				//cargarReporteEstudiantesSalon(data[2]);
-					$("#formatoFirmas").hide();
-					$("#formatoAsistencias").hide();
-					$("#formatoNotas").hide();
-					$("#planeacion").hide();
-					$("#refrigerios").hide();
-					$("#regresar").show();	
-					$(".filtro").hide();		
-
-					cantidadSesiones();
+				$("#formatoFirmas").hide();
+				$("#formatoAsistencias").hide();
+				$("#formatoNotas").hide();
+				$("#planeacion").hide();
+				$("#refrigerios").hide();
+				$("#regresar").show();	
+				$(".filtro").hide();		
+				cantidadSesiones();
 			 	jsRemoveWindowLoad();
 			}
 	});

@@ -495,7 +495,7 @@ function quitarTrSeleccion(){
 }
 
 $("#volverAcademico").click(function(){
-    window.location.href = "academico.html";
+    window.location.href = "listarPlaneacionSeguimiento.html";
 });
 
   

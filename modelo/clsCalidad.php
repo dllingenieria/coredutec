@@ -73,7 +73,8 @@ class clsCalidad {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
-                //var_dump($array);
+            }else {
+                $array = 0;
             }
         } else {
             $array = 0;
