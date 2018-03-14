@@ -617,7 +617,8 @@ var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serialize
 			}
 		});
 	}else{
-		agregarMotivoNoAsistencia(asistencia);
+		jsRemoveWindowLoad();
+		popUpConfirmacion("Asistencias guardadas satisfactoriamente");
 	}
 }
 
@@ -678,8 +679,7 @@ function agregarMotivoNoAsistencia(asistencia){
 			}
 		});
 	}else{
-		jsRemoveWindowLoad();
-		popUpConfirmacion("Asistencias guardadas");
+		agregarAsistenciaObservacion(asistencia);
 	}	
 }
 
