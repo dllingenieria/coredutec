@@ -506,18 +506,27 @@ $(function() {
     $("#btncapturar").click(function() {
         window.location = "../html/captura.html";
     });
+
     $("#btnConsultar").click(function() {
         cargarGridMatriculas();
 		//se oculta el boton de guardar porque se va a mostrar el datatable
 		$("#btnGuardar").css('display','none');
+		$("#botones").hide();
+		$("#botones1").show();
     });
-    $("#btncancelarM").click(function() {
-//        if (modo_modificar === true) {
-//            eliminarPreprogramacion();
-//        } else {
-//        }
-location.reload(true);
-});
+
+    $("#btnCancelar1").click(function() {
+		location.reload(true);
+	});
+
+	$("#btnConsultar1").click(function() {
+        cargarGridMatriculas();
+		//se oculta el boton de guardar porque se va a mostrar el datatable
+		$("#btnGuardar").css('display','none');
+		$("#botones").hide();
+		$("#botones1").show();
+    });
+
     $("#btnimprimir").click(function() {
 //        window.location = "../html/busqueda.html";
 });
@@ -1224,36 +1233,31 @@ function cargarGridMatriculas() { //alert("entro");
 	
     var clase = 'clsProgramacion';
     var fun = 'CargarPreprogramaciones';
-            var mensaje="Procesando la información<br>Espere por favor";
-            jsShowWindowLoad(mensaje);
-            $.post("../../controlador/fachada.php", {
-                clase: clase,
-                oper: fun   
-            }, function(data) {
-			console.log(data);
-                 if (data !== 0) {
-                     if(data !== null){ 
-						//si existe o ya se cargo la tabla 
-                        if ( $.fn.dataTable.isDataTable('#tablaPreprogramacion') ) {
-							//alert("Existe");
-							$('#tablaPreprogramacion tr').removeClass("selected");
-							//muestra la tabla de lista de preprogramaciones
-							$("#divTablaPreprogramaciones").show(); //como estaba ocualta se muestra
-                            jsRemoveWindowLoad();
-						}
-						else{
-							cargarInformacionEnTabla(data); //si es la primera vez se carga la tabla
-                            jsRemoveWindowLoad();
-						}
-                     }else{mostrarPopUpError("error 1");}             
-                 }else {mostrarPopUpError("error 2");}
-            }, "json");
-			
-			
-			            
+        var mensaje="Procesando la información<br>Espere por favor";
+        jsShowWindowLoad(mensaje);
+        $.post("../../controlador/fachada.php", {
+            clase: clase,
+            oper: fun   
+        }, function(data) {
+		console.log(data);
+             if (data !== 0) {
+                 if(data !== null){ 
+					//si existe o ya se cargo la tabla 
+                    if ( $.fn.dataTable.isDataTable('#tablaPreprogramacion') ) {
+						//alert("Existe");
+						$('#tablaPreprogramacion tr').removeClass("selected");
+						//muestra la tabla de lista de preprogramaciones
+						$("#divTablaPreprogramaciones").show(); //como estaba ocualta se muestra
+                        jsRemoveWindowLoad();
+					}
+					else{
+						cargarInformacionEnTabla(data); //si es la primera vez se carga la tabla
+                        jsRemoveWindowLoad();
+					}
+                 }else{mostrarPopUpError("error 1");}             
+             }else {mostrarPopUpError("error 2");}
+        }, "json");  
     }
-
-
     function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla
     $("#WindowLoad").remove();
@@ -1398,6 +1402,8 @@ function mostrarMatricula(pIdPreprogramacion) {
         pIdPreprogramacion: parseInt(pIdPreprogramacion)
     }, function(data) {
         if (data !== 0) {
+        	$("#botones").show();
+			$("#botones1").hide();
             cargarDatosPreprogramacion(data);
         }
         else {

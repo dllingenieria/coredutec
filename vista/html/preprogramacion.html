@@ -37,7 +37,6 @@
 		<script src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="../css/tabla.css">
         <script src="../../vista/js/sesion.js" type="text/javascript" ></script>
-		<!-- <script src="../js/preprogramacion.js" type="text/javascript" ></script> -->
         <script src="../../vista/js/nav_log.js" type="text/javascript" ></script>
 
 
@@ -46,298 +45,156 @@
         <!-- Fin Manejo de sesión -->
 
     </head>
-
-    
-
     <body>
-
-        
-
 		<!-- Sección Cabecera -->
-
             <!-- ENCABEZADO -->
         <section class="encabezado">
             <!-- CABECERA -->
             <section class="cabecera"></section>
             <!-- FIN CABECERA -->
+            <!-- BARRA DE NAVEGACIÓN -->
+            <nav class="barraNavegacion">
+            </nav>
+            <!-- FIN BARRA DE NAVEGACIÓN -->
         </section>
         <!-- FIN ENCABEZADO -->
-        
-
-        <!-- Sección Pie Página -->
-
-        <div id="imgPreprogramacion"><img src="../images/preprogramacion.jpg" height="500" alt="imgPreprogramacion" /></div>
-
-        
-
+        <!-- Sección Pie Página 
+        <div id="imgPreprogramacion"><img src="../images/preprogramacion.jpg" height="500" alt="imgPreprogramacion" /></div>-->
         <!-- Sección Botones -->
-
-        
-
-       <!--  <div ><input id="btnCapturar" class="BotonCapturar" name="btnCapturar" type="button" value="Capturar Base De Datos" /></div>
-
-        <div ><input id="btnBuscar" class="BotonBuscar" name="btnBuscar" type="button" value="Buscar Por Documento" /></div>
-
-        <div ><input id="btnPreprogramacion" class="BotonPreprogramacion" name="btnPreprogramacion" type="button" value="Preprogramación" /></div>
-
-        <div ><input id="btnNovedades" class="BotonNovedades" name="btnNovedades" type="button" value="Novedades" /></div>
-
-        <div ><input id="btnMatriculas" class="BotonMatriculas" name="" type="button" value="Matriculas" /></div> -->
-
-        <!-- Botón "Consultar" -->
-
-        <div id="lblConsultaDatos" style="display: none">
-
-            <div class="RectanguloTitulos"><label>Consulta De Datos</label>
-
-                <!-- Div Grid -->
-
-				
-				<!--<div id="seccionTabla" style="margin-top:35px; margin-left: -12px">
-
-                    <table id="tbl-busqueda-grid" ></table>
-
-                    <div id="tbl-busqueda-paper"></div>-->
-
-                </div>
-				
+        <div id="Consulta">
+            <div id="lblConsultaDatos" style="display: none">
+                <div class="RectanguloTitulos"><label>Consulta Preprogramación</label></div>
             </div>
-			<div id="divTablaPreprogramaciones" class="display datatable"><table id="tablaPreprogramacion"  class="display" cellspacing="0"></table></div>
-
-
-
-
-
+    		<div id="divTablaPreprogramaciones" class="display datatable">
+                <table id="tablaPreprogramacion"  class="display" cellspacing="0">                
+                </table>
+            </div>
+        </div>
         <!-- Div Inscripción De Datos -->
-
         <div id="ins_dat">
-
-            <div id="lblInscripcionDatos" class="RectanguloTitulos"><label>Inscripción De Datos</label></div>
-
+            <div id="lblInscripcionDatos" class="RectanguloTitulos"><label>Datos Preprogramación</label></div>
             <div id="lblConvocatorias" class="LblMatricula">Convocatorias</div>
-
             <select type="text"  id="cmbConvocatorias" class="TxtMatricula"></select>
-
             <div id="lblCodigoMatricula" class="LblMatricula">Código Matrícula</div>
-
             <input type="text"  id="txtCodigoMatricula" class="TxtMatricula" readonly />
-
             <div id="lblRutaDeFormacion" class="LblMatricula">Ruta De Formación</div>
-
             <select type="text"  id="cmbRutaDeFormacion" class="TxtMatricula"></select>
-
             <div id="lblCurso" class="LblMatricula">Capacitaci&oacute;n</div>
-
             <select type="text"  id="cmbCurso" class="TxtMatricula"></select>
-
             <div id="lblDuracionDelCurso" class="LblMatricula">Duración Del Curso</div>
-
             <input type="text"  id="txtDuracionDelCurso" class="TxtMatricula" readonly />
-
             <div id="lblDiasDelCurso" class="LblMatricula">Días Del Curso</div>
-
             <select type="text"  id="cmbDiasDelCurso" class="TxtMatricula"></select>
-
             <div id="lblHoraInicio" class="LblMatricula">Hora Inicio</div>
-
             <select type="text"  id="cmbHoraInicio" class="TxtMatricula"></select>
-
             <div id="lblHoraFinal" class="LblMatricula">Hora Final</div>
-
             <select type="text"  id="cmbHoraFinal" class="TxtMatricula"></select>
-
             <div id="lblModulo" class="LblMatricula">Módulo</div>
-
             <select type="text"  id="cmbModulo" class="TxtMatricula"></select>
-
             <div id="lblDuracionModulo" class="LblMatricula">Duración Módulo</div>
-
             <input type="text"  id="txtDuracionModulo" class="TxtMatricula" readonly />
-
             <div id="lblModalidadMatricula" class="LblMatricula">Modalidad</div>
-
         	<select  id="cmbModalidadMatricula" class="TxtMatricula" readonly></select>
-
             <div id="lblSede" class="LblMatricula">Sede</div>
-
             <select type="text"  id="cmbSede" class="TxtMatricula"></select>
-
             <div id="lblFechaInicio" class="LblMatricula" >Fecha Inicio</div>
-
             <input type="text"  id="txtFechaInicio" class="TxtMatricula" required />
-
             <div id="lblFechaFinal" class="LblMatricula">Fecha Final</div>
-
             <input type="text"  id="txtFechaFinal" class="TxtMatricula" />
-
             <div id="lblDocente" class="LblMatricula">Docente</div>
-
             <select type="text"  id="cmbDocente" class="TxtMatricula"></select>
-
             <div id="lblEntregables" class="LblMatricula">Entregables Adicional</div>
-
             <select type="text"  id="cmbEntregables" class="TxtMatricula"></select>
-
             <div style="display: none"><div id="lblParticipantes" class="LblMatricula">Participantes</div>
-
             <input type="text"  id="txtParticipantes" class="TxtMatricula" /></div>
-
             <div id="lblTipoDeCertificacion" class="LblMatricula">Tipo De Certificación</div>
-
             <select type="text"  id="cmbTipoDeCertificacion" class="TxtMatricula"></select>
-
             <input type="hidden"  id="pre_id" class="TxtMatricula" />
 			
 			<!--nuevos campos -->
 			<div id="lblCodCurso" class="LblMatricula">Código Curso</div>
-
             <input type="text"  id="txtCodCurso" class="TxtMatricula" placeholder="Para la búsqueda presione Enter"/>
-			
 			<div id="lblCodSalon" class="LblMatricula">Código Salón</div>
-
             <input type="text"  id="txtCodSalon" class="TxtMatricula" readonly/>
-			
 			<div id="lblCanSesiones" class="LblMatricula">Cantidad Sesiones</div>
-
             <input type="text"  id="txtCanSesiones" class="TxtMatricula"/>
-			
 			<div id="lblCapSalon" class="LblMatricula">Capacidad Salón</div>
-
             <input type="text"  id="txtCapSalon" class="TxtMatricula"/>
-			
 			<div id="lblInteHoraria" class="LblMatricula">Intensidad Horaria</div>
-
             <input type="text"  id="txtInteHoraria" class="TxtMatricula"/>
-			
 			<div id="lblObservacion" class="LblMatricula">Observaciones</div>
-
             <textarea rows="4" cols="10" id="txtObservacion" class="TxtMatricula" maxlength="5000"></textarea>
-			
 			<!--fin nuevos campos -->
 
             <div id="lblEstado" class="LblMatricula">Estado</div>
-
             <select type="text"  id="cmbEstado" class="TxtMatricula"></select>
-
         </div>
-
-
-
-
-
-        <div><input id="btnConsultar" class="BotonConsultar" name="btnConsultar" type="button" value="Consultar" /></div>
-
-        <div><input id="btnGuardar" class="BotonGuardar" name="btnGuardar" type="button" value="Guardar" /></div>
-
-        <div><input id="btnCancelar" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" /></div>
-
+        <div id="botones">
+            <input id="btnConsultar" class="BotonConsultar" name="btnConsultar" type="button" value="Consultar" />
+            <input id="btnGuardar" class="BotonGuardar" name="btnGuardar" type="button" value="Guardar" />
+            <input id="btnCancelar" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" />
+        </div>
+        <div id="botones1" style="display:none;">
+            <input id="btnConsultar1" class="BotonConsultar" name="btnConsultar" type="button" value="Consultar" />
+            <input id="btnCancelar1" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" />
+        </div>
            
          <!-- Inicio Mensaje de sesion-->
         <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
         <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
-
           <table id="tblPopup" width="350" align="left" border="0">
             <tr>
                 <td align="center">
                     <label id="textoConfirmacionSesion" class="popup"></label>
                     <br><br>
                     <input type="button" name="element_to_pop_upConf" value="Seguir Logueado" id="btnAceptar" class="b-close botonAceptar" style="width: 150px; height: 27px;       background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-                    
                     <input type="button" name="element_to_pop_upConf" value="Cerrar Sesión" id="btnCerrar"  class="b-close" style="width: 120px; height: 27px;      background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
                 </td>
             </tr>
         </table>
         </div>
         <!-- Fin Mensaje de sesion-->
-        
         <div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
-
-    <div>
-
-        <table id="tblPopup" width="300" align="left" border="0">
-
-            <tr>
-
-                <td align="center">
-
-                    <label id="textoConfirmacion1" class="popup"></label>
-
-                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-
-                </td>
-
-            </tr>
-
-        </table>
-
-    </div>
-
+            <div>
+                <table id="tblPopup" width="300" align="left" border="0">
+                    <tr>
+                        <td align="center">
+                            <label id="textoConfirmacion1" class="popup"></label>
+                            <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
 		</div>
 
-        
-
-        
-
         <div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
-
-    <div>
-
-        <table id="tblPopup" width="410" align="left" border="0">
-
-            <tr>
-
-                <td align="center">
-
-                    <label id="textoError" class="popup"></label>
-
-                    <br><br>
-
-                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-
-                </td>
-
-            </tr>
-
-        </table>
-
-    </div>
-
-		</div>    
-
-         
-
-        
+            <div>
+                <table id="tblPopup" width="410" align="left" border="0">
+                    <tr>
+                        <td align="center">
+                            <label id="textoError" class="popup"></label>
+                            <br><br>
+                            <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+		</div> 
 
         <div id="element_to_pop_upPregunta" class="element_to_pop_upPregunta">
-
             <div>
-
                 <label id="textoConfirmacion" class="popup" style="margin-left: 46px; font-family: 'Roboto-Regular'; font-size: 21px"> </label>
-
             </div>
-
-            <br><br>
-
+            <br>
+            <br>
             <div style="margin-top: -44px">
-
-                <label id="textoPregunta1" class="popup" style="margin-left: 34px; font-family: 'Roboto-Regular'; font-size: 19px"> </label></div>
-
-
-
-            <div>
-
-
-
-                <input type="button" name="element_to_pop_upConf" value="Nuevo" id="btnMatNue"  class="b-close" style="margin-left: 46px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-
-                <input type="button" name="element_to_pop_upConf" value="Existente" id="btnMatExi"  class="b-close" style="margin-left: 11px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-
+                <label id="textoPregunta1" class="popup" style="margin-left: 34px; font-family: 'Roboto-Regular'; font-size: 19px"> </label>
             </div>
-
-        </div>     
-
+            <div>
+                <input type="button" name="element_to_pop_upConf" value="Nuevo" id="btnMatNue"  class="b-close" style="margin-left: 46px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                <input type="button" name="element_to_pop_upConf" value="Existente" id="btnMatExi"  class="b-close" style="margin-left: 11px; width: 96px; height: 27px; margin-top: 10px; background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+            </div>
+        </div>  
             <footer></footer>
-
     </body>
-
 </html>

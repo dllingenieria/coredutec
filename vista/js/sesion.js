@@ -46,10 +46,9 @@ var pop_err = '<div id="element_to_pop_upError" class="element_to_pop_upError"><
 var vistas = {
     0:{"nombre":"Cargas Masivas","url":"captura.html"}, 
     1:{"nombre":"Buscar por Documento","url":"busqueda.html"}, 
-    2:{"nombre":"Preprogramación","url":"preprogramacionNueva.html"}, 
+    2:{"nombre":"Preprogramación","url":"preprogramacion.html"}, 
     3:{"nombre":"Novedades","url":"novedades.html"}, 
     4:{"nombre":"Matrículas","url":"consultarMatriculas.html"}, 
-    // 5:{"nombre":"Evaluación","url":"evaluacion.html"}, 
     5:{"nombre":"Evaluación","url":"ingresoEvaluacion.html"}, 
     6:{"nombre":"Facturación","url":"facturacion.html"}, 
     7:{"nombre":"Administración","url":"administracion.html"}, 
