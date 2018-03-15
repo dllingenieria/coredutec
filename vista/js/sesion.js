@@ -7,7 +7,7 @@
               onActive: function(){
                 //$('#status').toggleClass('idle').html('Active!');
               },
-              idle: 3600000,
+              idle: 1800000,
               keepTracking: true
             });    
             //Fin Cerrar Sesion   
