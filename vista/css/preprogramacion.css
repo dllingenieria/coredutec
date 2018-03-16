@@ -144,11 +144,12 @@ body {
 	z-index:9;
 	background:#f7ea32;
 	border-radius: 3px 3px 3px 3px;
-	margin-top: 30px; /*antes 160*/
+	margin-top: 20px; /*antes 160*/
 	font-family: "Roboto-Bold";
 	font-size: 17px;
 	color: #003265;
 	text-align: center;
+	padding-top: 2px;
 }
 
 #lblConsultaDatos {
@@ -180,7 +181,7 @@ body {
 	z-index:16;
 	background:#003265;
 	border-radius: 3px 0px 0px 3px;
-	margin-top: 80px;
+	margin-top: 65px;
 	font-family: "Roboto-Light";
 	font-size: 12px;
 	color: #ffffff;
@@ -196,7 +197,7 @@ body {
 	background:#ffffff;
 	border-radius: 0px 3px 3px 0px;
 	margin-left: 179px;
-	margin-top: 80px;
+	margin-top: 65px;
 	font-family: "Roboto-Regular";
 	font-size: 12px;
 	color: #2d4191;
@@ -225,31 +226,31 @@ body {
 }
 
 #lblCodSalon {
-	margin-top: 120px;
+	margin-top: 100px;
 	
 }
 
 #txtCodSalon {
-	margin-top: 120px;
+	margin-top: 100px;
 }
 
 #lblCodCurso {
-	margin-top: 120px;
+	margin-top: 100px;
 	margin-left: 490px;
 }
 
 #txtCodCurso {
-	margin-top: 120px;
+	margin-top: 100px;
 	margin-left: 669px;
 }
 
 #lblCurso {
-	margin-top: 160px;
+	margin-top: 135px;
 	
 }
 
 #cmbCurso {
-	margin-top: 160px;
+	margin-top: 135px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -257,22 +258,22 @@ body {
 }
 
  #lblDuracionDelCurso { 
-	 margin-top: 160px; 
+	 margin-top: 135px; 
 	 margin-left: 490px;
  } 
 
  #txtDuracionDelCurso { 
-	 margin-top: 160px;
+	 margin-top: 135px;
 	 margin-left: 669px;
  }
 
 #lblRutaDeFormacion {
-	margin-top: 200px;
+	margin-top: 170px;
 	
 }
 
 #cmbRutaDeFormacion {
-	margin-top: 200px;
+	margin-top: 170px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -280,12 +281,12 @@ body {
 }
 
 #lblDiasDelCurso {
-	margin-top: 200px;
+	margin-top: 170px;
 	margin-left: 490px;
 }
 
 #cmbDiasDelCurso {
-	margin-top: 200px;
+	margin-top: 170px;
 	margin-left: 669px;
 	width:259px;
 	height:24px;
@@ -294,29 +295,29 @@ body {
 }
 
 #lblFechaInicio {
-	margin-top: 240px;
+	margin-top: 205px;
 }
 
 #txtFechaInicio {
-	margin-top: 240px;
+	margin-top: 205px;
 }
 
 #lblFechaFinal {
-	margin-top: 240px;
+	margin-top: 205px;
 	margin-left: 490px;
 }
 
 #txtFechaFinal {
-	margin-top: 240px;
+	margin-top: 205px;
 	margin-left: 669px;
 }
 
 #lblHoraInicio {
-	margin-top: 280px;
+	margin-top: 240px;
 }
 
 #cmbHoraInicio {
-	margin-top: 280px;
+	margin-top: 240px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -324,12 +325,12 @@ body {
 }
 
 #lblHoraFinal {
-	margin-top: 280px;
+	margin-top: 240px;
 	margin-left: 490px;
 }
 
 #cmbHoraFinal {
-	margin-top: 280px;
+	margin-top: 240px;
 	margin-left: 669px;
 	width:259px;
 	height:24px;
@@ -338,11 +339,11 @@ body {
 }
 
  #lblModulo { 
-	margin-top: 320px; 
+	margin-top: 275px; 
  } 
 
  #cmbModulo { 
-	 margin-top: 320px; 
+	 margin-top: 275px; 
 	 width:259px; 
 	 height:24px; 
 	 padding-top: 0px; 
@@ -350,39 +351,39 @@ body {
  } 
 
  #lblDuracionModulo { 
-	 margin-top: 320px; 
+	 margin-top: 275px; 
 	 margin-left: 490px; 
  } 
 
  #txtDuracionModulo { 
-	 margin-top: 320px; 
+	 margin-top: 275px; 
 	 margin-left: 669px; 
  }
  
  #lblInteHoraria {
-	margin-top: 360px;
+	margin-top: 310px;
 }
 
 #txtInteHoraria {
-	margin-top: 360px;
+	margin-top: 310px;
 } 
 
 #lblCanSesiones {
-	margin-top: 360px;
+	margin-top: 310px;
 	margin-left: 490px;
 }
 
 #txtCanSesiones {
-	margin-top: 360px;
+	margin-top: 310px;
 	margin-left: 669px;
 }
  
 #lblModalidadMatricula {
-	margin-top: 400px;
+	margin-top: 345px;
 }
 
 #cmbModalidadMatricula {
-	margin-top: 400px;
+	margin-top: 345px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -390,12 +391,12 @@ body {
 }
 
 #lblSede {
-	margin-top: 400px;
+	margin-top: 345px;
 	margin-left: 490px;
 }
 
 #cmbSede {
-	margin-top: 400px;
+	margin-top: 345px;
 	margin-left: 669px;
 	width:259px;
 	height:24px;
@@ -404,19 +405,19 @@ body {
 }
 
 #lblCapSalon {
-	margin-top: 440px;
+	margin-top: 380px;
 }
 
 #txtCapSalon {
-	margin-top: 440px;
+	margin-top: 380px;
 }
 #lblDocente {
-	margin-top: 440px;
+	margin-top: 380px;
 	margin-left: 490px;
 }
 
 #cmbDocente {
-	margin-top: 440px;
+	margin-top: 380px;
 	margin-left: 669px;
 	width:259px;
 	height:24px;
@@ -425,11 +426,11 @@ body {
 }
 
 #lblEntregables {
-	margin-top: 480px;	
+	margin-top: 415px;	
 }
 
 #cmbEntregables {
-	margin-top: 480px;
+	margin-top: 415px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -437,13 +438,13 @@ body {
 }
 
 #lblTipoDeCertificacion {
-	margin-top: 480px;
+	margin-top: 415px;
 	margin-left: 490px; 
 	
 }
 
 #cmbTipoDeCertificacion {
-	margin-top: 480px;
+	margin-top: 415px;
 	margin-left: 669px; 
 	width:259px;
 	height:24px;
@@ -452,11 +453,11 @@ body {
 }
 
 #lblObservacion {
-	margin-top: 520px;
+	margin-top: 450px;
 }
 
 #txtObservacion {
-	margin-top: 520px;
+	margin-top: 450px;
 	width:259px;
 	height:50px;
 	padding-top: 0px;
@@ -464,12 +465,12 @@ body {
 }
 
 #lblEstado {
-	margin-top: 520px;
+	margin-top: 450px;
 	margin-left: 490px;
 }
 
 #cmbEstado {
-	margin-top: 520px;
+	margin-top: 450px;
 	margin-left: 669px;
 	width:259px;
 	height:24px;
@@ -620,7 +621,7 @@ body {
 
 .BotonGuardar {
     position:absolute;
-	margin-top: 600px;
+	margin-top: 530px;
 	margin-left: 0px;
 	width:90px;
 	height:27px;
@@ -651,7 +652,7 @@ body {
 
 .BotonConsultar {
     position:absolute;
-	margin-top: 600px;
+	margin-top: 530px;
 	margin-left: 100px;
 	width:90px;
 	height:27px;
@@ -687,7 +688,7 @@ body {
 
 .BotonCancelar {
     position:absolute;
-	margin-top: 600px;
+	margin-top: 530px;
 	margin-left: 200px;
 	width:90px;
 	height:27px;
