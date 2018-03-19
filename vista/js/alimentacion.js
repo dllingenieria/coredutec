@@ -33,7 +33,7 @@ $(function(){
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					$("#btnReporteAlimentacion").css("display","");
-				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
+				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}       
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
 	};
@@ -73,7 +73,6 @@ $(function(){
 			{ title: "cantidadSesiones" },
 			{ title: "Estado" },
 			{data: null, className: "center", defaultContent: '<a id="reporteAlimentacionPorSalon" class="reporteAlimentacionPorSalon" href="#" title="Edit">Refrigerios</a>'}
-			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
 			"paging":   true,
 			"info":     false,
@@ -245,16 +244,56 @@ function jsShowWindowLoad(mensaje) {
 	   });
 	}
 
-	//----- Carga el reporte en pantala alimentacion por salon -----//
+	//----- Genera el reporte alimentacion por salon -----//
 	$(document).on('click', '#reporteAlimentacionPorSalon', function() {
-			var data = table.row($(this).parents('tr')).data();
-			sessionStorage.id_tpar= data[0];
-			if(data[0]!=""){
-				cargarReporteAlimentacionPorSalon(data[1]);
-				$("#formatoFirmas").hide();
-			}
+		cantidadSesiones();
+		aprobadosAsistentesFormato();
+		setTimeout(function(){
+			var mensaje="Procesando la información<br>Espere por favor";
+			jsShowWindowLoad(mensaje);
+		   	$.post("../../controlador/fachada.php", {
+				clase: 'clsAlimentacion',
+				oper: 'consultarReporteAlimentacionPorEstudiante',
+				idPreprogramacion: sessionStorage.IdPreprogramacion,
+				NoSesiones: sessionStorage.NoSesiones,
+				Curso: sessionStorage.Curso,
+				Modulo: sessionStorage.Modulo,
+				Inscritos: sessionStorage.Inscritos,
+				Horario: sessionStorage.Horario,
+				FechaInicial: sessionStorage.FechaInicial,
+				Sede: sessionStorage.Sede,
+				Salon: sessionStorage.Salon,
+				IdCurso: sessionStorage.IdCurso,
+				IdModulo: sessionStorage.IdModulo,
+				FechaFinal: sessionStorage.FechaFinal,
+				Duracion: sessionStorage.Duracion,
+				Docente: sessionStorage.Docente,
+				DiasCurso: sessionStorage.DiasCurso,
+				Ruta: sessionStorage.Ruta,
+				CantidadAsistentes: sessionStorage.cantidadAsistentes,
+				EstudiantesGanando: sessionStorage.EstudiantesGanando
+				}, function(data) {
+				if (data.mensaje == 1 && data.html!=""){
+					nombreArchivo=data.html;
+					jsRemoveWindowLoad();
+					popUpConfirmacion("Reporte generado correctamente");
+					window.location.href = "../"+nombreArchivo;
+				}
+				else if(data.error == 2){
+					jsRemoveWindowLoad();
+					popUpConfirmacion("No se encontraron datos para el reporte"); //$('#descargar').show();
+					setTimeout(function(){
+					location.reload();},2000);
+				}
+				else{
+					jsRemoveWindowLoad();
+					mostrarPopUpError("No se ha generado el reporte");
+					setTimeout(function(){
+					location.reload();},2000);
+				}		
+			}, "json");		
+		},2000);	
 	});
-
 
 	function cargarReporteAlimentacionPorSalon(params){
 		var mensaje="Procesando la información<br>Espere por favor";
@@ -314,5 +353,38 @@ function jsShowWindowLoad(mensaje) {
 					"Search:": "Filtrar"
 				}
 			});
+	}
+
+	function aprobadosAsistentesFormato(){
+		$.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarCantidadAsistentesPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].cantidadAsistentes !== null){
+               sessionStorage.cantidadAsistentes=data[0].cantidadAsistentes;
+            }
+        });
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarNotaParcialPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].pEstudiantesGanando !== null){
+                sessionStorage.EstudiantesGanando=data[0].pEstudiantesGanando;
+            }
+        });
 	}
 });

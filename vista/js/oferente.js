@@ -17,7 +17,7 @@ $(function() {
     };
     $.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtFechaN").datepicker();
-	obtenerFechaActual();
+	//obtenerFechaActual();
 
 	//----- Carga todas las listas desplegables -----//
 	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
@@ -106,6 +106,7 @@ $(function() {
 					mostrarPopUpError('El oferente no existe, puede continuar');
 					$("#txtNombres").val('');
 	        		$("#txtApellidos").val('');
+	        		$("#txtFechaN").val('');
 	        		$("#txtTelefono1").val('');
 	        		$("#txtTelefono2").val('');
 	        		$("#txtTelefono3").val('');

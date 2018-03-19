@@ -16,8 +16,7 @@ $(function() {
         firstDay: 1,
         isRTL: false,
         showMonthAfterYear: false,
-        yearSuffix: '',
-		
+        yearSuffix: '',		
     };
     $.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtFechaA").datepicker();
@@ -33,6 +32,15 @@ $(function() {
 	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
 	cargarListas('cmbInstitutoC','SPCARGARINSTITUTOCAPACITACION');
 	cargarListas('cmbCertificacion','SPCARGARCERTIFICACION');
+
+	//----- Establece los valores por defecto de las listas desplegables -----//
+	cargarValorSelected('#cmbConvocatoria','14',1000);
+	cargarValorSelected('#cmbMunicipioC','531',1000);
+	cargarValorSelected('#cmbEstadoP','252',1000);
+	cargarValorSelected('#cmbServicio','1',1000);
+	cargarValorSelected('#cmbInstitutoC','187',1000);
+	cargarValorSelected('#cmbCertificacion','188',1000);
+
 	cargarInformacionTercero(pTipoIdentificacion,pIdentificacion);
 
 	//----- Regresa a Busqueda -----//
@@ -124,6 +132,7 @@ $(function() {
 			pTipoIdentificacion: pTipoIdentificacion
 			}, function(data) {
 				if(data !== null){
+					cargarValorSelected('#cmbTipoIdentificacion',pTipoIdentificacion,1000);
 		        	$("#txtNumeroIdentificacion").val(pIdentificacion);
 	        		$("#txtNombres").val(data[0][1]);
 	        		$("#txtApellidos").val(data[0][2]);
@@ -168,6 +177,7 @@ $(function() {
 	//----- Llena las listas -----//
 	function formarOptionValueLista(data,objeto) {
 	    $('#'+objeto).find('option').remove();
+	    SetParametroCursoPorDefecto("#"+objeto, '0', 'Seleccione...');
 	    for (i = 0; i < data.length; i++) {
 	        $('#'+objeto).append($('<option>', {
 	            value: data[i].Id,
@@ -177,7 +187,14 @@ $(function() {
 	} 
 
 	//----- Establece los valores por defecto de las listas -----//
-	function setParametroPorDefecto(atributo, valor, texto) {
+	function cargarValorSelected(objeto,value,tiempo){
+        setTimeout(function() {
+            $(objeto+' option[value="'+value+'"]').attr('selected','selected');    
+        }, tiempo);       
+    }
+
+    //----- Establece los valores por defecto de las listas a Seleccione...-----//
+    function SetParametroCursoPorDefecto(atributo, valor, texto) {
 	    $(atributo).append($('<option>', {
 	        value: valor,
 	        text: texto
