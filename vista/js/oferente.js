@@ -39,7 +39,7 @@ $(function() {
 
 	//----- Rregresa a Busqueda -----//
 	$("#btnRegresar").click(function(){ 
-		window.location.href = "../html/busqueda.html"; 
+		window.location.href = "../html/busqueda.html";
 	});
 
 	//----- Valida que solo se ingrese en las cajas de texto los valores apropiados -----//
@@ -175,8 +175,13 @@ $(function() {
 	            	mostrarPopUpError('Oferente agregado correctamente');
 	            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
 	            }else{
-	            	mostrarPopUpError('Oferente actualizado correctamente');
-	            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+	            	if(data[0]['pResultado'] == 'B') {
+		            	mostrarPopUpError('Oferente actualizado correctamente');
+	            		$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+		            }else{
+		            	mostrarPopUpError('El tercero es Usuario, operación no PERMITIDA');
+		            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+		            }
 	            }
 	        }
 	    }, "json");

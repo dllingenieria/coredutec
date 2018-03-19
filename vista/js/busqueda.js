@@ -53,7 +53,7 @@ $(function() {
 	function soloNumeros(e){
 		var key = window.event ? e.which : e.keyCode;
 		if (key != 13){
-			if (key < 48 || key > 57) {
+			if (key < 48 || key > 57){
 				e.preventDefault();
 			}
 		}else{
