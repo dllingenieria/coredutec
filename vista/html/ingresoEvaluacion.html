@@ -36,24 +36,20 @@
 	<!-- FIN ENCABEZADO -->
 	<!-- CUERPO -->
 	<section class="cuerpo">
-		<label class="titulo">EVALUACIÓN DEL ESTUDIANTE</label><br><br>
-		
-		<!--<form name="captcha-form" method="POST" action="captcha-verify.php">-->
-		
-		<label class="titulo azul">Numero Identificación</label> 
-		<input type="text" id="txtIdentificacion" width="25" /><br><br>
-		<label class="titulo azul">Id Matrícula</label>
-		<input type="text" id="txtIdMatricula" width="25" /><br><br>
-		<div id="captcha">
+		<div id="Principal">
+			<label class="titulo">EVALUACIÓN DEL ESTUDIANTE</label><br><br>
+			<label class="titulo azul">Número Identificación</label> 
+			<input type="text" id="txtIdentificacion" width="25" /><br><br>
+			<label class="titulo azul">Id Matrícula</label>
+			<input type="text" id="txtIdMatricula" width="25" /><br><br>
+			<div id="captcha">
 	        <img src="../../modelo/captcha.php" border="0" id="imagen-captcha"/><br><br>
-			<label class="titulo azul">Ingrese el codigo de la imagen</label>
+			<label class="titulo azul">Ingrese el código de la imagen</label>
 			<input type="text" id="code" width="25" />
 			<br><br>
+			</div>
+			<button id="btnIngresar" type="button" class="boton final" onclick="">Ingresar</button>
 		</div>
-		<button id="btnIngresar" type="button" class="boton final" onclick="">Ingresar</button>
-
-	<!--	</form>-->
-		
 	</section>
         
 		<!-- Inicio Mensaje de sesion-->

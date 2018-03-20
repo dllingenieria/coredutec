@@ -454,9 +454,7 @@ $(function() {
 		var idCajasub = idCaja.substring(5, 14);
 		if ($( this ).val() != "NA" && $( this ).val() != "" && idCajasub != "undefined" ){ 
 			id = $(this).attr("id");
-			
 			var res = id.split("_");
-			 
 			var noEsta= true;
 			//recorrer el array asistencia para saber si la sesion ya esta
 			$.each( asistencia, function() {
@@ -472,7 +470,6 @@ $(function() {
 				asistencia[cont]['fecha']=res[2];		
 				asistencia[cont]['idTercero']=res[3];		
 				asistencia[cont]['idCaja']=idCaja;
-
 				asistenciaGeneral[cont] = {};
 				asistenciaGeneral[cont]['preprogramacion']=sessionStorage.IdPreprogramacion; 
 				asistenciaGeneral[cont]['sesion']=res[1]; 
@@ -481,7 +478,6 @@ $(function() {
 			}
 		}		
     }); 
-
 	var serializedAsistencia = JSON.stringify( asistenciaGeneral );
 	$.post("../../controlador/fachada.php", {
 		clase: 'clsAsistencia',
@@ -495,12 +491,14 @@ $(function() {
 					asistencia[i]['IdAsistencia']=data[i].IdAsistencia;	
 				}
 				agregarAsistenciaDetalle(asistencia);
-				agregarAsistenciaObservacion(asistencia);
-				agregarMotivoNoAsistencia(asistencia);  
+			}else{
 				jsRemoveWindowLoad();
-				popUpConfirmacion("Guardado Satisfactoriamente");
-			}else{alert("error 1");}             
-		}else {alert("error 2A");}
+				popUpConfirmacion("Error guardando Asistencias General");
+			}             
+		}else {
+			jsRemoveWindowLoad();
+			popUpConfirmacion("Error guardando Asistencias General");
+		}
 	}, "json");
  }
 
@@ -527,11 +525,9 @@ function agregarAsistenciaDetalle(asistencia){
        //preguntar si esa caja de texto tiene el atributo modificado
        if ($( this ).attr("modificado") != undefined){
            modificado =true;
-       }
-       else{
+       }else{
            modificado =false;
        }
-
        if (idCajasub != "undefined" && modificado == true && valor != "NA"){  
            sesionAsistencia=valorSesion-1;
            valor=$(this).val();  
@@ -539,61 +535,53 @@ function agregarAsistenciaDetalle(asistencia){
            sesionAsistenciass=asistencia[sesionAsistencia]['IdAsistencia'];      
 		   asistenciaD.push({"IdAsistencia":sesionAsistenciass,"idTercero":sesion,"valorAsistencia":valor,"idAsistenciaDetalle":idAsistenciaDetalle});
            conta++;     
-       }  
-  });
+       	}  
+  	});
    var serializedAsistenciaD = JSON.stringify( asistenciaD );
    $.ajax({
 	   url: '../../controlador/fachada.php',
 	   type: 'POST',
-	   dataType: 'json)',
+	   dataType: 'json',
 	   async : true,
 	   data: {
 	       clase: 'clsAsistencia',
 	       oper: 'agregarAsistenciaDetalle',
 	       serializedAsistenciaD: serializedAsistenciaD,
-	       
-	       
 	   }
    }).done(function(data) { //alert(data);
-		if (data.array =1){
-			asistenciaDetalle =true;
+   		console.log("Luego de agregar asistencia detalle: "+data);
+   		if (data == 0){
+   			jsRemoveWindowLoad();
+			popUpConfirmacion("Error guardando Asistencias Detalle");
+		}else{
+			agregarMotivoNoAsistencia(asistencia);
 		}
-		else{
-			asistenciaDetalle =false;
-		}
-	}).fail(function() {
-		asistenciaDetalle =false;
 	});
 }
 
 function agregarAsistenciaObservacion(asistencia){ 
-   observaciones = new Array(); 
-   var asistenciaO = new Array(); 
-   var contaO=0;
-   var noEsta= true; 
-   
+    observaciones = new Array(); 
+    var asistenciaO = new Array(); 
+    var contaO=0;
+    var noEsta= true; 
 	$("[id^=textArea_]").each(function(e){ 
-
 	var idObs = $( this ).attr( "id" ); //alert(idCaja);			
 	var res = idObs.split("_");
 	var IdTerceroObservacion = res[1];
 	//preguntar si esa caja de texto tiene el atributo modificado
 	if ($( this ).attr("modificado") != undefined){
 		modificado =true;
-	}
-	else{
+	}else{
 		modificado =false;
 	}
 	//recorrer el array de observaciones para saber si ese tercero ya esta
 	var a = observaciones.indexOf(IdTerceroObservacion); //alert("a"+a);
 		if (a > -1){
 			noEsta= false;
-		}
-				
+		}		
 	if (noEsta){ 
 		//llenar un array con el tercero
 		observaciones.push(IdTerceroObservacion);   
-		
 		//se hace todo el proceso de guardado de la observacion
 		var observacion= $(this).val();
 		if (modificado ==  true){ 
@@ -606,106 +594,93 @@ function agregarAsistenciaObservacion(asistencia){
 		}
 	} 
 }); 
-	var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serializedAsistenciaO);
-		if (asistenciaO.length != 0){
-			$.ajax({
-					url: '../../controlador/fachada.php',
-					type: 'POST',
-					dataType: 'json)',
-					async : true,
-					data: {
-						clase: 'clsAsistencia',
-						oper: 'agregarAsistenciaObservacion',
-						serializedAsistenciaO: serializedAsistenciaO
-					}
-				}).done(function() {
-					asistenciaObservacion=true;
-					
-				})
-				.fail(function() {
-					asistenciaObservacion =false;
-				});
-		}
+var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serializedAsistenciaO);
+	if (asistenciaO.length != 0){
+		$.ajax({
+			url: '../../controlador/fachada.php',
+			type: 'POST',
+			dataType: 'json',
+			async : true,
+			data: {
+				clase: 'clsAsistencia',
+				oper: 'agregarAsistenciaObservacion',
+				serializedAsistenciaO: serializedAsistenciaO
+			}
+		}).done(function(data) {
+			console.log("Luego de agregar observacion: "+data);
+	   		if (data == 0){
+	   			jsRemoveWindowLoad();
+				popUpConfirmacion("Error guardando Observaciones");
+			}else{
+				jsRemoveWindowLoad();
+				popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+			}
+		});
+	}else{
+		jsRemoveWindowLoad();
+		popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+	}
 }
 
 function agregarMotivoNoAsistencia(asistencia){ 
-   motivos = new Array(); 
-   var asistenciaM = new Array(); 
-   var contaM=0;
-   var noEsta= true; 
-   
-		$("[id^=selInasistencia_]").each(function(e){ 
-    
-				var idSel = $( this ).attr( "id" ); //alert(idCaja);
-								
-				var res = idSel.split("_");
-				var IdTerceroNoAsistencia = res[1];
-				
-				// var atributoIdAsistencia = "";
-				// var idAsistenciaObservacion = "";
-				
-				//preguntar si ese select tiene el atributo modificado
-				if ($( this ).attr("modificado") != undefined){
-					modificado =true;
-				}
-				else{
-					modificado =false;
-				}
-				
-						//recorrer el array de motivos para saber si ese tercero ya esta
-							var a = motivos.indexOf(IdTerceroNoAsistencia); //alert("a"+a);
-								if (a > -1){
-									noEsta= false;
-								}
-								
-				if (noEsta){  
-							//llenar un array con el tercero
-							motivos.push(IdTerceroNoAsistencia);   
-							
-							//se hace todo el proceso de guardado del motivo
-							var motivo= $(this).val();
-								//modificado == true
-								
-								// if (observacion !=  ''){ 
-								 
-								if (modificado ==  true){ 
-									
-									asistenciaM[contaM] = {};
-									asistenciaM[contaM]['IdAsistencia']=asistencia[0]['IdAsistencia']; 
-									asistenciaM[contaM]['idTercero']=IdTerceroNoAsistencia; 
-									asistenciaM[contaM]['motivo']=motivo;		
-									asistenciaM[contaM]['idPreprogramacion']=sessionStorage.IdPreprogramacion;		
-										
-									
-									contaM++;
-									
-								}
-									
-							
-						} //console.log(motivos);	
-			}); 
-			var serializedAsistenciaM = JSON.stringify( asistenciaM ); //alert(serializedAsistenciaM);
-				if (asistenciaM.length != 0){
-					$.ajax({
-						url: '../../controlador/fachada.php',
-						type: 'POST',
-						dataType: 'json)',
-						async : false,
-						data: {
-							clase: 'clsAsistencia',
-							oper: 'agregarMotivoNoAsistencia',
-							serializedAsistenciaM: serializedAsistenciaM
-							
-							
-						}
-					}).done(function() {
-						asistenciaMotivo=true;
-					})
-					.fail(function() {
-						asistenciaMotivo =false;
-					});
-				}
-	
+    motivos = new Array(); 
+    var asistenciaM = new Array(); 
+    var contaM=0;
+    var noEsta= true; 
+	$("[id^=selInasistencia_]").each(function(e){ 
+		var idSel = $( this ).attr( "id" ); 
+		var res = idSel.split("_");
+		var IdTerceroNoAsistencia = res[1];
+		//preguntar si ese select tiene el atributo modificado
+		if ($( this ).attr("modificado") != undefined){
+			modificado =true;
+		}else{
+			modificado =false;
+		}
+		//recorrer el array de motivos para saber si ese tercero ya esta
+		var a = motivos.indexOf(IdTerceroNoAsistencia); //alert("a"+a);
+		if (a > -1){
+			noEsta= false;
+		}			
+		if (noEsta){  
+			//llenar un array con el tercero
+			motivos.push(IdTerceroNoAsistencia);  
+			//se hace todo el proceso de guardado del motivo
+			var motivo= $(this).val();
+			if (modificado ==  true){ 
+				asistenciaM[contaM] = {};
+				asistenciaM[contaM]['IdAsistencia']=asistencia[0]['IdAsistencia']; 
+				asistenciaM[contaM]['idTercero']=IdTerceroNoAsistencia; 
+				asistenciaM[contaM]['motivo']=motivo;		
+				asistenciaM[contaM]['idPreprogramacion']=sessionStorage.IdPreprogramacion;	
+				contaM++;
+			}
+		}
+	}); 
+	var serializedAsistenciaM = JSON.stringify( asistenciaM ); //alert(serializedAsistenciaM);
+	if (asistenciaM.length != 0){
+		$.ajax({
+			url: '../../controlador/fachada.php',
+			type: 'POST',
+			dataType: 'json',
+			async : false,
+			data: {
+				clase: 'clsAsistencia',
+				oper: 'agregarMotivoNoAsistencia',
+				serializedAsistenciaM: serializedAsistenciaM
+			}
+		}).done(function(data) {
+			console.log("Luego de agregar motivos: "+data);
+	   		if (data == 0){
+	   			jsRemoveWindowLoad();
+				popUpConfirmacion("Error guardando Motivos de No Asistencia");
+			}else{
+				agregarAsistenciaObservacion(asistencia);
+			}
+		});
+	}else{
+		agregarAsistenciaObservacion(asistencia);
+	}	
 }
 
 function consultarUltimaSesionPorSalon(idSalon){

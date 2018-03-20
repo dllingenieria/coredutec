@@ -79,7 +79,7 @@ $(function() {
 	            clase: 'clsAcademico',
 	            oper: 'consultarSeguimiento',
 	            IdPreprogramacion: sessionStorage.IdPreprogramacion,
-	            tipo: 1,
+	            tipo: 4,
 	            }
 	    }).done(function(data) {
 	    	jsRemoveWindowLoad();

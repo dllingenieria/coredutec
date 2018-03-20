@@ -17,7 +17,7 @@ $(function() {
     };
     $.datepicker.setDefaults($.datepicker.regional['es']);
 	$("#txtFechaN").datepicker();
-	obtenerFechaActual();
+	//obtenerFechaActual();
 
 	//----- Carga todas las listas desplegables -----//
 	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
@@ -39,7 +39,7 @@ $(function() {
 
 	//----- Rregresa a Busqueda -----//
 	$("#btnRegresar").click(function(){ 
-		window.location.href = "../html/busqueda.html"; 
+		window.location.href = "../html/busqueda.html";
 	});
 
 	//----- Valida que solo se ingrese en las cajas de texto los valores apropiados -----//
@@ -50,18 +50,30 @@ $(function() {
 	$('#txtNombres').validCampoFranz('ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ ');
 	$('#txtApellidos').validCampoFranz('ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ ');
 	
-	//----- Valida cuando se presiona la tecla enter -----//
-	$('#txtNumeroIdentificacion').change(function() {
-        if($("#txtNumeroIdentificacion").val() != ""){
-        	var mensaje="Procesando la información<br>Espere por favor";
-			jsShowWindowLoad(mensaje);
-        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
-        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
-        	cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion);
-        }else{
-        	mostrarPopUpError('Por favor escriba un número de cédula');
-        }  
-    });
+	//Captura el control para aplicar validacion al presionar una tecla
+	window.addEventListener("load", function() {
+		document.getElementById("txtNumeroIdentificacion").addEventListener("keypress", soloNumeros, false);
+		});
+
+	//Solo permite introducir numeros y la tecla enter.
+	function soloNumeros(e){
+		var key = window.event ? e.which : e.keyCode;
+		if (key != 13){
+			if (key < 48 || key > 57) {
+				e.preventDefault();
+			}
+		}else{
+			if($("#txtNumeroIdentificacion").val() != ""){
+	        	var mensaje="Procesando la información<br>Espere por favor";
+				jsShowWindowLoad(mensaje);
+	        	var pTipoIdentificacion = $("#cmbTipoIdentificacion option:selected").val();
+	        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
+	        	cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion);
+	        }else{
+	        	mostrarPopUpError('Por favor escriba un número de cédula');
+	        }
+		}
+	}
 
 	//----- Consulta la informacion del tercero y la coloca en el formulario -----//
 	function cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion) {
@@ -94,6 +106,7 @@ $(function() {
 					mostrarPopUpError('El oferente no existe, puede continuar');
 					$("#txtNombres").val('');
 	        		$("#txtApellidos").val('');
+	        		$("#txtFechaN").val('');
 	        		$("#txtTelefono1").val('');
 	        		$("#txtTelefono2").val('');
 	        		$("#txtTelefono3").val('');
@@ -162,8 +175,13 @@ $(function() {
 	            	mostrarPopUpError('Oferente agregado correctamente');
 	            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
 	            }else{
-	            	mostrarPopUpError('Oferente actualizado correctamente');
-	            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+	            	if(data[0]['pResultado'] == 'B') {
+		            	mostrarPopUpError('Oferente actualizado correctamente');
+	            		$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+		            }else{
+		            	mostrarPopUpError('El tercero es Usuario, operación no PERMITIDA');
+		            	$("#btnAcePop").click(function(){ window.location.href = "../html/busqueda.html"; });
+		            }
 	            }
 	        }
 	    }, "json");

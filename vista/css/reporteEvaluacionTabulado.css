@@ -70,7 +70,7 @@ body {
 
 .dataTable td, .dataTable th{
 	/*font-size: 0.8rem;*/
-	font-size: small !important; 
+	font-size: small !important;
 }
 
 .cargando{

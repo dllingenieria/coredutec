@@ -126,6 +126,7 @@ $(function() {
                         var array = new Array();
                         // array.push(data[i].IdTercero);
                         array.push(i+1);
+                        array.push(data[i].NumeroIdentificacion); 
                         array.push(data[i].Tercero); 
 						idTerceroNotasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las notas totales 
                         for (var j = 0; j < 11; j++) {

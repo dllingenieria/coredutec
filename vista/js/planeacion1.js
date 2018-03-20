@@ -341,7 +341,7 @@ function cargarInformacionEnTabla(data){
         window.location.href = "listarPlaneacion.html";
     }); 
 	
-	      //cuando se le da clic al boton de volver en planeacion (nueva)
+	//cuando se le da clic al boton de volver en planeacion (nueva)
   $("#cerrarEditar").click(function(){ 
        $("#divListar").css("display","block");
 	   $("#divEditar").css("display","none");

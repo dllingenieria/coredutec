@@ -77,8 +77,8 @@ $(function(){
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
 			{ title: "Estado" },
+			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
-			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
 			"paging":   true,
 			"info":     false,
@@ -171,23 +171,157 @@ $(function(){
 		}
 	});
 
+	$(document).on('click', '#asistencias-link', function() {
+			var data = table.row($(this).parents('tr')).data();
+			sessionStorage.id_tpar= data[0];
+			if(data[0]!=""){
+				var mensaje="Procesando la información<br>Espere por favor";
+				jsShowWindowLoad(mensaje);
+				$(".cuerpo").fadeOut('slow', function(){  
+					$(".cuerpo").fadeIn('slow');
+					$(".cuerpo").load('reporteExcelAsistencias.html');
+				})
+				$("#btnAcademico").hide();
+				$("#btnAsistencias").hide();
+				$("#btnNotas").hide();
+				$("#btnPlaneacion").hide();
+				$("#regresar").show();	
+				$(".filtro").hide();		
+				cantidadSesiones();
+			 	jsRemoveWindowLoad();
+			}
+	});
 
-	
+	function cantidadSesiones(){
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsDocente',
+			oper: 'consultarCalendarioPreprogramacion',
+			idPreprogramacion: sessionStorage.IdPreprogramacion
+		}, function(data) {
+				console.log(data);
+				if (data !== 0) {
+					if(data !== null){
+						sessionStorage.NoSesiones = data;
+					}else{
+						sessionStorage.NoSesiones=0;
+					}             
+				}else {sessionStorage.NoSesiones=0;
+					}
+		}, "json");
+	}
+
+	//----- Carga el informa de asistencias -----//
+	$(document).on('click', '#asistencias', function() {
+		//Se oculta el boton de descarga
+		$('#descargar').hide();
+				var mensaje="Procesando la información<br>Espere por favor";
+				jsShowWindowLoad(mensaje);
+				aprobadosAsistentesFormato();	
+
+			   	$.post("../../controlador/fachada.php", {
+					clase: 'clsAsistencia',
+					oper: 'consultarReporte',
+					idPreprogramacion: sessionStorage.IdPreprogramacion,
+					NoSesiones: sessionStorage.NoSesiones,
+					Curso: sessionStorage.Curso,
+					Modulo: sessionStorage.Modulo,
+					Inscritos: sessionStorage.Inscritos,
+					Horario: sessionStorage.Horario,
+					FechaInicial: sessionStorage.FechaInicial,
+					Sede: sessionStorage.Sede,
+					Salon: sessionStorage.Salon,
+					IdCurso: sessionStorage.IdCurso,
+					IdModulo: sessionStorage.IdModulo,
+					FechaFinal: sessionStorage.FechaFinal,
+					Duracion: sessionStorage.Duracion,
+					Docente: sessionStorage.Docente,
+					DiasCurso: sessionStorage.DiasCurso,
+					Ruta: sessionStorage.Ruta,
+					CantidadAsistentes: sessionStorage.cantidadAsistentes,
+					EstudiantesGanando: sessionStorage.EstudiantesGanando
+					}, function(data) {
+					if (data.mensaje == 1 && data.html!=""){
+						nombreArchivo=data.html;
+						jsRemoveWindowLoad();
+						popUpConfirmacion("Generado correctamente el reporte");
+						$('#descargar').show();
+					}
+					else if(data.error == 2){
+						jsRemoveWindowLoad();
+						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+						setTimeout(function(){
+						location.reload();},4000);
+					}
+					else{
+						jsRemoveWindowLoad();
+						mostrarPopUpError("No se ha generado el reporte");
+						setTimeout(function(){
+						location.reload();},4000);
+					}		
+				}, "json");				
+
+	});
+
+	$(document).on('click', '#descargar', function() {
+			window.location.href = "../"+nombreArchivo;
+			// setTimeout(function(){
+			// location.reload();},2000);
+			
+     });
+
+	$(document).on('click', '#regresar', function() {
+			 location.reload();
+	});
+
+	function popUpConfirmacion(msj){
+		    $("#textoConfirmacion1").text(msj);
+		    $('#element_to_pop_upCon').bPopup({
+		        speed: 450,
+		        transition: 'slideDown'
+		    });
+	}
 
 
-function popUpConfirmacion(msj){
-	    $("#textoConfirmacion1").text(msj);
-	    $('#element_to_pop_upCon').bPopup({
-	        speed: 450,
-	        transition: 'slideDown'
-	    });
-}
+	$(document).on('click', '#regresar', function() {
+			 location.reload();
+	});
 
+	function aprobadosAsistentesFormato(){
+		 $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarCantidadAsistentesPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].cantidadAsistentes !== null){
+               sessionStorage.cantidadAsistentes=data[0].cantidadAsistentes;
+            }
+            
+        });
+        
+        $.ajax({
+            url: '../../controlador/fachada.php',
+            type: 'POST',
+            dataType: 'json',
+            async :false,
+            data: {
+                clase: 'clsUtilidades',
+                oper: 'consultarNotaParcialPorSalon',
+                IdPreprogramacion: sessionStorage.IdPreprogramacion,
+                }
+        }).done(function(data) {
+            if(data[0].pEstudiantesGanando !== null){
+                sessionStorage.EstudiantesGanando=data[0].pEstudiantesGanando;
+            }
+            
+        });
 
-$(document).on('click', '#regresar', function() {
-		 location.reload();
-});
-
+	}
 
 
 function jsRemoveWindowLoad() {

@@ -44,18 +44,20 @@ class clsRecuperarContrasena {
                 $mail->IsSMTP();                                      // set mailer to use SMTP
                 $mail->Host = "smtp.gmail.com";//"smtp.zoho.com"; //"smtp.office365.com"; specify main and backup server
                 $mail->SMTPAuth = true;     // turn on SMTP authentication
-                $mail->Username = $array[0]['Parametro'];
-                $mail->Password = $array[1]['Parametro']; //c3T-C0lsUBs1d10*S13mpr3$
+                $mail->Username = $array[1]['Parametro'];
+                $mail->Password = $array[0]['Parametro']; //c3T-C0lsUBs1d10*S13mpr3$
                 $mail->Port = 465; //587;
                 $mail->SMTPSecure = "ssl"; //"tls";
-                $mail->From = $array[0]['Parametro'];
-                $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
+                $mail->From = $array[1]['Parametro'];
+                $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";
                 $mail->AddAddress($para);                  // name is optional
                 $mail->WordWrap = 50; 
                 $mail->IsHTML(true);                                  // set email format to HTML
-                $mail->Subject = "Restablecimiento contrasena";
+                $mail->Subject = "Solicitud recuperacion clave de acceso";
                 $mensaje = file_get_contents("../vista/html/correo_restablecimiento_contrasena.html");
-                $mensaje = str_replace("link", $link, $mensaje);
+                $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
+                $mensaje = str_replace("pNombres", $nombres, $mensaje);
+                $mensaje = str_replace("pLink", $link, $mensaje);
                 $mail->CharSet = 'UTF-8';
                 $mail->Body = $mensaje;
                 if(!$mail->Send())

@@ -57,6 +57,12 @@ body {
 	font-size: 0.7rem;
 }
 
+#botones1 {
+    text-align: center;
+    margin-top: 0.9rem;
+    margin-bottom: 4rem;
+    width: 84%;
+}
 
 .botones {
     text-align: right;
@@ -179,10 +185,13 @@ body {
 	color: #003265;
 	font-size: 17px;
 	background: #f7ea32;
+	padding-top: 1px;
 	padding-left: 1rem;
-	padding-right: 58.5rem;
+	padding-right: 1rem;
+	padding-bottom: 2px;
 	font-family: "Roboto-Bold";
 	border-radius: 3px 3px 3px 3px;
+	margin-bottom: 5px;
 }
 
 .IngreseSeg{ 
@@ -193,4 +202,18 @@ body {
 	padding-right: 59rem;
 	font-family: "Roboto-Bold";
 	border-radius: 3px 3px 3px 3px;
+}
+
+#AsistenciaSeguimiento{
+	margin-top: 25px;
+}
+
+#txtaSeguimiento{
+	margin-top: 10px;
+	width: 84%;
+	height: 120px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
 }

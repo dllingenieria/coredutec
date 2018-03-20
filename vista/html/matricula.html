@@ -41,45 +41,50 @@
 			<!-- FIN BARRA DE NAVEGAC	IÓN -->
 		</section>
 		
-
+    <div id="Campos">
         <!-- Inscripción De Datos -->
         <div id="lblInscripcionDatos" class="RectanguloTitulos"><label>Inscripción De Datos</label></div>
+        <div id="lblTipoIdentificacion" class="LblMatricula">Tipo Identificación</div>
+        <select id="selectTipoIdentificacion" class="TxtMatricula" disabled="disabled"></select>
+        <div id="lblIdentificacion" class="LblMatricula">Identificación</div>
+        <input type="number"  id="txtIdentificacion" class="TxtMatricula" max="9999999999" readonly />
         <div id="lblNombre" class="LblMatricula">Nombres</div>
         <input type="text"  id="txtNombre" class="TxtMatricula"/>
         <div id="lblApellido" class="LblMatricula">Apellidos</div>
 		<input type="text"  id="txtApellido" class="TxtMatricula"/>
-		
-        
-		
-        <div id="lblMesAsignacion" class="LblMatricula">Mes Asignación</div>
-        <input type="text"  id="txtMesAsignacion" class="TxtMatricula"/>
-        <div id="lblIdentificacion" class="LblMatricula">Identificación</div>
-        <input type="number"  id="txtIdentificacion" class="TxtMatricula" max="9999999999" readonly />
         <div id="lblLugarExpedicion" class="LblMatricula">Lugar Expedición</div>
         <select id="selectLugarExpedicion" class="TxtMatricula"></select>
+        <div id="lblFechaNacimiento" class="LblMatricula">Fecha Nacimiento</div>
+        <input type="text"  id="txtfechaNacimiento" class="TxtMatricula"/>
+        <div id="lblSexo" class="LblMatricula">Sexo</div>
+        <select id="selectSexo" class="TxtMatricula"></select>
         <div id="lblEstadoCivil" class="LblMatricula">Estado Civil</div>
         <select id="selectEstadoCivil" class="TxtMatricula"></select>
+        <div id="lblGradoEscolaridad" class="LblMatricula">Grado De Escolaridad</div>
+        <select id="selectGradoEscolaridad" class="TxtMatricula"></select>
         <div id="lblTelefonoFijo" class="LblMatricula" >Teléfono Fijo</div>
-        <input type="number"  id="txtTelefonoFijo" class="TxtMatricula" max="9999999" oninput="if(value.length>7)value=value.slice(0,7)"/>
+        <input type="number"  id="txtTelefonoFijo" class="TxtMatricula" max="9999999" oninput="if(value.length>7)value=value.slice(0,10)"/>
         <div id="lblTelefonoCelular" class="LblMatricula">Teléfono Celular</div>
         <input type="number"  id="txtTelefonoCelular" class="TxtMatricula" max="9999999999" oninput="if(value.length>10)value=value.slice(0,10)"/>
         <div id="lblTelefonoAlterno" class="LblMatricula">Teléfono Alterno</div>
         <input type="number"  id="txtTelefonoAlterno" class="TxtMatricula" max="9999999999" oninput="if(value.length>10)value=value.slice(0,10)"/>
         <div id="lblCorreoElectronico" class="LblMatricula">Correo Electrónico</div>
         <input type="text"  id="txtCorreoElectronico" class="TxtMatricula"/>
-        <div id="lblEdad" class="LblMatricula">Edad</div>
-        <input type="number"  id="txtEdad" class="TxtMatricula" max="99"/>
-        <div id="lblGradoEscolaridad" class="LblMatricula">Grado De Escolaridad</div>
-        <select id="selectGradoEscolaridad" class="TxtMatricula"></select>
+        <div id="lblCElectronicoAlternativo" class="LblMatricula">C. Electrónico Alternativo</div>
+        <input type="text"  id="txtCorreoElectronico2" class="TxtMatricula"/>
+        <div id="lblDireccion" class="LblMatricula">Dirección</div>
+        <input type="text"  id="txtDireccion" class="TxtMatricula"/>
         <div id="lblLocalidad" class="LblMatricula">Localidad</div>
         <select id="selectLocalidad" class="TxtMatricula"></select>
-		<div id="lblFechaNacimiento" class="LblMatricula">Fecha Nacimiento</div>
-        <input type="text"  id="txtfechaNacimiento" class="TxtMatricula"/>
-        <!--<input type="hidden" id="fechaNacimiento"></input>-->
-        <input type="hidden" id="sexo"></input>
-        <input type="hidden" id="direccion"></input>
-        <input type="hidden" id="ciudad"></input>
-        <input type="hidden" id="tipoIdentificacion"></input>
+        <div id="lblCiudad" class="LblMatricula">Ciudad</div>
+        <select id="selectCiudad" class="TxtMatricula"></select>
+        <input type="hidden" id="edad"></input>
+        <input type="hidden" id="mesasignacion"></input>
+
+        <!-- <div id="lblMesAsignacion" class="LblMatricula">Mes Asignación</div>
+        <input type="text"  id="txtMesAsignacion" class="TxtMatricula"/>
+        <div id="lblEdad" class="LblMatricula">Edad</div>
+        <input type="number"  id="txtEdad" class="TxtMatricula" max="99"/> -->
         
  
         <!-- Proceso De Capacitación (Carga Del Sistema) -->
@@ -105,7 +110,7 @@
         <!-- Proceso De Capacitación (Matrícula) -->
        
         <br>
-        <div id="container_pro_cap">
+        <!-- <div id="container_pro_cap"> -->
         <div id="lblProcesoCapacitacion" class="RectanguloTitulos"><label>Proceso De Capacitación</label> <label style="font-family: 'Roboto-Light'">(Matrícula)</label></div>
         <div id="lblTipoDeConvocatoriaMatricula" class="LblMatricula">Convocatoria</div>
         <input  id="txtTipoDeConvocatoriaMatricula" class="TxtMatricula" readonly/>
@@ -145,17 +150,20 @@
         <input type="text"  id="txtHoraInicio" class="TxtMatricula" />
         <input type="hidden"  id="txtRutaNumeroMatriculaOculta" class="TxtMatricula" />
         <input type="hidden"  id="txtTipoDeConvocatoriaMatriculaOculta" class="TxtMatricula" />
-        <div id="lblObservaciones" class="RectanguloTitulos"><label>Observaciones</label></div>
-        <div id="observaciones"><textarea id="txtObservaciones" name="observaciones" style="width:917px; height:52px; padding-left:5px; font-family: 'Roboto-Light'; border-radius: 3px 3px 3px 3px;"></textarea></div>
-        <div id="lblConfirmacion1" class="RectanguloTitulos"><label>Confirmo que fui informado de la importancia de asistir a la capacitación y que mi inasistencia es causal de pérdida de los beneficios del Mecanismo de Protección al
-         Cesante, comprometiéndome a cumplir con el 100 % del presente proceso.</label></div>
-		<div id="lblConfirmacion3" class="RectanguloTitulos"><label></label></div>
+        <!-- <div id="lblObservaciones" class="RectanguloTitulos"><label>Observaciones</label></div>
+        <div id="observaciones"><textarea id="txtObservaciones" name="observaciones" style="width:917px; height:52px; padding-left:5px; font-family: 'Roboto-Light'; border-radius: 3px 3px 3px 3px;"></textarea></div> 
+        <div id="lblConfirmacion1" class="RectanguloTitulos"><label>Confirmo que fui informado de la importancia de asistir a la capacitación y que mi inasistencia es causal de pérdida de los beneficios del Mecanismo de Protección al Cesante, comprometiéndome a cumplir con el 100 % del presente proceso.</label></div>
+		
         <div id="lblConfirmacion2" class="RectanguloTitulos"><label>*Los datos personales que se están recolectando en este formato tienen como única finalidad la realización de la Capacitación para Inserción Laboral en el Marco del Mecanismo de Protección al Cesante.</label></div>
-      
-        <div><input id="btnGuardar" class="BotonGuardar" name="btnGuardar" type="button" value="Guardar" /></div>
-        <div><input id="btnActualizar" class="BotonGuardar BotonActualizar" name="btnGuardar" type="button" value="Actualizar" /></div>
-        <div><input id="btnCancelar" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" /></div>
+        </div> -->
+        <div id="lblConfirmacion3" class="RectanguloTitulos"><label></label></div>   
+        <div id="botones">   
+            <div><input id="btnGuardar" class="BotonGuardar" name="btnGuardar" type="button" value="Matricular" /></div>
+            <div><input id="btnActualizar" class="BotonGuardar BotonActualizar" name="btnGuardar" type="button" value="Actualizar" /></div>
+            <div><input id="btnCancelar" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" /></div>
         </div>
+        
+    </div>
               
 		 <!-- Inicio Mensaje de sesion-->
         <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>

@@ -39,10 +39,9 @@ class clsPersona {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         $tipoIdentificacion= $tipoIdentificacion != '' ?$tipoIdentificacion:3;
-        $identificacion= $identificacion != '' ?$identificacion:'0';
         $lugarExpedicion= $lugarExpedicion != '' ?$lugarExpedicion:1121;
-        $nombres= $nombres != '' ?$nombres:'No Aplica';
-        $apellidos= $apellidos != '' ?$apellidos:'No Aplica';
+        $nombres= $nombres != '' ?$nombres:'No Suministrado';
+        $apellidos= $apellidos != '' ?$apellidos:'No Suministrado';
 		$nombres=utf8_decode($nombres);
 		$apellidos=utf8_decode($apellidos);
         $fechaNacimiento= $fechaNacimiento != '' ?$fechaNacimiento:'2000-01-01';
@@ -52,21 +51,15 @@ class clsPersona {
         $tel_fijo= $tel_fijo != '' ?$tel_fijo:0;
         $tel_celular= $tel_celular != '' ?$tel_celular:0;
         $tel_alterno= $tel_alterno != '' ?$tel_alterno:0;
-        $direccion= $direccion != '' ?$direccion:'No Aplica';
-        $correo_electronico= $correo_electronico != '' ?$correo_electronico:'No Aplica';
+        $direccion= $direccion != '' ?$direccion:'No Suministrado';
+        $correo_electronico= $correo_electronico != '' ?$correo_electronico:'No Suministrado';
+        $correo_electronico2= $correo_electronico2 != '' ?$correo_electronico2:'No Suministrado';
         $localidad= $localidad != '' ?$localidad:27;
         $ciudad= $ciudad != '' ?$ciudad:1121;
-        $observaciones= $observaciones != '' ?$observaciones:'No Aplica';
-
-
-        $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$identificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico',$localidad,$ciudad,'$observaciones',1,$IdUsuario);";
+        $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico','$correo_electronico2',$localidad,$ciudad,1,$IdUsuario);";
         $rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
-            
-                $array = 1;
-            
-        
-            
+            $array = 1;
         }else{
             $array = 0;
         }

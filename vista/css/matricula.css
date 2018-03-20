@@ -12,6 +12,11 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
+body {
+	background-image: url(../images/patrones.png);
+	background-size: cover;
+}
+
 /* Seccion Cabecera */	
 
 #formaCabeceraAzul {
@@ -136,28 +141,6 @@ input::-webkit-inner-spin-button {
 
 /* Seccion Títulos */
 
-div#lblNombre {
-    margin-top: 55px;
-}
-
-#txtNombre {
-    margin-top: 55px;
-}
-
-div#lblFechaNacimiento {
-    margin-top: 55px;
-	margin-left: 530px;
-}
-
-#txtfechaNacimiento {
-    margin-top: 55px;
-	margin-left: 709px;
-}
-
-div#lblDuracionCursoMatricula {
-    margin-top: 536px;
-}
-
 .RectanguloTitulos {
 	position:absolute;
 	width:170px;
@@ -175,12 +158,12 @@ div#lblDuracionCursoMatricula {
 }
 
 #lblProcesoCapacitacion {
-	margin-top: 436px;
+	margin-top: 506px;
 	width:286px;
 }
 
 #lblProcesoCapacitacionCarga {
-	margin-top: 283px;
+	margin-top: 353px;
 	width:355px;
 }
 
@@ -256,184 +239,251 @@ div#lblDuracionCursoMatricula {
 	border-left:1px solid #c5c5c5;
 }
 
-#lblMesAsignacion {
-	margin-left: 530px;
+#lblTipoIdentificacion {
+	margin-top: 55px;
 }
 
-#txtMesAsignacion {
-	margin-left: 709px;
+#selectTipoIdentificacion {
+	margin-top: 55px;
+    width: 260px;
+    height: 24px;
 }
 
 #lblIdentificacion {
-	margin-top: 115px;
+	margin-top: 55px;
+	margin-left: 530px;
 }
 
 #txtIdentificacion {
-	margin-top: 115px;
+	margin-top: 55px;
+	margin-left: 709px;
+}
+
+div#lblNombre {
+    margin-top: 85px;
+}
+
+#txtNombre {
+    margin-top: 85px;
+}
+
+#lblApellido {
+	margin-top: 85px;
+	margin-left: 530px;
+}
+
+#txtApellido {
+	margin-top: 85px;
+	margin-left: 709px;
 }
 
 #lblLugarExpedicion {
 	margin-top: 115px;
-	margin-left: 530px;
 }
 
 #selectLugarExpedicion {
 	margin-top: 115px;
+    width: 260px;
+    height: 24px;
+}
+
+div#lblFechaNacimiento {
+    margin-top: 115px;
+	margin-left: 530px;
+}
+
+#txtfechaNacimiento {
+    margin-top: 115px;
 	margin-left: 709px;
+}
+
+#lblSexo {
+	margin-top: 145px;
+}
+
+#selectSexo {
+	margin-top: 145px;
+    width: 260px;
+    height: 24px;
 }
 
 #lblEstadoCivil {
 	margin-top: 145px;
+	margin-left: 530px;
 }
 
 #selectEstadoCivil {
 	margin-top: 145px;
+	margin-left: 709px;
+    width: 260px;
+    height: 24px;
 }
 
 #lblTelefonoFijo {
-	margin-top: 145px;
+	margin-top: 175px;
 	margin-left: 530px;
 }
 
 #txtTelefonoFijo {
-	margin-top: 145px;
-	margin-left: 709px;
-}
-
-#lblTelefonoCelular {
 	margin-top: 175px;
-}
-
-#txtTelefonoCelular {
-	margin-top: 175px;
-}
-
-#lblTelefonoAlterno {
-	margin-top: 175px;
-	margin-left: 530px;
-}
-
-#txtTelefonoAlterno {
-	margin-top: 175px;
-	margin-left: 709px;
-}
-
-#lblCorreoElectronico {
-	margin-top: 205px;
-}
-
-#txtCorreoElectronico {
-	margin-top: 205px;
-}
-
-#lblEdad {
-	margin-top: 205px;
-	margin-left: 530px;
-}
-
-#txtEdad {
-	margin-top: 205px;
 	margin-left: 709px;
 }
 
 #lblGradoEscolaridad {
-	margin-top: 235px;
+	margin-top: 175px;
 }
 
 #selectGradoEscolaridad {
+	margin-top: 175px;
+    width: 260px;
+    height: 24px;
+}
+
+#lblTelefonoCelular {
+	margin-top: 205px;
+}
+
+#txtTelefonoCelular {
+	margin-top: 205px;
+}
+
+#lblTelefonoAlterno {
+	margin-top: 205px;
+	margin-left: 530px;
+}
+
+#txtTelefonoAlterno {
+	margin-top: 205px;
+	margin-left: 709px;
+}
+
+#lblCorreoElectronico {
 	margin-top: 235px;
 }
 
-#lblLocalidad {
+#txtCorreoElectronico {
+	margin-top: 235px;
+}
+
+#lblCElectronicoAlternativo {
 	margin-top: 235px;
 	margin-left: 530px;
 }
 
-#selectLocalidad {
+#txtCorreoElectronico2 {
 	margin-top: 235px;
 	margin-left: 709px;
 }
 
+#lblDireccion {
+	margin-top: 265px;
+}
+
+#txtDireccion {
+	margin-top: 265px;
+}
+
+#lblLocalidad {
+	margin-top: 265px;
+	margin-left: 530px;
+}
+
+#selectLocalidad {
+	margin-top: 265px;
+	margin-left: 709px;
+    width: 260px;
+    height: 24px;
+}
+
+#lblCiudad{
+	margin-top: 295px;
+}
+
+#selectCiudad{
+	margin-top: 295px;
+    width: 260px;
+    height: 24px;
+}
 
 /* Proceso De Capacitación (Carga Del Sistema) */
 
 #lblTipoDeConvocatoriaCarga {
-	margin-top: 323px;
+	margin-top: 393px;
 	width:130px;
 }
 
 #txtTipoDeConvocatoriaCarga {
-	margin-top: 323px;
+	margin-top: 393px;
 	margin-left: 183px;
 	width:203px;
 }
 
 #lblRutaNumeroCarga {
-	margin-top: 323px;
+	margin-top: 393px;
 	margin-left: 419px;
 	width:130px;
 }
 
 #txtRutaNumeroCarga {
-	margin-top: 323px;
+	margin-top: 393px;
 	margin-left: 561px;
 	width:112px;
 }
 
 #lblCodigoCursoCarga {
-	margin-top: 323px;
+	margin-top: 393px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtCodigoCursoCarga {
-	margin-top: 323px;
+	margin-top: 393px;
 	margin-left: 846px;
 	width:112px;
 }
 
 #lblNombreCursoCarga {
-	margin-top: 353px;
+	margin-top: 423px;
 	width:130px;
 }
 
 #txtNombreCursoCarga {
-	margin-top: 353px;
+	margin-top: 423px;
 	margin-left: 183px;
 	width:490px;
 }
 
 #lblEstadoCarga {
-	margin-top: 353px;
+	margin-top: 423px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtEstadoCarga {
-	margin-top: 353px;
+	margin-top: 423px;
 	margin-left: 846px;
 	width:112px;
 }
 
 #lblModuloCarga {
-	margin-top: 383px;
+	margin-top: 453px;
 	width:130px;
 }
 
 #txtModuloCarga {
-	margin-top: 383px;
+	margin-top: 453px;
 	margin-left: 183px;
 	width:490px;
 }
 
 #lblDuracionModuloCarga {
-	margin-top: 383px;
+	margin-top: 453px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtDuracionModuloCarga {
-	margin-top: 383px;
+	margin-top: 453px;
 	margin-left: 846px;
 	width:112px;
 }
@@ -442,46 +492,46 @@ div#lblDuracionCursoMatricula {
 
 
 #lblTipoDeConvocatoriaMatricula {
-	margin-top: 476px;
+	margin-top: 546px;
 	width:130px;
 }
 
 #txtTipoDeConvocatoriaMatricula {
-	margin-top: 476px;
+	margin-top: 546px;
 	margin-left: 183px;
 	width:203px;
 }
 
 #lblRutaNumeroMatricula {
-	margin-top: 476px;
+	margin-top: 546px;
 	margin-left: 419px;
 	width:130px;
 }
 
 #txtRutaNumeroMatricula {
-	margin-top: 476px;
+	margin-top: 546px;
 	margin-left: 561px;
 	width:112px;
 }
 
 #lblCodigoCursoMatricula {
-	margin-top: 476px;
+	margin-top: 546px;
 	margin-left: 704px;
 	width:130px;
 }
 
 #txtCodigoCursoMatricula {
-	margin-top: 476px;
+	margin-top: 546px;
 	margin-left: 846px;
 	width:112px;
 }
 
 #lblNombreCursoMatricula {
-	margin-top: 506px;
+	margin-top: 576px;
 }
 
 #cmbNombreCursoMatricula {
-	margin-top: 506px;
+	margin-top: 576px;
 	width:747px;
 	height:24px;
 	padding-top: 0px;
@@ -489,20 +539,24 @@ div#lblDuracionCursoMatricula {
 }
 
 #lblDuracionCursMatricula {
-	margin-top: 536px;
+	margin-top: 606px;
 }
 
 #txtDuracionCursoMatricula {
-	margin-top: 536px;
+	margin-top: 606px;
+}
+
+div#lblDuracionCursoMatricula {
+    margin-top: 605px;
 }
 
 #lblModalidadMatricula {
-	margin-top: 536px;
+	margin-top: 606px;
 	margin-left: 530px;
 }
 
 #cmbModalidadMatricula {
-	margin-top: 536px;
+	margin-top: 606px;
 	margin-left: 709px;
 	width:259px;
 	height:24px;
@@ -511,11 +565,11 @@ div#lblDuracionCursoMatricula {
 }
 
 #lblModuloMatricula {
-	margin-top: 566px;
+	margin-top: 636px;
 }
 
 #cmbModuloMatricula {
-	margin-top: 566px;
+	margin-top: 636px;
 	width:259px;
 	height:24px;
 	padding-top: 0px;
@@ -523,48 +577,48 @@ div#lblDuracionCursoMatricula {
 }
 
 #lblCodigoModuloMatricula {
-	margin-top: 566px;
+	margin-top: 636px;
 	margin-left: 530px;
 }
 
 #txtCodigoModuloMatricula {
-	margin-top: 566px;
+	margin-top: 636px;
 	margin-left: 709px;
 }
 
 #lblDuracionModuloMatricula {
-	margin-top: 596px;
+	margin-top: 666px;
 }
 
 #txtDuracionModuloMatricula {
-	margin-top: 596px;
+	margin-top: 666px;
 }
 
 #lblTipoFormacionMatricula {
-	margin-top: 596px;
+	margin-top: 666px;
 	margin-left: 530px;
 }
 
 #txtTipoFormacionMatricula {
-	margin-top: 596px;
+	margin-top: 666px;
 	margin-left: 709px;
 }
 
 #lblAreaOcupacionalMatricula {
-	margin-top: 626px;
+	margin-top: 696px;
 }
 
 #txtAreaOcupacionalMatricula {
-	margin-top: 626px;
+	margin-top: 696px;
 }
 
 #lblMatriculadoEnMatricula {
-	margin-top: 626px;
+	margin-top: 696px;
 	margin-left: 530px;
 }
 
 #cmbMatriculadoEnMatricula {
-	margin-top: 626px;
+	margin-top: 696px;
 	margin-left: 709px;
 	width:259px;
 	height:24px;
@@ -573,56 +627,56 @@ div#lblDuracionCursoMatricula {
 }
 
 #lblHorarioMatricula {
-	margin-top: 656px;
+	margin-top: 726px;
 }
 
 #txtHorarioMatricula {
-	margin-top: 656px;
+	margin-top: 726px;
 }
 
 #lblSedeMatricula {
-	margin-top: 656px;
+	margin-top: 726px;
 	margin-left: 530px;
 }
 
 #txtSedeMatricula {
-	margin-top: 656px;
+	margin-top: 726px;
 	margin-left: 709px;
 }
 
 #lblDocenteMatricula {
-	margin-top: 715px;
+	margin-top: 785px;
 }
 
 #txtDocenteMatricula {
-	margin-top: 715px;
+	margin-top: 785px;
 }
 
 #lblFechaInicial {
-	margin-top: 685px;
+	margin-top: 755px;
 }
 
 #txtFechaInicial {
-	margin-top: 685px;
+	margin-top: 755px;
 }
 
 #lblFechaFinal {
-	margin-top: 685px;
+	margin-top: 755px;
         margin-left: 530px;
 }
 
 #txtFechaFinal {
-	margin-top: 685px;
+	margin-top: 755px;
         margin-left: 709px;
 }
 
 #lblHoraInicio {
-	margin-top: 715px;
+	margin-top: 785px;
 	margin-left: 530px;
 }
 
 #txtHoraInicio {
-	margin-top: 715px;
+	margin-top: 785px;
 	margin-left: 709px;
 }
 
@@ -871,8 +925,8 @@ div#lblDuracionCursoMatricula {
 
 .BotonGuardar {
     position:absolute;
-	margin-top: 952px;
-	margin-left: 1107px;
+	margin-top: 840px;
+	margin-left: 100px;
 	width:90px;
 	height:27px;
 	color: #ffffff;
@@ -889,7 +943,7 @@ div#lblDuracionCursoMatricula {
 }
 
 .BotonActualizar{
-	margin-left: 1010px;
+	margin-left: 0px;
 }
 
 .BotonGuardar:hover {
@@ -903,8 +957,8 @@ div#lblDuracionCursoMatricula {
 
 .BotonCancelar {
     position:absolute;
-	margin-top: 952px;
-	margin-left: 1204px;
+	margin-top: 840px;
+	margin-left: 200px;
 	width:90px;
 	height:27px;
 	color: #003265;
@@ -941,4 +995,16 @@ footer {
    -moz-opacity:65;
     opacity:0.65;
     background:#999;
+}
+
+#Campos{
+	width: 62rem;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#botones{
+	width: 17rem;
+	margin-right: auto;
+	margin-left: auto;
 }

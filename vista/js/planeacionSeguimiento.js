@@ -47,7 +47,7 @@ $(function(){
 	
 	var seleccionado = false;
 	$("#divEditar").css("display","none");
-	$("#seguimiento").css("display","none");
+	$("#PlaneacionSeguimiento").css("display","none");
 
 		 
     function listarPlaneacion(){ 
@@ -272,7 +272,7 @@ function cargarInformacionEnTabla(data){
 					$("#txtFecha", $("#divEditar" )).datepicker();
 					
 					$("#divEditar").css("display","block");
-					$("#seguimiento").css("display","block");
+					$("#PlaneacionSeguimiento").css("display","block");
 					
 					
 					
@@ -495,7 +495,7 @@ function quitarTrSeleccion(){
 }
 
 $("#volverAcademico").click(function(){
-    window.location.href = "academico.html";
+    window.location.href = "listarPlaneacionSeguimiento.html";
 });
 
   

@@ -8,7 +8,7 @@ set_time_limit(0);
  */
 class clsUtilidades {
     //----- Función que envía correo luego de una matrícula -----//
-    public function enviarCorreoEstudiante($estudiante,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave){
+    public function enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
@@ -19,7 +19,7 @@ class clsUtilidades {
         $mail->Port = 465; //587;
         $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
-        $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";
+        $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";
         $mail->AddAddress($correoElectronico);                  // name is optional
         $mail->WordWrap = 50;                                 // set word wrap to 50 characters
         $mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
@@ -28,6 +28,7 @@ class clsUtilidades {
         $mensaje = file_get_contents("../vista/html/correo_curso.html");
         $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
         $mensaje = str_replace("estudiante", $estudiante, $mensaje);
+        $mensaje = str_replace("pTipoIdentificacion", $tipoidentificacion, $mensaje);
         $mensaje = str_replace("pNumeroIdentificacion", $cedula, $mensaje);
         $mensaje = str_replace("cod-salon", $salon, $mensaje);
         $mensaje = str_replace("capacitacion", $curso, $mensaje);
@@ -68,7 +69,7 @@ class clsUtilidades {
         $mail->Port = 465; //587;
         $mail->SMTPSecure = "ssl"; //"tls";
         $mail->From = $correode;
-        $mail->FromName = "Corporación de Educación Tecnológica Colsubsidio AIRBUS Group";                 // name is optional
+        $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";               // name is optional
         $mail->AddAddress($correoElectronico); 
         $mail->WordWrap = 50; 
         $mail->IsHTML(true);                                  // set email format to HTML
@@ -176,6 +177,11 @@ class clsUtilidades {
         }
         echo json_encode($array);
     }
+
+    //----- Para imprimir un array en js -----//
+    // informacionTabla.forEach(function (elemento, indice, array) {
+    //     console.log(elemento, indice);
+    // });
 
 }
 ?>
