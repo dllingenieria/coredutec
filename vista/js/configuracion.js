@@ -90,6 +90,7 @@ $(function(){
 			    	$("#btn-search-tercero").hide();
 					$("#view-all-tercero").hide();
 			    break;
+
 			}
 
 		$(".content-loader").fadeOut('slow', function()
@@ -527,19 +528,35 @@ $(function(){
 								};
 					tipoconfiguracion='6';
 				break;
+				case '8':
+					var html="facturacion.html";
+			    	$(".content-loader").fadeOut('slow', function(){  
+						$(".content-loader").fadeIn('slow');
+						$(".content-loader").load(html);
+						$("#btn-add").hide();
+						$("#btn-view").hide();
+						$("#btn-save").hide();
+						$("#btn-edit").hide();
+						$("#btn-search-tercero").hide();
+						$("#view-all-tercero").hide();
+					});
+					jsRemoveWindowLoad();
+				break;
 
 			}
 
-		$.post("../../controlador/fachada.php", 
-			parametros
-		  , function(data) {
-				if (data !== 0) {
-					if(data !== null){
-						cargarDataTable(data);	        			
-					}else{alert("error 1");}             
-				}else {alert("error 2");}
-				jsRemoveWindowLoad();	
-		}, "json");
+		if(tipoconfiguracion!=8){
+			$.post("../../controlador/fachada.php", 
+				parametros
+			  , function(data) {
+					if (data !== 0) {
+						if(data !== null){
+							cargarDataTable(data);	        			
+						}else{alert("error 1");}             
+					}else {alert("error 2");}
+					jsRemoveWindowLoad();	
+			}, "json");
+		}
 
 	}
 	

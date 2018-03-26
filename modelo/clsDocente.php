@@ -3,8 +3,6 @@ require("../controlador/session.php");
 set_time_limit(0);
 class clsDocente {
 	
-
-	
     public function actualizarDocentes($param){
         extract($param);
 		$rs = null;
