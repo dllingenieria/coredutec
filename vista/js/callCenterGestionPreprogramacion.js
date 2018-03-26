@@ -19,12 +19,9 @@ $(function(){
 	inicializar();
 	
 	function inicializar(){
-
 		$("#Regresar").click(function(){
 			window.location = "callCenterPreprogramacion.html";
 		});
-
-
 		$("#guardarGestionPreprogramacion").click(function(){	
 			/*for (var idTercero in cargasGestionadas){
 				if(cargasGestionadasObservaciones[idTercero] === undefined){
@@ -185,17 +182,18 @@ $(function(){
                         array.push(data[i][0]);
                         array.push(data[i][1]);
                         array.push(data[i][2]);
-                        array.push(data[i][3]); 
-                        array.push(data[i][4]);
+                        array.push(data[i][3]);
+                        array.push(data[i][4]); 
                         array.push(data[i][5]);
-                        array.push(data[i][6]); 
-                        var numeroSesion=data[i][8];
+                        array.push(data[i][6]);
                         array.push(data[i][7]); 
+                        var numeroSesion=data[i][9];
                         array.push(data[i][8]); 
                         array.push(data[i][9]); 
-                        var IdAsistenciaDetalle=data[i][11];
                         array.push(data[i][10]); 
+                        var IdAsistenciaDetalle=data[i][12];
                         array.push(data[i][11]); 
+                        array.push(data[i][12]); 
                         var idSelect="sel"+RegistroNo;
 						var htmlSelect ="<select id='"+idSelect+"' data-idTercero='"+IdTercero+"_"+RegistroNo+"' data-noSesion='"+numeroSesion+"' class='tipificacion' >";
 							htmlSelect += "<option value='-1'>No gestionado </option>";
@@ -258,6 +256,7 @@ $(function(){
 			columns: [
 			{ title: "RegistroNo" },
 			{ title: "IdTercero" },
+			{ title: "IdMatricula" },
 			{ title: "Identificación" },
 			{ title: "Nombres" },
 			{ title: "Telefono1" },

@@ -54,13 +54,18 @@ $(function() {
 			if($("#cmbAgencia option:selected").val() == 0) {
 				mostrarPopUpError('Por favor seleccione la agencia');
 			}else{
-				if($("#txtexaminararchivosAutorizacion").val() != ""){
-					var mensaje="Procesando la información<br>Espere por favor";
-					jsShowWindowLoad(mensaje);
-					GuardarArchivoFuenteAutorizacion();
-				}else{
-					mostrarPopUpError('Por favor seleccione el archivo de autorización');	
-				}
+				if($("#cmbConvocatoria option:selected").val() == 0 || $("#cmbServicio option:selected").val() == 0 || $("#cmbInstitutoC option:selected").val() == 0 || 
+					$("#cmbMunicipioC option:selected").val() == 0 || $("#cmbCertificacion option:selected").val() == 0 || $("#cmbEstadoP option:selected").val() == 0){
+						mostrarPopUpError('Ninguna lista debe estar en Seleccione...Por favor verifique');
+					}else{
+						if($("#txtexaminararchivosAutorizacion").val() != ""){
+							var mensaje="Procesando la información<br>Espere por favor";
+							jsShowWindowLoad(mensaje);
+							GuardarArchivoFuenteAutorizacion();
+						}else{
+							mostrarPopUpError('Por favor seleccione el archivo de autorización');	
+						}
+					}
 			}
 		}else{
 			mostrarPopUpError('Por favor diligencie los campos referentes al curso');
