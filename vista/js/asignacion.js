@@ -51,12 +51,16 @@ $(function() {
 	//----- Da inicio al guardado de la nueva asignacion -----//
 	$("#btnGuardar").click(function(){ 
 		if($("#txtCodigoModulo").val() != "" && $("#txtCodigoCurso").val() != ""){
-			if($("#txtexaminararchivosAutorizacion").val() != ""){
-				var mensaje="Procesando la información<br>Espere por favor";
-				jsShowWindowLoad(mensaje);
-				GuardarArchivoFuenteAutorizacion();
+			if($("#cmbAgencia option:selected").val() == 0) {
+				mostrarPopUpError('Por favor seleccione la agencia');
 			}else{
-				mostrarPopUpError('Por favor seleccione el archivo de autorización');	
+				if($("#txtexaminararchivosAutorizacion").val() != ""){
+					var mensaje="Procesando la información<br>Espere por favor";
+					jsShowWindowLoad(mensaje);
+					GuardarArchivoFuenteAutorizacion();
+				}else{
+					mostrarPopUpError('Por favor seleccione el archivo de autorización');	
+				}
 			}
 		}else{
 			mostrarPopUpError('Por favor diligencie los campos referentes al curso');

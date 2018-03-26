@@ -138,6 +138,8 @@ $(function(){
         }else if (tabla === "6") {
             clase = "clsModulo";
             oper = "CargarInformacionCompletaModulo";
+        }else if (tabla === "7") {
+            window.location.href = "docentedicta.html"; 
         }
         swal({title: "Consultando Información",   
             text: "Espere un momento...",   

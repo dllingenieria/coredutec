@@ -24,8 +24,8 @@ $(function(){
 		}
 
 
-		$("#tablas").change(function(){
-			if($(this).val()!=0){
+	$("#tablas").change(function(){
+		if($(this).val()!=0){
 				tipoconfiguracion= $(this).val();
 				sessionStorage.setItem("val_sel",tipoconfiguracion);
 				window.location.href="configuracion.html";
@@ -36,9 +36,9 @@ $(function(){
 	}
 
 	$("#btn-search-tercero").click(function(){
-	$("#txt-Buscar").val("");
-	  $("#textoBusqueda").text("Ingrese No Cedula Tercero");
-	  $('#element_to_pop_up_buscar').bPopup({
+		$("#txt-Buscar").val("");
+	  	$("#textoBusqueda").text("Ingrese No Cedula Tercero");
+	  	$('#element_to_pop_up_buscar').bPopup({
 	  	 	modalClose: true,
           	speed: 450,
         	transition: 'slideDown'
@@ -527,7 +527,6 @@ $(function(){
 								};
 					tipoconfiguracion='6';
 				break;
-
 			}
 
 		$.post("../../controlador/fachada.php", 
