@@ -62,12 +62,12 @@ $(function(){
 		var data = tabla.row($(this).parents('tr')).data();
 		idTercero=data[1];
 		RegistroNo=data[0];
-		NoSesion=data[8];
+		NoSesion=data[9];
 		IdAsistenciaDetalle=0;
 		
 		if(NoSesion!="NA"){
-			NoSesion=data[8];
-			IdAsistenciaDetalle= data[11];
+			NoSesion=data[9];
+			IdAsistenciaDetalle= data[12];
 		}else{
 			NoSesion=0;
 			IdAsistenciaDetalle= 0;
@@ -185,17 +185,18 @@ $(function(){
                         array.push(data[i][0]);
                         array.push(data[i][1]);
                         array.push(data[i][2]);
-                        array.push(data[i][3]); 
-                        array.push(data[i][4]);
+                        array.push(data[i][3]);
+                        array.push(data[i][4]); 
                         array.push(data[i][5]);
-                        array.push(data[i][6]); 
-                        var numeroSesion=data[i][8];
+                        array.push(data[i][6]);
                         array.push(data[i][7]); 
+                        var numeroSesion=data[i][9];
                         array.push(data[i][8]); 
                         array.push(data[i][9]); 
-                        var IdAsistenciaDetalle=data[i][11];
                         array.push(data[i][10]); 
+                        var IdAsistenciaDetalle=data[i][12];
                         array.push(data[i][11]); 
+                        array.push(data[i][12]); 
                         var idSelect="sel"+RegistroNo;
 						var htmlSelect ="<select id='"+idSelect+"' data-idTercero='"+IdTercero+"_"+RegistroNo+"' data-noSesion='"+numeroSesion+"' class='tipificacion' >";
 							htmlSelect += "<option value='-1'>No gestionado </option>";
@@ -258,6 +259,7 @@ $(function(){
 			columns: [
 			{ title: "RegistroNo" },
 			{ title: "IdTercero" },
+			{ title: "IdMatricula" },
 			{ title: "Identificación" },
 			{ title: "Nombres" },
 			{ title: "Telefono1" },
@@ -284,7 +286,7 @@ $(function(){
 			"columnDefs": [
 			{"targets": [ 0 ],"visible": false,"searchable": false}, 
 			{"targets": [ 1 ],"visible": false,"searchable": false}, 
-			{"targets": [ 11 ],"visible": false,"searchable": false},
+			{"targets": [ 12 ],"visible": false,"searchable": false},
 			],
 			"language": {
 				"sSearch": "Filtrar:",
