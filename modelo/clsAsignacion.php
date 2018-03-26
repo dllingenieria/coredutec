@@ -13,7 +13,7 @@ class clsAsignacion {
         extract($param);
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARCURSOSPORCODIGOASIGNACION($pCodigoCurso,$pTipoIdentificacion,$pNumeroIdentificacion);";
+        $sql = "CALL SPCONSULTARCURSOSPORCODIGOASIGNACION('$pCodigoCurso',$pTipoIdentificacion,$pNumeroIdentificacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {

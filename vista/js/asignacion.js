@@ -70,16 +70,16 @@ $(function() {
 	//Captura el control para aplicar validacion al presionar una tecla
 	window.addEventListener("load", function() {
 		document.getElementById("txtCodigoCurso").addEventListener("keypress", soloNumeros, false);
-		});
+	});
 
 	//Solo permite introducir numeros, el punto y la tecla enter.
 	function soloNumeros(e){
 		var key = window.event ? e.which : e.keyCode;
 		if (key != 13){
 			if (key != 46){
-				if (key < 48 || key > 57){
-					e.preventDefault();
-				}
+				// if (key < 48 || key > 57){
+				// 	e.preventDefault();
+				// }
 			}
 		}else{
 			if($("#txtCodigoCurso").val() != ""){
