@@ -24,8 +24,8 @@ $(function(){
 		}
 
 
-		$("#tablas").change(function(){
-			if($(this).val()!=0){
+	$("#tablas").change(function(){
+		if($(this).val()!=0){
 				tipoconfiguracion= $(this).val();
 				sessionStorage.setItem("val_sel",tipoconfiguracion);
 				window.location.href="configuracion.html";
@@ -36,9 +36,9 @@ $(function(){
 	}
 
 	$("#btn-search-tercero").click(function(){
-	$("#txt-Buscar").val("");
-	  $("#textoBusqueda").text("Ingrese No Cedula Tercero");
-	  $('#element_to_pop_up_buscar').bPopup({
+		$("#txt-Buscar").val("");
+	  	$("#textoBusqueda").text("Ingrese No Cedula Tercero");
+	  	$('#element_to_pop_up_buscar').bPopup({
 	  	 	modalClose: true,
           	speed: 450,
         	transition: 'slideDown'
@@ -90,6 +90,7 @@ $(function(){
 			    	$("#btn-search-tercero").hide();
 					$("#view-all-tercero").hide();
 			    break;
+
 			}
 
 		$(".content-loader").fadeOut('slow', function()
@@ -527,19 +528,34 @@ $(function(){
 								};
 					tipoconfiguracion='6';
 				break;
-
+				case '8':
+					var html="facturacion.html";
+			    	$(".content-loader").fadeOut('slow', function(){  
+						$(".content-loader").fadeIn('slow');
+						$(".content-loader").load(html);
+						$("#btn-add").hide();
+						$("#btn-view").hide();
+						$("#btn-save").hide();
+						$("#btn-edit").hide();
+						$("#btn-search-tercero").hide();
+						$("#view-all-tercero").hide();
+					});
+					jsRemoveWindowLoad();
+				break;
 			}
 
-		$.post("../../controlador/fachada.php", 
-			parametros
-		  , function(data) {
-				if (data !== 0) {
-					if(data !== null){
-						cargarDataTable(data);	        			
-					}else{alert("error 1");}             
-				}else {alert("error 2");}
-				jsRemoveWindowLoad();	
-		}, "json");
+		if(tipoconfiguracion!=8){
+			$.post("../../controlador/fachada.php", 
+				parametros
+			  , function(data) {
+					if (data !== 0) {
+						if(data !== null){
+							cargarDataTable(data);	        			
+						}else{alert("error 1");}             
+					}else {alert("error 2");}
+					jsRemoveWindowLoad();	
+			}, "json");
+		}
 
 	}
 	

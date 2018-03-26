@@ -1,0 +1,104 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Docente dicta</title>
+	<link rel="stylesheet" href="../css/template.css" type="text/css">
+	<link rel="stylesheet" href="../css/fuentes.css" type="text/css" />
+	<link rel="stylesheet" href="../css/tabla.css">
+	<link rel="stylesheet" href="../css/docentedicta.css">
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.3.2/css/colReorder.dataTables.min.css">
+	<link rel="stylesheet" href="../css/popups.css" type="text/css" /> 
+	<link rel="stylesheet" href="../../includes/jquery-ui-1.11.4.custom/jquery-ui.css" type="text/css" /> <!-- Da formato al datepicker -->
+	<link rel="shortcut icon" href="../images/favicon.ico" />
+	<!-- Inicio Manejo de sesión -->
+	<script type="text/javascript" src="../../includes/jquery.idle.js"></script>
+	<!-- Fin Manejo de sesión -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+	<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>
+	<script src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="../../includes/jquery.cookie.js" type="text/javascript" ></script>
+	<script src="../js/docentedicta.js" type="text/javascript" ></script>
+	<script src="../js/sesion.js" type="text/javascript" ></script>
+	<script src="../../includes/jquery.bpopup.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<!-- ENCABEZADO -->
+	<section class="encabezado">
+		<!-- CABECERA -->
+		<section class="cabecera"></section>
+		<!-- FIN CABECERA -->
+		<!-- BARRA DE NAVEGACIÓN -->
+		<nav class="barraNavegacion">
+		</nav>
+		<!-- FIN BARRA DE NAVEGACIÓN -->
+	</section>
+	<!-- FIN ENCABEZADO -->
+
+	<!-- CUERPO -->
+	<section class="cuerpo">
+		<div class="docentedicta">
+			<label class="titulo">M&oacute;dulos dictados por :</label><br>
+			<div class="campos">
+				<div id="Docente">
+					<label class="titulo azul compacto">Docente</label><select id="cmbDocente" class="campo" type="text" tabindex="1"></select>
+				</div>
+				<div id="lizquierda" class="lista">
+					<label id="ModulosD" class="titulo azul compacto">M&oacute;dulos Disponibles</label>
+					<ul id="ModulosDisponibles">
+					</ul>
+				</div>
+				<div id="lderecha" class="lista">
+					<label id="ModulosA" class="titulo azul compacto">M&oacute;dulos Asignados</label>
+					<ul id="ModulosAsignados">
+					</ul>
+				</div>
+			</div>
+			<div class="botones">
+				<!--<button id="btnGuardar" class="boton">Guardar</button>
+				 <button id="btnSubirSoporte" class="boton">Soporte</button> -->
+				<button id="btnRegresar" class="boton">Terminar</button>
+			</div>
+		</div>
+	</br></br>
+	<div class="inferior">
+	</div>
+</section>
+ 	<!-- Inicio Mensaje de sesion-->
+        <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+        <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
+
+          <table id="tblPopup" width="350" align="left" border="0">
+            <tr>
+                <td align="center">
+                    <label id="textoConfirmacionSesion" class="popup"></label>
+					<br><br>
+					<input type="button" name="element_to_pop_upConf" value="Seguir Logueado" id="btnAceptar" class="b-close botonAceptar" style="width: 150px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+					
+                    <input type="button" name="element_to_pop_upConf" value="Cerrar Sesión" id="btnCerrar"  class="b-close" style="width: 120px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+                </td>
+            </tr>
+        </table>
+        </div>
+        <!-- Fin Mensaje de sesion-->
+<!-- FIN CUERPO -->
+<!-- FOOTER -->
+<footer></footer>
+		<!-- FIN FOOTER -->
+<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+        <div>
+            <table id="tblPopup" width="410" align="left" border="0">
+                <tr>
+                    <td align="center">
+                        <label id="textoError" class="popup"></label>
+                        <br></br>
+                        <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;"></input>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,8 +3,6 @@ require("../controlador/session.php");
 set_time_limit(0);
 class clsDocente {
 	
-
-	
     public function actualizarDocentes($param){
         extract($param);
 		$rs = null;
@@ -81,14 +79,66 @@ class clsDocente {
         echo json_encode($array);
     }
 
+    public function cargarModulosDisponibles($param) {
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCARGARMODULOSDISPONIBLES($IdDocente);";        
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+                $rs->closeCursor();
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    public function cargarModulosAsignados($param) {
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCARGARMODULOSASIGNADOS($IdDocente);";        
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    public function actualizarDocenteDicta($param) {
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPACTUALIZARDOCENTEDICTA('$CodigoModulo',$IdDocente,$Bandera);";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+                $rs->closeCursor();
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
     public function ConsultarModulosPorDocente($param) {
         extract($param);
 		$rs = null;
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        // $sql = "CALL SPCONSULTARMODULOSPORDOCENTE1($IdDocente);";
-        // $sql = "CALL SPCONSULTARMODULOSPORDOCENTE2($IdDocente, '$salon');";
         $sql = "CALL SPCONSULTARMODULOSPORDOCENTE2($IdDocente);";
 	
         if ($rs = $conexion->getPDO()->query($sql)) {

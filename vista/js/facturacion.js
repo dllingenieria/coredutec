@@ -27,8 +27,8 @@ $(function(){
 		ocultarTablas();
 		cargarReportes();
 		CargarConvocatoria();
-		$("#txtFechaInicial").datepicker();
-		$("#txtFechaFinal").datepicker();
+		//$("#txtFechaInicial").datepicker();
+		//$("#txtFechaFinal").datepicker();
 		
 	}
 

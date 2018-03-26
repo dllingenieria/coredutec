@@ -19,12 +19,9 @@ $(function(){
 	inicializar();
 	
 	function inicializar(){
-
 		$("#Regresar").click(function(){
 			window.location = "callCenterPreprogramacion.html";
 		});
-
-
 		$("#guardarGestionPreprogramacion").click(function(){	
 			/*for (var idTercero in cargasGestionadas){
 				if(cargasGestionadasObservaciones[idTercero] === undefined){

@@ -1,0 +1,122 @@
+body {
+	background-image: url(../images/patrones.png);
+	background-size: cover;
+}
+
+.cuerpo{
+	padding-left: 8rem;
+	padding-right: 8rem;
+	padding-top: 4rem;
+}
+
+.docentedicta{
+	width: 60rem;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#Docente{
+	width: 30rem;
+	margin-right: auto;
+	margin-left: auto;
+}
+.campos {
+	margin-top: 1rem;
+}
+
+.azul{
+	display: inline-block;
+	width:5rem;
+	font-family: "Roboto-Light";
+	padding-bottom: 0.3rem;
+	padding-top: 0.3rem;
+	font-size: 14px;
+	border-radius: 3px 0px 0px 3px;
+}
+
+.izquierdo{
+	margin-left: 5rem;
+}
+
+.campo{
+	vertical-align: middle;
+	width: 23rem;
+	height: 26px;
+	font-family: "Roboto-Light";
+	padding-bottom: 0.2rem;
+	padding-top: 0.2rem;
+	padding-left: 0.6rem;
+	font-size: 12px;
+	border-radius: 0px 5px 5px 0px;
+}
+
+.Botones{
+	margin-top: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+	width: 6rem;
+}
+
+#ModulosD{
+	width: 9rem;
+}
+
+#ModulosA{
+	text-align: right;
+	width: 9rem;
+}
+
+#lderecha{
+	margin-left: 3rem;
+	text-align: right;
+}
+
+.lista {
+  display: inline-block;
+  width: 28rem;
+  vertical-align: top;
+  margin-top: 20px;
+}
+
+ul {
+  font-size: 12px;
+  background-color: #ffffff;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  min-height: 15rem;
+  max-height: 15rem;
+  border: 1px solid #DBDBD3;
+  overflow-y:visible;
+  overflow-y:auto;
+  overflow-x:visible;
+  overflow-x:auto;
+}
+
+ul li {
+  color: #66665D;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+ul.done li {
+  color: #ABABA4;
+  text-decoration: line-through;
+}
+
+#WindowLoad
+{
+    position:fixed;
+    top:0px;
+    left:0px;
+    z-index:3200;
+    filter:alpha(opacity=65);
+   -moz-opacity:65;
+    opacity:0.65;
+    background:#999;
+}

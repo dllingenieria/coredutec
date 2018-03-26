@@ -116,6 +116,7 @@ $(function(){
     });
     }
 
+
     function mostrarCRUD(tabla){
         if (tabla === "0") {
             alert("Seleccione una tabla");
@@ -138,6 +139,8 @@ $(function(){
         }else if (tabla === "6") {
             clase = "clsModulo";
             oper = "CargarInformacionCompletaModulo";
+        }else if (tabla === "7") {
+            window.location.href = "docentedicta.html"; 
         }
         swal({title: "Consultando Información",   
             text: "Espere un momento...",   
@@ -158,7 +161,7 @@ $(function(){
             if (data !== 0) {
                 callback(data);
             }else {
-                alert('error al enviar Evaluación');
+                alert('Error al mostrar informe');
             }
         }, "json");
     }
