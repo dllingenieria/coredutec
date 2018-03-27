@@ -173,7 +173,6 @@ $(function(){
         }
         return columnas;
     }
-
     /*function obtenerDataSet(informacion,clase){
         //alert(JSON.stringify(informacion));
         var dataSet = [];

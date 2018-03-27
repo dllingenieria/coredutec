@@ -9,13 +9,13 @@ $(function(){
   	inicializar();
 	
 	function inicializar(){
+
 		$("#btn-view").hide();
 		$("#btn-add").hide();
 		$("#btn-view1").hide();
 		$("#btn-search-tercero").hide();
 		$("#view-all-tercero").hide();
 		
-
 		var sessionvalsel=sessionStorage.getItem("val_sel");
 			if(sessionvalsel !== null){		
 				tipoconfiguracion=sessionStorage.val_sel;
@@ -468,7 +468,7 @@ $(function(){
 		var columnas = new Array();
 		var mensaje="Procesando la informaci&oacute;n<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
-
+		console.log(tipoconfiguracion);
         ///Verifica que tipo de configuración es para cargar la información que se necesita///
         switch(tipoconfiguracion) {
 			    case '1':
@@ -542,9 +542,23 @@ $(function(){
 					});
 					jsRemoveWindowLoad();
 				break;
+				case '9':
+					var html="docentedicta.html";
+			    	$(".content-loader").fadeOut('slow', function(){  
+						$(".content-loader").fadeIn('slow');
+						$(".content-loader").load(html);
+						$("#btn-add").hide();
+						$("#btn-view").hide();
+						$("#btn-save").hide();
+						$("#btn-edit").hide();
+						$("#btn-search-tercero").hide();
+						$("#view-all-tercero").hide();
+					});
+					jsRemoveWindowLoad();
+				break;
 			}
 
-		if(tipoconfiguracion!=8){
+		if((tipoconfiguracion!=8) && (tipoconfiguracion!=9)){
 			$.post("../../controlador/fachada.php", 
 				parametros
 			  , function(data) {
