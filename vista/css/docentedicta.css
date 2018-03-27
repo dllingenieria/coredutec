@@ -6,7 +6,7 @@ body {
 .cuerpo{
 	padding-left: 8rem;
 	padding-right: 8rem;
-	padding-top: 4rem;
+	padding-top: 2rem;
 }
 
 .docentedicta{
@@ -75,7 +75,6 @@ body {
 
 #lderecha{
 	margin-left: 3rem;
-	text-align: right;
 	float: right;
 }
 
