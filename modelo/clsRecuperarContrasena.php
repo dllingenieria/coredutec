@@ -38,7 +38,7 @@ class clsRecuperarContrasena {
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
-                $link = "http://sinfompc.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
+                $link = "http://sirex.cetcolsubsidio.edu.co/vista/html/cambiarContrasena.html?id=".$link;
                 require_once("../includes/PHPMailer/class.phpmailer.php");
                 $mail = new PHPMailer();
                 $mail->IsSMTP();                                      // set mailer to use SMTP
