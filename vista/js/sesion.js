@@ -50,8 +50,6 @@ var vistas = {
     3:{"nombre":"Novedades","url":"novedades.html"}, 
     4:{"nombre":"Matrículas","url":"consultarMatriculas.html"}, 
     5:{"nombre":"Evaluación","url":"ingresoEvaluacion.html"}, 
-    6:{"nombre":"Facturación","url":"facturacion.html"}, 
-    7:{"nombre":"Administración","url":"administracion.html"}, 
     8:{"nombre":"Reportes","url":"reportes.html"},
     9:{"nombre":"Registrar Asistencia","url":"registrarAsistencia.html"},
     10:{"nombre":"Imprimir Asistencia","url":"imprimirAsistencia.html"},
@@ -60,7 +58,7 @@ var vistas = {
 	
 };
 
-var vistasAdministrador = [0,1,2,3,4,5,6,7,8,11,12];
+var vistasAdministrador = [0,1,2,3,4,5,8,11,12];
 var vistasMatriculador = [1,4,9,10];
 
 $(function(){

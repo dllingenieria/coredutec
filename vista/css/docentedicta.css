@@ -6,13 +6,14 @@ body {
 .cuerpo{
 	padding-left: 8rem;
 	padding-right: 8rem;
-	padding-top: 4rem;
+	padding-top: 2rem;
 }
 
 .docentedicta{
-	width: 60rem;
 	margin-right: auto;
 	margin-left: auto;
+	float: left;
+	display: contents;
 }
 
 #Docente{
@@ -32,6 +33,7 @@ body {
 	padding-top: 0.3rem;
 	font-size: 14px;
 	border-radius: 3px 0px 0px 3px;
+	height: auto;
 }
 
 .izquierdo{
@@ -54,24 +56,34 @@ body {
 	margin-top: 1rem;
 	margin-left: auto;
 	margin-right: auto;
-	width: 6rem;
+	width: 100%;
+    float: left;
+    height: 100px;
+    text-align: center;		
 }
 
 #ModulosD{
 	width: 9rem;
+    height: auto;
 }
 
 #ModulosA{
-	text-align: right;
-	width: 9rem;
+	text-align: left;
+    width: 9rem;
+    height: auto;
 }
 
 #lderecha{
 	margin-left: 3rem;
-	text-align: right;
+	float: right;
 }
 
 .lista {
+  display: inline-block;
+  vertical-align: top;;
+}
+
+.lista1 {
   display: inline-block;
   width: 28rem;
   vertical-align: top;
@@ -119,4 +131,12 @@ ul.done li {
    -moz-opacity:65;
     opacity:0.65;
     background:#999;
+}
+
+.modulos{
+	display: flow-root;
+}
+
+div#lizquierda {
+    float: left;
 }

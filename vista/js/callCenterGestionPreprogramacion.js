@@ -59,12 +59,12 @@ $(function(){
 		var data = tabla.row($(this).parents('tr')).data();
 		idTercero=data[1];
 		RegistroNo=data[0];
-		NoSesion=data[8];
+		NoSesion=data[9];
 		IdAsistenciaDetalle=0;
 		
 		if(NoSesion!="NA"){
-			NoSesion=data[8];
-			IdAsistenciaDetalle= data[11];
+			NoSesion=data[9];
+			IdAsistenciaDetalle= data[12];
 		}else{
 			NoSesion=0;
 			IdAsistenciaDetalle= 0;
@@ -283,7 +283,7 @@ $(function(){
 			"columnDefs": [
 			{"targets": [ 0 ],"visible": false,"searchable": false}, 
 			{"targets": [ 1 ],"visible": false,"searchable": false}, 
-			{"targets": [ 11 ],"visible": false,"searchable": false},
+			{"targets": [ 12 ],"visible": false,"searchable": false},
 			],
 			"language": {
 				"sSearch": "Filtrar:",

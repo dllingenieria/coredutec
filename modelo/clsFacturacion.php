@@ -186,7 +186,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/40milDetalle_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/40milDetalle_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -358,7 +358,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/informeAgenciasDetalle_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/informeAgenciasDetalle_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -495,7 +495,7 @@ class clsFacturacion {
 							$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							$FechaMod=strtotime("now");
-							$filename = '../tmp/reporteAsistencias/asistencias_'.$FechaMod.'.xls';
+							$filename = '../anexos/reportes/asistencias_'.$FechaMod.'.xls';
 							$objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
 							
@@ -599,7 +599,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/facturacionDetalle_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/facturacionDetalle_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -768,7 +768,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/informe057_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/informe057_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -935,7 +935,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/InformeResolucion4547_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/InformeResolucion4547_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -1102,7 +1102,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/InformeSAP_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/InformeSAP_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -1302,7 +1302,8 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/40milConsolidado_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/40milConsolidado_'.$FechaMod.'.xls';
+
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -1475,7 +1476,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/informeAgenciasConsolidado_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/informeAgenciasConsolidado_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
@@ -1579,7 +1580,7 @@ class clsFacturacion {
 								$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 								
 								$FechaMod=strtotime("now");
-								$filename = '../tmp/reporteAsistencias/asistenciasConsolidado_'.$FechaMod.'.xls';
+								$filename = '../anexos/reportes/asistenciasConsolidado_'.$FechaMod.'.xls';
 								//chmod($filename, 0777);
 								$objWriter->save(str_replace('.php', '.xls', $filename));
 								$data['html']=$filename;
@@ -1728,7 +1729,7 @@ class clsFacturacion {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/facturacionConsolidado_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/facturacionConsolidado_'.$FechaMod.'.xls';
 							//chmod($filename, 0777);
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							$data['html']=$filename;
