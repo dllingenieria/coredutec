@@ -149,12 +149,14 @@ $(function() {
 										idTerceroCarga=carga[12]; //alert(idTerceroCarga);
 										$.cookie("tercertoId", idTerceroCarga);
 										$.cookie("rutasoporte", carga[13]);
-										
+										$.cookie("agenciaempleo", carga[14]);
 										cursosInscritos.push({"rutaId": $.cookie("rutaId"),
 											"cursoId":$.cookie("cursoId"),
 											"curso":$.cookie("curso"),
 											"convocatoria":$.cookie("convocatoria"),
-											"cargaId":$.cookie("cargaId")
+											"cargaId":$.cookie("cargaId"),
+											"rutasoporte":$.cookie("rutasoporte"),
+											"agenciaempleo":$.cookie("agenciaempleo")
 										});
 
 									});
@@ -253,7 +255,8 @@ $(function() {
 									modulo.Curso = curso.curso;
 								}
 								modulo.Convocatoria = curso.convocatoria;
-								modulo.rutasoporte = '<a href="'+"../"+$.cookie("rutasoporte")+'" target="_blank">Soporte</a>';
+								modulo.rutasoporte = '<a href="'+"../"+curso.rutasoporte+'" target="_blank">Soporte</a>';
+								modulo.agenciaempleo = curso.agenciaempleo;
 								modulosAgregados.push(modulo.Modulo);
 								informacionTabla.push(modulo);
 								modulosAgregadosId.push(modulo.IdModulo);
@@ -306,7 +309,7 @@ $(function() {
 	//Genera la base de datos de manera genérica con la información de entrada
 	function generarTabla(informacion){ 
 		destruirTablaSiExiste();
-		var nombresColumnas = {0:"Módulo", 1:"Ruta", 2:"idModulo", 3:"idCarga", 4:"Ruta Id", 5:"Curso", 6:"Convocatoria", 7:"Soporte"};
+		var nombresColumnas = {0:"Módulo", 1:"Ruta", 2:"idModulo", 3:"idCarga", 4:"Ruta Id", 5:"Curso", 6:"Convocatoria", 7:"Soporte", 8:"Agencia"};
 		informacion = reemplazarColumnas(nombresColumnas, informacion);
 		var definicionColumnas = [{"className": "dt-center", "targets": "_all"}];
 		definicionColumnas.unshift({"visible": false, "searchable": false,"targets": [2,3,4]});
@@ -316,7 +319,7 @@ $(function() {
 			"columnDefs": definicionColumnas,
 			colReorder: true
 		});
-		tabla.colReorder.order( [ 1, 0, 2, 3, 4, 5, 6,7] );
+		tabla.colReorder.order( [ 1, 0, 2, 3, 4, 5, 6, 8, 7] );
 		hacerTablaSeleccionable();
 	}
 

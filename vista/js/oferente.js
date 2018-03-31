@@ -28,12 +28,21 @@ $(function() {
 	cargarListas('cmbLocalidad','SPCARGARLOCALIDAD');
 	cargarListas('cmbCiudad','SPCARGARCIUDADES');
 
+	//----- Establece los valores por defecto de las listas desplegables -----//
+	cargarValorSelected('#cmbTipoIdentificacion','3',1000);
+
 	//----- Dispara el proceso para guardar un nuevo oferente -----//
 	$("#btnGuardar").click(function(){ 
 		if(($("#txtNumeroIdentificacion").val() == "") || ($("#txtNombres").val() == "") || ($("#txtApellidos").val() == "") || ($("#txtTelefono1").val() == "") || ($("#txtTelefono2").val() == "") || ($("#txtTelefono3").val() == "") || ($("#txtEmail1").val() == "") || ($("#txtEmail2").val() == "") || ($("#txtDireccion").val() == "")){
-			mostrarPopUpError('Por favor diligencie todos los campos');
+			mostrarPopUpError("Por favor diligencie todos los campos");
 		}else{
-			guardarOferente();
+			if($("#cmbTipoIdentificacion option:selected").val() == 0 || $("#cmbExpedicion option:selected").val() == 0 || $("#cmbSexo option:selected").val() == 0 || 
+				$("#cmbEstadoCivil option:selected").val() == 0 || $("#cmbGradoEscolaridad option:selected").val() == 0 || $("#cmbLocalidad option:selected").val() == 0 ||
+				$("#cmbCiudad option:selected").val() == 0){
+				mostrarPopUpError("Ninguna lista debe estar en Seleccione...<br>Por favor verifique");
+			}else{
+				guardarOferente();
+			}
 		}
 	});
 
@@ -70,7 +79,7 @@ $(function() {
 	        	var pNumeroIdentificacion = $("#txtNumeroIdentificacion").val();
 	        	cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion);
 	        }else{
-	        	mostrarPopUpError('Por favor escriba un número de cédula');
+	        	mostrarPopUpError('Por favor escriba un número de Identificación');
 	        }
 		}
 	}
@@ -114,6 +123,7 @@ $(function() {
 	        		$("#txtEmail2").val('');
 	        		$("#txtDireccion").val('');
 	        		cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
+	        		cargarValorSelected('#cmbTipoIdentificacion','3',1000);
 					cargarListas('cmbExpedicion','SPCARGARCIUDADES');
 					cargarListas('cmbSexo','SPCARGARSEXO');
 					cargarListas('cmbEstadoCivil','SPCARGARESTADOCIVIL');
@@ -206,6 +216,7 @@ $(function() {
 	//----- Llena las listas -----//
 	function formarOptionValueLista(data,objeto) {
 	    $('#'+objeto).find('option').remove();
+	    SetParametroPorDefecto("#"+objeto, '0', 'Seleccione...');
 	    for (i = 0; i < data.length; i++) {
 	        $('#'+objeto).append($('<option>', {
 	            value: data[i].Id,
@@ -221,9 +232,17 @@ $(function() {
         }, tiempo);       
     }
 
+    //----- Establece los valores por defecto de las listas a Seleccione...-----//
+    function SetParametroPorDefecto(atributo, valor, texto) {
+	    $(atributo).append($('<option>', {
+	        value: valor,
+	        text: texto
+	    }));
+	}
+
     //----- Muestra el PopUp -----//
     function mostrarPopUpError(err_men) {
-	    $("#textoError").text(err_men);
+	    $("#textoError").html(err_men);
 	    $('#element_to_pop_upMen').bPopup({
 	        speed: 450,
 	        transition: 'slideDown'

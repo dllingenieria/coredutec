@@ -45,7 +45,7 @@ $(function() {
 
 	//----- Regresa a Busqueda -----//
 	$("#btnRegresar").click(function(){ 
-		window.location.href = "../html/busqueda.html"; 
+		window.location.href = "../html/busqueda.html";
 	});
 
 	//----- Da inicio al guardado de la nueva asignacion -----//
@@ -56,7 +56,7 @@ $(function() {
 			}else{
 				if($("#cmbConvocatoria option:selected").val() == 0 || $("#cmbServicio option:selected").val() == 0 || $("#cmbInstitutoC option:selected").val() == 0 || 
 					$("#cmbMunicipioC option:selected").val() == 0 || $("#cmbCertificacion option:selected").val() == 0 || $("#cmbEstadoP option:selected").val() == 0){
-						mostrarPopUpError('Ninguna lista debe estar en Seleccione...Por favor verifique');
+						mostrarPopUpError('Ninguna lista debe estar en Seleccione...<br>Por favor verifique');
 					}else{
 						if($("#txtexaminararchivosAutorizacion").val() != ""){
 							var mensaje="Procesando la información<br>Espere por favor";
@@ -224,7 +224,7 @@ $(function() {
 
     //----- Muestra el PopUp -----//
     function mostrarPopUpError(err_men) {
-	    $("#textoError").text(err_men);
+	    $("#textoError").html(err_men);
 	    $('#element_to_pop_upMen').bPopup({
 	        speed: 450,
 	        transition: 'slideDown'
