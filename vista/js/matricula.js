@@ -530,7 +530,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 $("#txtCorreoElectronico").val(correo);
                 $("#txtCorreoElectronico2").val(correo2);
                 $("#txtGradoEscolaridad").val(escolaridad);
-                $("#mesasignacion").val(mesAsignacion);
+                $("#txtMesAsignacion").val(mesAsignacion);
                 $("#txtLugarExpedicion").val(lugarExpedicion);
                 $("#txtLocalidad").val(localidad);
                 $("#txtfechaNacimiento").val(fechaNacimiento); 
@@ -904,7 +904,7 @@ function ActualizarTercero(){
             jsRemoveWindowLoad();
             PopUpError("No se pudo actualizar el Cesante");
         }else {
-            if (data == "A"){
+            if (data[0]['pResultado'] == 'A'){
                 jsRemoveWindowLoad();
                 PopUpError("Oferente actualizado satisfactoriamente");
             }
