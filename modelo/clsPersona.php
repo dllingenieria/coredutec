@@ -56,14 +56,20 @@ class clsPersona {
         $correo_electronico2= $correo_electronico2 != '' ?$correo_electronico2:'No Suministrado';
         $localidad= $localidad != '' ?$localidad:27;
         $ciudad= $ciudad != '' ?$ciudad:1121;
-        $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico','$correo_electronico2',$localidad,$ciudad,1,$IdUsuario);";
         $rs=null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico','$correo_electronico2',$localidad,$ciudad,1,$IdUsuario);";
 		if ($rs = $conexion->getPDO()->query($sql)) {
-            $array = 1;
-        }else{
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }
+        } else {
             $array = 0;
         }
-        echo json_encode($array);        
+        echo json_encode($array);     
     }
     
     /*

@@ -405,6 +405,16 @@ div#lblFechaNacimiento {
     height: 24px;
 }
 
+#lblMesAsignacion{
+	margin-top: 295px;
+	margin-left: 530px;
+}
+
+#txtMesAsignacion{
+	margin-top: 295px;
+	margin-left: 709px;
+}
+
 /* Proceso De Capacitación (Carga Del Sistema) */
 
 #lblTipoDeConvocatoriaCarga {

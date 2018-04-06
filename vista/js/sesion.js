@@ -54,12 +54,20 @@ var vistas = {
     9:{"nombre":"Registrar Asistencia","url":"registrarAsistencia.html"},
     10:{"nombre":"Imprimir Asistencia","url":"imprimirAsistencia.html"},
 	11:{"nombre":"Configuración","url":"configuracion.html"},
-	12:{"nombre":"Anexar Soportes","url":"anexarSoporte.html"}
-	
+	12:{"nombre":"Anexar Soportes","url":"anexarSoporte.html"},
+    13:{"nombre":"Alimentacion","url":"alimentacion.html"},
+	14:{"nombre":"Calidad","url":"calidad.html"},
+    15:{"nombre":"Seguimiento","url":"academico.html"},
+    16:{"nombre":"S. Académica","url":"certificado.html"}
 };
 
-var vistasAdministrador = [0,1,2,3,4,5,8,11,12];
-var vistasMatriculador = [1,4,9,10];
+var vistasAdministrador = [0,1,2,3,4,5,8,11];
+var vistasAvanzado = [0,1,2,3,4,5,8,11];
+var vistasMatriculador = [1,4,8];
+var vistasAlimentacion = [13,8];
+var vistasCalidad = [14,8];
+var vistasSeguimiento = [15,8];
+var vistasSAcademica = [16,8];
 
 $(function(){
 	 
@@ -248,6 +256,21 @@ function cargarVistas(){
         case "3":
         mostrarVistas(vistasMatriculador);
         break;
+        case "5":
+        mostrarVistas(vistasAlimentacion);
+        break;
+        case "6":
+        mostrarVistas(vistasSeguimiento);
+        break;
+        case "7":
+        mostrarVistas(vistasCalidad);
+        break;
+        case "8":
+        mostrarVistas(vistasSAcademica);
+        break;
+        case "9":
+        mostrarVistas(vistasAvanzado);
+        break;
     }
 }
 
@@ -314,7 +337,9 @@ function IniciarSesion() {
                 sessionStorage.esCallCenter=roles[3];
 				sessionStorage.esAlimentacion=roles[4];
 				sessionStorage.esAcademico=roles[5]; 
-				sessionStorage.esCalidad=roles[6]; 
+				sessionStorage.esCalidad=roles[6];
+                sessionStorage.esSAcademica=roles[7];
+                sessionStorage.esAvanzado=roles[8];
                 var rolesDisponibles=0;
                 for (var i = 0; i < roles.length; i++) {
                     if (roles[i] === "1") {
@@ -344,6 +369,12 @@ function IniciarSesion() {
                     }
 					if (sessionStorage.esCalidad==="1") {
                         window.location = "vista/html/calidad.html";
+                    }
+                    if (sessionStorage.esSAcademica==="1") {
+                        window.location = "vista/html/certificado.html";
+                    }
+                    if (sessionStorage.esAvanzado==="1") {
+                        window.location = "vista/html/busqueda.html";
                     }
                 }
 				

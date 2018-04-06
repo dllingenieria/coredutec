@@ -47,7 +47,7 @@ $(function() {
     if($.cookie("pEstadoMatricula") === 'SinMatricular'){
             CargarDatosMatricula();
             CargartipoServicio();
-            CargarDocentes();
+            //CargarDocentes();
             CargarHorarios();
             CargarSedes();
             CargarModalidades();
@@ -360,7 +360,7 @@ function ActivarParticipante(){
 }
 
 function PopUpError(msj){
-    $("#textoError").text(msj);
+    $("#textoError").html(msj);
     $('#element_to_pop_upMen').bPopup({
        speed: 450,
        transition: 'slideDown'
@@ -530,7 +530,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 $("#txtCorreoElectronico").val(correo);
                 $("#txtCorreoElectronico2").val(correo2);
                 $("#txtGradoEscolaridad").val(escolaridad);
-                $("#mesasignacion").val(mesAsignacion);
+                $("#txtMesAsignacion").val(mesAsignacion);
                 $("#txtLugarExpedicion").val(lugarExpedicion);
                 $("#txtLocalidad").val(localidad);
                 $("#txtfechaNacimiento").val(fechaNacimiento); 
@@ -580,19 +580,19 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
         }, "json");
     }
 
-    function CargarDocentes() {
-        $.post("../../controlador/fachada.php", {
-            clase: 'clsDocente',
-            oper: 'ConsultarDocentes'
-        }, function(data) {
-            if (data !== 0) {
-                FormarOptionValueDocentes(data);
-            }
-            else {
-                alert('error docentes');
-            }
-        }, "json");
-    }
+    // function CargarDocentes() {
+    //     $.post("../../controlador/fachada.php", {
+    //         clase: 'clsDocente',
+    //         oper: 'ConsultarDocentes'
+    //     }, function(data) {
+    //         if (data !== 0) {
+    //             FormarOptionValueDocentes(data);
+    //         }
+    //         else {
+    //             alert('error docentes');
+    //         }
+    //     }, "json");
+    // }
 
     function CargartipoServicio() {
         $.post("../../controlador/fachada.php", {
@@ -725,16 +725,16 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
         }
     }
 
-    function FormarOptionValueDocentes(docentes) {
-        $('#txtDocenteMatricula').find('option').remove();
-        SetParametroCursoPorDefecto("#txtDocenteMatricula", '', 'Seleccione...');
-        for (i = 0; i < docentes.length; i++) {
-            $('#txtDocenteMatricula').append($('<option>', {
-                value: docentes[i].id,
-                text: docentes[i].nombres_completos
-            }));
-        }
-    }
+    // function FormarOptionValueDocentes(docentes) {
+    //     $('#txtDocenteMatricula').find('option').remove();
+    //     SetParametroCursoPorDefecto("#txtDocenteMatricula", '', 'Seleccione...');
+    //     for (i = 0; i < docentes.length; i++) {
+    //         $('#txtDocenteMatricula').append($('<option>', {
+    //             value: docentes[i].id,
+    //             text: docentes[i].nombres_completos
+    //         }));
+    //     }
+    // }
 
     function FormarOptionValueSedes(sedes) {
         $('#txtSedeMatricula').find('option').remove();
@@ -900,12 +900,18 @@ function ActualizarTercero(){
         localidad : $("#selectLocalidad").val(),
         ciudad: $("#selectCiudad").val()
     }, function(data) {
-        if (data == 1) {
+        if (data == 0) {
             jsRemoveWindowLoad();
-            PopUpError("Oferente actualizado satisfactoriamente.");
+            PopUpError("No se pudo actualizar el Cesante");
         }else {
-            jsRemoveWindowLoad();
-            PopUpError("No se pudo actualizar el Oferente");
+            if (data[0]['pResultado'] == 'A'){
+                jsRemoveWindowLoad();
+                PopUpError("Oferente actualizado satisfactoriamente");
+            }
+            else{
+                jsRemoveWindowLoad();
+                PopUpError('El Cesante es Usuario, operación no PERMITIDA');
+            }
         }}, "json");
 }
 
@@ -930,7 +936,7 @@ function dateDiff(dateold, datenew){
 }
 
 function popUpConfirmacion(msj){
-    $("#textoConfirmacion1").text(msj);
+    $("#textoConfirmacion1").html(msj);
     $('#element_to_pop_upCon').bPopup({
         speed: 450,
         transition: 'slideDown'
@@ -938,7 +944,7 @@ function popUpConfirmacion(msj){
 }
 
 function mostrarPopUpError(err_men) {
-    $("#textoError").text(err_men);
+    $("#textoError").html(err_men);
     $('#element_to_pop_upMen').bPopup({
         speed: 450,
         transition: 'slideDown'

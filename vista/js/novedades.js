@@ -46,12 +46,15 @@ $(document).ready(function() {
 
 
     $('#cmbTipoDeNovedad').change(function() {
-        $('#lbTipoNovedad').hide();
-        $('#div_est').show();
-        $('#btnConsultar').show();
-        $('#btnCancelar').show();
-        deshabilitarTipoNovedadSoporte();
-		
+        if($("#cmbTipoDeNovedad option:selected").val() == 173){
+            window.location.href = "anexarSoporte.html";
+        }else{
+            $('#lbTipoNovedad').hide();
+            $('#div_est').show();
+            $('#btnConsultar').show();
+            $('#btnCancelar').show();
+            deshabilitarTipoNovedadSoporte();
+		}
     });
 
 
