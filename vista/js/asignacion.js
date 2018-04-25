@@ -129,6 +129,8 @@ $(function() {
 	            $("#txtCodigoModulo").val('');
 	            $("#txtNombreModulo").val('');
 	            $("#txtRuta").val('');
+	            $("#txtDuracion").val('');
+	            $("#txtModalidad").val('');
 	        }
 	        else {
 	             if (data[0]['pResultado'] == '-1'){
@@ -141,6 +143,8 @@ $(function() {
 	             	$("#txtCodigoModulo").val(data[0]['CodigoModulo']);
 	             	$("#txtNombreModulo").val(data[0]['NombreModulo']);
 	             	$("#txtRuta").val(data[0]['Ruta']);
+	             	$("#txtDuracion").val(data[0]['DuracionCurso']);
+	             	$("#txtModalidad").val(data[0]['Modalidad']);
 	             }
 	        }
 	    }, "json");
@@ -362,7 +366,6 @@ $(function() {
 			        pCodigoCurso: $("#txtCodigoCurso").val(),
 			        pCodigoModulo: $("#txtCodigoModulo").val(),
 			        pEstadoParticipante: $("#cmbEstadoP option:selected").val(),
-			        pNovedadEstado: $("#txtNovedad").val(),
 			        pTipoIdentificacion: $("#cmbTipoIdentificacion option:selected").val(),
 			        pNumeroIdentificacion: $("#txtNumeroIdentificacion").val()
 				    }, function(data) {
