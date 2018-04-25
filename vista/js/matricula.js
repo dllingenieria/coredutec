@@ -336,11 +336,11 @@ function CargarHoras() {
 
 function VerificarEstadoProceso() { //se cambio la validacion a la caja de texto de estado que se trae de la carga
     
-	if (estadoParticipante === 'No cumple' || estadoParticipante === 'Beneficio Finalizado' || estadoParticipante === 'No inscrito') {
+	if (estadoParticipante === 'Beneficio Finalizado') {
         $("#container_pro_cap").hide();
-       var msj = 'El señor (a) '+ $("#txtNombre").val() +' '+ $("#txtApellido").val() +' con c.c. '+ $("#txtIdentificacion").val() + '' +
-        ' no se puede matricular porque su estado actual es '+estadoParticipante;
-        PopUpError(msj);       
+       var msj = 'El señor (a) '+ $("#txtNombre").val() +' '+ $("#txtApellido").val() +'<br>con c.c. '+ $("#txtIdentificacion").val() + '' +
+        ' no se puede matricular porque<br>su estado actual es '+estadoParticipante;
+        PopUpError(msj);   
     }
 }
 

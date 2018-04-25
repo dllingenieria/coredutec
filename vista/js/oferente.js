@@ -168,7 +168,7 @@ $(function() {
 	        pEstadoCivil: $("#cmbEstadoCivil option:selected").val(),
 	        pGradoEscolaridad: $("#cmbGradoEscolaridad option:selected").val(),
 	        pTelefono1: $("#txtTelefono1").val(),
-	        pTelefono3: $("#txtTelefono2").val(),
+	        pTelefono2: $("#txtTelefono2").val(),
 	        pTelefono3: $("#txtTelefono3").val(),
 	        pDireccion: $("#txtDireccion").val(),
 	        pEmail1: $("#txtEmail1").val(),

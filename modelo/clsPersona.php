@@ -59,6 +59,7 @@ class clsPersona {
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico','$correo_electronico2',$localidad,$ciudad,1,$IdUsuario);";
+        print_r($sql);
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
