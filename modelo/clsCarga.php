@@ -310,7 +310,6 @@ public function ReporteCallcenterGestionados($param){
         header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
-       
         $sql = "CALL SPAGREGARCARGAMASIVADETALLESM($idTablaGeneral,$registro[0],$registro[1]);";
         $resultado=1;
         $rs=null;
@@ -326,7 +325,7 @@ public function ReporteCallcenterGestionados($param){
         return $array;
     }
 
-     /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
     public function InscribirSoporteFirma($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
         header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  

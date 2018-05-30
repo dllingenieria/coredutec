@@ -59,7 +59,7 @@ class clsPersona {
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARTERCERO($id,$tipoIdentificacion,$lugarExpedicion,'$nombres','$apellidos','$fechaNacimiento',$sexo,$estadoCivil,$gradoEscolaridad,'$tel_fijo','$tel_celular','$tel_alterno','$direccion','$correo_electronico','$correo_electronico2',$localidad,$ciudad,1,$IdUsuario);";
-        print_r($sql);
+        //print_r($sql);
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -187,11 +187,21 @@ class clsPersona {
                     $esDocente = strcmp($rolesUsuario[1], "1") === 0;
                     $esMatriculador = strcmp($rolesUsuario[2], "1") === 0;
                     $esCallCenter = strcmp($rolesUsuario[3], "1") === 0;
+                    $esAlimentacion = strcmp($rolesUsuario[4], "1") === 0;
+                    $esSeguimiento = strcmp($rolesUsuario[5], "1") === 0;
+                    $esCalidad = strcmp($rolesUsuario[6], "1") === 0;
+                    $esSAcademico = strcmp($rolesUsuario[7], "1") === 0;
+                    $esAvanzado = strcmp($rolesUsuario[8], "1") === 0;
                     $_SESSION['esAdministrador'] = $esAdministrador;
                     $_SESSION['esDocente'] = $esDocente;
                     $_SESSION['esMatriculador'] = $esMatriculador;
                     $_SESSION['esCallCenter'] = $esCallCenter;
-                    $_SESSION['ult_mov'] = '';
+                    $_SESSION['esAlimentacion'] = $esAlimentacion;
+                    $_SESSION['esSeguimiento'] = $esSeguimiento;
+                    $_SESSION['esCalidad'] = $esCalidad;
+                    $_SESSION['esSAcademico'] = $esSAcademico;
+                    $_SESSION['esAvanzado'] = $esAvanzado;
+                    //$_SESSION['ult_mov'] = '';
                 }
             }else{
                 $array = 0;
@@ -262,12 +272,17 @@ class clsPersona {
         $array = array();
 		require("../controlador/session.php");
 		
-        if (isset($_SESSION['nombreUsuario'])) {			
+        if (isset($_SESSION['nombreUsuario'])) {
             array_push($array, $_SESSION['nombreUsuario'], 
                 array('esAdministrador' => $_SESSION['esAdministrador'],
                     'esDocente' => $_SESSION['esDocente'],
-                    'esMatriculador' => $_SESSION['esMatriculador']
-                    // 'esEstudiante' => $_SESSION['esEstudiante']
+                    'esMatriculador' => $_SESSION['esMatriculador'],
+                    'esCallCenter' => $_SESSION['esCallCenter'],
+                    'esAlimentacion' => $_SESSION['esAlimentacion'],
+                    'esSeguimiento' => $_SESSION['esSeguimiento'],
+                    'esCalidad' => $_SESSION['esCalidad'],
+                    'esSAcademico' => $_SESSION['esSAcademico'],
+                    'esAvanzado' => $_SESSION['esAvanzado']
 					));
         } else {
             $array = 0;

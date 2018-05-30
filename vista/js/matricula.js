@@ -83,10 +83,10 @@ $(function() {
             $('#txtCodigoModuloMatricula').val(aux_dur[0]);
             $('#txtDuracionModuloMatricula').val(aux_dur[1]);
             CargarDatosModulo(aux_dur[0]);
-                if(sessionStorage.rolSeleccionado==3){
+                if(sessionStorage.rolSeleccionado == 3){
                     CargarMatriculasPre();
                 }
-                else if(sessionStorage.rolSeleccionado==1){
+                else if(sessionStorage.rolSeleccionado == 1 || sessionStorage.rolSeleccionado == 9){
                     CargarMatriculasPre2();
                 }
         });
@@ -336,7 +336,7 @@ function CargarHoras() {
 
 function VerificarEstadoProceso() { //se cambio la validacion a la caja de texto de estado que se trae de la carga
     
-	if (estadoParticipante === 'Beneficio Finalizado') {
+	if (estadoParticipante == 'Beneficio Finalizado') {
         $("#container_pro_cap").hide();
        var msj = 'El señor (a) '+ $("#txtNombre").val() +' '+ $("#txtApellido").val() +'<br>con c.c. '+ $("#txtIdentificacion").val() + '' +
         ' no se puede matricular porque<br>su estado actual es '+estadoParticipante;
@@ -394,7 +394,7 @@ function CargarMatriculasPre() {
         clase: 'clsCurso',
         oper: 'ConsultarMatriculasPre',
         pCodigoCurso: $('#cmbNombreCursoMatricula').val(),
-        pCodigoModulo: ObtenerCodigoModulo($('#cmbModuloMatricula').val()),  
+        pCodigoModulo: ObtenerCodigoModulo($('#cmbModuloMatricula').val()),
         pModalidad: $('#cmbModalidadMatricula').val() 
     }, function(data) {
         if (data !== 0) {
@@ -518,7 +518,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 formarOptionValue("#selectLugarExpedicion", ciudades,lugarExpedicion);
                 formarOptionValue("#selectLocalidad", localidades,localidad);
                 formarOptionValue("#selectCiudad", ciudades,ciudadResidencia);
-				estadoParticipante= data[0].EstadoParticipante;
+				estadoParticipante = data[0].EstadoParticipante;
 				//estadoParticipante= "Cumple";
                 $("#txtNombre").val(nombres);
                 $("#txtApellido").val(apellidos);

@@ -1,7 +1,1 @@
-numInsercion,lin_txt : 0 -- FL4M00005.T2
-numInsercion,lin_txt : 1 -- FL4M00005.T3
-numInsercion,lin_txt : 2 -- FL4M00006.T1
-numInsercion,lin_txt : 3 -- FL4M00006.T2
-numInsercion,lin_txt : 4 -- FL4M00006.T3
-numInsercion,lin_txt : 5 -- FL4M00007.T1
-numInsercion,lin_txt : 6 -- FL4M00008.T1
+numInsercion,lin_txt : 0 -- 302552;711968

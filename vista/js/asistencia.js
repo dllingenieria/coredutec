@@ -743,7 +743,6 @@ $("#volverAsistencia").click(function(){
 });
 
 function llenarCajasTexto(){ 
-	
 	$.ajax({
             url: '../../controlador/fachada.php',
             type: 'POST',
@@ -763,7 +762,6 @@ function llenarCajasTexto(){
 					 //se recorren todas las cajas de texto
 					$("input[id^=txtA_]").each(function(e){ 
 						id= $( this ).attr( "id" ); 
-						
 						var res = id.split("_");
 						var idTercero = res[3];
 						var sesion = res[1];  

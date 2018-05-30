@@ -95,7 +95,7 @@ $(function() {
 			var archivo2= sessionStorage.nameArchivoFuente;
  			console.log("archivo"+archivo2);
  			console.log(sessionStorage.nameArchivoFuente);
- 		$.post("../../controlador/fachada.php", {
+ 			$.post("../../controlador/fachada.php", {
 			clase: 'clsGestorBDPlanas',
 			oper: 'ValidarArchivosFuente',
 			archivo: archivo2,
@@ -259,11 +259,11 @@ $(function() {
 				        idTablaGeneral: idTablaGeneral,
 				        archivo: archivoFuente,
 				        ubicacion: ubicacionFuente,
-				       nombreCorto: nombreCorto,
+				        nombreCorto: nombreCorto,
 				        tipoArchivo: tipoArchivo
 					     }, function(data) {
 					        if(data!=2){
-					         	archivo= data;
+					         	archivo = data;
 					         	setTimeout(function(){
 					        		EvaluarArchivosFuente(idTablaGeneral,archivo, ubicacionFuente,archivoEscaneado,ubicacionEscaneado, nombreCorto, tipoArchivo);
 					       		},30000);
@@ -304,8 +304,8 @@ $(function() {
 
 
     function EvaluarArchivosFuente(idTablaGeneral,archivo,ubicacionFuente,archivoEscaneado,ubicacionEscaneado,nombreCorto,tipoArchivo) { 
-    	console.log("ubicacionFuente"+ubicacionFuente);
-    	console.log("archivo"+archivo);
+    	console.log("ubicacionFuente: "+ubicacionFuente);
+    	console.log("archivo: "+archivo);
     	//se valida que tipo de carga se selecciono para subirlo
     	var selCarga=$("#selCarga").val();
 		if (valorSeleccionado==1)

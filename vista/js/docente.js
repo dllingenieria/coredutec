@@ -19,6 +19,7 @@ $(function(){
 		obtenerIdTerceroModulos();
 		
 	});
+	
 	function aprobadosAsistentesFormato(){
 		 $.ajax({
             url: '../../controlador/fachada.php',
