@@ -320,6 +320,8 @@ $(function() {
 	                        diasClase = new Array("miercoles"); //agregado
 	                    }else if (nombreDia === "Viernes") {
 	                        diasClase = new Array("viernes"); //agregado
+	                    }else if (nombreDia === "Lunes, Jueves, Sábados y Lunes") {
+	                        diasClase = new Array("lunes","jueves","sabado"); //agregado
 	                    }
 	                    
 	                    var fi = data[0].FechaInicial;
@@ -395,16 +397,17 @@ $(function() {
     }
 
     $("#guardarAlimentacion").click(function(){ 
-        if (!validarInformacion()) {
-			if (sessionStorage.IntensidadHorariaDiaria < 7 ){
-				mostrarPopUpError("Por favor llene todos los campos con valores de RB");
-			}
-			else{
-				mostrarPopUpError("Por favor llene todos los campos con valores de RR-RB");
-			}
-        }else{
-            agregarAlimentacioGeneral();
-        }
+    	agregarAlimentacioGeneral();
+   //      if (!validarInformacion()) {
+			// if (sessionStorage.IntensidadHorariaDiaria < 7 ){
+			// 	mostrarPopUpError("Por favor llene todos los campos con valores de RB");
+			// }
+			// else{
+			// 	mostrarPopUpError("Por favor llene todos los campos con valores de RR-RB");
+			// }
+   //      }else{
+   //          agregarAlimentacioGeneral();
+   //      }
     });
     // $("#reportealimentacion").click(function(){
         // window.location.href = "filtroReportealimentacion.html";
