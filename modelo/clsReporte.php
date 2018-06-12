@@ -12,7 +12,7 @@ class clsReporte {
     public function consultarReporte($param){
 		
 	define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-	date_default_timezone_set('Europe/London');
+	date_default_timezone_set('America/Lima');
 	/** PHPExcel_IOFactory */
 	 
 	require_once dirname(__FILE__) . '/../includes/PHPExcel/PHPExcel/IOFactory.php';
@@ -114,7 +114,7 @@ class clsReporte {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/reportePreprogramacionFecha_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/reportePreprogramacionFecha_'.$FechaMod.'.xls';
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							 $data['html']=$filename;
 							
@@ -170,7 +170,7 @@ class clsReporte {
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['CodigoCurso']);
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Curso']);
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['CodigoModulo']);
-							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['CodigoModulo']);
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Modulo']);
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Salon']);
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['MatriculadoPor']);						
 							
@@ -259,7 +259,7 @@ class clsReporte {
 							 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 							
 							 $FechaMod=strtotime("now");
-							 $filename = '../tmp/reporteAsistencias/reporteMatriculadosFecha_'.$FechaMod.'.xls';
+							 $filename = '../anexos/reportes/reporteMatriculadosFecha_'.$FechaMod.'.xls';
 							 $objWriter->save(str_replace('.php', '.xls', $filename));
 							 $data['html']=$filename;
 							

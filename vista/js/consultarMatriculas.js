@@ -146,13 +146,13 @@ $(function(){
 					$.cookie("doc", table.row(this).data()[11] + " " + table.row(this).data()[12]);
 					$.cookie("mat", table.row(this).data()[27]);
 					$.cookie("est_cur", table.row(this).data()[25]);
-					$.cookie("hor_cur", table.row(this).data()[16] + " "+table.row(this).data()[17] +" "+table.row(this).data()[18]);
+					$.cookie("hor_cur", table.row(this).data()[16] + " "+table.row(this).data()[17] +" a "+table.row(this).data()[18]);
 					$.cookie("mod", table.row(this).data()[13]);
 					$.cookie("dur_mod", table.row(this).data()[14]);
 					$.cookie("id_mat", table.row(this).data()[29]);
 					$.cookie("mes_asi", table.row(this).data()[7]);
-		                        var today = new Date();
-		                        var olday = new Date(table.row(this).data()[6]);
+                    var today = new Date();
+                    var olday = new Date(table.row(this).data()[6]);
 					$.cookie("eda_usu", dateDiff(olday,today));
 					matriculaSeleccionada=true;
 					//setTimeout(function(){swal.close();}, 1000)				

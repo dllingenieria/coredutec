@@ -24,7 +24,7 @@ $(function() {
 	cargarOpcionesArchivos();
 
 	//----- Carga todas las listas desplegables -----//
-	cargarListas('cmbConvocatoria','SPCARGARCONVOCATORIA');
+	cargarListas('cmbConvocatoria','SPCARGARCONVOCATORIA1');
 	cargarListas('cmbAgencia','SPCARGARAGENCIAS');
 	cargarListas('cmbServicio','SPCARGARSERVICIOS');
 	cargarListas('cmbMunicipioC','SPCARGARCIUDADES');
@@ -34,7 +34,7 @@ $(function() {
 	cargarListas('cmbCertificacion','SPCARGARCERTIFICACION');
 
 	//----- Establece los valores por defecto de las listas desplegables -----//
-	cargarValorSelected('#cmbConvocatoria','14',1000);
+	cargarValorSelected('#cmbConvocatoria','10',1000);
 	cargarValorSelected('#cmbMunicipioC','531',1000);
 	cargarValorSelected('#cmbEstadoP','252',1000);
 	cargarValorSelected('#cmbServicio','1',1000);
@@ -58,12 +58,27 @@ $(function() {
 					$("#cmbMunicipioC option:selected").val() == 0 || $("#cmbCertificacion option:selected").val() == 0 || $("#cmbEstadoP option:selected").val() == 0){
 						mostrarPopUpError('Ninguna lista debe estar en Seleccione...<br>Por favor verifique');
 					}else{
-						if($("#txtexaminararchivosAutorizacion").val() != ""){
-							var mensaje="Procesando la información<br>Espere por favor";
-							jsShowWindowLoad(mensaje);
-							GuardarArchivoFuenteAutorizacion();
+						if($("#txtexaminararchivosAutorizacion").val() == ""){
+							mostrarPopUpError('Por favor seleccione el archivo de autorización');
 						}else{
-							mostrarPopUpError('Por favor seleccione el archivo de autorización');	
+							var hoy = new Date();
+							var dd = hoy.getDate();
+							var mm = hoy.getMonth()+1; //hoy es 0!
+							var yyyy = hoy.getFullYear();
+							if(dd<10) {
+								dd='0'+dd
+							} 
+							if(mm<10) {
+								mm='0'+mm
+							} 
+							hoy = yyyy+'-'+mm+'-'+dd;
+							if($("#txtFechaA").val() > hoy){
+								mostrarPopUpError('La fecha de asignación no puede ser mayor a<br>la fecha actual');
+							}else{
+								var mensaje="Procesando la información<br>Espere por favor";
+								jsShowWindowLoad(mensaje);
+								GuardarArchivoFuenteAutorizacion();
+							}
 						}
 					}
 			}
@@ -114,6 +129,8 @@ $(function() {
 	            $("#txtCodigoModulo").val('');
 	            $("#txtNombreModulo").val('');
 	            $("#txtRuta").val('');
+	            $("#txtDuracion").val('');
+	            $("#txtModalidad").val('');
 	        }
 	        else {
 	             if (data[0]['pResultado'] == '-1'){
@@ -126,6 +143,8 @@ $(function() {
 	             	$("#txtCodigoModulo").val(data[0]['CodigoModulo']);
 	             	$("#txtNombreModulo").val(data[0]['NombreModulo']);
 	             	$("#txtRuta").val(data[0]['Ruta']);
+	             	$("#txtDuracion").val(data[0]['DuracionCurso']);
+	             	$("#txtModalidad").val(data[0]['Modalidad']);
 	             }
 	        }
 	    }, "json");
@@ -347,7 +366,6 @@ $(function() {
 			        pCodigoCurso: $("#txtCodigoCurso").val(),
 			        pCodigoModulo: $("#txtCodigoModulo").val(),
 			        pEstadoParticipante: $("#cmbEstadoP option:selected").val(),
-			        pNovedadEstado: $("#txtNovedad").val(),
 			        pTipoIdentificacion: $("#cmbTipoIdentificacion option:selected").val(),
 			        pNumeroIdentificacion: $("#txtNumeroIdentificacion").val()
 				    }, function(data) {

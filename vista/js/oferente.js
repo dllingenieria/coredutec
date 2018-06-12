@@ -95,6 +95,7 @@ $(function() {
 			}, function(data) {
 				if(data !== 0){
 		        	$("#txtNumeroIdentificacion").val(pNumeroIdentificacion);
+		        	$("#txtNumeroIdentificacion").attr("disabled","disabled");
 	        		$("#txtNombres").val(data[0][1]);
 	        		$("#txtApellidos").val(data[0][2]);
 	        		$("#txtFechaN").val(data[0][4]);
@@ -105,6 +106,7 @@ $(function() {
 	        		$("#txtEmail2").val(data[0][13]);
 	        		$("#txtDireccion").val(data[0][11]);
 	        		cargarValorSelected('#cmbTipoIdentificacion',pTipoIdentificacion,500);
+	        		$("#cmbTipoIdentificacion").attr("disabled","disabled");
 	        		cargarValorSelected('#cmbExpedicion',data[0][3],500);
 	        		cargarValorSelected('#cmbSexo',data[0][5],500);
 	        		cargarValorSelected('#cmbEstadoCivil',data[0][6],500);
@@ -168,7 +170,7 @@ $(function() {
 	        pEstadoCivil: $("#cmbEstadoCivil option:selected").val(),
 	        pGradoEscolaridad: $("#cmbGradoEscolaridad option:selected").val(),
 	        pTelefono1: $("#txtTelefono1").val(),
-	        pTelefono3: $("#txtTelefono2").val(),
+	        pTelefono2: $("#txtTelefono2").val(),
 	        pTelefono3: $("#txtTelefono3").val(),
 	        pDireccion: $("#txtDireccion").val(),
 	        pEmail1: $("#txtEmail1").val(),

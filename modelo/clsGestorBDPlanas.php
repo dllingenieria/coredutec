@@ -253,7 +253,7 @@ class clsGestorBDPlanas {
         $carga = new clsCarga();
         $archivoEscaneado=str_replace('"','',$archivoEscaneado);
         $msj="";
-       $identificardorArchivo=$identificardorArchivo.".pdf";
+        $identificardorArchivo=$identificardorArchivo.".pdf";
         //$archivoEscaneado."<br>";
         
         $ubicacionOriginalEscaneado = "../tmp/".$archivoEscaneado."/".$identificardorArchivo;

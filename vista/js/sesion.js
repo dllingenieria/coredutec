@@ -62,7 +62,7 @@ var vistas = {
 };
 
 var vistasAdministrador = [0,1,2,3,4,5,8,11];
-var vistasAvanzado = [0,1,2,3,4,5,8,11];
+var vistasAvanzado = [0,1,2,3,4,5,8];
 var vistasMatriculador = [1,4,8];
 var vistasAlimentacion = [13,8];
 var vistasCalidad = [14,8];
@@ -107,7 +107,7 @@ $(function(){
 });
 
 function cargarDatosSesion() {
-    if (sessionStorage.nombreUsuario !== null && sessionStorage.nombreUsuario!== null) {
+    if (sessionStorage.nombreUsuario !== null && sessionStorage.roles!== null) {
 		verificarIntegridad(sessionStorage.nombreUsuario,sessionStorage.roles);
 	}	
 }
@@ -248,7 +248,7 @@ function validarPermisosPorRol(roles){
     }
 }   
 
-function cargarVistas(){
+function cargarVistas(rol){
     switch(sessionStorage.rolSeleccionado){
         case "1":
         mostrarVistas(vistasAdministrador);
@@ -340,43 +340,44 @@ function IniciarSesion() {
 				sessionStorage.esCalidad=roles[6];
                 sessionStorage.esSAcademica=roles[7];
                 sessionStorage.esAvanzado=roles[8];
-                var rolesDisponibles=0;
-                for (var i = 0; i < roles.length; i++) {
-                    if (roles[i] === "1") {
-                        rolesDisponibles++;
-                    }
-                }
-                if (rolesDisponibles>1) {
-                    window.location = "vista/html/iniciarSesion.html";
-                }else{
-                    if (sessionStorage.esAdministrador==="1") {
-                        window.location = "vista/html/captura.html";
-                    }
-                    if (sessionStorage.esDocente==="1") {
-                        window.location = "vista/html/docente.html";
-                    }
-                    if (sessionStorage.esMatriculador==="1") {
-                        window.location = "vista/html/busqueda.html";
-                    }
-                    if (sessionStorage.esCallCenter==="1") {
-                        window.location = "vista/html/callCenter.html";
-                    }
-					if (sessionStorage.esAlimentacion==="1") {
-                        window.location = "vista/html/alimentacion.html";
-                    }
-					if (sessionStorage.esAcademico==="1") {
-                        window.location = "vista/html/academico.html";
-                    }
-					if (sessionStorage.esCalidad==="1") {
-                        window.location = "vista/html/calidad.html";
-                    }
-                    if (sessionStorage.esSAcademica==="1") {
-                        window.location = "vista/html/certificado.html";
-                    }
-                    if (sessionStorage.esAvanzado==="1") {
-                        window.location = "vista/html/busqueda.html";
-                    }
-                }
+                window.location = "vista/html/iniciarSesion.html";
+     //            var rolesDisponibles=0;
+     //            for (var i = 0; i < roles.length; i++) {
+     //                if (roles[i] === "1") {
+     //                    rolesDisponibles++;
+     //                }
+     //            }
+     //            if (rolesDisponibles>1) {
+     //                window.location = "vista/html/iniciarSesion.html";
+     //            }else{
+     //                if (sessionStorage.esAdministrador==="1") {
+     //                    window.location = "vista/html/captura.html";
+     //                }
+     //                if (sessionStorage.esDocente==="1") {
+     //                    window.location = "vista/html/docente.html";
+     //                }
+     //                if (sessionStorage.esMatriculador==="1") {
+     //                    window.location = "vista/html/busqueda.html";
+     //                }
+     //                if (sessionStorage.esCallCenter==="1") {
+     //                    window.location = "vista/html/callCenter.html";
+     //                }
+					// if (sessionStorage.esAlimentacion==="1") {
+     //                    window.location = "vista/html/alimentacion.html";
+     //                }
+					// if (sessionStorage.esAcademico==="1") {
+     //                    window.location = "vista/html/academico.html";
+     //                }
+					// if (sessionStorage.esCalidad==="1") {
+     //                    window.location = "vista/html/calidad.html";
+     //                }
+     //                if (sessionStorage.esSAcademica==="1") {
+     //                    window.location = "vista/html/certificado.html";
+     //                }
+     //                if (sessionStorage.esAvanzado==="1") {
+     //                    window.location = "vista/html/busqueda.html";
+     //                }
+     //            }
 				
 				   },1000);
             }else {

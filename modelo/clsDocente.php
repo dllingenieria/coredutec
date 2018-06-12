@@ -267,6 +267,9 @@ class clsDocente {
 						case "Viernes":
                              $diasClase= array("Viernes");
                         break;
+                        case "Lunes, Jueves, Sábados y Lunes":
+                            $diasClase= array("Lunes","Jueves","Sabado");
+                        break;
                     }
                         //Array con todas las dias de la semana para ser comparado
                         $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");

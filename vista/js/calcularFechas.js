@@ -81,6 +81,8 @@
                         diasClase = new Array("miercoles"); //agregado
                     }else if (nombreDia === "Viernes") {
                         diasClase = new Array("viernes"); //agregado
+                    }else if (nombreDia === "Lunes, Jueves, Sábados y Lunes") {
+                        diasClase = new Array("lunes","jueves","sabado"); //agregado
                     }
 
                     var fi = data[0].FechaInicial;
