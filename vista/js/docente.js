@@ -64,7 +64,8 @@ $(function(){
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsDocente',
 			oper: 'ConsultarModulosPorDocente',
-			IdDocente: idDocenteG
+			IdDocente: idDocenteG,
+			Anio: sessionStorage.anioPreprogramacion,
 			// salon: salon
 		}, function(data) {
 			if (data !== 0) {

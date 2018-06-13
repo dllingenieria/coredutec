@@ -139,7 +139,7 @@ class clsDocente {
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARMODULOSPORDOCENTE2($IdDocente);";
+        $sql = "CALL SPCONSULTARMODULOSPORDOCENTE2($IdDocente,'$Anio');";
 	
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
