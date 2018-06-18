@@ -8,7 +8,7 @@ set_time_limit(0);
  */
 class clsUtilidades {
     //----- Función que envía correo luego de una matrícula -----//
-    public function enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave){
+    public function enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
@@ -24,7 +24,7 @@ class clsUtilidades {
         $mail->WordWrap = 50;                                 // set word wrap to 50 characters
         $mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
         $mail->IsHTML(true);                                  // set email format to HTML
-        $mail->Subject = "Confirmacion de Matricula";
+        $mail->Subject = $asunto;
         $mensaje = file_get_contents("../vista/html/correo_curso.html");
         $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
         $mensaje = str_replace("estudiante", $estudiante, $mensaje);
@@ -43,7 +43,7 @@ class clsUtilidades {
         $mensaje = str_replace("duracionm", $duracionModulo, $mensaje);
         $mensaje = str_replace("modalidad", $modalidad, $mensaje);
         $mensaje = str_replace("sede", $sede, $mensaje);
-        $mensaje = str_replace("estado", $estado, $mensaje);
+        $mensaje = str_replace("profesor", $docente, $mensaje);
         $mensaje = str_replace("cod_mat", $IdMatricula, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);

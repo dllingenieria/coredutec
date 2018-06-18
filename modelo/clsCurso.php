@@ -902,8 +902,9 @@ public function cerrarCursoMatriculaTercero($param){
                                                 $duracionModulo = $array1[$i]['DuracionModulo'];
                                                 $modalidad = $array1[$i]['Modalidad'];
                                                 $sede = $array1[$i]['Sede'];
-                                                $estado = $array1[$i]['Estado'];
-                                                $correo=$utilidades->enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
+                                                $docente = $array1[$i]['Docente'];
+                                                $asunto = "ID DE MATRICULA - ACTUALIZACION";
+                                                $correo=$utilidades->enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto);
                                             }
                                         }else{
                                             print_r("Error2");

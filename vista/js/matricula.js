@@ -634,7 +634,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
         var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
         $.cookie("nom_usu", $("#txtNombre").val() +" " + $("#txtApellido").val());
         $.cookie("mes_asi", $("#txtMesAsignacion").val());
-        $.cookie("ide_usu", $("#txtIdentificacion").val());
+        $.cookie("ide_usu", $('#selectTipoIdentificacion :selected').text()+" - "+$("#txtIdentificacion").val());
         //$.cookie("lug_exp", $("#txtLugarExpedicion").val());
         $.cookie("lug_exp", $('#selectLugarExpedicion :selected').text());
         //$.cookie("est_civ", $("#txtEstadoCivil").val());
@@ -643,7 +643,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
         $.cookie("tel_cel", $("#txtTelefonoCelular").val());
         $.cookie("tel_alt", $("#txtTelefonoAlterno").val());
         $.cookie("cor_ele", $("#txtCorreoElectronico").val());
-        $.cookie("eda_usu", $("#edad").val());
+        $.cookie("eda_usu", $("#txtfechaNacimiento").val());
        //$.cookie("gra_esc", $("#txtGradoEscolaridad").val());
         $.cookie("gra_esc", $('#selectGradoEscolaridad :selected').text());
         //$.cookie("loc_usu", $("#txtLocalidad").val());

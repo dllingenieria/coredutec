@@ -45,7 +45,7 @@ class clsMatricula {
                     $clave = array_pop($array2)['Email'];
                     $correode = array_pop($array2)['Email'];
                     $rs3=null;
-                    $array3=array();
+                    $array3=array(); 
                     $sql3 = "CALL SPCONSULTARCORREOUSUARIO($IdUsuario);";
                     if ($rs3 = $conexion->getPDO()->query($sql3)) {
                         if ($filas3 = $rs3->fetchAll(PDO::FETCH_ASSOC)) {
@@ -73,10 +73,11 @@ class clsMatricula {
                         $duracionModulo = $array1[0]['DuracionModulo'];
                         $modalidad = $array1[0]['Modalidad'];
                         $sede = $array1[0]['Sede'];
-                        $estado = $array1[0]['Estado'];
+                        $docente = $array1[0]['Docente'];
                         $usuario = $_SESSION['nombreUsuario'];
                         $usuarioe = $array3[0]['CorreoElectronico'];
-                        $correo=$utilidades->enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$estado,$IdMatricula,$usuario,$usuarioe,$correode,$clave);
+                        $asunto = "ID DE MATRICULA";
+                        $correo=$utilidades->enviarCorreoEstudiante($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto);
                     }else{
                         print_r("Error2");
                         $data["error"]="No se encontraron correos de estudiantes";

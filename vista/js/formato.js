@@ -33,8 +33,8 @@ $(function() {
         $("#fecha").val($.cookie("fec_matr"));
         $("#fecha_a").val($.cookie("fec_matr"));
         $("#fecha_b").val($.cookie("FechaInicialCurso"));
-        //$("#edad").val(dateDiff(olday,today));
-        $("#edad").val($.cookie("eda_usu"));
+        $("#edad").val(dateDiff(olday,today));
+        //$("#edad").val($.cookie("eda_usu"));
         $("#mes").val(mes);
         $("#fecha1").val($.cookie("fec_matr"));
         $("#mes1").val(mes);

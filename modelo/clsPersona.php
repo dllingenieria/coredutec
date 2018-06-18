@@ -26,7 +26,7 @@ class clsPersona {
         }else{
             $session="sin sesion";
         }		
-		 echo json_encode($session);        
+		 echo json_encode($session);     
     }
 
     /*
@@ -42,8 +42,8 @@ class clsPersona {
         $lugarExpedicion= $lugarExpedicion != '' ?$lugarExpedicion:1121;
         $nombres= $nombres != '' ?$nombres:'No Suministrado';
         $apellidos= $apellidos != '' ?$apellidos:'No Suministrado';
-		$nombres=utf8_decode($nombres);
-		$apellidos=utf8_decode($apellidos);
+		$nombres=$nombres;
+		$apellidos=$apellidos;
         $fechaNacimiento= $fechaNacimiento != '' ?$fechaNacimiento:'2000-01-01';
         $sexo= $sexo != '' ?$sexo:'86';
         $estadoCivil= $estadoCivil != '' ?$estadoCivil:17;
