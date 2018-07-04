@@ -117,7 +117,7 @@ $(function() {
                         
                         for (var j = 0; j < columnas.length-8; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
 							
-							array.push('<input type="text" size="5" maxlength="1" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
+							array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
                             // if(j < ultimaSesion){
                                 // if(data[i] !== null){ //alert([data[i].IdTercero]);
                                     // sesionHoras = horas[j][data[i].IdTercero]; 
