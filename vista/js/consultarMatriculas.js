@@ -1,27 +1,33 @@
 $(function(){
 	var table;
 	inicializar();
+	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
+	cargarValorSelected('#cmbTipoIdentificacion',3,500);
 
 	$("#buscar").click(function() {
+		var pTipoIdentificacion = $("#cmbTipoIdentificacion").val();
 		var identificacion = $("#identificacion").val();
-		var mensaje="Procesando la información<br>Espere por favor";
-        jsShowWindowLoad(mensaje);
-		$.post("../../controlador/fachada.php", {
-		clase: 'clsMatricula',
-		oper: 'consultarMatriculas',
-		identificacion : identificacion
-		}, function(data) {
-			if (data !== 0) {
-				if(data !== null){
-					//console.log(JSON.stringify(data[0]));
-					cargarInformacionEnTabla(data, identificacion);
-					jsRemoveWindowLoad();
-					$('#imprimir').hide();
-				}else{alert("error 1");}             
-			}else {alert("error 2");}
-		}, "json");
-		
-		//alert('hola');
+		if (identificacion == ""){
+			mostrarPopUpError("Por favor ingrese un número de identificación");
+		}
+		else{
+            var mensaje="Procesando la información<br>Espere por favor";
+	        jsShowWindowLoad(mensaje);
+			$.post("../../controlador/fachada.php", {
+			clase: 'clsMatricula',
+			oper: 'consultarMatriculas',
+			identificacion : identificacion,
+			TipoIdentificacion : pTipoIdentificacion
+			}, function(data) {
+				if (data !== 0) {
+					if(data !== null){
+						cargarInformacionEnTabla(data, identificacion);
+						jsRemoveWindowLoad();
+						$('#imprimir').hide();
+					}else{alert("error 1");}             
+				}else {alert("error 2");}
+			}, "json");
+		}
  	});
 
 
@@ -134,7 +140,7 @@ $(function(){
 					$.cookie("gra_esc", table.row(this).data()[21]);
 					$.cookie("lug_exp", table.row(this).data()[15]);
 					$.cookie("loc_usu", table.row(this).data()[22]);
-					$.cookie("ide_usu", identificacion);
+					$.cookie("ide_usu", table.row(this).data()[30] + " - " + identificacion);
 					$.cookie("tip_ser", table.row(this).data()[8]);
 					$.cookie("FechaInicialCurso", table.row(this).data()[26]);
 					$.cookie("rut_num", table.row(this).data()[28]);
@@ -151,11 +157,8 @@ $(function(){
 					$.cookie("dur_mod", table.row(this).data()[14]);
 					$.cookie("id_mat", table.row(this).data()[29]);
 					$.cookie("mes_asi", table.row(this).data()[7]);
-                    var today = new Date();
-                    var olday = new Date(table.row(this).data()[6]);
-					$.cookie("eda_usu", dateDiff(olday,today));
+					$.cookie("eda_usu", table.row(this).data()[6]);
 					matriculaSeleccionada=true;
-					//setTimeout(function(){swal.close();}, 1000)				
 
 					var idMatricula= table.row(this).data()[29];				
 
@@ -254,7 +257,6 @@ $(function(){
 	 
 	}
 
-
 	$("#imprimir").click(function(){
 		if (matriculaSeleccionada) {
 			window.location.href = "formato.html";
@@ -262,4 +264,48 @@ $(function(){
 			alert("Por favor seleccione una matrícula");
 		}
 	});
+
+	//----- Consulta la base de datos los valores para la lista -----//
+	function cargarListas(objeto,procedimiento) {
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsUtilidades',
+	        oper: 'cargarListas',
+	        objeto: objeto,
+	        procedimiento: procedimiento
+	    }, function(data) {
+	        if (data !== 0) {
+	            formarOptionValueLista(data,objeto);
+	        }
+	        else {
+	            alert('error');
+	        }
+	    }, "json");
+	} 
+
+	//----- Llena la lista Tipo de documento -----//
+	function formarOptionValueLista(data,objeto) {
+	    $('#'+objeto).find('option').remove();
+	    for (i = 0; i < data.length; i++) {
+	        $('#'+objeto).append($('<option>', {
+	            value: data[i].Id,
+	            text: data[i].Nombre
+	        }));
+	    }
+	}
+
+	//----- Establece los valores por defecto de las listas -----//
+	function cargarValorSelected(objeto,value,tiempo){
+        setTimeout(function() {
+            $(objeto+' option[value="'+value+'"]').attr('selected','selected');    
+        }, tiempo);       
+    }
+
+    //----- Muestra los mensajes de error -----//
+    function mostrarPopUpError(err_men) {
+	    $("#textoError").text(err_men);
+	    $('#element_to_pop_upMen').bPopup({
+	        speed: 450,
+	        transition: 'slideDown'
+	    });
+	}
 });

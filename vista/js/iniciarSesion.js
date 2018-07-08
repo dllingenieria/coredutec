@@ -9,6 +9,7 @@ $(function() {
         $("#titulo3").empty();
         $("#titulo3").append("Bienvenido (a)          " + sessionStorage.nombreUsuario);
     }
+    $("#usuarios").append($("<option></option>").attr("value",0).html("Seleccione..."));
 	if (sessionStorage.esAdministrador==="1") {
 		$("#usuarios").append($("<option></option>").attr("value",1).html("Administrador"));
 	}
@@ -84,6 +85,7 @@ $(function() {
 			case "7":
 				$("#Anio").show();
 				break;
+			case "0":
 			case "1":
 			case "3":
 			case "4":

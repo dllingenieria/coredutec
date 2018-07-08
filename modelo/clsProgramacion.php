@@ -122,7 +122,7 @@ class clsProgramacion {
                             $sede = $array1[0]['Sede'];
                             $observaciones = $array1[0]['Observaciones'];
                             $estado = $array1[0]['Estado'];
-                            $asunto = "Preprogramacion asignada";
+                            $asunto = "PREPROGRAMACION ASIGNADA";
                             $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
                         }else{
                             print_r("Error2");
@@ -381,7 +381,7 @@ class clsProgramacion {
                             $sede = $array1[0]['Sede'];
                             $observaciones = $array1[0]['Observaciones'];
                             $estado = $array1[0]['Estado'];
-                            $asunto = "Preprogramacion modificada";
+                            $asunto = "PREPROGRAMACION MODIFICADA";
                             $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
                         }else{
                             print_r("Error2");

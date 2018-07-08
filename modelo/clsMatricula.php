@@ -216,7 +216,7 @@ class clsMatricula {
         $registro = array();
     	$rs= null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARMATRICULASPORTERCERO1($identificacion);";
+        $sql = "CALL SPCONSULTARMATRICULASPORTERCERO1($identificacion,$TipoIdentificacion);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
