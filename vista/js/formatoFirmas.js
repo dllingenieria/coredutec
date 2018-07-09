@@ -102,9 +102,9 @@ $(function() {
                             //Se ingresa el registro 21 y vuelve e inicia el conteo
                             html = '<tr class="formato-estudiantes">';
                             html += '<td class="No">'+x+'</td>';
-                            html += '<td class="Apellido">'+info.Apellidos+'</td>';
-                            html += '<td class="Nombre">'+info.Nombres+'</td>';
-                            html += '<td class="Identificacion">'+info.Identificacion+'</td>';
+                            html += '<td class="Apellido"><span style="font-family: Roboto-bold">'+info.Apellidos+'</span></td>';
+                            html += '<td class="Nombre"><span style="font-family: Roboto-bold">'+info.Nombres+'</span></td>';
+                            html += '<td class="Identificacion"><span style="font-family: Roboto-bold">'+info.Identificacion+'</span></td>';
                             html += '<td class="Telefono1">'+info.Telefono1+'</td>';
                             html += '<td class="Telefono2">'+info.Telefono2+'</td>';
                             html += '<td class="Firmas"></td><td class="Firmas"></td><td class="Firmas"></td><td class="Firmas"></td><td class="Firmas"></td><td class="Firmas"></td><td class="Firmas"></td><td class="Firmas"></td></tr>';
