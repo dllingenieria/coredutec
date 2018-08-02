@@ -83,10 +83,10 @@ $(function() {
             $('#txtCodigoModuloMatricula').val(aux_dur[0]);
             $('#txtDuracionModuloMatricula').val(aux_dur[1]);
             CargarDatosModulo(aux_dur[0]);
-                if(sessionStorage.rolSeleccionado == 3){
+                if(sessionStorage.rolSeleccionado == 3 || sessionStorage.rolSeleccionado == 9){
                     CargarMatriculasPre();
                 }
-                else if(sessionStorage.rolSeleccionado == 1 || sessionStorage.rolSeleccionado == 9){
+                else if(sessionStorage.rolSeleccionado == 1){
                     CargarMatriculasPre2();
                 }
         });

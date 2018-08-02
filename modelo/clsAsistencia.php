@@ -1064,7 +1064,23 @@ class clsAsistencia {
         echo json_encode($resultado);
     }
 
-
+    //----- Funcion para retornar el numero de sesion actual -----//
+    public function consultarSesionActual($param) {
+        extract($param);
+        $array = array();
+        $sql = "CALL SPCONSULTARSESIONACTUALASISTENCIA($IdPreprogramacion);";
+        $rs=null;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = null;
+        }
+        echo json_encode($array);
+    }
 
 }
 ?>

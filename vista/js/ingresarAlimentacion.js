@@ -17,6 +17,7 @@ $(function() {
    	cargarTipoAlimentacion();
 
 	var ultimaSesion = 0;
+	var numSesion = 0;
     var horas = new Array();
 	var horasTotales = new Array();
     var columnas = new Array(
@@ -117,10 +118,28 @@ $(function() {
             if (data !== 0) {
                 if(data !== null){
                     dataSet = [];
-					
+					//----- Verifica el numero de sesion actual para saber que sesiones se desactivan -----//
+					$.ajax({
+				        url: '../../controlador/fachada.php',
+				        type: 'POST',
+				        dataType: 'json',
+				        async :false,
+				        data: {
+				            clase: 'clsAlimentacion',
+				            oper: 'consultarSesionActual',
+				            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+				            }
+				    }).done(function(data1) {
+				        if(data1[0].Sesion == null){
+							numSesion = 1;
+				        }else{
+							numSesion = parseInt(data1[0].Sesion)+1;
+							console.log(numSesion);
+						}
+				        
+				    });
+					//----- Construye las filas por cada estudiante con datos básicos -----//
                     for (var i = 0; i < data.length; i++) {
-                        //var sesionHoras = 0;
-                        //var suma = 0;
                         var array = [];
                         array.push(i+1);
                         array.push(data[i].IdTercero);
@@ -128,10 +147,16 @@ $(function() {
                         array.push(data[i].Identificacion);
                         array.push(data[i].Telefono);
 						idTerceroHorasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las horas totales 
-                        
+
                         for (var j = 0; j < columnas.length; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
-							array.push('<select data-sesion="'+data[i].IdTercero+'" data-refrigerio="'+i+'" id="selInalimentacion_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" class="alimentacion"></select>');
-                        }
+							if(j+1 <= numSesion){
+								//----- Contruye las columnas por cada sesion por estudiante sin bloqueo-----//
+								array.push('<select data-sesion="'+data[i].IdTercero+'" data-refrigerio="'+i+'" id="selInalimentacion_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" class="alimentacion"></select>');
+	                        }else{
+	                    		//----- Contruye las columnas por cada sesion por estudiante con bloqueo-----//
+								array.push('<select data-sesion="'+data[i].IdTercero+'" data-refrigerio="'+i+'" id="selInalimentacion_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" class="alimentacion" disabled></select>');
+	                        }
+	                    }
 
                         dataSet.push(array);
                     }
@@ -367,7 +392,7 @@ $(function() {
 	                    }
 	                    while( cont <= sessionStorage.cantidadSesiones){						
 	                        //columna sesion
-							columnas.push({"title":"Sesión "+cont+" - "+fechaA[cont-1]});
+							columnas.push({"title":"Sesión "+cont+" , "+fechaA[cont-1]});
 							sesionA.push(cont);
 							cont++;
 
@@ -387,7 +412,7 @@ $(function() {
 								
 							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
 							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());
-							columnas.push({"title":"Sesión "+cont+" - "+fechaA[cont-1]});
+							columnas.push({"title":"Sesión "+cont+" | "+fechaA[cont-1]});
 							//alert(fechaA);
 							cont++;
 	                        }
@@ -558,7 +583,7 @@ function agregaralimentacionDetalle(alimentacion){
 					if(alimentacionDetalle == true ){
 						jsRemoveWindowLoad();
 						popUpConfirmacion("Guardado Satisfactoriamente");
-						// setTimeout(function() {	location.reload();},1000);
+						setTimeout(function() {location.reload();},1000);
 					}
 				}else {
 					alimentacionDetalle =false;
@@ -732,7 +757,7 @@ function mostrarPopUpError(err_men) {
     });
 }
 
-function formarOptionValue(lista, clase) { //selInasistencia_
+function formarOptionValue(lista, clase) {
    $('.'+clase).find('option').remove();
    // SetParametroCursoPorDefecto("."+clase, '0', 'Seleccione...');
    $('.'+clase).append($("<option value='0'>NA</option>"));

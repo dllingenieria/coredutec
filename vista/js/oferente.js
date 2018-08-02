@@ -97,7 +97,9 @@ $(function() {
 		        	$("#txtNumeroIdentificacion").val(pNumeroIdentificacion);
 		        	$("#txtNumeroIdentificacion").attr("disabled","disabled");
 	        		$("#txtNombres").val(data[0][1]);
+	        		$("#txtNombres").attr("disabled","disabled");
 	        		$("#txtApellidos").val(data[0][2]);
+	        		$("#txtApellidos").attr("disabled","disabled");
 	        		$("#txtFechaN").val(data[0][4]);
 	        		$("#txtTelefono1").val(data[0][8]);
 	        		$("#txtTelefono2").val(data[0][9]);

@@ -9,6 +9,7 @@ $(function() {
     }
 	
 	var ultimaSesion = 0;
+	var numSesion = 0;
     var horas = new Array();
 	var horasTotales = new Array();
     var columnas = new Array(
@@ -103,7 +104,25 @@ $(function() {
             if (data !== 0) {
                 if(data !== null){
                     dataSet = [];
-					
+					//----- Verifica el numero de sesion actual para saber que sesiones se desactivan -----//
+					$.ajax({
+				        url: '../../controlador/fachada.php',
+				        type: 'POST',
+				        dataType: 'json',
+				        async :false,
+				        data: {
+				            clase: 'clsAsistencia',
+				            oper: 'consultarSesionActual',
+				            IdPreprogramacion: sessionStorage.IdPreprogramacion,
+				            }
+				    }).done(function(data1) {
+				        if(data1[0].Sesion == null){
+							numSesion = 1;
+				        }else{
+							numSesion = parseInt(data1[0].Sesion)+1;
+						}
+				    });
+					//----- Construye las filas por cada estudiante con datos básicos -----//
                     for (var i = 0; i < data.length; i++) {
                         //var sesionHoras = 0;
                         //var suma = 0;
@@ -116,28 +135,30 @@ $(function() {
 						idTerceroHorasTotales[i]=(data[i].IdTercero); //se llena para poder calcular las horas totales 
                         
                         for (var j = 0; j < columnas.length-8; j++) {  //SI SE AGREGA UNA COLUMNA MAS SE RESTA UNO MAS A columnas.length
-							
-							array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');   
-                            // if(j < ultimaSesion){
-                                // if(data[i] !== null){ //alert([data[i].IdTercero]);
-                                    // sesionHoras = horas[j][data[i].IdTercero]; 
-                                    // suma = suma + parseInt(horas[j][data[i].IdTercero]);    
-                                // }else{
-                                    // suma = 0;
-                                    // sesionHoras = 0;
-                                // }
-                                
-                                // array.push('<input required type="number" min="0" max="8"  size="5" value="'+horas[j][data[i].IdTercero]+'" class="asistenciaInput" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">' );       
-                            // }else if (j==ultimaSesion) { 
-                                // array.push('<input required type="number" min="0" max="8"  size="5" value="" class="asistenciaInput enabled" data-estudiante="'+data[i].IdTercero+'" data-sesion="'+i+'" name="row-1-position" id="columna_'+j+'">');
-                            // }else if(j > ultimaSesion && j < columnas.length -7 ){ 
-                                // array.push('<input type="number" min="0" max="8"  value="" size="5" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');
-                            // }else{ 
-                                // array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');       
-                                
-                            // }
+							if((sessionStorage.esAdministrador == 1) || (sessionStorage.esAvanzado == 1)){
+								if(j+1 <= numSesion){
+									//----- Contruye las columnas por cada sesion por estudiante sin bloqueo-----//
+									array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');
+								}else{
+		                    		//----- Contruye las columnas por cada sesion por estudiante con bloqueo-----//
+	                           		array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" readonly>');
+	                           }
+							}else{
+								if(j+1 <= numSesion){
+									if(((j+1) == 1) && (numSesion >= 2)){
+										//----- Contruye las columnas por cada sesion por estudiante con bloqueo-----//
+	                           			array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" readonly>');
+									}else{
+										//----- Contruye las columnas por cada sesion por estudiante sin bloqueo-----//
+										array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" >');
+									}
+									
+								}else{
+		                    		//----- Contruye las columnas por cada sesion por estudiante con bloqueo-----//
+	                           		array.push('<input type="text" size="5" maxlength="2" value="NA" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="txtA_'+sesionA[j]+'_'+fechaA[j]+'_'+data[i].IdTercero+'" readonly>');
+	                           }
+							}
                         }
-						//array.push('<input type="number" min="0" max="100"  readonly size="5" value="1212" class="asistenciaInput" data-sesion="'+data[i].IdTercero+'" data-asistencia="'+i+'" name="row-1-position" id="columna_'+j+'">');   
                         array.push('<textarea class="obs" id="textArea_'+data[i].IdTercero+'" maxlength="5000"></textarea>');
 						array.push('<select id="selInasistencia_'+data[i].IdTercero+'" class="motivo"></select>'); 
 						array.push('<input type="text" size="5" class="notas" id="textNotas_'+data[i].IdTercero+'" readonly>');
@@ -616,11 +637,13 @@ var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serialize
 			}else{
 				jsRemoveWindowLoad();
 				popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+				setTimeout(function() {location.reload();},1000);
 			}
 		});
 	}else{
 		jsRemoveWindowLoad();
 		popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+		setTimeout(function() {location.reload();},1000);
 	}
 }
 
