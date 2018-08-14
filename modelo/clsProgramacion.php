@@ -617,88 +617,12 @@ class clsProgramacion {
                              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
                             
                              $FechaMod=strtotime("now");
-                             $filename = '../tmp/reporteCallcenter/reporteCallcenterPreprogramacionGestionados'.$FechaMod.'.xls';
+                             $filename = '../anexos/reportes/reporteCallcenterPreprogramacionGestionados'.$FechaMod.'.xls';
                              $objWriter->save(str_replace('.php', '.xls', $filename));
                              $data['html']=$filename;
 
             echo json_encode($data);
         }
-
-   
-  //  public function enviarCorreoDocente($cod_mat, $cod_sal,$tip_ser, $rut_for, $cur_cod, $diasDelCurso,
-  //           $horaInicio,$horaFinal, $cod_mod,$mod_pre, $sede, $id_doc, $fec_ini, $fec_fin, $pro_ent, 
-  //           $tip_cer,$pre_est,$canSesiones,$capSalon,$inteHoraria,$observacion,$conexion){
-	   
-	 //    $array=array();
-		// $envio = "";
-		// $sql = "CALL SPCONSULTARCORREODOCENTE($id_doc);";
-		// $rs=null;
-		// $conexion->getPDO()->query("SET NAMES 'utf8'");
-  //       if ($rs = $conexion->getPDO()->query($sql)) {
-  //           if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-  //               foreach ($filas as $fila) {
-  //                   $array[] = $fila;
-  //               }
-				
-				
-		// 		// Motrar todos los errores de PHP
-		// 		error_reporting(E_ALL);
-		// 		// Motrar todos los errores de PHP
-		// 		ini_set('error_reporting', E_ALL);
-		// 		// require("includes/PHPMailer/class.phpmailer.php");
-		// 		require("../includes/PHPMailer/class.phpmailer.php");
-		// 		// require("includes/PHPMailer/class.phpmailer.php");
-		// 		// require("../includes/PHPMailer/class.phpmailer.php");
-		// 		$mail = new PHPMailer();
-		// 		$mail->IsSMTP();                                      // set mailer to use SMTP
-		// 		$mail->Host = "smtp.zoho.com";  // specify main and backup server
-		// 		$mail->SMTPAuth = true;     // turn on SMTP authentication
-		// 		// $mail->Username = "d1@dllingenieria.com.co";  // SMTP username
-		// 		$mail->Username = $array[1]['Email'];  // SMTP username
-		// 		$mail->Password = $array[2]['Email']; // SMTP password
-		// 		// $mail->Password = "qouv5eFl"; // SMTP password
-		// 		$mail->Port = 465;
-		// 		$mail->SMTPSecure = "ssl";
-		// 		// $mail->From = "d1@dllingenieria.com.co";
-		// 		$mail->From = $array[1]['Email'];
-		// 		$mail->FromName = "CET";
-		// 		// $mail->AddAddress("vivirodasm@gmail.com");                  // name is optional
-		// 		$mail->AddAddress($array[0]['Email']);                  // name is optional
-		// 		// $mail->AddReplyTo("ld@dllingenieria.com.co", "Information");
-		// 		$mail->WordWrap = 50;                                 // set word wrap to 50 characters
-		// 		// $mail->AddAttachment("Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
-		// 		//$mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
-		// 		$mail->IsHTML(true);                                  // set email format to HTML
-		// 		$mail->Subject = "Preprogramacion Asignada";
-		// 		$mensaje = file_get_contents("../vista/html/correo_preprogramacion.html");
-		// 		$mensaje = str_replace("cod_sal",$cod_sal, $mensaje);
-		// 		$mensaje = str_replace("cur_cod",$cur_cod, $mensaje);
-		// 		$mensaje = str_replace("cur_dia",$diasDelCurso, $mensaje);
-		// 		$mensaje = str_replace("hra_ini",$horaInicio, $mensaje);
-		// 		$mensaje = str_replace("hra_fin",$horaFinal, $mensaje);
-		// 		$mensaje = str_replace("id_sed" ,$sede,  $mensaje);
-		// 		$mensaje = str_replace("fec_ini",$fec_ini, $mensaje);
-		// 		$mensaje = str_replace("fec_fin",$fec_fin, $mensaje);
-				
-		// 		$mail->Body    = $mensaje;
-		// 		// $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
-				
-		// 		if(!$mail->Send())
-		// 		{
-		// 		 $envio = "";
-		// 		}
-		// 		else{
-		// 			$envio=1;
-		// 		}
-		// 		// echo $envio;
-				
-
-  //           }
-  //       } else {
-  //           $envio = "";
-  //       }
-  //  return $envio;
-  //  }
 
 }
 ?>

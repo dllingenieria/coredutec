@@ -41,7 +41,7 @@ class clsReporte {
 				
 				$objPHPExcel->getActiveSheet()->setCellValue('C3', 'INFORME PREPROGRAMACIÓN A LA FECHA');
 				//Array de Datos Columnas
-				$dataColumnasDatos = array('Id', 'Salón','Convocatoría', 'Ruta', 'Código Curso', 'Curso', 'Código Módulo',	'Módulo', 'Duración Curso',	'Duración Módulo', 'Dias Curso', 'Hora Inicial', 'Hora Final', 'Modalidad',	'Sede', 'Fecha Inicial', 'Fecha Final', 'Docente', 'Tipo Certificación', 'Estado', 'Cantidad Matriculados');					
+				$dataColumnasDatos = array('Id', 'Salón','Convocatoría', 'Ruta', 'Código Curso', 'Curso', 'Código Módulo',	'Módulo', 'Duración Curso',	'Duración Módulo', 'Dias Curso', 'Hora Inicial', 'Hora Final', 'Modalidad',	'Sede', 'Fecha Inicial', 'Fecha Final', 'Docente', 'Tipo Certificación', 'Estado', 'Cantidad Matriculados', 'Intensidad Horaria', 'Capacidad Salón', 'Cantidad de Sesiones', 'Observaciones');					
 				$meses = array('1'=>'Enero','2'=>'Febrero','3'=>'Marzo','4'=>'Abril','5'=>'Mayo','6'=>'Junio','7'=>'Julio','8'=>'Agosto','9'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
 
 				$baseRowDatos = 5;
@@ -88,8 +88,10 @@ class clsReporte {
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['TipoCertificacion']);
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Estado']);
 							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['CantidadMatriculados']);
-							
-
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['IntensidadHorariaDiaria']);
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['CapacidadSalon']);
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['CantidadSesiones']);
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Observaciones']);
 							}
 					}else{
 						 $data['error']=2;

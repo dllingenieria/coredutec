@@ -1021,7 +1021,7 @@ class clsAsistencia {
                              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
                              
                              $FechaMod=strtotime("now"); 
-                             $filename = '../anexos/reportes/reporteAsistencias_'.$FechaMod.'.xls'; 
+                             $filename = '../anexos/reportes/reporteAsistencias_'.$FechaMod.'.xls';
                              $objWriter->save(str_replace('.php', '.xls', $filename)); 
                              $data['html']=$filename;
   

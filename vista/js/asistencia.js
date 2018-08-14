@@ -955,7 +955,7 @@ function jsShowWindowLoad(mensaje) {
 }
 
 function popUpConfirmacion(msj){
-    $("#textoConfirmacion1").text(msj);
+    $("#textoConfirmacion1").html(msj);
     $('#element_to_pop_upCon').bPopup({
         speed: 450,
         transition: 'slideDown'
@@ -963,7 +963,7 @@ function popUpConfirmacion(msj){
 }
 
 function mostrarPopUpError(err_men) {
-    $("#textoError").text(err_men);
+    $("#textoError").html(err_men);
     $('#element_to_pop_upMen').bPopup({
         speed: 450,
         transition: 'slideDown'
