@@ -46,7 +46,7 @@
 	//validacion campos numericos
 	 
 	 
-	  $("#txtCanSesiones, #txtInteHoraria, #txtCapSalon").keydown(function (e) {  
+	  $("#txtCanSesiones, #txtInteHoraria, #txtCapSalon").keydown(function (e) {
                if (e.shiftKey || e.ctrlKey || e.altKey) {  
                    e.preventDefault();  
                } else {  
@@ -508,6 +508,26 @@ $(function() {
     });
 
     $("#btnConsultar").click(function() {
+    	cargarListas('cmbAnios','SPCARGARANIOSPREPROGRAMACION');
+    	$("#ins_dat").hide();
+    	$("#botones").hide();
+    	$("#Anios").show();
+        /*cargarGridMatriculas();
+		//se oculta el boton de guardar porque se va a mostrar el datatable
+		$("#btnGuardar").css('display','none');
+		$("#botones").hide();
+		$("#botones1").show();*/
+    });
+
+    $("#btnCancelar1").click(function() {
+		location.reload(true);
+	});
+
+    $("#btnCancelar1").click(function() {
+		location.reload(true);
+	});
+
+	$("#btnConsultar1").click(function() {
         cargarGridMatriculas();
 		//se oculta el boton de guardar porque se va a mostrar el datatable
 		$("#btnGuardar").css('display','none');
@@ -515,11 +535,8 @@ $(function() {
 		$("#botones1").show();
     });
 
-    $("#btnCancelar1").click(function() {
-		location.reload(true);
-	});
-
-	$("#btnConsultar1").click(function() {
+	$("#btnConsultar2").click(function() {
+    	$("#Anios").hide();
         cargarGridMatriculas();
 		//se oculta el boton de guardar porque se va a mostrar el datatable
 		$("#btnGuardar").css('display','none');
@@ -1230,14 +1247,12 @@ function cargarGridMatriculas() { //alert("entro");
 	// setTimeout(function() {
         // $('#divTablaPreprogramaciones').fadeOut(1500).html('<div><img src="../images/carga.gif"/></div>');;
     // },3000);
-	
-    var clase = 'clsProgramacion';
-    var fun = 'CargarPreprogramaciones';
         var mensaje="Procesando la información<br>Espere por favor";
         jsShowWindowLoad(mensaje);
         $.post("../../controlador/fachada.php", {
-            clase: clase,
-            oper: fun   
+            clase: 'clsProgramacion',
+            oper: 'CargarPreprogramaciones',
+            Anio: $("#cmbAnios option:selected").text()
         }, function(data) {
 		console.log(data);
              if (data !== 0) {
@@ -1597,6 +1612,34 @@ function FormarOptionValueModalidades(pModalidades) {
         }
     }
 }
+
+//----- Consulta en la base de datos los valores de las listas -----//
+function cargarListas(objeto,procedimiento) {
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsUtilidades',
+        oper: 'cargarListas',
+        objeto: objeto,
+        procedimiento: procedimiento
+    }, function(data) {
+        if (data !== 0) {
+            formarOptionValueLista(data,objeto);
+        }
+        else {
+            alert('error');
+        }
+    }, "json");
+}
+
+//----- Llena las listas -----//
+function formarOptionValueLista(data,objeto) {
+    $('#'+objeto).find('option').remove();
+    for (i = 0; i < data.length; i++) {
+        $('#'+objeto).append($('<option>', {
+            value: data[i].Id,
+            text: data[i].Nombre
+        }));
+    }
+} 
 
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla

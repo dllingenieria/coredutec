@@ -181,7 +181,7 @@ class clsProgramacion {
         extract($param);
 		$resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARPREPROGRAMACIONES();";
+        $sql = "CALL SPCONSULTARPREPROGRAMACIONES('$Anio');";
 		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         if ($rs = $conexion->getPDO()->query($sql)) { 

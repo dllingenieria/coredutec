@@ -20,7 +20,7 @@ class clsCalidad {
         $sql = "CALL SPCONSULTAREVALUACIONESPORPREPROGRAMACION($IdPreprogramacion);";
 	
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
 			// print_r($sql);
 			// print_r($filas);
                 foreach ($filas as $fila) {

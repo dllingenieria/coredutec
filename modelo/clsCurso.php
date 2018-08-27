@@ -837,12 +837,12 @@ public function cerrarCursoMatriculaTercero($param){
 							//en este procedimiento si inserta estudiantes se cambia el estado a 1 a la preprogramacion con el id $idPreNuevo
 							$sql = "CALL SPAGREGARESTUDIANTESAPROBADOSPORSALONALSIGUIENTEMODULO($idPreprogramacion,$idPreNuevo,'$modulocompleto',$IdUsuario);";
 							if ($rs = $conexion->getPDO()->query($sql)) {
-								$fila = $rs->fetch(PDO::FETCH_ASSOC);
+								/*$fila = $rs->fetch(PDO::FETCH_ASSOC);
 								$numEstudiantes = $fila['cont'];
 								$rs = null;
 								$conexion->getPDO()->query("SET NAMES 'utf8'");
 								$sql = "CALL SPAGREGARCANTIDADESTUDIANTESSALON($idPreNuevo,$numEstudiantes,$IdUsuario);";
-								$rs = $conexion->getPDO()->query($sql);
+								$rs = $conexion->getPDO()->query($sql);*/
                                 //----- Inicio envío correo a todos los estudiantes matriculados -----//
                                 $rs1=null;
                                 $array1=array();

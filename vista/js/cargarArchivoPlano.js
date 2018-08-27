@@ -12,7 +12,11 @@ $(function() {
 	var d = new Date();
 	
 	$("#txtFecha").val(d);
-	CargarListaCargasMasivas("#selCarga");
+	if(sessionStorage.esAdministrador == 1){
+		CargarListaCargasMasivas("#selCarga");
+	}else{
+		CargarListaCargasMasivas1("#selCarga");
+	}
 	obtenerFechaActual();
 	// cargarOpcionesarchivos();
 
@@ -42,7 +46,7 @@ $(function() {
 
 	function GuardarArchivoCarpeta(archivo){
 		var ubicacion = "tmp/";  
-		var valorSeleccionado = archivo; 		
+		var valorSeleccionado = archivo;
         var archivos = document.getElementById("txtexaminararchivos"+archivo);
         var archivo = archivos.files;
 
@@ -595,10 +599,24 @@ function jsShowWindowLoad(mensaje) {
 		//$('.fecha').prop('readonly', true);
 	}
 	
-	function CargarListaCargasMasivas(SelectCarga) {  
+function CargarListaCargasMasivas(SelectCarga) {
     $.post("../../controlador/fachada.php", {
          clase: 'clsGestorBDPlanas',
          oper: 'CargarListaCargasMasivas',
+    }, function(data) { 
+        if (data !== 0) {
+            FormarOptionValueLista(data, SelectCarga);
+        }
+        else {
+            mostrarPopUpError('No se pudo cargar la lista de cargas, intentelo nuevamente');
+        }
+    }, "json");
+}
+
+function CargarListaCargasMasivas1(SelectCarga) {
+    $.post("../../controlador/fachada.php", {
+         clase: 'clsGestorBDPlanas',
+         oper: 'CargarListaCargasMasivas1',
     }, function(data) { 
         if (data !== 0) {
             FormarOptionValueLista(data, SelectCarga);

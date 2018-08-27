@@ -21,6 +21,12 @@ body {
     padding-top: 0rem !important;
 }
 
+.cuerpoEvaluaciones{
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 0rem !important;
+}
+
 #spanTotal{
     float: left;
 }
@@ -29,6 +35,9 @@ body {
     float: left;
 }
 
+#spanTotalE{
+    float: left;
+}
 .botones{
     text-align: center;
     margin-top: 2rem;

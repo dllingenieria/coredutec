@@ -14,7 +14,11 @@ $(document).ready(function() {
     var pIdPreprogramacionAnterior;
     var pIdPreprogramacionNueva;
     limpiarCampos();
-    cargarTiposNovedades();
+    if(sessionStorage.esAdministrador == 1){
+        cargarTiposNovedades();
+    }else{
+        cargarTiposNovedades1();
+    }
     consultarEstados();
 	$('#btnConsultar').hide();
     $('#btnCancelar').hide();
@@ -156,6 +160,18 @@ function cargarTiposNovedades() {
         $.post("../../controlador/fachada.php", {
             clase: 'clsNovedades',
             oper: 'consultarTiposNovedades'
+        }, function(data) {
+            if (data !== 0) { 
+                setParametroPorDefecto("#cmbTipoDeNovedad", '', "Seleccione...");
+                formarOptionValueTipoNovedades(data);
+            }
+        }, "json");
+    }
+
+function cargarTiposNovedades1() {
+        $.post("../../controlador/fachada.php", {
+            clase: 'clsNovedades',
+            oper: 'consultarTiposNovedades1'
         }, function(data) {
             if (data !== 0) { 
                 setParametroPorDefecto("#cmbTipoDeNovedad", '', "Seleccione...");

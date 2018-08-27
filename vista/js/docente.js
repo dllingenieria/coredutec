@@ -8,6 +8,8 @@ $(function(){
 	$('#spanTotal').hide();
 	$("#regresarR").hide();
 	$('#spanTotalR').hide();
+	$("#regresarE").hide();
+	$('#spanTotalE').hide();
 	$("#descargar").hide();
 	var table;
 	var tabla;
@@ -119,9 +121,10 @@ $(function(){
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
 			{ title: "Estado" },
-			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
+			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón</a>'},
 			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
-			{data: null, className: "center", defaultContent: '<a id="refrigerios-link" class="refrigerios-link" href="#" title="Edit">Refrigerios</a>'}
+			{data: null, className: "center", defaultContent: '<a id="refrigerios-link" class="refrigerios-link" href="#" title="Edit">Refrigerios</a>'},
+			{data: null, className: "center", defaultContent: '<a id="evaluaciones-link" class="evaluaciones-link" href="#" title="Edit">Evaluaciones</a>'}
 			],
 			"paging":   true,
 			"info":     false,
@@ -239,7 +242,7 @@ $(function(){
 	});
 	
 
-	//Evento que edita registro//
+	//Carga el reporte de Estudiantes por salón//
 	$(document).on('click', '#view-link', function() {
 		var data = table.row($(this).parents('tr')).data();
 		sessionStorage.id_tpar= data[0];
@@ -254,7 +257,7 @@ $(function(){
 		}
 	});
 
-	//Evento que edita registro//
+	//Genera el reporte de asistencias//
 	$(document).on('click', '#asistencias-link', function() {
 			var data = table.row($(this).parents('tr')).data();
 			sessionStorage.id_tpar= data[0];
@@ -328,7 +331,7 @@ $(function(){
 		},2000);	
 	});
 
-		//Evento que carga informe de asistencias//
+	//Evento que carga informe de asistencias//
 	$(document).on('click', '#asistencias', function() {
 		//sessionStorage.NoSesiones=0;
 		//Se oculta el boton de descarga
@@ -379,6 +382,21 @@ $(function(){
 					}		
 				}, "json");				
 
+	});
+
+	//Carga el reporte de Evaluaciones por salón//
+	$(document).on('click', '#evaluaciones-link', function() {
+		var data = table.row($(this).parents('tr')).data();
+		sessionStorage.id_tpar= data[0];
+		if(data[0]!=""){
+			cargarReporteEvaluacionesSalon(sessionStorage.IdPreprogramacion);
+			$("#formatoFirmas").hide();
+			$("#formatoAsistencias").hide();
+			$("#formatoNotas").hide();
+			$("#planeacion").hide();
+			$("#refrigerios").hide();
+			$("#regresarE").show();
+		}
 	});
 
 function cantidadSesiones(){
@@ -443,6 +461,26 @@ function cargarReporteEstudiantesSalon(salon){
                              
 }
 
+function cargarReporteEvaluacionesSalon(salon){
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsCalidad',
+			oper: 'ConsultarEvaluacionesPorCedula',
+		    IdPreprogramacion: salon
+		 }, function(data) {
+				if (data !== 0) {
+					if(data !== null){
+					    $('#spanTotalE').show();
+                        $('#numero_estudiantesE').text(data.length);
+					   formatearReporteEvaluacionesSalon(data);		        			
+					}else{alert("error 1");}             
+				}else {alert("error 2");}
+				jsRemoveWindowLoad();	
+		}, "json");
+                             
+}
+
 function formatearReporteEstudiantesSalon(data){
 		$('.cuerpo').hide();
 		$(".cuerpoEstudiantes").show();
@@ -467,6 +505,45 @@ function formatearReporteEstudiantesSalon(data){
 			"scrollCollapse": true,
 			"columnDefs": [
 				{"targets": [ 0 ],"visible": false,"searchable": false}
+			],
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "infoEmpty": "No hay registros disponibles",
+                "Search:": "Filtrar",
+				"sLoadingRecords": "Cargando..."	
+            }	
+		});
+
+}
+
+function formatearReporteEvaluacionesSalon(data){
+		$('.cuerpo').hide();
+		$(".cuerpoEvaluaciones").show();
+        table = $('#tablaevaluaciones').DataTable({
+			"data": data,
+			columns: [
+			{ title: "IdEvaluacion" },
+	        { title: "Número Identificación" },
+	        { title: "Fecha" },
+	        { title: "Estudiante" },
+	        { title: "Docente" },
+			{ title: "Módulo" },
+	        { title: "Sede" }
+			],
+			"paging":   false,
+			"pageLength": 7,
+			"bLengthChange": false,
+			"bDestroy": true,
+			"info":     false,
+			"scrollY": "240px",
+			"scrollX": true,
+			"scrollCollapse": true,
+			"columnDefs": [
+				{"targets": [ 0 ],"visible": false,"searchable": false},
+            	{"targets": [ 2 ],"visible": false,"searchable": false}
 			],
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",

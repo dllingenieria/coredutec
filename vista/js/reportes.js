@@ -375,7 +375,10 @@ $(function(){
 	////////// Inicio Reporte 9 /////////////
 
 	function reporte9(){
+		$("#spanFechaInicial").show();
+		$('#txtFechaInicial').show();
 		$('#verDetalle').show();
+		necesitaFecha=1;
 		solicitarReporte=9;
 	}
 

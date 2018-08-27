@@ -686,6 +686,17 @@ body {
 	margin-left: 0px;
 }
 
+#Anios1{
+	margin-top: 14rem;
+	margin-left: 38rem;
+	height:50px;
+}
+
+#btnConsultar2{
+	margin-top: 460px;
+	margin-left: 39rem;
+}
+
 .BotonCancelar {
     position:absolute;
 	margin-top: 530px;
@@ -715,6 +726,11 @@ body {
 #btnCancelar1{
 	margin-top: 460px;
 	margin-left: 100px;
+}
+
+#btnCancelar2{
+	margin-top: 460px;
+	margin-left: 45rem;
 }
 
 /* Seccion Pop Ups */

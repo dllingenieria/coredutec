@@ -10,6 +10,7 @@ $(function() {
 	
     var columnas = new Array(
         { title: "IdEvaluacion" },
+        { title: "Número Identificación" },
         { title: "Fecha" },
         { title: "Estudiante" },
         { title: "Docente" },
@@ -40,8 +41,6 @@ $(function() {
 			if (data !== 0) {
 				if(data !== null){
 					$("#sectCuerpo").show();
-					
-					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					// recuperarDatos();
@@ -62,7 +61,8 @@ $(function() {
             "paging":   false,
             "info":     false,
             "columnDefs": [{"className": "dt-left", "targets": "_all"}, //alinear texto a la izquierda
-			{"targets": [ 1 ],"visible": false,"searchable": false},
+			{"targets": [ 0 ],"visible": false,"searchable": false},
+            {"targets": [ 2 ],"visible": false,"searchable": false},
 			{ "width": "13%", "targets": 1 }//se le da ancho al td de estudiante
 			//{ "width": "8%", "targets": 8 }, //se le da ancho al td de total horas
 			//{ "width": "8%", "targets": 9 } //se le da ancho al td de observacion
@@ -82,29 +82,24 @@ $(function() {
 			if ( $(this).hasClass('selected')) { //alert("hi");
                 $(this).removeClass('selected'); 
 				 seleccionado = false;
-            }else{ //alert("ho");
+            }else{
                 table.$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
 				seleccionado = true;
-				
             }
              if(typeof(Storage) !== "undefined") {
                 sessionStorage.IdEvaluacion = table.row(this).data()[0];
-                sessionStorage.Fecha = table.row(this).data()[1];
-                sessionStorage.Estudiante = table.row(this).data()[2];
-                sessionStorage.Docente = table.row(this).data()[3];
-                sessionStorage.Modulo = table.row(this).data()[4];
-                sessionStorage.Sede = table.row(this).data()[5];
-				
-				
-               
+                sessionStorage.NumeroIdentificacion = table.row(this).data()[1];
+                sessionStorage.Fecha = table.row(this).data()[2];
+                sessionStorage.Estudiante = table.row(this).data()[3];
+                sessionStorage.Docente = table.row(this).data()[4];
+                sessionStorage.Modulo = table.row(this).data()[5];
+                sessionStorage.Sede = table.row(this).data()[6];
              } else {
                 // alert("Por favor actualice su navegador o utilice otro: SessionStorage");
 				sessionStorage.IdEvaluacion = "";
              }
-			 
         } );
-		
     }
 	
 	function recuperarDatos() {

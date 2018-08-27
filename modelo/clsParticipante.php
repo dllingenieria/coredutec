@@ -230,7 +230,7 @@ class clsParticipante {
 		extract($param); 
         $array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARESTUDIANTESPORSALON1($IdPreprogramacion);";
+        $sql = "CALL SPconsultarEstudiantesPorSalon1($IdPreprogramacion);";
         $rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -249,7 +249,7 @@ class clsParticipante {
 		extract($param); 
         $array=array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARESTUDIANTESPORSALON($IdPreprogramacion);";
+        $sql = "CALL SPconsultarEstudiantesPorSalon($IdPreprogramacion);";
 		$rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
@@ -383,7 +383,7 @@ class clsParticipante {
             if($rs->fetch() != false)
 			{
                 $conexion->getPDO()->query("SET NAMES 'utf8'");
-                $sql = "CALL SPCONSULTARESTUDIANTESPORSALONDADOSALON('$codigo_salon');";
+                $sql = "CALL SPconsultarEstudiantesPorSalonDADOSALON('$codigo_salon');";
                 
 				$rs = null;
 				if ($rs = $conexion->getPDO()->query($sql)) 
@@ -416,7 +416,7 @@ class clsParticipante {
         $resultado = array();
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPCONSULTARESTUDIANTESPORSALONDADOSALON('$codigo_salon');";
+        $sql = "CALL SPconsultarEstudiantesPorSalonDADOSALON('$codigo_salon');";
 		$rs=null;
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {

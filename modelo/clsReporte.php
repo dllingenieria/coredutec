@@ -55,7 +55,7 @@ class clsReporte {
 			$columnRow= 0;
 	
 			$conexion->getPDO()->query("SET NAMES 'utf8'");
-			$sql = "CALL SPREPORTEPREPROGRAMACIONESALAFECHA();";
+			$sql = "CALL SPREPORTEPREPROGRAMACIONESALAFECHA('".$fechaInicial."');";
 			$rs=null;
 			// $sql = "CALL SPREPORTEASISTENCIADETALLE1('".$fechaInicial."','".$fechaFinal."',".$convocatoria.");";
 			// //print_r($sql);

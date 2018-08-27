@@ -61,7 +61,16 @@
         <!-- Sección Pie Página 
         <div id="imgPreprogramacion"><img src="../images/preprogramacion.jpg" height="500" alt="imgPreprogramacion" /></div>-->
         <!-- Sección Botones -->
+        
         <div id="Consulta">
+            <div id="Anios" style="display: none">
+                <div id="Anios1" class="RectanguloTitulos"><label>Seleccione el año a consultar:</label>
+                <select id="cmbAnios"></select></div>
+                <div id="botones2">
+                    <input id="btnConsultar2" class="BotonConsultar" name="btnConsultar" type="button" value="Consultar" />
+                    <input id="btnCancelar2" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" />
+                </div>
+            </div>
             <div id="lblConsultaDatos" style="display: none">
                 <div class="RectanguloTitulos"><label>Consulta Preprogramación</label></div>
             </div>
@@ -156,7 +165,7 @@
         <!-- Fin Mensaje de sesion-->
         <div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
             <div>
-                <table id="tblPopup" width="300" align="left" border="0">
+                <table id="tblPopup" width="400" align="left" border="0">
                     <tr>
                         <td align="center">
                             <label id="textoConfirmacion1" class="popup"></label>

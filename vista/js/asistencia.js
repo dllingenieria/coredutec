@@ -516,11 +516,11 @@ $(function() {
 				agregarAsistenciaDetalle(asistencia);
 			}else{
 				jsRemoveWindowLoad();
-				popUpConfirmacion("Error guardando Asistencias General");
+				popUpConfirmacion("Error guardando<br>Asistencias General<br>");
 			}             
 		}else {
 			jsRemoveWindowLoad();
-			popUpConfirmacion("Error guardando Asistencias General");
+			popUpConfirmacion("Error guardando<br>Asistencias General<br>");
 		}
 	}, "json");
  }
@@ -575,7 +575,7 @@ function agregarAsistenciaDetalle(asistencia){
    		console.log("Luego de agregar asistencia detalle: "+data);
    		if (data == 0){
    			jsRemoveWindowLoad();
-			popUpConfirmacion("Error guardando Asistencias Detalle");
+			popUpConfirmacion("Error guardando<br>Asistencias Detalle<br>");
 		}else{
 			agregarMotivoNoAsistencia(asistencia);
 		}
@@ -633,16 +633,16 @@ var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serialize
 			console.log("Luego de agregar observacion: "+data);
 	   		if (data == 0){
 	   			jsRemoveWindowLoad();
-				popUpConfirmacion("Error guardando Observaciones");
+				popUpConfirmacion("Error guardando Observaciones, recuerde<br>que no puede contener los caracteres <, &, #, %,<br>comillas sencillas, dobles o la tecla Enter<br>");
 			}else{
 				jsRemoveWindowLoad();
-				popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+				popUpConfirmacion("Asistencias guardadas<br>satisfactoriamente<br>");
 				setTimeout(function() {location.reload();},1000);
 			}
 		});
 	}else{
 		jsRemoveWindowLoad();
-		popUpConfirmacion("Asistencias guardadas satisfactoriamente");
+		popUpConfirmacion("Asistencias guardadas<br>satisfactoriamente<br>");
 		setTimeout(function() {location.reload();},1000);
 	}
 }
@@ -698,7 +698,7 @@ function agregarMotivoNoAsistencia(asistencia){
 			console.log("Luego de agregar motivos: "+data);
 	   		if (data == 0){
 	   			jsRemoveWindowLoad();
-				popUpConfirmacion("Error guardando Motivos de No Asistencia");
+				popUpConfirmacion("Error guardando Motivos<br>de No Asistencia<br>");
 			}else{
 				agregarAsistenciaObservacion(asistencia);
 			}
