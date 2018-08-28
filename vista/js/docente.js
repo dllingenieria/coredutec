@@ -386,17 +386,18 @@ $(function(){
 
 	//Carga el reporte de Evaluaciones por salón//
 	$(document).on('click', '#evaluaciones-link', function() {
-		var data = table.row($(this).parents('tr')).data();
-		sessionStorage.id_tpar= data[0];
-		if(data[0]!=""){
-			cargarReporteEvaluacionesSalon(sessionStorage.IdPreprogramacion);
-			$("#formatoFirmas").hide();
-			$("#formatoAsistencias").hide();
-			$("#formatoNotas").hide();
-			$("#planeacion").hide();
-			$("#refrigerios").hide();
-			$("#regresarE").show();
-		}
+		window.location.href = "../html/evaluacionesHechas.html?IdPreprogramacion="+sessionStorage.IdPreprogramacion;
+		// var data = table.row($(this).parents('tr')).data();
+		// sessionStorage.id_tpar= data[0];
+		// if(data[0]!=""){
+		// 	cargarReporteEvaluacionesSalon(sessionStorage.IdPreprogramacion);
+		// 	$("#formatoFirmas").hide();
+		// 	$("#formatoAsistencias").hide();
+		// 	$("#formatoNotas").hide();
+		// 	$("#planeacion").hide();
+		// 	$("#refrigerios").hide();
+		// 	$("#regresarE").show();
+		//}
 	});
 
 function cantidadSesiones(){
@@ -438,6 +439,10 @@ $(document).on('click', '#regresar', function() {
 });
 
 $(document).on('click', '#regresarR', function() {
+		 location.reload();
+});
+
+$(document).on('click', '#regresarE', function() {
 		 location.reload();
 });
 
