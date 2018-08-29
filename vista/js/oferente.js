@@ -33,16 +33,76 @@ $(function() {
 
 	//----- Dispara el proceso para guardar un nuevo oferente -----//
 	$("#btnGuardar").click(function(){ 
-		if(($("#txtNumeroIdentificacion").val() == "") || ($("#txtNombres").val() == "") || ($("#txtApellidos").val() == "") || ($("#txtTelefono1").val() == "") || ($("#txtTelefono2").val() == "") || ($("#txtTelefono3").val() == "") || ($("#txtEmail1").val() == "") || ($("#txtEmail2").val() == "") || ($("#txtDireccion").val() == "")){
+		//----- Verifica que ningún campo esté vacío -----//
+		if(($("#txtNumeroIdentificacion").val() == "") || ($("#txtNombres").val() == "") || ($("#txtApellidos").val() == "") || ($("#txtFechaN").val() == "") || ($("#txtTelefono1").val() == "") || ($("#txtTelefono2").val() == "") || ($("#txtTelefono3").val() == "") || ($("#txtDireccion").val() == "")){
 			mostrarPopUpError("Por favor diligencie todos los campos");
 		}else{
-			if($("#cmbTipoIdentificacion option:selected").val() == 0 || $("#cmbExpedicion option:selected").val() == 0 || $("#cmbSexo option:selected").val() == 0 || 
-				$("#cmbEstadoCivil option:selected").val() == 0 || $("#cmbGradoEscolaridad option:selected").val() == 0 || $("#cmbLocalidad option:selected").val() == 0 ||
-				$("#cmbCiudad option:selected").val() == 0){
-				mostrarPopUpError("Ninguna lista debe estar en Seleccione...<br>Por favor verifique");
+			//----- Verifica que el correo sea correcto -----//
+			if(validar_email($("#txtEmail1").val())){
+				//----- Verifica que el correo no exista en base de datos -----//
+				$.post("../../controlador/fachada.php", {
+				clase: 'clsParticipante',
+				oper: 'verificarEmail',
+				pEmail: $("#txtEmail1").val()
+				}, function(data) {
+					if(data !== 0){
+						mostrarPopUpError("El correo ya está registrado, use uno diferente");
+					}else{
+						//----- Verifica el correo alternativo -----//
+						if($("#txtEmail2").val() == ""){
+							//----- Para calcular que la edad sea mayor de 15 años -----//
+							var edad = new Date();
+							edad.setFullYear(edad.getFullYear() - 15);
+							var fnacimiento = new Date($("#txtFechaN").val());
+							if(fnacimiento > edad){
+								mostrarPopUpError("El oferente debe tener mínimo 15 años");
+							}else{
+								if($("#cmbTipoIdentificacion option:selected").val() == 0 || $("#cmbExpedicion option:selected").val() == 0 || $("#cmbSexo option:selected").val() == 0 || 
+									$("#cmbEstadoCivil option:selected").val() == 0 || $("#cmbGradoEscolaridad option:selected").val() == 0 || $("#cmbLocalidad option:selected").val() == 0 ||
+									$("#cmbCiudad option:selected").val() == 0){
+									mostrarPopUpError("Ninguna lista debe estar en Seleccione...<br>Por favor verifique");
+								}else{
+									guardarOferente();
+								}
+							}
+						}else{
+							//----- Verifica que el correo alternativo sea correcto -----//
+							if(validar_email($("#txtEmail2").val())){
+								//----- Verifica que el correo no exista en base de datos -----//
+								$.post("../../controlador/fachada.php", {
+								clase: 'clsParticipante',
+								oper: 'verificarEmail',
+								pEmail: $("#txtEmail2").val()
+								}, function(data) {
+									if(data !== 0){
+										mostrarPopUpError("El correo electrónico alternativo ya está registrado,<br>use uno diferente");
+									}else{
+										//----- Para calcular que la edad sea mayor de 15 años -----//
+										var edad = new Date();
+										edad.setFullYear(edad.getFullYear() - 15);
+										var fnacimiento = new Date($("#txtFechaN").val());
+										if(fnacimiento > edad){
+											mostrarPopUpError("El oferente debe tener mínimo 15 años");
+										}else{
+											if($("#cmbTipoIdentificacion option:selected").val() == 0 || $("#cmbExpedicion option:selected").val() == 0 || $("#cmbSexo option:selected").val() == 0 || 
+												$("#cmbEstadoCivil option:selected").val() == 0 || $("#cmbGradoEscolaridad option:selected").val() == 0 || $("#cmbLocalidad option:selected").val() == 0 ||
+												$("#cmbCiudad option:selected").val() == 0){
+												mostrarPopUpError("Ninguna lista debe estar en Seleccione...<br>Por favor verifique");
+											}else{
+												guardarOferente();
+											}
+										}
+									}
+								},"json");
+							}else{
+								mostrarPopUpError("El correo electrónico alternativo es incorrecto");
+							}
+						}
+					}
+				},"json");
 			}else{
-				guardarOferente();
-			}
+				mostrarPopUpError("El correo electrónico es incorrecto");
+			}	
 		}
 	});
 
@@ -52,7 +112,6 @@ $(function() {
 	});
 
 	//----- Valida que solo se ingrese en las cajas de texto los valores apropiados -----//
-	//$('#txtNumeroIdentificacion').validCampoFranz('0123456789');
 	$('#txtTelefono1').validCampoFranz('0123456789');
 	$('#txtTelefono2').validCampoFranz('0123456789');
 	$('#txtTelefono3').validCampoFranz('0123456789');
@@ -251,6 +310,12 @@ $(function() {
 	        speed: 450,
 	        transition: 'slideDown'
 	    });
+	}
+
+	//----- Valida el correo electrónico -----//
+	function validar_email(email){
+	    var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	    return regex.test(email) ? true : false;
 	}
 
 	//----- Quita la Cortina -----//

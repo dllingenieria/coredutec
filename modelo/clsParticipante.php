@@ -477,6 +477,27 @@ class clsParticipante {
         echo json_encode($array);
     }
 
+    public function verificarEmail($param) {
+        extract($param);
+        $array = array();
+        $sql = "CALL SPVERIFICAREMAIL('$pEmail');";
+        $rs=null;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $fila = $this->codificarEnUtf8($fila);
+                    $array[] = $fila;
+                }
+            }
+            else{
+                $array = 0;
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
     private function codificarEnUtf8($fila) {
 		$aux;
         foreach ($fila as $value) {
