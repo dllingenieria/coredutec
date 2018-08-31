@@ -57,7 +57,7 @@ $(function() {
 			break;
 			case "5":
 			sessionStorage.anioPreprogramacion = $("#cmbAnios option:selected").text();
-			window.location = "alimentacion.html";
+			window.location = "reporteAlimentacion.html";
 			break;
 			case "6":
 			sessionStorage.anioPreprogramacion = $("#cmbAnios option:selected").text();

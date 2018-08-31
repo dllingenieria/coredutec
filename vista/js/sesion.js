@@ -55,7 +55,7 @@ var vistas = {
     10:{"nombre":"Imprimir Asistencia","url":"imprimirAsistencia.html"},
 	11:{"nombre":"Configuración","url":"configuracion.html"},
 	12:{"nombre":"Anexar Soportes","url":"anexarSoporte.html"},
-    13:{"nombre":"Alimentacion","url":"alimentacion.html"},
+    13:{"nombre":"Alimentacion","url":"reporteAlimentacion.html"},
 	14:{"nombre":"Calidad","url":"calidad.html"},
     15:{"nombre":"Seguimiento","url":"academico.html"},
     16:{"nombre":"S. Académica","url":"certificado.html"}
