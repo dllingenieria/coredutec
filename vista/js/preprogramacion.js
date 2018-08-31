@@ -37,12 +37,15 @@
     SetParametroCursoPorDefecto("#cmbModulo", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#cmbSede", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#docente2", '', 'Seleccione...');
-    SetParametroCursoPorDefecto("#cmbEntregables", '', 'Seleccione...');
+    //SetParametroCursoPorDefecto("#cmbEntregables", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#estado2", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#participantes2", '', 'Seleccione...');
-    SetParametroCursoPorDefecto("#cmbTipoDeCertificacion", '', 'Seleccione...');
+    //SetParametroCursoPorDefecto("#cmbTipoDeCertificacion", '', 'Seleccione...');
     setTimeout( mostrarPopUpPregunta(),1000);
 	
+	cargarValorSelected('#cmbEntregables','177',1000);
+	cargarValorSelected('#cmbTipoDeCertificacion','188',1000);
+
 	//validacion campos numericos
 	 
 	 
@@ -1436,6 +1439,13 @@ function formarOptionValueLista(data,objeto) {
     }
 } 
 
+//----- Establece los valores por defecto de las listas -----//
+function cargarValorSelected(objeto,value,tiempo){
+    setTimeout(function() {
+        $(objeto+' option[value="'+value+'"]').attr('selected','selected');    
+    }, tiempo);       
+}
+    
 function jsRemoveWindowLoad() {
     // eliminamos el div que bloquea pantalla
     $("#WindowLoad").remove();
