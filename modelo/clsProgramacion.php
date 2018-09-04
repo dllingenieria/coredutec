@@ -319,80 +319,85 @@ class clsProgramacion {
         $rs=null;
 		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila; 
+                }
+            }
             //----- Inicio envío correo al docente involucrado -----//
-                $rs1=null;
-                $array1=array();
-                $conexion->getPDO()->query("SET NAMES 'utf8'");
-                $sql = "CALL SPCONSULTARDATOSCORREOMATRICULAPORPREPROGRAMACIONDOCENTE($pre_id);";
-                if ($rs1 = $conexion->getPDO()->query($sql)){ 
-                    if($filas = $rs1->fetchAll(PDO::FETCH_ASSOC)){
-                        foreach ($filas as $fila){
-                            $array1[] = $fila; 
-                        }
-                    }
-                    $rs1->closeCursor();
-                    $utilidades = new clsUtilidades();
-                    $rs2=null;
-                    $array2=array();
-                    $IdTercero = $array1[0][Id];
-                    $conexion->getPDO()->query("SET NAMES 'utf8'");
-                    $sql2 = "CALL SPCONSULTARDATOSCORREO();";
-                    if ($rs2 = $conexion->getPDO()->query($sql2)){
-                        if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
-                            foreach ($filas2 as $fila1) {
-                                $array2[] = $fila1; 
-                            }
-                        }
-                        $rs2->closeCursor();
-                        $correode = $array2[0]['Parametro'];
-                        $clave = $array2[1]['Parametro'];
-                        $rs3=null;
-                        $array3=array();
-                        $conexion->getPDO()->query("SET NAMES 'utf8'");
-                        $sql3 = "CALL SPCONSULTARCORREOUSUARIO($IdUsuario);";
-                        if ($rs3 = $conexion->getPDO()->query($sql3)) {
-                            if ($filas3 = $rs3->fetchAll(PDO::FETCH_ASSOC)) {
-                                    foreach ($filas3 as $fila3) {
-                                    $array3[] = $fila3; 
-                                }
-                            }
-                            $rs3->closeCursor();
-                        }
-                        $usuario = $_SESSION['nombreUsuario'];
-                        $usuarioe = $array3[0]['CorreoElectronico'];
-                        if (count($array2)>0){
-                            $docente = $array1[0]['Docente'];
-                            $correoElectronico = $array1[0]['CorreoElectronico'];
-                            $salon = $array1[0]['Salon'];
-                            $codigocurso = $array1[0]['CodigoCurso'];
-                            $curso = $array1[0]['Curso'];
-                            $ruta = $array1[0]['Ruta'];
-                            $duracionCurso = $array1[0]['DuracionCurso'];
-                            $diasCurso = $array1[0]['DiasCurso'];
-                            $fechaInicial = $array1[0]['FechaInicial'];
-                            $fechaFinal = $array1[0]['FechaFinal'];
-                            $horaInicial = $array1[0]['HoraInicial'];
-                            $horaFinal = $array1[0]['HoraFinal'];
-                            $modulo = $array1[0]['Modulo'];
-                            $duracionModulo = $array1[0]['DuracionModulo'];
-                            $intensidadhoraria = $array1[0]['IntensidadHoraria'];
-                            $cantidadsesiones = $array1[0]['CantidadSesiones'];
-                            $modalidad = $array1[0]['Modalidad'];
-                            $sede = $array1[0]['Sede'];
-                            $observaciones = $array1[0]['Observaciones'];
-                            $estado = $array1[0]['Estado'];
-                            $asunto = "PREPROGRAMACION MODIFICADA";
-                            $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
-                        }else{
-                            print_r("Error2");
-                            $data["error"]="No se encontraron correos de estudiantes";
-                        }
-                    }else{
-                        print_r("Error3");
-                        $data["error"]="No se consultaron los correos";
-                        print_r($conexion->getPDO()->errorInfo()); die();
+            $rs1=null;
+            $array1=array();
+            $conexion->getPDO()->query("SET NAMES 'utf8'");
+            $sql = "CALL SPCONSULTARDATOSCORREOMATRICULAPORPREPROGRAMACIONDOCENTE($pre_id);";
+            if ($rs1 = $conexion->getPDO()->query($sql)){ 
+                if($filas1 = $rs1->fetchAll(PDO::FETCH_ASSOC)){
+                    foreach ($filas1 as $fila1){
+                        $array1[] = $fila1; 
                     }
                 }
+                $rs1->closeCursor();
+                $utilidades = new clsUtilidades();
+                $rs2=null;
+                $array2=array();
+                $IdTercero = $array1[0][Id];
+                $conexion->getPDO()->query("SET NAMES 'utf8'");
+                $sql2 = "CALL SPCONSULTARDATOSCORREO();";
+                if ($rs2 = $conexion->getPDO()->query($sql2)){
+                    if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
+                        foreach ($filas2 as $fila2) {
+                            $array2[] = $fila2; 
+                        }
+                    }
+                    $rs2->closeCursor();
+                    $correode = $array2[0]['Parametro'];
+                    $clave = $array2[1]['Parametro'];
+                    $rs3=null;
+                    $array3=array();
+                    $conexion->getPDO()->query("SET NAMES 'utf8'");
+                    $sql3 = "CALL SPCONSULTARCORREOUSUARIO($IdUsuario);";
+                    if ($rs3 = $conexion->getPDO()->query($sql3)) {
+                        if ($filas3 = $rs3->fetchAll(PDO::FETCH_ASSOC)) {
+                                foreach ($filas3 as $fila3) {
+                                $array3[] = $fila3; 
+                            }
+                        }
+                        $rs3->closeCursor();
+                    }
+                    $usuario = $_SESSION['nombreUsuario'];
+                    $usuarioe = $array3[0]['CorreoElectronico'];
+                    if (count($array2)>0){
+                        $docente = $array1[0]['Docente'];
+                        $correoElectronico = $array1[0]['CorreoElectronico'];
+                        $salon = $array1[0]['Salon'];
+                        $codigocurso = $array1[0]['CodigoCurso'];
+                        $curso = $array1[0]['Curso'];
+                        $ruta = $array1[0]['Ruta'];
+                        $duracionCurso = $array1[0]['DuracionCurso'];
+                        $diasCurso = $array1[0]['DiasCurso'];
+                        $fechaInicial = $array1[0]['FechaInicial'];
+                        $fechaFinal = $array1[0]['FechaFinal'];
+                        $horaInicial = $array1[0]['HoraInicial'];
+                        $horaFinal = $array1[0]['HoraFinal'];
+                        $modulo = $array1[0]['Modulo'];
+                        $duracionModulo = $array1[0]['DuracionModulo'];
+                        $intensidadhoraria = $array1[0]['IntensidadHoraria'];
+                        $cantidadsesiones = $array1[0]['CantidadSesiones'];
+                        $modalidad = $array1[0]['Modalidad'];
+                        $sede = $array1[0]['Sede'];
+                        $observaciones = $array1[0]['Observaciones'];
+                        $estado = $array1[0]['Estado'];
+                        $asunto = "PREPROGRAMACION MODIFICADA";
+                        $correo=$utilidades->enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto);
+                    }else{
+                        print_r("Error2");
+                        $data["error"]="No se encontraron correos de estudiantes";
+                    }
+                }else{
+                    print_r("Error3");
+                    $data["error"]="No se consultaron los correos";
+                    print_r($conexion->getPDO()->errorInfo()); die();
+                }
+            }
         }else {
             $array = 0;
 			print_r($conexion->getPDO()->errorInfo()); 

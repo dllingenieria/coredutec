@@ -379,48 +379,41 @@ $(function() {
                     ff = new Date(ff[0],ff[1]-1,ff[2]);
                     
                     var days = ["domingo","lunes","martes","miercoles","jueves","viernes","sabado"];
-                  
-					//alert("dias clase "+diasClase);
 					var cont = 1;
 					
 					//while por cantidad de sesion preprogramción
 					if(sessionStorage.cantidadSesiones>0){
-						while( cont <= sessionStorage.cantidadSesiones){						
-	                           //columna sesion
-							columnas.push({"title":"Sesión "+cont});
-							sesionA.push(cont);
-							cont++;
-
-	                    }
 						while(fi <= ff){
 	                        day = days[fi.getDay()]; 
-							
-	                        if(diasClase.indexOf(day) != -1){ //alert(day);
-								
+	                        if(diasClase.indexOf(day) != -1){ 
 	                        //columna sesion
-							//columnas.push({"title":"Sesión "+cont});
-							//sesionA.push(cont); 
-								
-							//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
-							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
-							//alert(fechaA);
-							//cont++;
+							fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());
 	                        }
 	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));
+	                    }
+	                    while( cont <= sessionStorage.cantidadSesiones){						
+	                        //columna sesion
+	                        var dia = fechaA[cont-1].split('-');
+	                        if(dia[2] < 10){
+	                        	dia[2] = '0'+ dia[2];
+	                        }
+							columnas.push({"title":"Sesión "+cont+" , "+dia[2]});
+							sesionA.push(cont);
+							cont++;
 	                    }
 					}else{
 						//while para fechas y sesion
 						while(fi <= ff){
 	                        day = days[fi.getDay()]; 
-							
 	                        if(diasClase.indexOf(day) != -1){ //alert(day);
 		                        //columna sesion
-								columnas.push({"title":"Sesión "+cont});
 								sesionA.push(cont); 
-									
-								//columnas.push({"title":fi.getUTCDate()+"/"+(fi.getMonth()+1)+"/"+fi.getFullYear()});
-								fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());	
-								//alert(fechaA);
+								fechaA.push(fi.getFullYear()+"-"+(fi.getMonth()+1)+"-"+fi.getUTCDate());
+								var dia = fechaA[cont-1].split('-');
+								if(dia[2] < 10){
+		                        	dia[2] = '0'+ dia[2];
+		                        }
+								columnas.push({"title":"Sesión "+cont+" , "+dia[2]});
 								cont++;
 	                        }
 	                     fi = new Date(fi.setTime((fi.getTime() + 86400000)));	

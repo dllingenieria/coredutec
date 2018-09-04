@@ -316,22 +316,21 @@ function modificarPreprogramacion() {
                 cod_sal: $("#txtCodigoMatricula").val()+'.'+cod_mod_aux
 				
             }, function(data) {
-                if (data == null) {
+                if (data == 0) {
                 	jsRemoveWindowLoad();
+                	mostrarPopUpError("Error al modificar la preprogramacion.");                    
+                } else if (data[0]['pRespuesta'] == 1) {
+					jsRemoveWindowLoad();
                     popUpConfirmacion("Preprogramacion modificada de manera correcta");
                     setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
-                } else if (data == 0) {
+                }else if (data[0]['pRespuesta'] == 2) {
 					jsRemoveWindowLoad();
-                    mostrarPopUpError("Error al modificar la preprogramacion.");
-                }
-				else if (data == -1) {
-					jsRemoveWindowLoad();
+					popUpConfirmacion("Datos básicos modificados, el salón tiene alumnos");
 					setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
-                    mostrarPopUpError("No se envio el correo al docente");
                 }
             }, "json");
         }
@@ -340,6 +339,7 @@ function modificarPreprogramacion() {
         
     }
 }
+
 function popUpConfirmacion(msj){
     $("#textoConfirmacion1").html(msj);
     $('#element_to_pop_upCon').bPopup({
