@@ -327,7 +327,7 @@ function modificarPreprogramacion() {
                     }, 4000); 
                 }else if (data[0]['pRespuesta'] == 2) {
 					jsRemoveWindowLoad();
-					popUpConfirmacion("Datos básicos modificados, el salón tiene alumnos");
+					popUpConfirmacion("Modificación no permitida, el salón tiene alumnos matriculados<br>");
 					setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
