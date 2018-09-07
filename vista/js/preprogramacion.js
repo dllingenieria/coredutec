@@ -1249,54 +1249,112 @@ function mostrarMatricula(pIdPreprogramacion) {
 var flag_car_mod = false;
 //FUNCION ECARGADA DE RECIBIR EL RESPONSE CON INFORMACIÃ’N DE LA 
 //viene de la lista del data table
-function cargarDatosPreprogramacion(res) { //alert("1"+matriculaExistente);
-    //para que cargue todos los modulos a editar
-	matriculaExistente=false;
-	//alert('res[0].id_rut: '+res[0].id_rut);
-    flag_car_mod = false;
-    $("#txtCodigoMatricula").val(res[0].Matricula);
-    $("#cmbConvocatorias").val(res[0].Convocatoria);
-    //cmbHoraFinal
-	$("#txtCodCurso").val(res[0].IdCurso);
-	//cargarRuras
-	setTimeout(function() {CargarRutas(res[0].IdCurso); 
-		setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
-	}, 500); 
-	//cargar cursos
-    CargarCursosPorCodigo(res[0].IdCurso);
-    setTimeout(function() {
-        obtenerCurso(res[0].Curso);
-        if (res[0].Modulo !== '') {
-            setTimeout(function() {
-                obtenerModulo(res[0].Modulo);
-				CargarDocentes();
-				setTimeout(function() {
-				$("#cmbDocente").val(res[0].Docente);
-				}, 1000);
-            }, 2300);
-        }
-    }, 1500); 
-    obtenerHora('cmbHoraInicio', res[0].HoraInicial);
-    obtenerHora('cmbHoraFinal', res[0].HoraFinal);
-    $("#txtFechaInicio").val(res[0].FechaInicial);
-    $("#txtFechaFinal").val(res[0].FechaFinal);
-    $("#cmbDiasDelCurso").val(res[0].DiasCurso);
-    $("#cmbModalidadMatricula").val(res[0].Modalidad);
-    $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
-    $("#cmbEntregables").val(res[0].Entregables);
-    obtenerSede(res[0].Sede);
+function cargarDatosPreprogramacion(res) {
+	if(res[0].CantidadMatriculados == "0"){
+	    //para que cargue todos los modulos a editar
+		matriculaExistente=false;
+		//alert('res[0].id_rut: '+res[0].id_rut);
+	    flag_car_mod = false;
+	    $("#txtCodigoMatricula").val(res[0].Matricula);
+	    $("#cmbConvocatorias").val(res[0].Convocatoria);
+	    //cmbHoraFinal
+		$("#txtCodCurso").val(res[0].IdCurso);
+		//cargarRuras
+		setTimeout(function() {CargarRutas(res[0].IdCurso); 
+			setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
+		}, 500); 
+		//cargar cursos
+	    CargarCursosPorCodigo(res[0].IdCurso);
+	    setTimeout(function() {
+	        obtenerCurso(res[0].Curso);
+	        if (res[0].Modulo !== '') {
+	            setTimeout(function() {
+	                obtenerModulo(res[0].Modulo);
+					CargarDocentes();
+					setTimeout(function() {
+					$("#cmbDocente").val(res[0].Docente);
+					}, 1000);
+	            }, 2300);
+	        }
+	    }, 1500); 
+	    obtenerHora('cmbHoraInicio', res[0].HoraInicial);
+	    obtenerHora('cmbHoraFinal', res[0].HoraFinal);
+	    $("#txtFechaInicio").val(res[0].FechaInicial);
+	    $("#txtFechaFinal").val(res[0].FechaFinal);
+	    $("#cmbDiasDelCurso").val(res[0].DiasCurso);
+	    $("#cmbModalidadMatricula").val(res[0].Modalidad);
+	    $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
+	    $("#cmbEntregables").val(res[0].Entregables);
+	    obtenerSede(res[0].Sede);
 
-	//se agregan campos nuevos de preprogramación
-	 $("#txtCodSalon").val(res[0].Salon);
-	 $("#txtCanSesiones").val(res[0].CantidadSesiones);
-	 $("#txtCapSalon").val(res[0].CapacidadSalon);
-	 $("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
-	 $("#txtObservacion").val(res[0].Observaciones);
-   //cargar los estados
-	setTimeout(function() {CargarEstados(); 
-		setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
-	}, 1000);
-   modoModificarOn();
+		//se agregan campos nuevos de preprogramación
+		 $("#txtCodSalon").val(res[0].Salon);
+		 $("#txtCanSesiones").val(res[0].CantidadSesiones);
+		 $("#txtCapSalon").val(res[0].CapacidadSalon);
+		 $("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
+		 $("#txtObservacion").val(res[0].Observaciones);
+	   //cargar los estados
+		setTimeout(function() {CargarEstados(); 
+			setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
+		}, 1000);
+	   modoModificarOn();
+	}else{
+		//para que cargue todos los modulos a editar
+		matriculaExistente=false;
+		//alert('res[0].id_rut: '+res[0].id_rut);
+	    flag_car_mod = false;
+	    $("#txtCodigoMatricula").val(res[0].Matricula);
+	    $("#cmbConvocatorias").val(res[0].Convocatoria);
+	    //cmbHoraFinal
+		$("#txtCodCurso").val(res[0].IdCurso);
+		//cargarRuras
+		setTimeout(function() {CargarRutas(res[0].IdCurso); 
+			setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
+		}, 500); 
+		//cargar cursos
+	    CargarCursosPorCodigo(res[0].IdCurso);
+
+	    setTimeout(function() {
+	        obtenerCurso(res[0].Curso);
+	        if (res[0].Modulo !== '') {
+	            setTimeout(function() {
+	                obtenerModulo(res[0].Modulo);
+					CargarDocentes();
+					setTimeout(function() {
+					$("#cmbDocente").val(res[0].Docente);
+					}, 1000);
+	            }, 2300);
+	        }
+	    }, 1500); 
+	    obtenerHora('cmbHoraInicio', res[0].HoraInicial);
+	    obtenerHora('cmbHoraFinal', res[0].HoraFinal);
+	    $("#txtFechaInicio").val(res[0].FechaInicial);
+	    $("#txtFechaFinal").val(res[0].FechaFinal);
+	    $("#cmbDiasDelCurso").val(res[0].DiasCurso);
+	    $("#cmbModalidadMatricula").val(res[0].Modalidad);
+	    $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
+	    $("#cmbEntregables").val(res[0].Entregables);
+	    obtenerSede(res[0].Sede);
+
+		//se agregan campos nuevos de preprogramación
+		 $("#txtCodSalon").val(res[0].Salon);
+		 $("#txtCanSesiones").val(res[0].CantidadSesiones);
+		 $("#txtCapSalon").val(res[0].CapacidadSalon);
+		 $("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
+		 $("#txtObservacion").val(res[0].Observaciones);
+	   //cargar los estados
+		setTimeout(function() {CargarEstados(); 
+			setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
+		}, 1000);
+	   modoModificarOn();
+	   //Deshabilita los campos que no se pueden modificar
+	   $("#cmbConvocatorias").attr("disabled","disabled");
+	   $("#txtCodCurso").attr("disabled","disabled");
+	   $("#cmbCurso").attr("disabled","disabled");
+	   $("#cmbModulo").attr("disabled","disabled");
+	   $("#cmbEntregables").attr("disabled","disabled");
+	   $("#cmbTipoDeCertificacion").attr("disabled","disabled");
+	}
 }
 
 //----------UTILIDADES---------
