@@ -480,22 +480,36 @@ class clsParticipante {
     public function verificarEmail($param) {
         extract($param);
         $array = array();
-        $sql = "CALL SPVERIFICAREMAIL('$pEmail');";
         $rs=null;
+        $sql = "CALL SPVERIFICAREMAIL($pTipoDocumento,$pDocumento,'$pEmail');";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
-                    $fila = $this->codificarEnUtf8($fila);
                     $array[] = $fila;
                 }
-            }
-            else{
-                $array = 0;
+            $rs->closeCursor();
             }
         } else {
             $array = 0;
         }
         echo json_encode($array);
+        
+
+
+        // if ($rs = $conexion->getPDO()->query($sql)) {
+        //     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+        //         foreach ($filas as $fila) {
+        //             $fila = $this->codificarEnUtf8($fila);
+        //             $array[] = $fila;
+        //         }
+        //     }
+        //     else{
+        //         $array = 0;
+        //     }
+        // } else {
+        //     $array = 0;
+        // }
+        // echo json_encode($array);
     }
 
     private function codificarEnUtf8($fila) {

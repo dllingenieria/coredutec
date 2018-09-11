@@ -43,9 +43,11 @@ $(function() {
 				$.post("../../controlador/fachada.php", {
 				clase: 'clsParticipante',
 				oper: 'verificarEmail',
+				pTipoDocumento: $("#cmbTipoIdentificacion option:selected").val(),
+				pDocumento: $("#txtNumeroIdentificacion").val(),
 				pEmail: $("#txtEmail1").val()
 				}, function(data) {
-					if(data !== 0){
+					if(data[0]['pRespuesta'] !== '0'){
 						mostrarPopUpError("El correo ya está registrado, use uno diferente");
 					}else{
 						//----- Verifica el correo alternativo -----//
@@ -72,9 +74,11 @@ $(function() {
 								$.post("../../controlador/fachada.php", {
 								clase: 'clsParticipante',
 								oper: 'verificarEmail',
+								pTipoDocumento: $("#cmbTipoIdentificacion option:selected").val(),
+								pDocumento: $("#txtNumeroIdentificacion").val(),
 								pEmail: $("#txtEmail2").val()
 								}, function(data) {
-									if(data !== 0){
+									if(data[0]['pRespuesta'] !== '0'){
 										mostrarPopUpError("El correo electrónico alternativo ya está registrado,<br>use uno diferente");
 									}else{
 										//----- Para calcular que la edad sea mayor de 15 años -----//
