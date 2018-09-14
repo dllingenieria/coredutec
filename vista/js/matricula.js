@@ -248,20 +248,44 @@ $(function() {
         pIdMatricula:$("#cmbMatriculadoEnMatricula").val(),
         pIdCarga : $.cookie("pIdCarga")
     }, function(data) {
-        if (data != 0) {
-            jsRemoveWindowLoad();
-            $.cookie("id_mat", data);
-            $.cookie("pEstadoMatricula",'Guardada');
-            PopUpConfirmacion("Matrícula guardada satisfactoriamente.");
-        }else{
-            if(data=='-1'){
+        if (data == '-1'){
                 jsRemoveWindowLoad();
-                PopUpError("No se pudo guardar la matrícula");
+                PopUpError("No se pudo guardar la matrícula<br>");
             }else{
-                jsRemoveWindowLoad();
-                PopUpError("Este tercero ya se encuentra matriculado");
-            } 
-        }   
+                if (data == '0'){
+                    jsRemoveWindowLoad();
+                    PopUpError("Este tercero ya se encuentra matriculado<br>");
+                }else{
+                    if (data == '-2'){
+                        jsRemoveWindowLoad();
+                        PopUpError("Este tercero tiene un módulo activo<br>");
+                    }else{
+                         if (data == '-3'){
+                            jsRemoveWindowLoad();
+                            PopUpError("Este tercero ya cursó y aprobó este módulo<br>");
+                        }else{
+                            jsRemoveWindowLoad();
+                            $.cookie("id_mat", data);
+                            $.cookie("pEstadoMatricula",'Guardada');
+                            PopUpConfirmacion("Matrícula guardada satisfactoriamente<br>");
+                        }
+                    }
+                }
+            }
+        // if (data != 0) {
+        //     jsRemoveWindowLoad();
+        //     $.cookie("id_mat", data);
+        //     $.cookie("pEstadoMatricula",'Guardada');
+        //     PopUpConfirmacion("Matrícula guardada satisfactoriamente.");
+        // }else{
+        //     if(data=='-1'){
+        //         jsRemoveWindowLoad();
+        //         PopUpError("No se pudo guardar la matrícula");
+        //     }else{
+        //         jsRemoveWindowLoad();
+        //         PopUpError("Este tercero ya se encuentra matriculado");
+        //     } 
+        // }   
     }, "json");
 	
 	}else{
