@@ -316,22 +316,32 @@ function modificarPreprogramacion() {
                 cod_sal: $("#txtCodigoMatricula").val()+'.'+cod_mod_aux
 				
             }, function(data) {
-                if (data == 0) {
+            	if (data == 0) {
                 	jsRemoveWindowLoad();
                 	mostrarPopUpError("Error al modificar la preprogramacion.");                    
-                } else if (data[0]['pRespuesta'] == 1) {
-					jsRemoveWindowLoad();
+                }else{
+                	jsRemoveWindowLoad();
                     popUpConfirmacion("Preprogramacion modificada de manera correcta");
                     setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
-                }else if (data[0]['pRespuesta'] == 2) {
-					jsRemoveWindowLoad();
-					popUpConfirmacion("Modificación no permitida, el salón tiene alumnos matriculados<br>");
-					setTimeout(function() {
-                        location.reload(true);
-                    }, 4000); 
                 }
+     //            if (data == 0) {
+     //            	jsRemoveWindowLoad();
+     //            	mostrarPopUpError("Error al modificar la preprogramacion.");                    
+     //            } else if (data[0]['pRespuesta'] == 1) {
+					// jsRemoveWindowLoad();
+     //                popUpConfirmacion("Preprogramacion modificada de manera correcta");
+     //                setTimeout(function() {
+     //                    location.reload(true);
+     //                }, 4000); 
+     //            }else if (data[0]['pRespuesta'] == 2) {
+					// jsRemoveWindowLoad();
+					// popUpConfirmacion("Modificación no permitida, el salón tiene alumnos matriculados<br>");
+					// setTimeout(function() {
+     //                    location.reload(true);
+     //                }, 4000); 
+     //            }
             }, "json");
         }
     } else {
@@ -515,8 +525,8 @@ function FormarOptionValueCursos(pCursos) {
             text: pCursos[i].Nombre
         }))
     }
-    // $("#cmbRutaDeFormacion").val(pCursos[0].Ruta).prop('selected', true);
-    // $("#cmbRutaDeFormacion").selected = true;
+    $("#cmbRutaDeFormacion").val(pCursos[0].Ruta).prop('selected', true);
+    $("#cmbRutaDeFormacion").selected = true;
 }
 
 function CargarConvocatoria() {
@@ -747,12 +757,12 @@ function CargarModulosCursoModificar(cur_id) {
         if (data !== 0) {
             formarOptionValueModulos(data);
         }
-        else {
-                  mostrarPopUpError("No existen mas módulos para asignar");
-                        //se recarga la pagina
-                        setTimeout(function() {
-                            location.reload(true);
-                  }, 3000);
+        else{
+			mostrarPopUpError("No existen mas módulos para asignar");
+			    //se recarga la pagina
+			    setTimeout(function() {
+			        location.reload(true);
+			}, 3000);
 
         }
     }, "json");
@@ -1250,110 +1260,114 @@ var flag_car_mod = false;
 //FUNCION ECARGADA DE RECIBIR EL RESPONSE CON INFORMACIÃ’N DE LA 
 //viene de la lista del data table
 function cargarDatosPreprogramacion(res) {
-	if(res[0].CantidadMatriculados == "0"){
-	    //para que cargue todos los modulos a editar
-		matriculaExistente=false;
-		//alert('res[0].id_rut: '+res[0].id_rut);
-	    flag_car_mod = false;
-	    $("#txtCodigoMatricula").val(res[0].Matricula);
-	    $("#cmbConvocatorias").val(res[0].Convocatoria);
-	    //cmbHoraFinal
-		$("#txtCodCurso").val(res[0].IdCurso);
-		//cargarRuras
-		setTimeout(function() {CargarRutas(res[0].IdCurso); 
-			setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
-		}, 500); 
-		//cargar cursos
-	    CargarCursosPorCodigo(res[0].IdCurso);
-	    setTimeout(function() {
-	        obtenerCurso(res[0].Curso);
-	        if (res[0].Modulo !== '') {
-	            setTimeout(function() {
-	                obtenerModulo(res[0].Modulo);
-					CargarDocentes();
-					setTimeout(function() {
-					$("#cmbDocente").val(res[0].Docente);
-					}, 1000);
-	            }, 2300);
-	        }
-	    }, 1500); 
-	    obtenerHora('cmbHoraInicio', res[0].HoraInicial);
-	    obtenerHora('cmbHoraFinal', res[0].HoraFinal);
-	    $("#txtFechaInicio").val(res[0].FechaInicial);
-	    $("#txtFechaFinal").val(res[0].FechaFinal);
-	    $("#cmbDiasDelCurso").val(res[0].DiasCurso);
-	    $("#cmbModalidadMatricula").val(res[0].Modalidad);
-	    $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
-	    $("#cmbEntregables").val(res[0].Entregables);
-	    obtenerSede(res[0].Sede);
+	//para que cargue todos los modulos a editar
+	matriculaExistente=false;
+	//alert('res[0].id_rut: '+res[0].id_rut);
+    flag_car_mod = false;
+    $("#txtCodigoMatricula").val(res[0].Matricula);
+    $("#cmbConvocatorias").val(res[0].Convocatoria);
+    //cmbHoraFinal
+	$("#txtCodCurso").val(res[0].IdCurso);
+	//cargarRuras
+	setTimeout(function() {CargarRutas(res[0].IdCurso); 
+		setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
+	}, 500); 
+	//cargar cursos
+    CargarCursosPorCodigo(res[0].IdCurso);
+    setTimeout(function() {
+        obtenerCurso(res[0].Curso);
+        if (res[0].Modulo !== '') {
+            setTimeout(function() {
+                obtenerModulo(res[0].Modulo);
+				CargarDocentes();
+				setTimeout(function() {
+				$("#cmbDocente").val(res[0].Docente);
+				}, 1000);
+            }, 2300);
+        }
+    }, 1500); 
+    obtenerHora('cmbHoraInicio', res[0].HoraInicial);
+    obtenerHora('cmbHoraFinal', res[0].HoraFinal);
+    $("#txtFechaInicio").val(res[0].FechaInicial);
+    $("#txtFechaFinal").val(res[0].FechaFinal);
+    $("#cmbDiasDelCurso").val(res[0].DiasCurso);
+    $("#cmbModalidadMatricula").val(res[0].Modalidad);
+    $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
+    $("#cmbEntregables").val(res[0].Entregables);
+    obtenerSede(res[0].Sede);
 
-		//se agregan campos nuevos de preprogramación
-		 $("#txtCodSalon").val(res[0].Salon);
-		 $("#txtCanSesiones").val(res[0].CantidadSesiones);
-		 $("#txtCapSalon").val(res[0].CapacidadSalon);
-		 $("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
-		 $("#txtObservacion").val(res[0].Observaciones);
-	   //cargar los estados
-		setTimeout(function() {CargarEstados(); 
-			setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
-		}, 1000);
-	   modoModificarOn();
-	}else{
-		//para que cargue todos los modulos a editar
-		matriculaExistente=false;
-		//alert('res[0].id_rut: '+res[0].id_rut);
-	    flag_car_mod = false;
-	    $("#txtCodigoMatricula").val(res[0].Matricula);
-	    $("#cmbConvocatorias").val(res[0].Convocatoria);
-	    //cmbHoraFinal
-		$("#txtCodCurso").val(res[0].IdCurso);
-		//cargarRuras
-		setTimeout(function() {CargarRutas(res[0].IdCurso); 
-			setTimeout(function() {obtenerRuta(res[0].Ruta);  }, 900);  
-		}, 500); 
-		//cargar cursos
-	    CargarCursosPorCodigo(res[0].IdCurso);
-
-	    setTimeout(function() {
-	        obtenerCurso(res[0].Curso);
-	        if (res[0].Modulo !== '') {
-	            setTimeout(function() {
-	                obtenerModulo(res[0].Modulo);
-					CargarDocentes();
-					setTimeout(function() {
-					$("#cmbDocente").val(res[0].Docente);
-					}, 1000);
-	            }, 2300);
-	        }
-	    }, 1500); 
-	    obtenerHora('cmbHoraInicio', res[0].HoraInicial);
-	    obtenerHora('cmbHoraFinal', res[0].HoraFinal);
-	    $("#txtFechaInicio").val(res[0].FechaInicial);
-	    $("#txtFechaFinal").val(res[0].FechaFinal);
-	    $("#cmbDiasDelCurso").val(res[0].DiasCurso);
-	    $("#cmbModalidadMatricula").val(res[0].Modalidad);
-	    $("#cmbTipoDeCertificacion").val(res[0].Certificacion);
-	    $("#cmbEntregables").val(res[0].Entregables);
-	    obtenerSede(res[0].Sede);
-
-		//se agregan campos nuevos de preprogramación
-		 $("#txtCodSalon").val(res[0].Salon);
-		 $("#txtCanSesiones").val(res[0].CantidadSesiones);
-		 $("#txtCapSalon").val(res[0].CapacidadSalon);
-		 $("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
-		 $("#txtObservacion").val(res[0].Observaciones);
-	   //cargar los estados
-		setTimeout(function() {CargarEstados(); 
-			setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
-		}, 1000);
-	   modoModificarOn();
-	   //Deshabilita los campos que no se pueden modificar
-	   $("#cmbConvocatorias").attr("disabled","disabled");
-	   $("#txtCodCurso").attr("disabled","disabled");
-	   $("#cmbCurso").attr("disabled","disabled");
-	   $("#cmbModulo").attr("disabled","disabled");
-	   $("#cmbEntregables").attr("disabled","disabled");
-	   $("#cmbTipoDeCertificacion").attr("disabled","disabled");
+	//se agregan campos nuevos de preprogramación
+	$("#txtCodSalon").val(res[0].Salon);
+	$("#txtCanSesiones").val(res[0].CantidadSesiones);
+	$("#txtCapSalon").val(res[0].CapacidadSalon);
+	$("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
+	$("#txtObservacion").val(res[0].Observaciones);
+	//cargar los estados
+	setTimeout(function() {CargarEstados(); 
+		setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
+	}, 1000);
+	modoModificarOn();
+	//Deshabilita los campos que no se pueden modificar
+	var today = new Date();
+	var mes = today.getMonth() + 1;
+	if (mes < 10) {
+		mes = "0" + mes;
+	}
+	var hoy = (today.getFullYear() + "-" + mes + "-" + today.getDate());
+	console.log(hoy);
+	if((new Date(res[0].FechaInicial).getTime() >= new Date(hoy).getTime()) && parseInt(res[0].CantidadMatriculados) > 0){
+		if(sessionStorage.esAdministrador == 1) {
+			$("#cmbConvocatorias").attr("disabled","disabled");
+			$("#txtCodCurso").attr("disabled","disabled");
+			$("#cmbCurso").attr("disabled","disabled");
+			$("#cmbModulo").attr("disabled","disabled");
+			$("#cmbEntregables").attr("disabled","disabled");
+			$("#cmbTipoDeCertificacion").attr("disabled","disabled");
+		}else{
+			$("#cmbConvocatorias").attr("disabled","disabled");
+			$("#txtCodCurso").attr("disabled","disabled");
+			$("#cmbCurso").attr("disabled","disabled");
+			$("#cmbModulo").attr("disabled","disabled");
+			$("#cmbEntregables").attr("disabled","disabled");
+			$("#cmbTipoDeCertificacion").attr("disabled","disabled");
+			$("#txtFechaInicio").attr("disabled","disabled");
+			$("#txtFechaFinal").attr("disabled","disabled");
+		}
+	}else if((new Date(res[0].FechaInicial).getTime() < new Date(hoy).getTime()) && parseInt(res[0].CantidadMatriculados) == 0){
+		$("#cmbConvocatorias").attr("disabled","disabled");
+		$("#txtCodCurso").attr("disabled","disabled");
+		$("#cmbCurso").attr("disabled","disabled");
+		$("#cmbDiasDelCurso").attr("disabled","disabled");
+		$("#txtFechaInicio").attr("disabled","disabled");
+		$("#txtFechaFinal").attr("disabled","disabled");
+		$("#cmbHoraInicio").attr("disabled","disabled");
+		$("#cmbHoraFinal").attr("disabled","disabled");
+		$("#cmbModulo").attr("disabled","disabled");
+		$("#txtInteHoraria").attr("disabled","disabled");
+		$("#txtCanSesiones").attr("disabled","disabled");
+		$("#cmbSede").attr("disabled","disabled");
+		$("#txtCapSalon").attr("disabled","disabled");
+		$("#cmbDocente").attr("disabled","disabled");
+		$("#cmbEntregables").attr("disabled","disabled");
+		$("#cmbTipoDeCertificacion").attr("disabled","disabled");
+	}else if((new Date(res[0].FechaInicial).getTime() < new Date(hoy).getTime()) && parseInt(res[0].CantidadMatriculados) > 0){
+		if(sessionStorage.esAdministrador == 1) {
+			$("#cmbConvocatorias").attr("disabled","disabled");
+			$("#txtCodCurso").attr("disabled","disabled");
+			$("#cmbCurso").attr("disabled","disabled");
+			$("#cmbModulo").attr("disabled","disabled");
+			$("#cmbEntregables").attr("disabled","disabled");
+			$("#cmbTipoDeCertificacion").attr("disabled","disabled");
+		}else{
+			$("#cmbConvocatorias").attr("disabled","disabled");
+			$("#txtCodCurso").attr("disabled","disabled");
+			$("#cmbCurso").attr("disabled","disabled");
+			$("#cmbModulo").attr("disabled","disabled");
+			$("#cmbEntregables").attr("disabled","disabled");
+			$("#cmbTipoDeCertificacion").attr("disabled","disabled");
+			$("#txtFechaInicio").attr("disabled","disabled");
+			$("#txtFechaFinal").attr("disabled","disabled");
+		}
 	}
 }
 

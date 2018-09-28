@@ -319,11 +319,12 @@ class clsProgramacion {
         $rs=null;
 		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila; 
-                }
-            }
+            $array = 1;
+            // if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+            //     foreach ($filas as $fila) {
+            //         $array[] = $fila; 
+            //     }
+            // }
             //----- Inicio envío correo al docente involucrado -----//
             $rs1=null;
             $array1=array();
