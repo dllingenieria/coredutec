@@ -12,17 +12,17 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host =  "smtp.gmail.com"; //"smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "outlook.office365.com"; //"smtp.gmail.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; 
-        $mail->Port = 465; //587;
-        $mail->SMTPSecure = "ssl"; //"tls";
+        $mail->Port = 587; //465;
+        $mail->SMTPSecure = "tls"; //"ssl";
         $mail->From = $correode;
         $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";
         $mail->AddAddress($correoElectronico);                  // name is optional
         $mail->WordWrap = 50;                                 // set word wrap to 50 characters
-        $mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
+        //$mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
         $mail->IsHTML(true);                                  // set email format to HTML
         $mail->Subject = $asunto;
         $mensaje = file_get_contents("../vista/html/correo_curso.html");
@@ -62,12 +62,12 @@ class clsUtilidades {
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
-        $mail->Host =  "smtp.gmail.com"; //"smtp.office365.com";  // specify main and backup server
+        $mail->Host =  "outlook.office365.com"; //"smtp.gmail.com";  // specify main and backup server
         $mail->SMTPAuth = true;     // turn on SMTP authentication
         $mail->Username = $correode;  // SMTP username
         $mail->Password = $clave; // SMTP password
-        $mail->Port = 465; //587;
-        $mail->SMTPSecure = "ssl"; //"tls";
+        $mail->Port = 587; //465;
+        $mail->SMTPSecure = "tls"; //"ssl";
         $mail->From = $correode;
         $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";               // name is optional
         $mail->AddAddress($correoElectronico); 
