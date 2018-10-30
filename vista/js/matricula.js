@@ -392,7 +392,7 @@ function PopUpError(msj){
 }
 
 function PopUpConfirmacion(msj){
-    $("#textoConfirmatextoErrorcion1").text(msj);
+    $("#textoConfirmatextoErrorcion1").html(msj);
     $('#element_to_pop_upConfirmacion').bPopup({
        speed: 450,
        transition: 'slideDown'
