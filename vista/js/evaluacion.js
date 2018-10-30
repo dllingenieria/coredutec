@@ -446,7 +446,7 @@ $(function () {
         var tablaCursos = $('#tablaCursos').DataTable({
             "data": data,
             columns: columnasCurso,
-            "paging":   false,
+            "paging":   true,
             "info":     false,
 			"columnDefs": [
 			{"className": "dt-center", "targets": "_all"},
