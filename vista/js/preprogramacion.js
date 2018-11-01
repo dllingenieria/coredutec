@@ -1309,14 +1309,17 @@ function cargarDatosPreprogramacion(res) {
 	modoModificarOn();
 	//Deshabilita los campos que no se pueden modificar
 	var today = new Date();
+    var dia = today.getDate();
+    if (dia < 10) {
+        dia = "0" + dia;
+    }
 	var mes = today.getMonth() + 1;
 	if (mes < 10) {
 		mes = "0" + mes;
 	}
-	var hoy = (today.getFullYear() + "-" + mes + "-" + today.getDate());
-	console.log(hoy);
+	var hoy = (today.getFullYear() + "-" + mes + "-" + dia);
 	if((new Date(res[0].FechaInicial).getTime() >= new Date(hoy).getTime()) && parseInt(res[0].CantidadMatriculados) > 0){
-		if(sessionStorage.esAdministrador == 1) {
+        if(sessionStorage.esAdministrador == 1) {
 			$("#cmbConvocatorias").attr("disabled","disabled");
 			$("#txtCodCurso").attr("disabled","disabled");
 			$("#cmbCurso").attr("disabled","disabled");
@@ -1334,7 +1337,7 @@ function cargarDatosPreprogramacion(res) {
 			$("#txtFechaFinal").attr("disabled","disabled");
 		}
 	}else if((new Date(res[0].FechaInicial).getTime() < new Date(hoy).getTime()) && parseInt(res[0].CantidadMatriculados) == 0){
-		$("#cmbConvocatorias").attr("disabled","disabled");
+        $("#cmbConvocatorias").attr("disabled","disabled");
 		$("#txtCodCurso").attr("disabled","disabled");
 		$("#cmbCurso").attr("disabled","disabled");
 		$("#cmbDiasDelCurso").attr("disabled","disabled");
