@@ -131,6 +131,8 @@
             <input type="text"  id="txtCapSalon" class="TxtMatricula"/>
 			<div id="lblInteHoraria" class="LblMatricula">Intensidad Horaria</div>
             <input type="text"  id="txtInteHoraria" class="TxtMatricula"/>
+            <div id="lblConvenio" class="LblMatricula">Convenio</div>
+            <select type="text"  id="cmbConvenio" class="TxtMatricula"></select>
 			<div id="lblObservacion" class="LblMatricula">Observaciones</div>
             <textarea rows="4" cols="10" id="txtObservacion" class="TxtMatricula" maxlength="5000"></textarea>
 			<!--fin nuevos campos -->
@@ -142,6 +144,7 @@
             <input id="btnConsultar" class="BotonConsultar" name="btnConsultar" type="button" value="Consultar" />
             <input id="btnGuardar" class="BotonGuardar" name="btnGuardar" type="button" value="Guardar" />
             <input id="btnCancelar" class="BotonCancelar" name="btnCancelar" type="button" value="Cancelar" />
+            <input id="btnConvenio" class="BotonConvenio" name="btnConvenio" type="button" value="Convenio" />
         </div>
         <div id="botones1" style="display:none;">
             <input id="btnConsultar1" class="BotonConsultar" name="btnConsultar" type="button" value="Consultar" />
@@ -165,7 +168,7 @@
         <!-- Fin Mensaje de sesion-->
         <div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
             <div>
-                <table id="tblPopup" width="400" align="left" border="0">
+                <table id="tblPopup" width="410" align="left" border="0">
                     <tr>
                         <td align="center">
                             <label id="textoConfirmacion1" class="popup"></label>

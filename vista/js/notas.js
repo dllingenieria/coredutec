@@ -457,7 +457,7 @@ function mostrarPopUpError(err_men) {
 }
 //para el confirm
 function popUpConfirmacion1(msj, fn){
-	//contenedor vacion
+	//contenedor vacio
 	 var contenedor = $( "#contenedor" );
 	 //se le envia a contenedor el contenido de element_to_pop_upCon1
 	contenedor.html( $( "#element_to_pop_upCon1" ).html() );

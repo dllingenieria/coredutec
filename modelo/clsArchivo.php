@@ -23,8 +23,6 @@ class clsArchivo {
         return "Archivo <a href=\"../../".trim(str_replace("..","", $fil_com))."\" download>".str_replace('"', "", $nom_arc)."</a> guardado en servidor.";
     }
 
-
-
     function GuardarArchivoOriginal($param){
         extract($param);
         $archivo= str_replace('"', '',$archivo);
@@ -182,10 +180,51 @@ class clsArchivo {
             } else {
                 $array = "Error al cargar, intente nuevamente ".$_FILES["vid"]["error"];
             }
-
         return $array;
     }
 
-}
+    public function GuardarFirma(){
+        $ubicacion= $_REQUEST['ubicacion'];
+        $tercero= $_REQUEST['tercero'];
+        $fileTMP = $_FILES['vid']['tmp_name'];
+        $file = $_FILES['vid']['name'];
+        $uploadDir = '../'.$ubicacion;
+        $array1 = explode(".", $file);
+        $ext = $array1[count($array1) - 1];
+        $array = "";
+        $nameArchivo="FD_".$tercero.".".$ext;
+        $fullPath = $uploadDir . $nameArchivo;
+        if (file_exists($fullPath)) { 
+            unlink($fullPath);
+        }
+        if (move_uploaded_file($fileTMP, $fullPath)) {
+            $array = "A";
+        } else {
+            $array = "B";
+        }
+        echo $array;
+    }
 
+    public function GuardarLogo(){
+        $ubicacion= $_REQUEST['ubicacion'];
+        $convenio= $_REQUEST['convenio'];
+        $fileTMP = $_FILES['vid']['tmp_name'];
+        $file = $_FILES['vid']['name'];
+        $uploadDir = '../'.$ubicacion;
+        $array1 = explode(".", $file);
+        $ext = $array1[count($array1) - 1];
+        $array = "";
+        $nameArchivo="convenio_".$convenio.".".$ext;
+        $fullPath = $uploadDir . $nameArchivo;
+        if (file_exists($fullPath)) { 
+            unlink($fullPath);
+        }
+        if (move_uploaded_file($fileTMP, $fullPath)) {
+            $array = $fullPath;
+        } else {
+            $array = "B";
+        }
+        echo $array;
+    }
+}
 ?>

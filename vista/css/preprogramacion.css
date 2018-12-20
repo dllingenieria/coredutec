@@ -452,14 +452,14 @@ body {
 	padding-left: 1px;
 }
 
-#lblObservacion {
+#lblConvenio {
 	margin-top: 450px;
 }
 
-#txtObservacion {
+#cmbConvenio {
 	margin-top: 450px;
 	width:259px;
-	height:50px;
+	height:24px;
 	padding-top: 0px;
 	padding-left: 1px;
 }
@@ -478,6 +478,17 @@ body {
 	padding-left: 1px;
 }
 
+#lblObservacion {
+	margin-top: 485px;
+}
+
+#txtObservacion {
+	margin-top: 485px;
+	width:259px;
+	height:50px;
+	padding-top: 0px;
+	padding-left: 1px;
+}
 
 /* Seccion Botones */
 
@@ -495,7 +506,7 @@ body {
 
 .BotonCapturar {
     position:fixed;
-	margin-top: 77px;
+	margin-top: 112px;
 	margin-left: 40px;
 	width:220px;
 	height:35px;
@@ -621,7 +632,7 @@ body {
 
 .BotonGuardar {
     position:absolute;
-	margin-top: 530px;
+	margin-top: 565px;
 	margin-left: 0px;
 	width:90px;
 	height:27px;
@@ -652,7 +663,7 @@ body {
 
 .BotonConsultar {
     position:absolute;
-	margin-top: 530px;
+	margin-top: 565px;
 	margin-left: 100px;
 	width:90px;
 	height:27px;
@@ -699,8 +710,8 @@ body {
 
 .BotonCancelar {
     position:absolute;
-	margin-top: 530px;
-	margin-left: 200px;
+	margin-top: 565px;
+	margin-left: 300px;
 	width:90px;
 	height:27px;
 	color: #003265;
@@ -721,6 +732,37 @@ body {
     background-color:#f7ea32;
 	font-family: "Roboto-Bold";
     color: #003265; 
+}
+
+.BotonConvenio {
+    position:absolute;
+	margin-top: 565px;
+	margin-left: 200px;
+	width:90px;
+	height:27px;
+	color: #ffffff;
+	font-family: "Roboto-Regular";
+	font-size: 15px;
+	border-radius: 6px 6px 6px 6px;
+	background-color: #003265;
+	z-index: 7;
+	border-top:3px solid #003265;
+	border-right:3px solid #003265;
+	border-bottom:3px solid #003265;
+	border-left:3px solid #003265;
+	cursor:pointer;
+}
+
+.BotonConvenio:hover {
+	text-decoration:none;
+    background-color:#a7afff;
+	font-family: "Roboto-Bold";
+    color: #003265;
+	border-top:3px solid #a7afff;
+	border-right:3px solid #a7afff;
+	border-bottom:3px solid #a7afff;
+	border-left:3px solid #a7afff;
+	cursor:pointer; 
 }
 
 #btnCancelar1{

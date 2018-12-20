@@ -32,13 +32,13 @@ class clsProgramacion {
         //echo json_encode($array);
     }
 
-    public function AgregarPreprogramacion($param) { 
+    public function AgregarPreprogramacion($param) {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPAGREGARPREPROGRAMACION('$cod_mat', '$cod_sal',$tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin, '$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
-            $tip_cer,".$IdUsuario.",$pre_est,'$canSesiones','$capSalon','$inteHoraria','$observacion');";
+            $tip_cer,".$IdUsuario.",$pre_est,'$canSesiones','$capSalon','$inteHoraria',$convenio,'$observacion');";
         $rs=null;
         $buscar=array(chr(13).chr(10), "\r\n", "\n", "\r");
         $reemplazar=array("", "", "", "");
@@ -315,7 +315,7 @@ class clsProgramacion {
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPMODIFICARPREPROGRAMACION($pre_id, $tip_ser, $rut_for, '$cur_cod', $cur_dia,
             $hra_ini,$hra_fin,'$cod_mod',$mod_pre, $id_sed, $id_doc, '$fec_ini', '$fec_fin', $pro_ent, 
-            $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion','$codSalon');";
+            $tip_cer,$pre_est,".$IdUsuario.",'$canSesiones','$capSalon','$inteHoraria','$observacion','$codSalon',$convenio);";
         $rs=null;
 		// echo json_encode(array($sql));
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -481,9 +481,90 @@ class clsProgramacion {
            $array = 0;
        }
        echo json_encode($array);
-   }
+    }
 
+    //----- Función para la lista de convenios -----//
+    public function CargarConvenio($param) {
+        extract($param);
+        $rs = null;
+        $sql = "CALL SPCARGARCONVENIOS();";
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
 
+    //----- Función para guardar los datos de un convenio -----//
+    public function guardarConvenio($param){
+        extract($param);
+        $IdUsuario = $_SESSION['idUsuario'];
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPAGREGARCONVENIO($IdConvenio,'$pNombre',$pModulo,$pEstado,".$IdUsuario.");";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }else{
+                $array = -1;
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    //----- Función para agregar la ruta del logo de un convenio -----//
+    public function guardarRutaLogoConvenio($param){
+        extract($param);
+        $IdUsuario = $_SESSION['idUsuario'];
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPAGREGARRUTALOGOCONVENIO($IdConvenio,'$pRuta',".$IdUsuario.");";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }else{
+                $array = -1;
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    //----- Función para buscar un Convenio por Id -----//
+    public function consultarConvenio($param){
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCARGARCONVENIO($pIdConvenio)";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }else{
+                $array = -1;
+            }
+        }else{
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
 
     public function ReporteCallcenterGestionados($param){
 

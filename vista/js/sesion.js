@@ -58,7 +58,8 @@ var vistas = {
     13:{"nombre":"Alimentacion","url":"reporteAlimentacion.html"},
 	14:{"nombre":"Calidad","url":"calidad.html"},
     15:{"nombre":"Seguimiento","url":"academico.html"},
-    16:{"nombre":"S. Académica","url":"certificado.html"}
+    16:{"nombre":"S. Académica","url":"certificado.html"},
+    17:{"nombre":"Firma Digital","url":"firmaDigital.html"}
 };
 
 var vistasAdministrador = [0,1,2,3,4,5,8,11];
@@ -67,7 +68,7 @@ var vistasMatriculador = [1,4,8];
 var vistasAlimentacion = [13];
 var vistasCalidad = [14,8];
 var vistasSeguimiento = [15,8];
-var vistasSAcademica = [16,8];
+var vistasSAcademica = [16,17,8];
 
 $(function(){
 	 
@@ -328,8 +329,7 @@ function IniciarSesion() {
         }, function(data) {
             if (data !== null) {   
 				ObtSesion(1); 
-          
-            setTimeout(function(){
+                setTimeout(function(){
                 var roles = data[0].Roles.split(",");
                 sessionStorage.esAdministrador=roles[0];
                 sessionStorage.esDocente=roles[1];
@@ -341,45 +341,7 @@ function IniciarSesion() {
                 sessionStorage.esSAcademica=roles[7];
                 sessionStorage.esAvanzado=roles[8];
                 window.location = "vista/html/iniciarSesion.html";
-     //            var rolesDisponibles=0;
-     //            for (var i = 0; i < roles.length; i++) {
-     //                if (roles[i] === "1") {
-     //                    rolesDisponibles++;
-     //                }
-     //            }
-     //            if (rolesDisponibles>1) {
-     //                window.location = "vista/html/iniciarSesion.html";
-     //            }else{
-     //                if (sessionStorage.esAdministrador==="1") {
-     //                    window.location = "vista/html/captura.html";
-     //                }
-     //                if (sessionStorage.esDocente==="1") {
-     //                    window.location = "vista/html/docente.html";
-     //                }
-     //                if (sessionStorage.esMatriculador==="1") {
-     //                    window.location = "vista/html/busqueda.html";
-     //                }
-     //                if (sessionStorage.esCallCenter==="1") {
-     //                    window.location = "vista/html/callCenter.html";
-     //                }
-					// if (sessionStorage.esAlimentacion==="1") {
-     //                    window.location = "vista/html/alimentacion.html";
-     //                }
-					// if (sessionStorage.esAcademico==="1") {
-     //                    window.location = "vista/html/academico.html";
-     //                }
-					// if (sessionStorage.esCalidad==="1") {
-     //                    window.location = "vista/html/calidad.html";
-     //                }
-     //                if (sessionStorage.esSAcademica==="1") {
-     //                    window.location = "vista/html/certificado.html";
-     //                }
-     //                if (sessionStorage.esAvanzado==="1") {
-     //                    window.location = "vista/html/busqueda.html";
-     //                }
-     //            }
-				
-				   },1000);
+                },1000);
             }else {
                 $("#textoError").text("Usuario o Contraseña incorrectos");
                 $('#element_to_pop_upMen').bPopup({speed: 450,transition: 'slideDown'});

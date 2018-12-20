@@ -1,8 +1,8 @@
 $(function(){
-	 $("#btnAsistencias").css("display","none");
-	 $("#btnAcademico").css("display","none");
-	 $("#btnNotas").css("display","none");
-	 $("#btnPlaneacion").css("display","none");
+	$("#btnAsistencias").css("display","none");
+	$("#btnAcademico").css("display","none");
+	$("#btnNotas").css("display","none");
+	$("#btnPlaneacion").css("display","none");
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#descargar").hide();
@@ -22,7 +22,7 @@ $(function(){
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
-			clase: 'clsDocente',
+			clase: 'clsAcademico',
 			oper: 'ConsultarModulosPorDocente',
 			IdDocente: idDocenteG,
 			Anio: sessionStorage.anioPreprogramacion,
@@ -31,8 +31,6 @@ $(function(){
 			if (data !== 0) {
 				if(data !== null){
 					// $("#sectCuerpo").show();
-					
-					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					$("#btnAsistencias").css("display","");
@@ -78,8 +76,8 @@ $(function(){
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
 			{ title: "Estado" },
-			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
-			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
+			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
+			{data: null, className: "center", defaultContent: '<a id="certificar-link" class="edit-link" href="#" title="Edit">Certificar</a>'}
 			],
 			"paging":   true,
 			"info":     false,
@@ -133,7 +131,7 @@ $(function(){
 				sessionStorage.Ruta = table.row(this).data()[15];
 				sessionStorage.Modalidad = table.row(this).data()[16];
 				sessionStorage.cantidadSesiones = table.row(this).data()[17];
-				
+				sessionStorage.Estado = table.row(this).data()[18];
 			} else {
 				PopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");
 			}
@@ -172,6 +170,32 @@ $(function(){
 		}
 	});
 
+	$("#btnAcePop").click(function(){  
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsAcademico',
+			oper: 'enviarCertificar',
+			idPreprogramacion: sessionStorage.IdPreprogramacion
+		}, function(data) {
+			if (data == 0) {
+        	jsRemoveWindowLoad();
+            popUpConfirmacion('Existe un error, consulte con el administrador');
+	        }else {
+	        	if (data !== -1) {
+	        		setTimeout(function() {
+                        location.reload(true);
+                    }, 4000); 
+	        		jsRemoveWindowLoad();
+		        	popUpConfirmacion("Salón enviado a certificar de manera correcta");
+	        	}else{
+	        		jsRemoveWindowLoad();
+		        	popUpConfirmacion("No fue posible enviar a certificar el Salón");
+		        }
+	        }
+		}, "json");
+	});
+
 	$(document).on('click', '#asistencias-link', function() {
 			var data = table.row($(this).parents('tr')).data();
 			sessionStorage.id_tpar= data[0];
@@ -191,6 +215,14 @@ $(function(){
 				cantidadSesiones();
 			 	jsRemoveWindowLoad();
 			}
+	});
+
+	$(document).on('click', '#certificar-link', function() {
+		if(sessionStorage.Estado == "Finalizado"){
+			popUpConfirmacion1("¿Seguro que desea enviar a certificar el Salón?");
+		}else{
+			popUpConfirmacion("El Salón no ha sido cerrado, no es posible certificarlo");
+		}
 	});
 
 	function cantidadSesiones(){
@@ -274,9 +306,9 @@ $(function(){
 			 location.reload();
 	});
 
-	function popUpConfirmacion(msj){
-		    $("#textoConfirmacion1").text(msj);
-		    $('#element_to_pop_upCon').bPopup({
+	function popUpConfirmacion1(msj){
+		    $("#textoError").html(msj);
+		    $('#element_to_pop_upMen').bPopup({
 		        speed: 450,
 		        transition: 'slideDown'
 		    });
@@ -383,8 +415,8 @@ function jsShowWindowLoad(mensaje) {
 }
 
 
-	function PopUpError(msj){
-    $("#textoError").text(msj);
+	function mostrarPopUpError(msj){
+    $("#textoError").html(msj);
     $('#element_to_pop_upMen').bPopup({
        speed: 450,
        transition: 'slideDown'
@@ -392,7 +424,7 @@ function jsShowWindowLoad(mensaje) {
 }
 
 	function popUpConfirmacion(msj){
-		$("#textoConfirmacion1").text(msj);
+		$("#textoConfirmacion1").html(msj);
 		$('#element_to_pop_upCon').bPopup({
 		   speed: 450,
 		   transition: 'slideDown'

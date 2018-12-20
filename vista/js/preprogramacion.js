@@ -19,14 +19,12 @@
     $.cookie("pre_id", 1);
     calendarioEspanol();
     CargarConvocatoria();
-    // CargarRutas();
-    // CargarDocentes();
+    CargarConvenio();
     CargarSedes();
     CargarModalidades();
     CargarEntregables();
     CargarDiasCurso();
     cargarHorarios();
-    // CargarEstados();
     CargarTipoCertificacion();
     SetParametroCursoPorDefecto("#tiposdeservicio2", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#cmbRutaDeFormacion", '', 'Seleccione...');
@@ -37,10 +35,8 @@
     SetParametroCursoPorDefecto("#cmbModulo", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#cmbSede", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#docente2", '', 'Seleccione...');
-    //SetParametroCursoPorDefecto("#cmbEntregables", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#estado2", '', 'Seleccione...');
     SetParametroCursoPorDefecto("#participantes2", '', 'Seleccione...');
-    //SetParametroCursoPorDefecto("#cmbTipoDeCertificacion", '', 'Seleccione...');
     setTimeout( mostrarPopUpPregunta(),1000);
 	
 	cargarValorSelected('#cmbEntregables','177',1000);
@@ -238,6 +234,7 @@ function guardarPreprogramacion() {
 				capSalon : $("#txtCapSalon").val(),
 				inteHoraria : $("#txtInteHoraria").val(),
 				observacion : $("#txtObservacion").val(),
+                convenio: $("#cmbConvenio").val(),
 				
 				//campos para el correo
 				diasDelCurso : $("#cmbDiasDelCurso :selected").text(),
@@ -306,7 +303,8 @@ function modificarPreprogramacion() {
 				capSalon : $("#txtCapSalon").val(),
 				inteHoraria : $("#txtInteHoraria").val(),
 				observacion : $("#txtObservacion").val(),
-				
+				convenio: $("#cmbConvenio").val(),
+
 				//campos para el correo
 				diasDelCurso : $("#cmbDiasDelCurso :selected").text(),
 				horaInicio: $("#cmbHoraInicio :selected").text(),
@@ -434,6 +432,10 @@ $(function() {
 	    }
 	});
 
+    $("#btnConvenio").click(function() {
+        window.location = "../html/convenio.html";
+    });
+
 	$('#cmbEstado').change(function() {
 	    var valorNuevo=$("#cmbEstado").val();
 	    $("#cmbEstado option[value="+ valorNuevo +"]").attr("selected",true);
@@ -539,6 +541,20 @@ function CargarConvocatoria() {
         }
         else {
             mostrarPopUpError('error CargarConvocatoria');
+        }
+    }, "json");
+}
+
+function CargarConvenio() {
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsProgramacion',
+        oper: 'CargarConvenio'
+    }, function(data) {
+        if (data !== 0) {
+            FormarOptionValueConvenio(data);
+        }
+        else {
+            mostrarPopUpError('error CargarConvenio');
         }
     }, "json");
 }
@@ -667,6 +683,17 @@ function FormarOptionValueConvocatorias(pConvocatorias) {
         $('#cmbConvocatorias').append($('<option>', {
             value: pConvocatorias[i].Id,
             text: pConvocatorias[i].Nombre
+        }));
+    }
+}
+
+function FormarOptionValueConvenio(pConvenios) {
+    $('#cmbConvenio').find('option').remove();
+    SetParametroCursoPorDefecto("#cmbConvenio", '86', 'No Aplica');
+    for (i = 0; i < pConvenios.length; i++) {
+        $('#cmbConvenio').append($('<option>', {
+            value: pConvenios[i].Id,
+            text: pConvenios[i].Nombre
         }));
     }
 }
@@ -1302,6 +1329,7 @@ function cargarDatosPreprogramacion(res) {
 	$("#txtCapSalon").val(res[0].CapacidadSalon);
 	$("#txtInteHoraria").val(res[0].IntensidadHorariaDiaria);
 	$("#txtObservacion").val(res[0].Observaciones);
+    $("#cmbConvenio").val(res[0].Convenio);
 	//cargar los estados
 	setTimeout(function() {CargarEstados(); 
 		setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
