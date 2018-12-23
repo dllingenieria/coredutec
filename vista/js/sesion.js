@@ -59,7 +59,9 @@ var vistas = {
 	14:{"nombre":"Calidad","url":"calidad.html"},
     15:{"nombre":"Seguimiento","url":"academico.html"},
     16:{"nombre":"S. Académica","url":"certificado.html"},
-    17:{"nombre":"Firma Digital","url":"firmaDigital.html"}
+    17:{"nombre":"Firma Digital","url":"firmaDigital.html"},
+    18:{"nombre":"Anular Certificado","url":"anularCertificado.html"},
+    19:{"nombre":"Reexpedir Certificado","url":"reexpedirCertificado.html"}
 };
 
 var vistasAdministrador = [0,1,2,3,4,5,8,11];
@@ -68,7 +70,7 @@ var vistasMatriculador = [1,4,8];
 var vistasAlimentacion = [13];
 var vistasCalidad = [14,8];
 var vistasSeguimiento = [15,8];
-var vistasSAcademica = [16,17,8];
+var vistasSAcademica = [16,17,18,19,8];
 
 $(function(){
 	 

@@ -234,5 +234,26 @@ class clsCertificados {
         }
         echo json_encode($resultado);
     }
+
+    //----- Función para eliminar un certificado por Id -----//
+    public function anularCertificadoPorId($param){
+        extract($param);
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPELIMINARCERTIFICADO($pIdCertificado)";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }else{
+                $array = -1;
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
 }
 ?>

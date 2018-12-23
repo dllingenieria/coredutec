@@ -199,6 +199,14 @@ class clsArchivo {
         }
         if (move_uploaded_file($fileTMP, $fullPath)) {
             $array = "A";
+            //----- Copia la firma al directorio de Certificados -----//
+            $origen = "/web/sinfompc/anexos/firmas";
+            $destino = "/web/certificados/vista/images/firmas";
+            $dir = opendir($origen);
+            if (file_exists($destino."/".$nameArchivo)) { 
+                unlink($destino."/".$nameArchivo);
+            }
+            copy($origen."/".$nameArchivo, $destino."/".$nameArchivo);
         } else {
             $array = "B";
         }
