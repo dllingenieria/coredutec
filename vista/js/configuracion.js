@@ -556,6 +556,21 @@ $(function(){
 					});
 					jsRemoveWindowLoad();
 				break;
+				case '10':
+					window.location.href = "../html/firmaDigital.html";
+					// var html="firmaDigital.html";
+			  //   	$(".content-loader").fadeOut('slow', function(){  
+					// 	$(".content-loader").fadeIn('slow');
+					// 	$(".content-loader").load(html);
+					// 	$("#btn-add").hide();
+					// 	$("#btn-view").hide();
+					// 	$("#btn-save").hide();
+					// 	$("#btn-edit").hide();
+					// 	$("#btn-search-tercero").hide();
+					// 	$("#view-all-tercero").hide();
+					// });
+					// jsRemoveWindowLoad();
+				break;
 			}
 
 		if((tipoconfiguracion!=8) && (tipoconfiguracion!=9)){

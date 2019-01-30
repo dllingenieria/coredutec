@@ -120,7 +120,7 @@ $(function () {
 			{ title: "Días Curso" },
 			{ title: "Horario" },
 			{ title: "IntensidadHorariaDiaria" },
-			{ title: "Inscritos" },
+			{ title: "Por Certificar" },
 			{ title: "Ruta" },
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
