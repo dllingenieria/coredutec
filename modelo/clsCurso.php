@@ -720,6 +720,17 @@ class clsCurso {
                                                                                         echo json_encode($data);
                                                                                         exit;
                                                                                     }else{
+                                                                                        //Cambia los motivos de no asistencia de los aprobados
+                                                                                        $rs=null;
+                                                                                        unset($array);
+                                                                                        $array=array();
+                                                                                        $sql = "CALL SPCAMBIARMOTIVOSNOASISTENCIAAPROBADOS($idPreprogramacion);";
+                                                                                        if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                                                            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                                                                    foreach ($filas as $fila) {
+                                                                                                        $array[] = $fila;
+                                                                                                    }
+                                                                                            }
                                                                                         $data['horasTotles']="ok";
                                                                                     }
                                                                                 }else{
