@@ -660,11 +660,11 @@ class clsCurso {
                                                         unset($array);
                                                         $array=array();
                                                         $sql = "CALL SPCONSULTARMOTIVONOASISTENCIAOBSERVACIONESPORSALON($idPreprogramacion);";
-                                                        if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                        if ($rs = $conexion->getPDO()->query($sql)){ 
                                                             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
-                                                                    foreach ($filas as $fila) {
-                                                                        $array[] = $fila;
-                                                                    }
+                                                                foreach ($filas as $fila) {
+                                                                    $array[] = $fila;
+                                                                }
                                                             }
                                                             if (count($array)>0){
                                                                 $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con motivo de no asistencia y sin obervación";
@@ -678,9 +678,9 @@ class clsCurso {
                                                                 $sql = "CALL SPCONSULTARNOTASYPORCENTAJESPORSALON($idPreprogramacion);";
                                                                 if ($rs = $conexion->getPDO()->query($sql)) { 
                                                                     if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
-                                                                            foreach ($filas as $fila) {
-                                                                                $array[] = $fila;
-                                                                            }
+                                                                        foreach ($filas as $fila) {
+                                                                            $array[] = $fila;
+                                                                        }
                                                                     }
                                                                     if (count($array)>0){
                                                                         $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con nota >= 3 y sin porcentaje de asistencia >= 80%";
@@ -705,14 +705,19 @@ class clsCurso {
                                                                             }else{
                                                                                 $data['horasTotles']="ok";
                                                                             }
+                                                                        }else{
+                                                                            $data["error"]="No se pudo cerrar el curso, no se validaron porcentajes de asistencia y notas definitivas";
+                                                                        }
                                                                     }
+                                                                }else{
+                                                                    $data["error"]="No se pudo cerrar el curso, no se validaron notas definitivas y porcentajes de asistencia";
+                                                                }
                                                             }
                                                         }else{
-                                                                $data["error"]="No se pudo cerrar el curso, no se validaron motivos no asistencia y observaciones";
-                                                            }
-                                                    }
-                                                }
-                                                    else{
+                                                            $data["error"]="No se pudo cerrar el curso, no se validaron motivos no asistencia y observaciones";
+                                                        }
+                                                    }    
+                                                }else{
                                                         $data["error"]="No se pudo cerrar el curso no se consultaron notas y motivos no asistencia";
                                                     }
                                             }
@@ -833,10 +838,10 @@ class clsCurso {
 				
 			
 	}//fin validacion cerrar curso	
-echo json_encode($data);	
-}
+    echo json_encode($data);	
+    }
 	
-public function cerrarCursoMatriculaTercero($param){	
+    public function cerrarCursoMatriculaTercero($param){	
 		extract($param);
 		
 		$data = array('error'=>"", 'mensaje'=>'', 'html'=>'','parametros'=>'','idModulos'=>'','noModulos'=>'','asistencias'=>'', 'notas'=>'', 'planeacion'=>'');
@@ -998,7 +1003,7 @@ public function cerrarCursoMatriculaTercero($param){
         return $aux;
     }
 	
-	 public function CargarCursosPorCodigo($param) {
+	public function CargarCursosPorCodigo($param) {
         extract($param); 
 		$rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");

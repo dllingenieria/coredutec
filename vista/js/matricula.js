@@ -542,7 +542,7 @@ function CargarDatosCursoPorCodigo(pCodigoCurso) {
                 formarOptionValue("#selectLugarExpedicion", ciudades,lugarExpedicion);
                 formarOptionValue("#selectLocalidad", localidades,localidad);
                 formarOptionValue("#selectCiudad", ciudades,ciudadResidencia);
-				estadoParticipante = data[0].EstadoParticipante;
+				var estadoParticipante = data[0].EstadoParticipante;
 				//estadoParticipante= "Cumple";
                 $("#txtNombre").val(nombres);
                 $("#txtApellido").val(apellidos);
