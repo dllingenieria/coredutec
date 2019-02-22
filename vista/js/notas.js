@@ -429,7 +429,7 @@ $("#volverNotas").click(function(){
 });
 
 function popUpConfirmacion(msj){
-    $("#textoConfirmacion1").text(msj);
+    $("#textoConfirmacion1").html(msj);
     $('#element_to_pop_upCon').bPopup({
         speed: 450,
         transition: 'slideDown'
@@ -437,7 +437,7 @@ function popUpConfirmacion(msj){
 }
 
 function popUpConfirmacionCerrarCurso(msj){
-    $("#textoConfirmacion1").text(msj);
+    $("#textoConfirmacion1").html(msj);
     $('#element_to_pop_upCon').bPopup({
         speed: 450,
         transition: 'slideDown',
@@ -449,7 +449,7 @@ function popUpConfirmacionCerrarCurso(msj){
 
 
 function mostrarPopUpError(err_men) {
-    $("#textoError").text(err_men);
+    $("#textoError").html(err_men);
     $('#element_to_pop_upMen').bPopup({
         speed: 450,
         transition: 'slideDown'
@@ -464,7 +464,7 @@ function popUpConfirmacion1(msj, fn){
 	/*como el id textoConfirmacion2 esta dos veces (en contenedor y en element_to_pop_upCon1)
     * se esta poniendo el texto en el de contenedor
 	*/
-	$("#textoConfirmacion2", contenedor ).text(msj);
+	$("#textoConfirmacion2", contenedor ).html(msj);
 	// $('#divAceptar').html("");
 	// $('.botonAceptar').attr("id","btnAceptar");
 	$("[id=btnAceptar]:button", contenedor ).click(function(){ 

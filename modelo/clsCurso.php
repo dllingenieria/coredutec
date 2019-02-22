@@ -655,7 +655,61 @@ class clsCurso {
                                                         echo json_encode($data);
                                                         exit;
                                                     }else{
-                                                        $data['horasTotles']="ok";
+                                                        //validacion Si hay motivo de no asistencia debe haber observacion
+                                                        $rs=null;
+                                                        unset($array);
+                                                        $array=array();
+                                                        $sql = "CALL SPCONSULTARMOTIVONOASISTENCIAOBSERVACIONESPORSALON($idPreprogramacion);";
+                                                        if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                                    foreach ($filas as $fila) {
+                                                                        $array[] = $fila;
+                                                                    }
+                                                            }
+                                                            if (count($array)>0){
+                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con motivo de no asistencia y sin obervación";
+                                                                echo json_encode($data);
+                                                                exit;
+                                                            }else{
+                                                                //validacion nota debe ser mayor que 3 si porcentaje de asistencia es mayor 80
+                                                                $rs=null;
+                                                                unset($array);
+                                                                $array=array();
+                                                                $sql = "CALL SPCONSULTARNOTASYPORCENTAJESPORSALON($idPreprogramacion);";
+                                                                if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                                    if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                                            foreach ($filas as $fila) {
+                                                                                $array[] = $fila;
+                                                                            }
+                                                                    }
+                                                                    if (count($array)>0){
+                                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con nota >= 3 y sin porcentaje de asistencia >= 80%";
+                                                                        echo json_encode($data);
+                                                                        exit;
+                                                                    }else{
+                                                                        //validacion porcentaje de asistencia es mayor 80 nota debe ser mayor que 3
+                                                                        $rs=null;
+                                                                        unset($array);
+                                                                        $array=array();
+                                                                        $sql = "CALL SPCONSULTARPORCENTAJESYNOTASPORSALON($idPreprogramacion);";
+                                                                        if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                                            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                                                    foreach ($filas as $fila) {
+                                                                                        $array[] = $fila;
+                                                                                    }
+                                                                            }
+                                                                            if (count($array)>0){
+                                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con porcentaje de asistemcia >= 80% y sin nota >= 3 ";
+                                                                                echo json_encode($data);
+                                                                                exit;
+                                                                            }else{
+                                                                                $data['horasTotles']="ok";
+                                                                            }
+                                                                    }
+                                                            }
+                                                        }else{
+                                                                $data["error"]="No se pudo cerrar el curso, no se validaron motivos no asistencia y observaciones";
+                                                            }
                                                     }
                                                 }
                                                     else{
