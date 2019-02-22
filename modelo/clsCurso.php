@@ -731,6 +731,7 @@ class clsCurso {
                                                                                                         $array[] = $fila;
                                                                                                     }
                                                                                             }
+                                                                                        }
                                                                                         $data['horasTotles']="ok";
                                                                                     }
                                                                                 }else{
