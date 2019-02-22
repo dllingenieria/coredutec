@@ -652,7 +652,7 @@ class clsCurso {
                                                     }
                                                     if (count($array)>0){
                                                         $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes <br>con nota menor a 3 y sin motivo de no asistencia<br>
-                                                        (El motivo No Aplica no es válido)";
+                                                        (El motivo --------- no es válido)";
                                                         echo json_encode($data);
                                                         exit;
                                                     }else{
