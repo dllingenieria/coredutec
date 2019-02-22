@@ -700,11 +700,31 @@ class clsCurso {
                                                                                     }
                                                                             }
                                                                             if (count($array)>0){
-                                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con porcentaje de asistencia >= 80% que no tienen nota >= 3";
+                                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con porcentaje de asistencia >= 80% que no tienen<br>nota >= 3";
                                                                                 echo json_encode($data);
                                                                                 exit;
                                                                             }else{
-                                                                                $data['horasTotles']="ok";
+                                                                                //validacion nota es mayor 0 asistencia debe ser mayor que 0
+                                                                                $rs=null;
+                                                                                unset($array);
+                                                                                $array=array();
+                                                                                $sql = "CALL SPCONSULTARNOTAYASISTENCIAPORSALON($idPreprogramacion);";
+                                                                                if ($rs = $conexion->getPDO()->query($sql)) { 
+                                                                                    if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { //Validar si hay algun resultado
+                                                                                            foreach ($filas as $fila) {
+                                                                                                $array[] = $fila;
+                                                                                            }
+                                                                                    }
+                                                                                    if (count($array)>0){
+                                                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br>con notas > 0 que no tienen<br>asistencias > 0";
+                                                                                        echo json_encode($data);
+                                                                                        exit;
+                                                                                    }else{
+                                                                                        $data['horasTotles']="ok";
+                                                                                    }
+                                                                                }else{
+                                                                                    $data["error"]="No se pudo cerrar el curso, no se validaron<br>notas definitivas >0 con asistencias >0";
+                                                                                }
                                                                             }
                                                                         }else{
                                                                             $data["error"]="No se pudo cerrar el curso, no se validaron<br>porcentajes de asistencia y notas definitivas";
