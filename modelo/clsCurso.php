@@ -634,7 +634,7 @@ class clsCurso {
                                                 }
                                             }
                                             if (count($array)>0){
-                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes <br>con inconsistencias en las asistencias y las notas";
+                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes <br>con asistencias > 0 que no tienen notas > 0";
                                                 echo json_encode($data);
                                                 exit;
                                             }
