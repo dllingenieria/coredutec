@@ -634,7 +634,7 @@ class clsCurso {
                                                 }
                                             }
                                             if (count($array)>0){
-                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes con inconsistencias en las asistencias y las notas";
+                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes <br>con inconsistencias en las asistencias y las notas";
                                                 echo json_encode($data);
                                                 exit;
                                             }
@@ -651,7 +651,8 @@ class clsCurso {
                                                             }
                                                     }
                                                     if (count($array)>0){
-                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes con nota menor a 3 y sin motivo de no asistencia";
+                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes <br>con nota menor a 3 y sin motivo de no asistencia<br>
+                                                        (El motivo No Aplica no es válido)";
                                                         echo json_encode($data);
                                                         exit;
                                                     }else{
@@ -683,7 +684,7 @@ class clsCurso {
                                                                         }
                                                                     }
                                                                     if (count($array)>0){
-                                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con nota >= 3 y sin porcentaje de asistencia >= 80%";
+                                                                        $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con nota >= 3 que no tienen porcentaje de asistencia >= 80%";
                                                                         echo json_encode($data);
                                                                         exit;
                                                                     }else{
@@ -699,26 +700,26 @@ class clsCurso {
                                                                                     }
                                                                             }
                                                                             if (count($array)>0){
-                                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con porcentaje de asistemcia >= 80% y sin nota >= 3 ";
+                                                                                $data["error"]="No se pudo cerrar el curso, existen ".count($array)." estudiantes<br> con porcentaje de asistencia >= 80% que no tienen nota >= 3";
                                                                                 echo json_encode($data);
                                                                                 exit;
                                                                             }else{
                                                                                 $data['horasTotles']="ok";
                                                                             }
                                                                         }else{
-                                                                            $data["error"]="No se pudo cerrar el curso, no se validaron porcentajes de asistencia y notas definitivas";
+                                                                            $data["error"]="No se pudo cerrar el curso, no se validaron<br>porcentajes de asistencia y notas definitivas";
                                                                         }
                                                                     }
                                                                 }else{
-                                                                    $data["error"]="No se pudo cerrar el curso, no se validaron notas definitivas y porcentajes de asistencia";
+                                                                    $data["error"]="No se pudo cerrar el curso, no se validaron<br>notas definitivas y porcentajes de asistencia";
                                                                 }
                                                             }
                                                         }else{
-                                                            $data["error"]="No se pudo cerrar el curso, no se validaron motivos no asistencia y observaciones";
+                                                            $data["error"]="No se pudo cerrar el curso, no se validaron<br>motivos no asistencia y observaciones";
                                                         }
                                                     }    
                                                 }else{
-                                                        $data["error"]="No se pudo cerrar el curso no se consultaron notas y motivos no asistencia";
+                                                        $data["error"]="No se pudo cerrar el curso no se consultaron<br>notas y motivos no asistencia";
                                                     }
                                             }
                                         }else{ //validar conexion y consulta consultarnotasporsalon
@@ -727,7 +728,7 @@ class clsCurso {
                                         }   
 
                                 }else{
-                                    $data["error"]="No se pudo cerrar el curso no se consultaron las notas y las asistencias";
+                                    $data["error"]="No se pudo cerrar el curso no se<br>consultaron las notas y las asistencias";
                                 }               
                         }else{//validar conexion y consulta porcentajeAsistenciasporsalon
                             $data["error"]="No se agrego el porcentaje de asistencia";
