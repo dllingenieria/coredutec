@@ -115,13 +115,59 @@ class clsCertificados {
         echo json_encode($resultado);
     }
 
-    //----- Función para buscar un certificado por Id -----//
+    //----- Funcion para cargar los modulos con estado por certificar-----//
+    public function ConsultarCursosPorCertificar($param) {
+        extract($param);
+        $rs = null;
+        $resultado = array();
+        $registro = array();
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARCURSOSPORCERTIFICAR('$pFechaInicial','$pFechaFinal');";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                        array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            }
+        } else {
+            $registro = 0; print_r($conexion->getPDO()->errorInfo()); die();
+        }
+        echo json_encode($resultado);
+    }
+
+    //----- Agrega certificados por Modulos -----//
     public function certificarPorModulos($param){
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $sql = "CALL SPAGREGARCERTIFICADOPORMODULO($pIdPreprogramacion,".$IdUsuario.")";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }else{
+                $array = -1;
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
+    //----- Agrega certificados por Cursos -----//
+    public function certificarPorCursos($param){
+        extract($param);
+        $IdUsuario = $_SESSION['idUsuario'];
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPAGREGARCERTIFICADOPORCURSO($pIdCursoTemporal,".$IdUsuario.")";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -194,6 +240,72 @@ class clsCertificados {
                         $modulo = $array1[$i]['Modulo'];
                         $asunto = "EXPEDICION DE CERTIFICADO";
                         $correo=$utilidades->enviarCorreoCertificadoModulo($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$fechaInicial,$fechaFinal,$modulo,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto,$IdCertificado);
+                    }
+                }else{
+                    print_r("Error2");
+                    $data["error"]="No se encontraron correos de estudiantes";
+                }
+            }else{
+                print_r("Error3");
+                $data["error"]="No se consultaron los correos";
+                print_r($conexion->getPDO()->errorInfo()); die();
+            }
+        }
+        echo json_encode($correo);
+    }
+
+    //----- Función para enviar correos por cursos a los estudiantes certificados -----//
+    public function enviarCorreoPorCurso($param){
+        extract($param);
+        $rs1=null;
+        $array1=array();
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARDATOSCORREOCERTIFICADOPORCURSO($pIdCertificado);";
+        if ($rs1 = $conexion->getPDO()->query($sql)){      
+            if($filas = $rs1->fetchAll(PDO::FETCH_ASSOC)){
+                foreach ($filas as $fila){
+                    $array1[] = $fila; 
+                }
+            }
+            $rs1->closeCursor();
+            $utilidades = new clsUtilidades();
+            $rs2=null;
+            $array2=array();
+            $IdTercero = $array1[0][Id];
+            $sql2 = "CALL SPCONSULTARDATOSCORREO();";
+            if ($rs2 = $conexion->getPDO()->query($sql2)){
+                if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
+                    foreach ($filas2 as $fila1) {
+                        $array2[] = $fila1; 
+                    }
+                }
+                $rs2->closeCursor();
+                $correode = $array2[0]['Parametro'];
+                $clave = $array2[1]['Parametro'];
+                $rs3=null;
+                $array3=array();
+                $IdUsuario = $_SESSION['idUsuario'];
+                $sql3 = "CALL SPCONSULTARCORREOUSUARIO($IdUsuario);";
+                if ($rs3 = $conexion->getPDO()->query($sql3)) {
+                    if ($filas3 = $rs3->fetchAll(PDO::FETCH_ASSOC)) {
+                            foreach ($filas3 as $fila3) {
+                            $array3[] = $fila3; 
+                        }
+                    }
+                    $rs3->closeCursor();
+                }
+                $usuario = $_SESSION['nombreUsuario'];
+                $usuarioe = $array3[0]['CorreoElectronico'];
+                if (count($array2)>0){
+                    for($i=0;$i<count($array1);$i++){
+                        $IdCertificado = $array1[$i]['CodigoCertificado'];
+                        $estudiante = $array1[$i]['Estudiante'];
+                        $tipoidentificacion = $array1[$i]['TipoIdentificacion'];
+                        $cedula = $array1[$i]['NumeroIdentificacion'];
+                        $correoElectronico = $array1[$i]['CorreoElectronico'];
+                        $curso = $array1[$i]['Curso'];
+                        $asunto = "EXPEDICION DE CERTIFICADO";
+                        $correo=$utilidades->enviarCorreoCertificadoCurso($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$curso,$usuario,$usuarioe,$correode,$clave,$asunto,$IdCertificado);
                     }
                 }else{
                     print_r("Error2");

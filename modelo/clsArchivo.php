@@ -185,23 +185,27 @@ class clsArchivo {
 
     public function GuardarFirma(){
         $ubicacion= $_REQUEST['ubicacion'];
-        $tercero= $_REQUEST['tercero'];
+        $nameArchivo=$_REQUEST['firma'];
+        //$tercero= $_REQUEST['tercero'];
         $fileTMP = $_FILES['vid']['tmp_name'];
         $file = $_FILES['vid']['name'];
         $uploadDir = '../'.$ubicacion;
         $array1 = explode(".", $file);
         $ext = $array1[count($array1) - 1];
         $array = "";
-        $nameArchivo="FD_".$tercero.".".$ext;
+        //$nameArchivo="FD_".$tercero.".".$ext;
         $fullPath = $uploadDir . $nameArchivo;
         if (file_exists($fullPath)) { 
             unlink($fullPath);
         }
         if (move_uploaded_file($fileTMP, $fullPath)) {
             $array = "A";
-            //----- Copia la firma al directorio de Certificados -----//
+            //----- Copia la firma al directorio de Certificados Produccion-----//
             $origen = "/web/sinfompc/anexos/firmas";
             $destino = "/web/certificados/vista/images/firmas";
+            //----- Copia la firma al directorio de Certificados Local-----//
+            //$origen = "../anexos/firmas";
+            //$destino = "../../certificados/vista/images/firmas";
             $dir = opendir($origen);
             if (file_exists($destino."/".$nameArchivo)) { 
                 unlink($destino."/".$nameArchivo);

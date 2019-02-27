@@ -115,7 +115,7 @@ $(function() {
 				}, function(data) {
 					if (data !== 0) {
 						if (data !== -1) {
-							GuardarArchivoFirma();
+							GuardarArchivoFirma(data[0].pNombreFirma);
 						}else {
 							jsRemoveWindowLoad();
 							mostrarPopUpConfirmacion("No fue posible adicionar la firma digital");
@@ -136,11 +136,12 @@ $(function() {
 	}
 
 	//----- Guarda el archivo de firma -----//
-	function GuardarArchivoFirma(){
+	function GuardarArchivoFirma(firma){
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		var ubicacion = "anexos/firmas/";  
-		var tercero = $("#txtTercero").val();	
+		var firma = firma;	
+		//var tercero = $("#txtTercero").val();	
         var archivos = document.getElementById("txtexaminararchivosFirma");
         var archivo = archivos.files;
         if (typeof archivo[0] !== "undefined") {
@@ -149,7 +150,7 @@ $(function() {
                 data.append('vid', archivo[0]);
                 $.ajax({
                     type: 'POST',
-                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarFirma&ubicacion="+ubicacion+"&tercero="+tercero,
+                    url: "../../controlador/fachada.php?clase=clsArchivo&oper=GuardarFirma&ubicacion="+ubicacion+"&firma="+firma,
                     data: data, //Le pasamos el objeto que creamos con los archivos
                     contentType: false, //Debe estar en false para que pase el objeto sin procesar
                     processData: false, //debe estar en false para que JQuery no procese los datos a enviar
