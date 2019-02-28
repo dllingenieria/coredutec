@@ -347,6 +347,34 @@ class clsCertificados {
         echo json_encode($resultado);
     }
 
+    //----- Función para buscar un certificado por # de documento -----//
+    public function consultarCertificadoAnuladoPorDocumento($param) {
+        extract($param);
+        $resultado = array();
+        $registro = array();
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARCERTIFICADOANULADOPORDOCUMENTO($pTipoDocumento,$pDocumento);";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                        array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            $rs->closeCursor();
+            // Se crea el certificado
+            }else{
+                $resultado = 0;
+            }
+        } else {
+            $resultado = 0;
+        }
+        echo json_encode($resultado);
+    }
+
     //----- Función para eliminar un certificado por Id -----//
     public function anularCertificadoPorId($param){
         extract($param);

@@ -1,18 +1,24 @@
 $(function() {
+	//----- Carga la lista de tipos de documentos -----//
+	cargarListas('cmbTipoDocumento','SPCARGARTIPOIDENTIFICACION');
+	cargarValorSelected('#cmbTipoDocumento','3',500);
+
+	//----- Coloca el foco en campo de documento -----//
 	var table;
-	document.getElementById("txtCodigoCertificado").focus(); 
-	//----- Inicia el proceso para guardar la firma -----//
+	document.getElementById("txtNDocumento").focus(); 
+	
+	//----- Inicia el proceso para reexpedir un certificado -----//
 	$("#btnConsultar").click(function(){ 
-		if($("#txtCodigoCertificado").val() == ''){
-			mostrarPopUpError("Por favor ingrese un código para la búsqueda");
+		if($("#txtNDocumento").val() == ''){
+			mostrarPopUpError("Por favor ingrese un número de documento<br>para la búsqueda");
 		}else{
-			consultarCertificadosPorRegistro();
+			consultarCertificadoAnuladoPorDocumento();
 		}
 	});
 
 	//----- Recarga la página -----//
 	$("#btnCancelar").click(function(){ 
-		window.location.href = "../html/anularCertificado.html";
+		window.location.href = "../html/certificado.html";
 	});
 
 	//----- Recarga la página -----//
@@ -21,17 +27,18 @@ $(function() {
 	});
 	
 	//----- Valida que solo se ingrese en las cajas de texto los valores apropiados -----//
-	$('#txtCodigoCertificado').validCampoFranz('SECMPCAB1234567890-');
+	$('#txtNDocumento').validCampoFranz('0123456789');
 
-	//----- Consulta en la base de datos los certificados disponibles por # de registro -----//
-	function consultarCertificadosPorRegistro(){
+	//----- Consulta en la base de datos los certificados disponibles por # de documento -----//
+	function consultarCertificadoAnuladoPorDocumento(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 		$.post("../../controlador/fachada.php", {
 			clase: 'clsCertificados',
-			oper: 'consultarCertificadosPorRegistro',
-			pCodigoCertificado: $("#txtCodigoCertificado").val()
+			oper: 'consultarCertificadoAnuladoPorDocumento',
+			pTipoDocumento: $("#cmbTipoDocumento option:selected").val(),
+			pDocumento: $("#txtNDocumento").val()
 		}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
@@ -39,13 +46,13 @@ $(function() {
 					jsRemoveWindowLoad();
 				}else{
 					jsRemoveWindowLoad();
+					document.getElementById("txtNDocumento").focus();
 					mostrarPopUpError("No existen certificados con los datos suministrados");
-					document.getElementById("txtCodigoCertificado").focus();
 				}             
 			}else {
 				jsRemoveWindowLoad();
+				document.getElementById("txtNDocumento").focus();
 				mostrarPopUpError("No existen certificados con los datos suministrados");
-				document.getElementById("txtCodigoCertificado").focus();
 			}
 		}, "json");
 	};
@@ -65,7 +72,8 @@ $(function() {
 			{ title: "Programa" },
 			{ title: "Curso" },
 			{ title: "Fecha" },
-			{ title: "Anular", data: null, className: "center", defaultContent: '<a id="anular-link" class="anular-link" href="#" title="Edit">Anular</a>'}
+			{ title: "Certificado por" },
+			{ title: "Reexpedir", data: null, className: "center", defaultContent: '<a id="reexpedir-link" class="reexpedir-link" href="#" title="Edit">Reexpedir</a>'}
 			],
 			"paging":   false,
 			"info":     false,
@@ -104,7 +112,7 @@ $(function() {
 	}
 
 	//----- Consulta los datos para el certificado y lo muestra en pantalla -----//
-	$(document).on('click', '#anular-link', function() {	
+	$(document).on('click', '#reexpedir-link', function() {	
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
 	   	$.post("../../controlador/fachada.php", {
@@ -130,6 +138,50 @@ $(function() {
 			}		
 		}, "json");
 	});
+
+	//----- Consulta en la base de datos los valores de las listas -----//
+	function cargarListas(objeto,procedimiento) {
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsUtilidades',
+	        oper: 'cargarListas',
+	        objeto: objeto,
+	        procedimiento: procedimiento
+	    }, function(data) {
+	        if (data !== 0) {
+	            formarOptionValueLista(data,objeto);
+	        }
+	        else {
+	            alert('error');
+	        }
+	    }, "json");
+	} 
+
+	//----- Llena las listas -----//
+	function formarOptionValueLista(data,objeto) {
+	    $('#'+objeto).find('option').remove();
+	    SetParametroPorDefecto("#"+objeto, '0', 'Seleccione...');
+	    for (i = 0; i < data.length; i++) {
+	        $('#'+objeto).append($('<option>', {
+	            value: data[i].Id,
+	            text: data[i].Nombre
+	        }));
+	    }
+	} 
+
+	//----- Establece los valores por defecto de las listas -----//
+	function cargarValorSelected(objeto,value,tiempo){
+        setTimeout(function() {
+            $(objeto+' option[value="'+value+'"]').attr('selected','selected');    
+        }, tiempo);       
+    }
+
+    //----- Establece los valores por defecto de las listas a Seleccione...-----//
+    function SetParametroPorDefecto(atributo, valor, texto) {
+	    $(atributo).append($('<option>', {
+	        value: valor,
+	        text: texto
+	    }));
+	}
 
     //----- Muestra el PopUp -----//
     function mostrarPopUpError(err_men) {
