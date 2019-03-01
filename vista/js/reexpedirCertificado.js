@@ -17,7 +17,7 @@ $(function() {
 	});
 
 	//----- Recarga la página -----//
-	$("#btnCancelar").click(function(){ 
+	$("#btnCancelar").click(function(){
 		window.location.href = "../html/certificado.html";
 	});
 
@@ -26,6 +26,30 @@ $(function() {
 		window.location.href = "../html/anularCertificado.html";
 	});
 	
+	//----- Da inicio al proceso de generar los certificados y enviar los correos -----//
+	$("#btnAcePop1").click(function(){
+		/*mensaje de procesando*/
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsCertificados',
+			oper: 'reexpedirCertificado',
+			pIdCertificado: sessionStorage.IdCertificado
+		}, function(data) {
+			if (data !== 0) {
+				if (data !== -1) {
+					enviarCorreoPorCurso(data[0].pIdCertificado);
+				}else {
+					jsRemoveWindowLoad();
+					popUpConfirmacion("No fue posible reexpedir el certificado");
+				}
+			}else {
+				jsRemoveWindowLoad();
+				popUpConfirmacion("Existe un error, consulte con el administrador");
+			}
+		}, "json");
+	});
+
 	//----- Valida que solo se ingrese en las cajas de texto los valores apropiados -----//
 	$('#txtNDocumento').validCampoFranz('0123456789');
 
@@ -113,13 +137,46 @@ $(function() {
 
 	//----- Consulta los datos para el certificado y lo muestra en pantalla -----//
 	$(document).on('click', '#reexpedir-link', function() {	
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-	   	$.post("../../controlador/fachada.php", {
+		$.post("../../controlador/fachada.php", {
+		clase: 'clsCertificados',
+		oper: 'consultarTercero',
+		pIdUsuario: sessionStorage.idUsuario
+		}, function(data) {
+			if (data !== 0) {
+				consultarDatosFirmaDigital(data[0].Tercero);
+			}else {
+				popUpConfirmacion("No ha registrado su firma");
+			}
+		}, "json");
+	});
+
+	//----- Consulta los datos de la firma digital por Id de Firma-----//
+	function consultarDatosFirmaDigital(tercero){
+		$.post("../../controlador/fachada.php", {
 			clase: 'clsCertificados',
-			oper: 'anularCertificadoPorId',
-			pIdCertificado: sessionStorage.IdCertificado
-			}, function(data) {
+			oper: 'consultarFirmaDigital2',
+			pIdTercero: tercero
+		}, function(data) {
+			if (data !== 0) {
+				if (data !== -1) {
+					$("#imgFirma").attr('src',data[0].RutaFirma);
+					popUpConfirmacion1("¿Desea certificar usando la firma de abajo?");
+				}else {
+					mostrarPopUpConfirmacion("Aún no ha registrado su firma");
+				}
+			}else {
+				mostrarPopUpConfirmacion("Existe un error, consulte con el administrador");
+			}
+		}, "json");
+	};
+
+	//----- Envía correos a todos los estudiantes que aprobaron el modulo cuando se genera el certificado -----//
+	function enviarCorreoPorCurso(IdCertificado){
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsCertificados',
+			oper: 'enviarCorreoPorCurso',
+			pIdCertificado: IdCertificado
+		}, function(data) {
 			if (data !== 0) {
 				if (data == -1) {
 					jsRemoveWindowLoad();
@@ -127,17 +184,17 @@ $(function() {
                         location.reload(true);
                     }, 4000); 
 	        		jsRemoveWindowLoad();
-					mostrarPopUpError("Certificado anulado de manera satisfactoria");
+					popUpConfirmacion("Certificados generados de manera satisfactoria");
 				}else {
 					jsRemoveWindowLoad();
-					mostrarPopUpError("No fue posible anular el certificado");
+					popUpConfirmacion("No fue posible enviar el correo");
 				}
 			}else {
 				jsRemoveWindowLoad();
-				mostrarPopUpError("No fue posible enviar los correos");
-			}		
+				popUpConfirmacion("No fue posible enviar el correo");
+			}
 		}, "json");
-	});
+	};
 
 	//----- Consulta en la base de datos los valores de las listas -----//
 	function cargarListas(objeto,procedimiento) {
@@ -209,7 +266,15 @@ $(function() {
 	        transition: 'slideDown'
 	    });
 	}
-	
+
+	function popUpConfirmacion1(msj){
+		    $("#textoError").html(msj);
+		    $('#element_to_pop_firma').bPopup({
+		        speed: 450,
+		        transition: 'slideDown'
+		    });
+	}
+
 	//----- Quita la Cortina -----//
 	function jsRemoveWindowLoad() {
 	    // eliminamos el div que bloquea pantalla

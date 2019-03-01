@@ -79,6 +79,16 @@ body {
 	width: 13rem;
 }
 
+#element_to_pop_firma{
+  padding-top: 8px;
+  height: 148px;
+}
+
+#imgFirma{
+  width: 230px;
+  height: 100px;
+}
+
 #txtNDocumento{
 	width: 7rem;
 }

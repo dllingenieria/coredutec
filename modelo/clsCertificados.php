@@ -183,6 +183,28 @@ class clsCertificados {
         echo json_encode($array);
     }
 
+    //----- Reexpide certificados -----//
+    public function reexpedirCertificado($param){
+        extract($param);
+        $IdUsuario = $_SESSION['idUsuario'];
+        $rs = null;
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPREEXPEDIRCERTIFICADO($pIdCertificado,".$IdUsuario.")";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            $rs->closeCursor();
+            }else{
+                $array = -1;
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
     //----- Función para enviar correos por modulos a los estudiantes certificados -----//
     public function enviarCorreosPorModulos($param){
         extract($param);

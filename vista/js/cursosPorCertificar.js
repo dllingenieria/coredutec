@@ -70,15 +70,6 @@ $(function () {
 			}
 		}, "json");
 	};
-
-	// var table;
-	// var tabla;
-	// var seleccionado = false;
-	// nombreArchivo = "";
-	// obtenerIdTercero(function(idDocente){
-	// 	idDocenteG = idDocente; 
-		
-	// });
 	
 	function obtenerIdTerceroCursos(){
 		/*mensaje de procesando*/
