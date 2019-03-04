@@ -37,7 +37,7 @@ $(function () {
 			agregarEvaluacion();
 		}
 		else{
-			PopUpError("Debe ingresar datos para la evaluación");
+			PopUpError("Debe indicar el por qué de su calificación en el punto B");
 		}
 	});
 
@@ -651,7 +651,7 @@ $(function () {
 	function validarSatisfaccion(){
 		var satisfaccion= $("#satisfaccion").val();
 		if(satisfaccion ==1 || satisfaccion ==2 || satisfaccion ==3){
-			PopUpError("Debe indicar el porque de su calificación");
+			PopUpError("Debe indicar el por qué de su calificación en el punto A");
 		}
 	}
 
