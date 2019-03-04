@@ -644,7 +644,7 @@ $(function () {
 	$('#bgmodal').css("top", mtop+'px');
 	});
  
- 	$( "#satisfaccion" ).change(function() { ∫
+ 	$( "#satisfaccion" ).change(function() {
 		validarSatisfaccion();
 	});
 	
