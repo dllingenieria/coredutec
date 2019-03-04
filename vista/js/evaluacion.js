@@ -37,7 +37,7 @@ $(function () {
 			agregarEvaluacion();
 		}
 		else{
-			PopUpError("Debe indicar el por qué de su calificación en el punto B");
+			PopUpError("Debe indicar el por qué de su calificación en el punto B.ASPECTOS GENERALES DEL SERVICIO");
 		}
 	});
 
@@ -639,19 +639,19 @@ $(function () {
 	var mleft = ( wscr - wcnt ) / 2;
 	var mtop = ( hscr - hcnt ) / 2;
 
-	// estableciendo ventana modal en el centro
+	// estableciendo ventana modal en el centro∫
 	$('#bgmodal').css("left", mleft+'px');
 	$('#bgmodal').css("top", mtop+'px');
 	});
  
- 	$( "#satisfaccion" ).change(function() { 
+ 	$( "#satisfaccion" ).change(function() { ∫
 		validarSatisfaccion();
 	});
 	
 	function validarSatisfaccion(){
 		var satisfaccion= $("#satisfaccion").val();
 		if(satisfaccion ==1 || satisfaccion ==2 || satisfaccion ==3){
-			PopUpError("Debe indicar el por qué de su calificación en el punto A");
+			PopUpError("Debe indicar el por qué de su calificación en el punto A.SATISFACCÓN GENERAL");
 		}
 	}
 
