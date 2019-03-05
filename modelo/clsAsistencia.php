@@ -484,7 +484,8 @@ class clsAsistencia {
 	$objPHPExcel->getActiveSheet()->setCellValue('H12', $Ruta); 
 	$objPHPExcel->getActiveSheet()->setCellValue('V12', $CantidadAsistentes);
 	$objPHPExcel->getActiveSheet()->setCellValue('X12', $EstudiantesGanando); 
- 				 
+ 	$objPHPExcel->getActiveSheet()->setCellValue('B44', "NOMBRE          ".$Docente);
+
 	$arrayMasSessiones=[];  
 	$baseRowDatos = 15; 
 	$columnDatos=0; 
