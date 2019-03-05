@@ -506,7 +506,12 @@ $(function() {
 				for (i=0;i<asistencia.length;i++){
 					asistencia[i]['IdAsistencia']=data[i].IdAsistencia;	
 				}
-				agregarAsistenciaDetalle(asistencia);
+				if(asistencia.length != 0){
+					agregarAsistenciaDetalle(asistencia);
+				}else{
+					jsRemoveWindowLoad();
+					popUpConfirmacion("Debe registrar primero asistencias antes que las<br>observaciones y los motivos de no asistencia");
+				}
 			}else{
 				jsRemoveWindowLoad();
 				popUpConfirmacion("Error guardando<br>Asistencias General<br>");
@@ -575,71 +580,6 @@ function agregarAsistenciaDetalle(asistencia){
 	});
 }
 
-function agregarAsistenciaObservacion(asistencia){ 
-    observaciones = new Array(); 
-    var asistenciaO = new Array(); 
-    var contaO=0;
-    var noEsta= true; 
-	$("[id^=textArea_]").each(function(e){ 
-	var idObs = $( this ).attr( "id" ); //alert(idCaja);			
-	var res = idObs.split("_");
-	var IdTerceroObservacion = res[1];
-	//preguntar si esa caja de texto tiene el atributo modificado
-	if ($( this ).attr("modificado") != undefined){
-		modificado =true;
-	}else{
-		modificado =false;
-	}
-	//recorrer el array de observaciones para saber si ese tercero ya esta
-	var a = observaciones.indexOf(IdTerceroObservacion); //alert("a"+a);
-		if (a > -1){
-			noEsta= false;
-		}		
-	if (noEsta){ 
-		//llenar un array con el tercero
-		observaciones.push(IdTerceroObservacion);   
-		//se hace todo el proceso de guardado de la observacion
-		var observacion= $(this).val();
-		if (modificado ==  true){ 
-			asistenciaO[contaO] = {};
-			asistenciaO[contaO]['IdAsistencia']=asistencia[0]['IdAsistencia']; 
-			asistenciaO[contaO]['idTercero']=IdTerceroObservacion; 
-			asistenciaO[contaO]['observacion']=observacion;		
-			asistenciaO[contaO]['idPreprogramacion']=sessionStorage.IdPreprogramacion;	
-			contaO++;
-		}
-	} 
-}); 
-var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serializedAsistenciaO);
-	if (asistenciaO.length != 0){
-		$.ajax({
-			url: '../../controlador/fachada.php',
-			type: 'POST',
-			dataType: 'json',
-			async : true,
-			data: {
-				clase: 'clsAsistencia',
-				oper: 'agregarAsistenciaObservacion',
-				serializedAsistenciaO: serializedAsistenciaO
-			}
-		}).done(function(data) {
-			console.log("Luego de agregar observacion: "+data);
-	   		if (data == 0){
-	   			jsRemoveWindowLoad();
-				popUpConfirmacion("Error guardando Observaciones, recuerde<br>que no puede contener los caracteres <, &, #, %,<br>comillas sencillas, dobles o la tecla Enter<br>");
-			}else{
-				jsRemoveWindowLoad();
-				popUpConfirmacion("Asistencias guardadas<br>satisfactoriamente<br>");
-				setTimeout(function() {location.reload();},1000);
-			}
-		});
-	}else{
-		jsRemoveWindowLoad();
-		popUpConfirmacion("Asistencias guardadas<br>satisfactoriamente<br>");
-		setTimeout(function() {location.reload();},1000);
-	}
-}
-
 function agregarMotivoNoAsistencia(asistencia){ 
     motivos = new Array(); 
     var asistenciaM = new Array(); 
@@ -699,6 +639,71 @@ function agregarMotivoNoAsistencia(asistencia){
 	}else{
 		agregarAsistenciaObservacion(asistencia);
 	}	
+}
+
+function agregarAsistenciaObservacion(asistencia){ 
+    observaciones = new Array(); 
+    var asistenciaO = new Array(); 
+    var contaO=0;
+    var noEsta= true; 
+	$("[id^=textArea_]").each(function(e){ 
+		var idObs = $( this ).attr( "id" ); //alert(idCaja);			
+		var res = idObs.split("_");
+		var IdTerceroObservacion = res[1];
+		//preguntar si esa caja de texto tiene el atributo modificado
+		if ($( this ).attr("modificado") != undefined){
+			modificado =true;
+		}else{
+			modificado =false;
+		}
+		//recorrer el array de observaciones para saber si ese tercero ya esta
+		var a = observaciones.indexOf(IdTerceroObservacion); //alert("a"+a);
+			if (a > -1){
+				noEsta= false;
+			}		
+		if (noEsta){ 
+			//llenar un array con el tercero
+			observaciones.push(IdTerceroObservacion);   
+			//se hace todo el proceso de guardado de la observacion
+			var observacion= $(this).val();
+			if (modificado ==  true){
+					asistenciaO[contaO] = {};
+					asistenciaO[contaO]['IdAsistencia']=asistencia[0]['IdAsistencia']; 
+					asistenciaO[contaO]['idTercero']=IdTerceroObservacion; 
+					asistenciaO[contaO]['observacion']=observacion;		
+					asistenciaO[contaO]['idPreprogramacion']=sessionStorage.IdPreprogramacion;	
+					contaO++;
+			}
+		} 
+	}); 
+	var serializedAsistenciaO = JSON.stringify( asistenciaO ); console.log(serializedAsistenciaO);
+	if (asistenciaO.length != 0){
+		$.ajax({
+			url: '../../controlador/fachada.php',
+			type: 'POST',
+			dataType: 'json',
+			async : true,
+			data: {
+				clase: 'clsAsistencia',
+				oper: 'agregarAsistenciaObservacion',
+				serializedAsistenciaO: serializedAsistenciaO
+			}
+		}).done(function(data) {
+			console.log("Luego de agregar observacion: "+data);
+	   		if (data == 0){
+	   			jsRemoveWindowLoad();
+				popUpConfirmacion("Error guardando Observaciones, recuerde<br>que no puede contener los caracteres <, &, #, %,<br>comillas sencillas, dobles o la tecla Enter<br>");
+			}else{
+				jsRemoveWindowLoad();
+				popUpConfirmacion("Asistencias guardadas<br>satisfactoriamente<br>");
+				setTimeout(function() {location.reload();},1000);
+			}
+		});
+	}else{
+		jsRemoveWindowLoad();
+		popUpConfirmacion("Asistencias guardadas<br>satisfactoriamente<br>");
+		setTimeout(function() {location.reload();},1000);
+	}
 }
 
 function consultarUltimaSesionPorSalon(idSalon){
