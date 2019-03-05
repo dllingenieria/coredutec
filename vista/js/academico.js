@@ -16,7 +16,6 @@ $(function(){
 		
 	});
 	
-	
 	function obtenerIdTerceroModulos(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
@@ -221,7 +220,15 @@ $(function(){
 		if(sessionStorage.Estado == "Finalizado"){
 			popUpConfirmacion1("¿Seguro que desea enviar a certificar el Salón?");
 		}else{
-			popUpConfirmacion("El Salón no ha sido cerrado, no es posible certificarlo");
+			if(sessionStorage.Estado == "Por Certificar"){
+				popUpConfirmacion("El Salón ya fue enviado a certificar");
+			}else{
+				if(sessionStorage.Estado == "Certificado"){
+					popUpConfirmacion("El Salón ya fue certificado");
+				}else{
+					popUpConfirmacion("El Salón no ha sido cerrado, no es posible certificarlo");
+				}
+			}
 		}
 	});
 

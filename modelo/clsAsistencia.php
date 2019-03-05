@@ -425,7 +425,7 @@ class clsAsistencia {
  					} 
  				} 
   
- 				array_push($dataColumnasDatos, 'T/Horas', 'Observaciones', '', 'Motivo no asistencia', '', 'Nota'); 
+ 				array_push($dataColumnasDatos, 'T/Horas', 'Observaciones', '', 'Motivo no asistencia', '', 'Nota');
 
  			return $dataColumnasDatos;
 
