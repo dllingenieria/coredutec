@@ -61,11 +61,11 @@ $(function() {
 			"data": data,
 			columns: [
 			{ title: "Id" },
+			{ title: "Anular", data: null, className: "center", defaultContent: '<a id="anular-link" class="anular-link" href="#" title="Edit">Anular</a>'},
 			{ title: "Código" },
 			{ title: "Programa" },
 			{ title: "Curso" },
-			{ title: "Fecha" },
-			{ title: "Anular", data: null, className: "center", defaultContent: '<a id="anular-link" class="anular-link" href="#" title="Edit">Anular</a>'}
+			{ title: "Fecha" }
 			],
 			"paging":   false,
 			"info":     false,
