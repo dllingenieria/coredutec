@@ -159,8 +159,8 @@ $(function() {
 		}, function(data) {
 			if (data !== 0) {
 				if (data !== -1) {
-					$("#imgFirma").attr('src',data[0].RutaFirma);
 					popUpConfirmacion1("¿Desea certificar usando la firma de abajo?");
+					$("#imgFirma").attr('src',data[0].RutaFirma);
 				}else {
 					mostrarPopUpConfirmacion("Aún no ha registrado su firma");
 				}
