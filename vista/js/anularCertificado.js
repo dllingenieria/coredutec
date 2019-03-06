@@ -17,7 +17,30 @@ $(function() {
 
 	//----- Recarga la página -----//
 	$("#btnAcePop1").click(function(){ 
-		window.location.href = "../html/anularCertificado.html";
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+	   	$.post("../../controlador/fachada.php", {
+			clase: 'clsCertificados',
+			oper: 'anularCertificadoPorId',
+			pIdCertificado: sessionStorage.IdCertificado
+			}, function(data) {
+			if (data !== 0) {
+				if (data == -1) {
+					jsRemoveWindowLoad();
+					setTimeout(function() {
+                        location.reload(true);
+                    }, 4000); 
+	        		jsRemoveWindowLoad();
+					mostrarPopUpError("Certificado anulado de manera satisfactoria");
+				}else {
+					jsRemoveWindowLoad();
+					mostrarPopUpError("No fue posible anular el certificado");
+				}
+			}else {
+				jsRemoveWindowLoad();
+				mostrarPopUpError("No fue posible anular el certificado");
+			}		
+		}, "json");
 	});
 	
 	//----- Valida que solo se ingrese en las cajas de texto los valores apropiados -----//
@@ -65,7 +88,11 @@ $(function() {
 			{ title: "Código" },
 			{ title: "Programa" },
 			{ title: "Curso" },
-			{ title: "Fecha" }
+			{ title: "Fecha" },
+			{ title: "TipoCertificado" },
+			{ title: "TipoIdentificacion" },
+			{ title: "NumeroIdentificacion" },
+			{ title: "Nombre" }
 			],
 			"paging":   false,
 			"info":     false,
@@ -75,7 +102,11 @@ $(function() {
 			"bDestroy": true,
 			"scrollCollapse": true,
 			"columnDefs": [
-			{"targets": [ 0 ],"visible": false,"searchable": false}
+			{"targets": [ 0 ],"visible": false,"searchable": false},
+			{"targets": [ 6 ],"visible": false,"searchable": false},
+			{"targets": [ 7 ],"visible": false,"searchable": false},
+			{"targets": [ 8 ],"visible": false,"searchable": false},
+			{"targets": [ 9 ],"visible": false,"searchable": false}
 			],
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
@@ -96,7 +127,12 @@ $(function() {
 				seleccionado = true;
 			}
 			if(typeof(Storage) !== "undefined") {
-				sessionStorage.IdCertificado = table.row(this).data()[0];				
+				sessionStorage.IdCertificado = table.row(this).data()[0];
+				sessionStorage.CodigoCertificado = table.row(this).data()[2];
+				sessionStorage.Curso = table.row(this).data()[4];
+				sessionStorage.TipoIdentificacion = table.row(this).data()[7];
+				sessionStorage.NumeroIdentificacion = table.row(this).data()[8];
+				sessionStorage.Nombre = table.row(this).data()[9];				
 			} else {
 				mostrarPopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");
 			}
@@ -104,31 +140,8 @@ $(function() {
 	}
 
 	//----- Consulta los datos para el certificado y lo muestra en pantalla -----//
-	$(document).on('click', '#anular-link', function() {	
-		var mensaje="Procesando la información<br>Espere por favor";
-		jsShowWindowLoad(mensaje);
-	   	$.post("../../controlador/fachada.php", {
-			clase: 'clsCertificados',
-			oper: 'anularCertificadoPorId',
-			pIdCertificado: sessionStorage.IdCertificado
-			}, function(data) {
-			if (data !== 0) {
-				if (data == -1) {
-					jsRemoveWindowLoad();
-					setTimeout(function() {
-                        location.reload(true);
-                    }, 4000); 
-	        		jsRemoveWindowLoad();
-					mostrarPopUpError("Certificado anulado de manera satisfactoria");
-				}else {
-					jsRemoveWindowLoad();
-					mostrarPopUpError("No fue posible anular el certificado");
-				}
-			}else {
-				jsRemoveWindowLoad();
-				mostrarPopUpError("No fue posible enviar los correos");
-			}		
-		}, "json");
+	$(document).on('click', '#anular-link', function() {
+		mostrarPopUpConfirmacion("Está seguro de eliminar el certificado No. "+sessionStorage.CodigoCertificado+"<br>de la capacitación "+sessionStorage.Curso+"<br>perteneciente a "+sessionStorage.Nombre+"<br>identificado(a) con "+sessionStorage.TipoIdentificacion+" No. "+sessionStorage.NumeroIdentificacion);
 	});
 
     //----- Muestra el PopUp -----//

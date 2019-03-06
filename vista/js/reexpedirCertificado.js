@@ -22,12 +22,22 @@ $(function() {
 	});
 
 	//----- Recarga la página -----//
-	/*$("#btnAcePop1").click(function(){ 
-		window.location.href = "../html/anularCertificado.html";
-	});*/
+	$("#btnAcePop1").click(function(){ 
+		$.post("../../controlador/fachada.php", {
+		clase: 'clsCertificados',
+		oper: 'consultarTercero',
+		pIdUsuario: sessionStorage.idUsuario
+		}, function(data) {
+			if (data !== 0) {
+				consultarDatosFirmaDigital(data[0].Tercero);
+			}else {
+				mostrarPopUpError("No ha registrado su firma");
+			}
+		}, "json");
+	});
 	
 	//----- Da inicio al proceso de generar los certificados y enviar los correos -----//
-	$("#btnAcePop1").click(function(){
+	$("#btnAcePop2").click(function(){
 		/*mensaje de procesando*/
 		var mensaje="Procesando la información<br>Espere por favor";
 		jsShowWindowLoad(mensaje);
@@ -38,14 +48,20 @@ $(function() {
 		}, function(data) {
 			if (data !== 0) {
 				if (data !== -1) {
-					enviarCorreoPorCurso(data[0].pIdCertificado);
+					var resultado = data[0].pIdCertificado;
+					var pIdCertificado = resultado.split('-');
+					if((pIdCertificado[1]) = 405){
+						enviarCorreoPorModulo(pIdCertificado[0]);
+					}else{
+						enviarCorreoPorCurso(pIdCertificado[0]);
+					}
 				}else {
 					jsRemoveWindowLoad();
-					popUpConfirmacion("No fue posible reexpedir el certificado");
+					mostrarPopUpError("No fue posible reexpedir el certificado");
 				}
 			}else {
 				jsRemoveWindowLoad();
-				popUpConfirmacion("Existe un error, consulte con el administrador");
+				mostrarPopUpError("Existe un error, consulte con el administrador");
 			}
 		}, "json");
 	});
@@ -92,12 +108,15 @@ $(function() {
 			"data": data,
 			columns: [
 			{ title: "Id" },
+			{ title: "Reexpedir", data: null, className: "center", defaultContent: '<a id="reexpedir-link" class="reexpedir-link" href="#" title="Edit">Reexpedir</a>'},
 			{ title: "Código" },
 			{ title: "Programa" },
 			{ title: "Curso" },
 			{ title: "Fecha" },
 			{ title: "Certificado por" },
-			{ title: "Reexpedir", data: null, className: "center", defaultContent: '<a id="reexpedir-link" class="reexpedir-link" href="#" title="Edit">Reexpedir</a>'}
+			{ title: "Curso" },
+			{ title: "Curso" },
+			{ title: "Curso" },
 			],
 			"paging":   false,
 			"info":     false,
@@ -107,7 +126,10 @@ $(function() {
 			"bDestroy": true,
 			"scrollCollapse": true,
 			"columnDefs": [
-			{"targets": [ 0 ],"visible": false,"searchable": false}
+			{"targets": [ 0 ],"visible": false,"searchable": false},
+			{"targets": [ 7 ],"visible": false,"searchable": false},
+			{"targets": [ 8 ],"visible": false,"searchable": false},
+			{"targets": [ 9 ],"visible": false,"searchable": false}
 			],
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
@@ -128,7 +150,12 @@ $(function() {
 				seleccionado = true;
 			}
 			if(typeof(Storage) !== "undefined") {
-				sessionStorage.IdCertificado = table.row(this).data()[0];				
+				sessionStorage.IdCertificado = table.row(this).data()[0];
+				sessionStorage.CodigoCertificado = table.row(this).data()[2];
+				sessionStorage.Curso = table.row(this).data()[4];
+				sessionStorage.TipoIdentificacion = table.row(this).data()[7];
+				sessionStorage.NumeroIdentificacion = table.row(this).data()[8];
+				sessionStorage.Nombre = table.row(this).data()[9];			
 			} else {
 				mostrarPopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");
 			}
@@ -136,19 +163,9 @@ $(function() {
 	}
 
 	//----- Consulta los datos para el certificado y lo muestra en pantalla -----//
-	$(document).on('click', '#reexpedir-link', function() {	
-		$.post("../../controlador/fachada.php", {
-		clase: 'clsCertificados',
-		oper: 'consultarTercero',
-		pIdUsuario: sessionStorage.idUsuario
-		}, function(data) {
-			if (data !== 0) {
-				consultarDatosFirmaDigital(data[0].Tercero);
-			}else {
-				popUpConfirmacion("No ha registrado su firma");
-			}
-		}, "json");
-	});
+	$(document).on('click', '#reexpedir-link', function() {
+		mostrarPopUpConfirmacion("Está seguro de reexpedir el certificado No. "+sessionStorage.CodigoCertificado+"<br>de la capacitación "+sessionStorage.Curso+"<br>perteneciente a "+sessionStorage.Nombre+"<br>identificado(a) con "+sessionStorage.TipoIdentificacion+" No. "+sessionStorage.NumeroIdentificacion);
+	});	
 
 	//----- Consulta los datos de la firma digital por Id de Firma-----//
 	function consultarDatosFirmaDigital(tercero){
@@ -162,10 +179,10 @@ $(function() {
 					popUpConfirmacion1("¿Desea certificar usando la firma de abajo?");
 					$("#imgFirma").attr('src',data[0].RutaFirma);
 				}else {
-					mostrarPopUpConfirmacion("Aún no ha registrado su firma");
+					mostrarPopUpError("Aún no ha registrado su firma");
 				}
 			}else {
-				mostrarPopUpConfirmacion("Existe un error, consulte con el administrador");
+				mostrarPopUpError("Existe un error, consulte con el administrador");
 			}
 		}, "json");
 	};
@@ -180,18 +197,18 @@ $(function() {
 			if (data !== 0) {
 				if (data == -1) {
 					jsRemoveWindowLoad();
+					mostrarPopUpConfirmacion("Certificados generados de manera satisfactoria");
 					setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
 	        		jsRemoveWindowLoad();
-					popUpConfirmacion("Certificados generados de manera satisfactoria");
 				}else {
 					jsRemoveWindowLoad();
-					popUpConfirmacion("No fue posible enviar el correo");
+					mostrarPopUpError("No fue posible enviar el correo");
 				}
 			}else {
 				jsRemoveWindowLoad();
-				popUpConfirmacion("No fue posible enviar el correo");
+				mostrarPopUpError("No fue posible enviar el correo");
 			}
 		}, "json");
 	};
@@ -268,7 +285,7 @@ $(function() {
 	}
 
 	function popUpConfirmacion1(msj){
-		    $("#textoError").html(msj);
+		    $("#textoError1").html(msj);
 		    $('#element_to_pop_firma').bPopup({
 		        speed: 450,
 		        transition: 'slideDown'

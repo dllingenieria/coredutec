@@ -101,6 +101,14 @@ body {
 	width: 8rem;
 }
 
+#tblPopupCon{
+	margin-top: -3rem;
+}
+
+#textoConfirmacion1{
+	font-size: 14px;
+}
+
 #WindowLoad
 {
     position:fixed;
