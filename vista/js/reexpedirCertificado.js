@@ -22,9 +22,9 @@ $(function() {
 	});
 
 	//----- Recarga la página -----//
-	$("#btnAcePop1").click(function(){ 
+	/*$("#btnAcePop1").click(function(){ 
 		window.location.href = "../html/anularCertificado.html";
-	});
+	});*/
 	
 	//----- Da inicio al proceso de generar los certificados y enviar los correos -----//
 	$("#btnAcePop1").click(function(){
