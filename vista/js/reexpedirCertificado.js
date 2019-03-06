@@ -213,6 +213,32 @@ $(function() {
 		}, "json");
 	};
 
+	//----- Envía correos al estudiante luego de reexpedir el certificado -----//
+	function enviarCorreoPorModulo(IdCertificado){
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsCertificados',
+			oper: 'enviarCorreoPorModulo',
+			pIdCertificado: IdCertificado
+		}, function(data) {
+			if (data !== 0) {
+				if (data == -1) {
+					jsRemoveWindowLoad();
+					mostrarPopUpConfirmacion("Certificados generados de manera satisfactoria");
+					setTimeout(function() {
+                        location.reload(true);
+                    }, 4000); 
+	        		jsRemoveWindowLoad();
+				}else {
+					jsRemoveWindowLoad();
+					mostrarPopUpError("No fue posible enviar el correo");
+				}
+			}else {
+				jsRemoveWindowLoad();
+				mostrarPopUpError("No fue posible enviar el correo");
+			}
+		}, "json");
+	};
+
 	//----- Consulta en la base de datos los valores de las listas -----//
 	function cargarListas(objeto,procedimiento) {
 	    $.post("../../controlador/fachada.php", {
