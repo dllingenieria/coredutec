@@ -97,6 +97,10 @@ body {
 	margin-left: 2rem;
 }
 
+#txtCodigoCertificado{
+	width: 8rem;
+}
+
 #WindowLoad
 {
     position:fixed;
