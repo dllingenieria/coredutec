@@ -4,6 +4,8 @@ $(function(){
 	$("#formatoNotas").css("display","none");
 	$("#planeacion").css("display","none");
 	$("#refrigerios").hide();
+	$("#modulosCerrados").hide();
+	$("#regresarModulosCerrados").hide();
 	$("#regresar").hide();
 	$('#spanTotal').hide();
 	$("#regresarR").hide();
@@ -72,9 +74,6 @@ $(function(){
 		}, function(data) {
 			if (data !== 0) {
 				if(data !== null){
-					// $("#sectCuerpo").show();
-					
-					
 					cargarInformacionEnTabla(data);
 					jsRemoveWindowLoad();
 					$("#formatoFirmas").css("display","");
@@ -82,22 +81,49 @@ $(function(){
 					$("#formatoNotas").css("display","");
 					$("#planeacion").css("display","");
 					$("#refrigerios").css("display","");
+					$("#modulosCerrados").css("display","");
+				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
+			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
+		}, "json");
+	};
+
+	//----- Trae la lista de los modulos finalizados, por certificar y certificados por Docente -----//
+	function obtenerIdTerceroModulosCerrados(){
+		/*mensaje de procesando*/
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		$.post("../../controlador/fachada.php", {
+			clase: 'clsDocente',
+			oper: 'ConsultarModulosPorDocenteCerrados',
+			IdDocente: idDocenteG,
+			Anio: sessionStorage.anioPreprogramacion,
+			// salon: salon
+		}, function(data) {
+			if (data !== 0) {
+				if(data !== null){
+					jsRemoveWindowLoad();
+					$("#tablaModulos").hide();
+					$("#formatoFirmas").hide();
+					$("#formatoAsistencias").hide();
+					$("#formatoNotas").hide();
+					$("#planeacion").hide();
+					$("#refrigerios").hide();
+					$("#modulosCerrados").hide();
+					$("#regresarModulosCerrados").show();
+					cargarInformacionEnTablaCerrados(data);
 				}else{PopUpError("No se ha retornado ningun dato, intente nuevamente.");}             
 			}else {PopUpError("No se ha retornado ningun dato, intente nuevamente");}
 		}, "json");
 	};
 
 	function cargarInformacionEnTabla(data){
-		
 		$("#botonera").hide();
 		//se destruye el datatable al inicio
-	if(typeof table !== "undefined"){
+		if(typeof table !== "undefined"){
             table.destroy(); 
             $('#tablaModulos').empty();
         }
-		
 		$(".cuerpoEstudiantes").hide();
-		
 		$("#regresar").hide();
 		 table = $('#tablaModulos').DataTable({
 			"data": data,
@@ -187,6 +213,98 @@ $(function(){
 		} );
 	}
 
+	//----- Llena la tabla de los modulos cerrados -----//
+	function cargarInformacionEnTablaCerrados(data){
+		//se destruye el datatable al inicio
+		if(typeof table !== "undefined"){
+            table.destroy(); 
+            $('#tablaModulosCerrados').empty();
+        }
+		$(".cuerpoEstudiantes").hide();
+		 table = $('#tablaModulosCerrados').DataTable({
+			"data": data,
+			columns: [
+			{ title: "Docente" },
+			{ title: "Id Preprogramacion" },
+			{ title: "Salón" },
+			{ title: "Id Curso" },
+			{ title: "Curso" },
+			{ title: "Id Módulo" },
+			{ title: "Módulo" },
+			{ title: "Fecha Inicial" },
+			{ title: "Fecha Final" },
+			{ title: "Duración" },
+			{ title: "Sede" },
+			{ title: "Días Curso" },
+			{ title: "Horario" },
+			{ title: "IntensidadHorariaDiaria" },
+			{ title: "Inscritos" },
+			{ title: "Ruta" },
+			{ title: "Modalidad" },
+			{ title: "cantidadSesiones" },
+			{ title: "Estado" },
+			{data: null, className: "center", defaultContent: '<a id="estadosynotas-link" class="edit-link" href="#" title="Edit">Notas y Estados</a>'}
+			],
+			"paging":   true,
+			"info":     false,
+			"order": [[ 3, "desc" ]],
+			"scrollY": "300px",
+			"scrollX": true,
+			"bDestroy": true,
+			"scrollCollapse": true,
+			"columnDefs": [
+			{"targets": [ 0 ],"visible": true,"searchable": true},
+			{"targets": [ 1 ],"visible": false,"searchable": false},
+			{"targets": [ 3 ],"visible": false,"searchable": false},
+			{"targets": [ 5 ],"visible": false,"searchable": false},
+			{"targets": [ 15 ],"visible": false,"searchable": false},
+			{"targets": [ 13 ],"visible": false,"searchable": false},
+			{"targets": [ 16 ],"visible": false,"searchable": false},
+			{"targets": [ 17 ],"visible": false,"searchable": false}
+			],
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                "sProcessing":     "Procesando...",
+				"sSearch": "Filtrar:",
+				"zeroRecords": "Ningún resultado encontrado",
+				"infoEmpty": "No hay registros disponibles",
+				"Search:": "Filtrar"
+			}
+		});
+		$('#tablaModulosCerrados tbody').on('click', 'tr', function () {
+			if ( $(this).hasClass('selected')) {
+				$(this).removeClass('selected');
+				seleccionado = false;
+			}else{
+				table.$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+				seleccionado = true;
+			}
+			if(typeof(Storage) !== "undefined") {
+				sessionStorage.Docente = table.row(this).data()[0];
+				sessionStorage.IdPreprogramacion = table.row(this).data()[1];
+				sessionStorage.Salon = table.row(this).data()[2];
+				sessionStorage.IdCurso = table.row(this).data()[3];
+				sessionStorage.Curso = table.row(this).data()[4];
+				sessionStorage.IdModulo = table.row(this).data()[5];
+				sessionStorage.Modulo = table.row(this).data()[6];
+				sessionStorage.FechaInicial = table.row(this).data()[7];
+				sessionStorage.FechaFinal = table.row(this).data()[8];
+				sessionStorage.Duracion = table.row(this).data()[9];
+				sessionStorage.Sede = table.row(this).data()[10];
+				sessionStorage.DiasCurso = table.row(this).data()[11];
+				sessionStorage.Horario = table.row(this).data()[12];
+				sessionStorage.IntensidadHorariaDiaria = table.row(this).data()[13];
+				sessionStorage.Inscritos = table.row(this).data()[14];
+				sessionStorage.Ruta = table.row(this).data()[15];
+				sessionStorage.Modalidad = table.row(this).data()[16];
+				sessionStorage.cantidadSesiones = table.row(this).data()[17]; 
+				sessionStorage.Estado = table.row(this).data()[18];
+			} else {
+				PopUpError("Por favor actualice su navegador o utilice otro: SessionStorage");
+			}
+		} );
+	}
 
 	$("#refrigerios").click(function(){	
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined" && seleccionado == true) {
@@ -199,19 +317,17 @@ $(function(){
 	$("#formatoFirmas").click(function(){			
 		if (typeof(sessionStorage.IdPreprogramacion) !== "undefined") {
 			$.post("../../controlador/fachada.php", {
-						clase: 'clsDocente',
-						oper: 'consultarCalendarioPreprogramacion',
-						idPreprogramacion: sessionStorage.IdPreprogramacion
-							}, function(data) {
-								if (data !== 0) {
-									if(data !== null){
-										sessionStorage.NoSession = data;
-										window.location.href = "formatoFirmas.html";
-									}else{alert("error 1");}             
-								}else {alert("error 2");}
-					}, "json");
-				//alert(sessionStorage.NoSession);
-
+				clase: 'clsDocente',
+				oper: 'consultarCalendarioPreprogramacion',
+				idPreprogramacion: sessionStorage.IdPreprogramacion
+					}, function(data) {
+						if (data !== 0) {
+							if(data !== null){
+								sessionStorage.NoSession = data;
+								window.location.href = "formatoFirmas.html";
+							}else{alert("error 1");}             
+						}else {alert("error 2");}
+			}, "json");
 		}else{
 			PopUpError("Por favor seleccione un módulo");
 		}
@@ -282,11 +398,11 @@ $(function(){
 
 	//----- Carga el reporte en pantala alimentacion por salon -----//
 	$(document).on('click', '#refrigerios-link', function() {
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
 		cantidadSesiones();
 		aprobadosAsistentesFormato();
 		setTimeout(function(){
-			var mensaje="Procesando la información<br>Espere por favor";
-			jsShowWindowLoad(mensaje);
 		   	$.post("../../controlador/fachada.php", {
 				clase: 'clsAlimentacion',
 				oper: 'consultarReporteAlimentacionPorEstudiante',
@@ -336,13 +452,65 @@ $(function(){
 		//sessionStorage.NoSesiones=0;
 		//Se oculta el boton de descarga
 		$('#descargar').hide();
-				var mensaje="Procesando la información<br>Espere por favor";
-				jsShowWindowLoad(mensaje);
-				aprobadosAsistentesFormato();	
+		var mensaje="Procesando la información<br>Espere por favor";
+		jsShowWindowLoad(mensaje);
+		aprobadosAsistentesFormato();	
 
+	   	$.post("../../controlador/fachada.php", {
+			clase: 'clsAsistencia',
+			oper: 'consultarReporte',
+			idPreprogramacion: sessionStorage.IdPreprogramacion,
+			NoSesiones: sessionStorage.NoSesiones,
+			Curso: sessionStorage.Curso,
+			Modulo: sessionStorage.Modulo,
+			Inscritos: sessionStorage.Inscritos,
+			Horario: sessionStorage.Horario,
+			FechaInicial: sessionStorage.FechaInicial,
+			Sede: sessionStorage.Sede,
+			Salon: sessionStorage.Salon,
+			IdCurso: sessionStorage.IdCurso,
+			IdModulo: sessionStorage.IdModulo,
+			FechaFinal: sessionStorage.FechaFinal,
+			Duracion: sessionStorage.Duracion,
+			Docente: sessionStorage.Docente,
+			DiasCurso: sessionStorage.DiasCurso,
+			Ruta: sessionStorage.Ruta,
+			CantidadAsistentes: sessionStorage.cantidadAsistentes,
+			EstudiantesGanando: sessionStorage.EstudiantesGanando
+			}, function(data) {
+			if (data.mensaje == 1 && data.html!=""){
+				nombreArchivo=data.html;
+				jsRemoveWindowLoad();
+				popUpConfirmacion("Generado correctamente el reporte");
+				$('#descargar').show();
+			}
+			else if(data.error == 2){
+				jsRemoveWindowLoad();
+				popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+				setTimeout(function(){
+				location.reload();},2000);
+			}
+			else{
+				jsRemoveWindowLoad();
+				mostrarPopUpError("No se ha generado el reporte");
+				setTimeout(function(){
+				location.reload();},2000);
+			}		
+		}, "json");				
+
+	});
+
+	//----- Genera el reporte de Estados y Notas por salon cerrado -----//
+	$(document).on('click', '#estadosynotas-link', function() {
+		if((sessionStorage.Estado == 'Finalizado') || (sessionStorage.Estado == 'Por Certificar') || (sessionStorage.Estado == 'Certificado')){
+			var mensaje="Procesando la información<br>Espere por favor";
+			jsShowWindowLoad(mensaje);
+			cantidadSesiones();
+			aprobadosAsistentesFormato();
+			setTimeout(function(){
 			   	$.post("../../controlador/fachada.php", {
-					clase: 'clsAsistencia',
-					oper: 'consultarReporte',
+					clase: 'clsDocente',
+					oper: 'consultarReporteNotasyEstadosporSalon',
 					idPreprogramacion: sessionStorage.IdPreprogramacion,
 					NoSesiones: sessionStorage.NoSesiones,
 					Curso: sessionStorage.Curso,
@@ -365,23 +533,28 @@ $(function(){
 					if (data.mensaje == 1 && data.html!=""){
 						nombreArchivo=data.html;
 						jsRemoveWindowLoad();
-						popUpConfirmacion("Generado correctamente el reporte");
-						$('#descargar').show();
+						popUpConfirmacion("Reporte generado correctamente<br><br>");
+						window.location.href = "../"+nombreArchivo;
 					}
 					else if(data.error == 2){
 						jsRemoveWindowLoad();
-						popUpConfirmacion("No se encontraron datos para generar"); //$('#descargar').show();
+						popUpConfirmacion("No se encontraron datos para el reporte<br><br>"); //$('#descargar').show();
 						setTimeout(function(){
 						location.reload();},2000);
 					}
 					else{
 						jsRemoveWindowLoad();
-						mostrarPopUpError("No se ha generado el reporte");
+						popUpConfirmacion("No se ha generado el reporte<br><br>");
 						setTimeout(function(){
 						location.reload();},2000);
 					}		
-				}, "json");				
-
+				}, "json");		
+			},2000);
+		}else{
+			popUpConfirmacion("El Salón no ha sido cerrado<br><br>");
+			setTimeout(function(){
+			location.reload();},2000);
+		}	
 	});
 
 	//Carga el reporte de Evaluaciones por salón//
@@ -420,7 +593,7 @@ function cantidadSesiones(){
 
 
 function popUpConfirmacion(msj){
-	    $("#textoConfirmacion1").text(msj);
+	    $("#textoConfirmacion1").html(msj);
 	    $('#element_to_pop_upCon').bPopup({
 	        speed: 450,
 	        transition: 'slideDown'
@@ -443,6 +616,14 @@ $(document).on('click', '#regresarR', function() {
 });
 
 $(document).on('click', '#regresarE', function() {
+		 location.reload();
+});
+
+$(document).on('click', '#modulosCerrados', function() {
+	obtenerIdTerceroModulosCerrados();
+});
+
+$(document).on('click', '#regresarModulosCerrados', function() {
 		 location.reload();
 });
 
@@ -662,7 +843,7 @@ function jsShowWindowLoad(mensaje) {
 
 
 	function PopUpError(msj){
-    $("#textoError").text(msj);
+    $("#textoError").html(msj);
     $('#element_to_pop_upMen').bPopup({
        speed: 450,
        transition: 'slideDown'
@@ -670,7 +851,7 @@ function jsShowWindowLoad(mensaje) {
 }
 
 	function popUpConfirmacion(msj){
-		$("#textoConfirmacion1").text(msj);
+		$("#textoConfirmacion1").html(msj);
 		$('#element_to_pop_upCon').bPopup({
 		   speed: 450,
 		   transition: 'slideDown'

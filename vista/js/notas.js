@@ -586,19 +586,15 @@ function cerrarCursoSinSiguienteModulo(){
               clase : 'clsCurso',
               oper: 'cerrarCursoMatriculaTercero',
               idPreprogramacion : sessionStorage.IdPreprogramacion					
-         },
-          function (data) {
-						if(data.error == ""){
-									jsRemoveWindowLoad();
-									popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
-							}
-							else{
-								mostrarPopUpError(data.error);
-							}
-							
-						
-				},"json");
-	
+         },function (data) {
+			if(data.error == ""){
+						jsRemoveWindowLoad();
+						popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
+				}
+				else{
+					mostrarPopUpError(data.error);
+				}	
+		},"json");
 }
 
 
@@ -629,51 +625,40 @@ function matricularSiguienteModulo(parametros){
         t = res1[total_array];
 
 		$.post("../../controlador/fachada.php",{
-					clase : 'clsCurso',
-					oper: 'matricularSiguienteModulo',
-					idPreprogramacion : sessionStorage.IdPreprogramacion,
-					id: id,
-					t:t,
-					codigo:codigo,
-					nombre:nombre,
-					parametros:parametros
-							
-			},
-				function (data) {
-					if(data.error == ""){	
-							
-					$.post("../../controlador/fachada.php",{
-			              clase : 'clsCurso',
-			              oper: 'cerrarCursoMatriculaTercero',
-			              idPreprogramacion : sessionStorage.IdPreprogramacion					
-			         },
-			          function (data) {						
-									if(data.error == ""){//Si cerro el curso sin problemas	
-											$('#bgmodal').remove();
-											$('#bgtransparent').remove();
-											jsRemoveWindowLoad();
-											popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
-									}
-										else{// Si no cerro el curso
-											$('#bgmodal').remove();
-											$('#bgtransparent').remove();
-											mostrarPopUpError(data.error);
-									}
-										
-									
-							},"json");
-
-
-
-						}
-							else{
-								$('#bgmodal').remove();
-								$('#bgtransparent').remove();
-								mostrarPopUpError(data.error); // Si no paso al siguiente modulo
-							}
+			clase : 'clsCurso',
+			oper: 'matricularSiguienteModulo',
+			idPreprogramacion : sessionStorage.IdPreprogramacion,
+			id: id,
+			t:t,
+			codigo:codigo,
+			nombre:nombre,
+			parametros:parametros	
+		},function (data) {
+			if(data.error == ""){	
+				$.post("../../controlador/fachada.php",{
+		              clase : 'clsCurso',
+		              oper: 'cerrarCursoMatriculaTercero',
+		              idPreprogramacion : sessionStorage.IdPreprogramacion					
+		        },
+		        function (data) {						
+					if(data.error == ""){//Si cerro el curso sin problemas	
+						$('#bgmodal').remove();
+						$('#bgtransparent').remove();
+						jsRemoveWindowLoad();
+						popUpConfirmacionCerrarCurso("Curso cerrado correctamente");
+					}else{// Si no cerro el curso
+						$('#bgmodal').remove();
+						$('#bgtransparent').remove();
+						mostrarPopUpError(data.error);
+					}	
 				},"json");
-		
-		}	
+			}else{
+				$('#bgmodal').remove();
+				$('#bgtransparent').remove();
+				mostrarPopUpError(data.error); // Si no paso al siguiente modulo
+			}
+		},"json");
+	}	
 }
 
 //boton aceptar 

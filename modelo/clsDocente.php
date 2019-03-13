@@ -2,7 +2,6 @@
 require("../controlador/session.php");
 set_time_limit(0);
 class clsDocente {
-	
     public function actualizarDocentes($param){
         extract($param);
 		$rs = null;
@@ -17,14 +16,13 @@ class clsDocente {
                                                $d[11],$d[12],$d[13],$d[14],$d[15],'$d[16]','$d[17]',$d[18],'$d[19]',
                                                '$d[20]',$IdUsuario);";
                 //echo $sql;
-                if (!$rs = $conexion->getPDO()->query($sql)) {
+                if (!$rs = $conexion->getPDO()->query($sql)){
                     $resp = 'fail';
                 }
             }
             
         }
         echo json_encode($resp);
-        
     }
 
     public function consultarDocentes($param) {
@@ -34,7 +32,7 @@ class clsDocente {
         // $sql = "CALL SPCARGARDOCENTES();"; 
         $sql = "CALL SPCARGARDOCENTES('$codModuSel');"; 
         if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)){
                 foreach ($filas as $fila) {
                     $array[] = $fila;
                 }
@@ -164,8 +162,31 @@ class clsDocente {
         echo json_encode($resultado);
     }
 
+    //----- Trae la lista de los modulos finalizados, por certificar y certificados por Docente -----//
+    public function ConsultarModulosPorDocenteCerrados($param) {
+        extract($param);
+        $rs = null;
+        $resultado = array();
+        $registro = array();
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $sql = "CALL SPCONSULTARMODULOSCERRADOSPORDOCENTE($IdDocente,'$Anio');";
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
+                foreach ($filas as $fila) {
+                    foreach ($fila as $key => $value) {
+                        array_push($registro, $value);
+                    }
+                    array_push($resultado, $registro);
+                    $registro = array();
+                }
+            }
+        } else {
+            $registro = 0; print_r($conexion->getPDO()->errorInfo()); die();
+        }
+        echo json_encode($resultado);
+    }
 
-     public function consultarCalendarioPreprogramacion($param) {
+    public function consultarCalendarioPreprogramacion($param) {
         extract($param);
 		$rs = null;
         $sql = "CALL SPCONSULTARCALENDARIOPREPROGRAMACION($idPreprogramacion);";
@@ -307,8 +328,6 @@ class clsDocente {
         echo json_encode($array);
     }
 
-
-
     public function agregarEvaluacion($param) {
         extract($param);
 		$rs = null;
@@ -345,7 +364,7 @@ class clsDocente {
         return $aux;
     }
 
-public function ConsultarPreprogramacionesActivas($param) {
+    public function ConsultarPreprogramacionesActivas($param) {
        extract($param);
        $resultado = array();
        $registro = array();
@@ -398,26 +417,279 @@ public function ConsultarPreprogramacionesActivas($param) {
             $registro = 0;
         }
         echo json_encode($resultado);
-
-
-
-       /* extract($param);
-        $rs = null;
-        $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPREPORTEALIMENTACIONPORPREPROGRAMACION($IdPreprogramacion);";
-        if ($rs = $conexion->getPDO()->query($sql)) {
-            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($filas as $fila) {
-                    $array[] = $fila;
-                }
-            }
-        } else {
-            $array = 0;
-        }
-        echo json_encode($array);*/
     }
 
+    //----- Reporte Notas y Estados por Salon Cerrado//
+    public function consultarReporteNotasyEstadosporSalon($param){
+      extract($param); 
+      define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />'); 
+      date_default_timezone_set('America/Bogota'); 
+      require_once dirname(__FILE__) . '/../includes/PHPExcel/PHPExcel/IOFactory.php'; 
+      $cacheMethod = PHPExcel_CachedObjectStorageFactory:: cache_to_phpTemp; 
+      $cacheSettings = array('memoryCacheSize ' => '8MB'); 
+      PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings); 
+      $sheetname = 'Reporte Notas y Estado';  
+      $objReader = PHPExcel_IOFactory::createReader('Excel5'); 
+      $objReader->setLoadSheetsOnly($sheetname); 
+      $objReader->setLoadAllSheets(); 
+      extract($param); 
+      $data = array('error'=>0,'mensaje'=>'','html'=>''); 
+      $sesiones=(int)$NoSesiones; 
+      $objPHPExcel = $objReader->load("../includes/PHPExcel/PHPExcel/Templates/templateEstadosyNotas.xls"); 
+      $objPHPExcel->setActiveSheetIndex(0); 
+      $objPHPExcel->getActiveSheet()->getPageMargins()->setTop(0);  
+      $objPHPExcel->getActiveSheet()->getPageMargins()->SetRight(0,4);  
+      $objPHPExcel->getActiveSheet()->getPageMargins()->setLeft(0,4);  
+      $objPHPExcel->getActiveSheet()->getPageMargins()->setBottom(0); 
+      $objPHPExcel->getActiveSheet()->setCellValue('E9', $IdCurso."-".$Curso); 
+      $objPHPExcel->getActiveSheet()->setCellValue('T9', $IdModulo."-".$Modulo); 
+      $objPHPExcel->getActiveSheet()->setCellValue('E10', $DiasCurso." - ".$Horario); 
+      $objPHPExcel->getActiveSheet()->setCellValue('T10', $Sede); 
+      $objPHPExcel->getActiveSheet()->setCellValue('E11', $FechaInicial); 
+      $objPHPExcel->getActiveSheet()->setCellValue('I11', $FechaFinal); 
+      $objPHPExcel->getActiveSheet()->setCellValue('E12', $Salon); 
+      $objPHPExcel->getActiveSheet()->setCellValue('L12', $NoSesiones); 
+      $objPHPExcel->getActiveSheet()->setCellValue('R12', $Duracion); 
+      $objPHPExcel->getActiveSheet()->setCellValue('T12', $Inscritos); 
+      $objPHPExcel->getActiveSheet()->setCellValue('T11', $Docente); 
+      $objPHPExcel->getActiveSheet()->setCellValue('H12', $Ruta); 
+      $objPHPExcel->getActiveSheet()->setCellValue('V12', $CantidadAsistentes);
+      $objPHPExcel->getActiveSheet()->setCellValue('X12', $EstudiantesGanando);
+      $objPHPExcel->getActiveSheet()->setCellValue('I15', 'Nota Definitiva');
+      $arrayMasSessiones=[];  
+      $baseRowDatos = 15; 
+      $columnDatos=0; 
+      $inis=1;
+      $fins=13;
+      $dataColumnasDatos=$this->ArrayColummns($inis,$fins);
+      foreach($dataColumnasDatos as $dataRow) { 
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnDatos, $baseRowDatos, $dataRow);
+        $columnDatos++;                     
+      }   
+      $hojaActual=0;   
+      $objClonedWorksheet1 =  clone $objPHPExcel->getSheet(0); 
+      $hojaActual=$hojaActual+1; 
+      $objClonedWorksheet1->setTitle('Reporte Notas y Estado'.$hojaActual); 
+      $objPHPExcel->addSheet($objClonedWorksheet1); 
+      $objPHPExcel->setActiveSheetIndex($hojaActual);
+      $baseRow = 16; 
+      $columnRow= 0; 
+      $rs = null;
+      $conexion->getPDO()->query("SET NAMES 'utf8'");
+      $sql = "CALL SPCONSULTARESTUDIANTESPORSALON1 ($idPreprogramacion);"; 
+      if ($rs = $conexion->getPDO()->query($sql)) { 
+        if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)){ 
+          $data['mensaje'] = 1; 
+          $Estudiantes= count($filas); 
+          $Estudiantes1=count($filas); 
+          $totalEstudiantes=0; 
+          $varId=0;
+          foreach ($filas as  $r =>$fila) { 
+            $varId++;
+            $columnRow=0; 
+            $row = $baseRow + $totalEstudiantes;
+            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila['IdTercero']);  
+            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $varId); 
+            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Apellidos']); 
+            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Nombres']); 
+            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $fila['Identificacion']);   
+            $totalEstudiantes++;
+            if($totalEstudiantes>19){    
+              $hojaActual=$hojaActual+1; 
+              $objClonedWorksheet = clone $objPHPExcel->getSheet(0); 
+              $objClonedWorksheet->setTitle('Reporte Notas y Estado'.$hojaActual); 
+              $objPHPExcel->addSheet($objClonedWorksheet); 
+              $objPHPExcel->setActiveSheetIndex($hojaActual);      
+              $baseRow = 16; 
+              $columnRow= 0; 
+              $totalEstudiantes=0;
+            } 
+          }
+          unset($rs); 
+          $Estudiantes=$Estudiantes+16; 
+          $sheetCount = ($objPHPExcel->getSheetCount())-1;
+          $typeSession="";
+            if($NoSesiones!==0){
+              if($NoSesiones>13){
+                $typeSession="1";
+                $NoSesiones=13;
+              } 
+              $ises=1;
+              $sheetCountIni=$sheetCount;
+              for($m=1;$m<=$sheetCount;$m++){ //inicio cantidad sheet
+                if($typeSession=="1"){
+                  $inis=14;
+                  $fins=$inis+12;
+                  $ahoraHojaActual=1;
+                  $ahoraHojaActual= $ises+$sheetCount;
+                  $objClonedWorksheet = clone $objPHPExcel->getSheet($m); 
+                  $objClonedWorksheet->setTitle('Reporte Notas y Estado'.$ahoraHojaActual);
+                  $objPHPExcel->addSheet($objClonedWorksheet);                          
+                  $dataColumnasDatos=$this->ArrayColummns($inis,$fins, $NoSesiones);
+                  $objPHPExcel->setActiveSheetIndex($ahoraHojaActual); 
+                  $baseRowDatos = 15; 
+                  $columnDatos=0; 
+                  $sheetCountIni= $sheetCountIni+1;
+                  $objPHPExcel->getActiveSheet()->setCellValue('V14', $sheetCountIni); 
+                  $sheetCountotal=$sheetCount*2;
+                  $objPHPExcel->getActiveSheet()->setCellValue('X14', $sheetCountotal); 
+                  foreach($dataColumnasDatos as $dataRow) { 
+                    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnDatos, $baseRowDatos, $dataRow);      
+                    $columnDatos++;                     
+                  }    
+                  $arrayMasSessiones[]= $ahoraHojaActual;
+                  $ises++;
+                }
+                if($typeSession=="1"){
+                  $sheetCountotal=$sheetCount*2;
+                }else{
+                  $sheetCountotal=$sheetCount;
+                }
+                $objPHPExcel->setActiveSheetIndex($m); 
+                $objPHPExcel->getActiveSheet()->setCellValue('V14', $m); 
+                $objPHPExcel->getActiveSheet()->setCellValue('X14', $sheetCountotal);
+                $totalEstudiantes=0;
+                for($i=16;$i<=35;$i++){ 
+                  $columnRow=4; 
+                  $row = $i; 
+                  $idTercero=$objPHPExcel->getActiveSheet()->getCell("A".$i)->getValue(); 
+                  if($idTercero!=""){
+                    //Cargar notas definitivas y estados por tercero y preprogramacion   
+                    $sql3 = "CALL SPCONSULTARNOTASYESTADOSPORTERCEROYSALON($idPreprogramacion, $idTercero);"; 
+                    if($rs3 = $conexion->getPDO()->query($sql3)){ 
+                      if ($filas1 = $rs3->fetchAll(PDO::FETCH_ASSOC)){
+                        $Estudiantes= count($filas1); 
+                        $Estudiantes1=count($filas1); 
+                        $row = $baseRow + $totalEstudiantes;
+                        foreach ($filas1 as  $r =>$fila1) {
+                          $columnRow=5; 
+                          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila1['Estado']);  
+                          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+3, $row, $fila1['NotaDefinitiva']); 
+                          $totalEstudiantes++;
+                          if($totalEstudiantes>19){    
+                            $hojaActual=$hojaActual+1; 
+                            $objClonedWorksheet = clone $objPHPExcel->getSheet(0); 
+                            $objClonedWorksheet->setTitle('Reporte Notas y Estado'.$hojaActual); 
+                            $objPHPExcel->addSheet($objClonedWorksheet); 
+                            $objPHPExcel->setActiveSheetIndex($hojaActual);      
+                            $baseRow = 16; 
+                            $columnRow= 0; 
+                            $totalEstudiantes=0;
+                          }
+                        }
+                        $totalSesionesFaltantes=13-$NoSesiones; 
+                        if($totalSesionesFaltantes>0){
+                          for($k=1;$k<=$totalSesionesFaltantes;$k++){  
+                            $objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($columnRow=$columnRow+1, $row)->getFill()->applyFromArray(array( 
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID, 
+                            'startcolor' => array('rgb' => '8A7F7D'))); 
+                          } 
+                        }
+                        unset($rs3); 
+                      }else{ //filaAsistencia 
+                        unset($rs3); 
+                        for($j=1;$j<=$NoSesiones;$j++){   
+                          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, "NA"); 
+                        }
+                        $totalSesionesFaltantes=13-$NoSesiones;
+                        if($totalSesionesFaltantes>0){
+                          for($k=1;$k<=$totalSesionesFaltantes;$k++){ 
+                            $objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($columnRow=$columnRow+1, $row)->getFill()->applyFromArray(array( 
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID, 
+                            'startcolor' => array( 'rgb' => '8A7F7D'))); 
+                          } 
+                        }
+                        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, 0); 
+                      }//fin else 
+                    }//fin $rs2 
+                  } 
+                }
+              }//fin cantidad for countsheet 
+            //}
+        }else{ 
+          $data['error']=2; 
+        }
+      }else{ 
+        $data['error'] = 0; 
+        print_r($conexion->getPDO()->errorInfo()); die(); 
+      } 
+        //validar si hay mas de 13 sesiones
+        if(count($arrayMasSessiones)>0){
+          $Estudiantes1=$Estudiantes1+16; 
+          $counse=count($arrayMasSessiones);
+          $x=0;
+          while ($x < $counse) { 
+            $arraySes= $arrayMasSessiones[$x];
+            $objPHPExcel->setActiveSheetIndex($arraySes);                   
+            $x++;
+            for($i=16;$i<=35;$i++){    
+              $sesion1=(int)$NoSesiones;
+              $totalSesionesFaltantes1=($sesion1-13);
+              $columnRow=4; 
+              $row = $i; 
+              $idTercero=$objPHPExcel->getActiveSheet()->getCell("A".$i)->getValue(); 
+              if($idTercero!=""){
+                //Cargar Asistencias por tercero y preprogramacion   
+                $sql3 = "CALL SPCONSULTARNOTASYESTADOSPORTERCEROYSALON($idPreprogramacion, $idTercero);"; 
+                if($rs3 = $conexion->getPDO()->query($sql3)){ 
+                    if ($filas1 = $rs3->fetchAll(PDO::FETCH_ASSOC)){
+                      foreach ($filas1 as $s =>$fila1) { 
+                        $horasAsistidas=$fila1['Estado'];
+                        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, $horasAsistidas);
+                      }
+                      if($totalSesionesFaltantes1>0){
+                        $totalSesionesFaltantes=13-$totalSesionesFaltantes1;
+                      }else{
+                        $totalSesionesFaltantes=0;
+                      }        
+                      if($totalSesionesFaltantes>0){
+                        for($k=1;$k<=$totalSesionesFaltantes;$k++){
+                          $objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($columnRow=$columnRow+1, $row)->getFill()->applyFromArray(array( 
+                          'type' => PHPExcel_Style_Fill::FILL_SOLID, 
+                          'startcolor' => array('rgb' => '8A7F7D'))); 
+                        } 
+                      }
+                      unset($rs3); 
+                    }else{ //filaAsistencia 
+                      unset($rs3); 
+                      for($j=1;$j<=$totalSesionesFaltantes1;$j++){   
+                        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, "NA"); 
+                      }
+                      $totalSesionesFaltantes=13-$totalSesionesFaltantes1; 
+                      if($totalSesionesFaltantes>0){
+                        for($k=1;$k<=$totalSesionesFaltantes;$k++){
+                          $objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($columnRow=$columnRow+1, $row)->getFill()->applyFromArray(array( 
+                          'type' => PHPExcel_Style_Fill::FILL_SOLID, 
+                          'startcolor' => array('rgb' => '8A7F7D'))); 
+                        } 
+                      }
+                      $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+1, $row, 0); 
+                    }//fin else 
+                }//fin $rs2 
+              }
+            }
+          }
+        }
+        $styleArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN))); 
+        $objPHPExcel->getDefaultStyle()->applyFromArray($styleArray); 
+        //foreach externo 
+        $sheetIndex = $objPHPExcel->getIndex($objPHPExcel-> getSheetByName('Informe'));
+        $objPHPExcel->removeSheetByIndex($sheetIndex); 
+        $objPHPExcel->setActiveSheetIndex(0); 
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
+        $FechaMod=strtotime("now"); 
+        $filename = '../anexos/reportes/reporteNotasyEstados_'.$FechaMod.'.xls'; 
+        $objWriter->save(str_replace('.php', '.xls', $filename)); 
+        $data['html']=$filename;
+        echo json_encode($data);
+      }
+    }
+
+    //----- Coloca los nombres a las columnas -----//
+    public function ArrayColummns($ini, $fin){
+        $dataColumnasDatos = array('Id','No', 'Apellidos', 'Nombres', 'Identificacion','Estado');
+        array_push($dataColumnasDatos); 
+        return $dataColumnasDatos;
+    }
 }
-
-
 ?>

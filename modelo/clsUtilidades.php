@@ -57,6 +57,56 @@ class clsUtilidades {
         return $envio;
    }
 
+   //----- Función que envía correo luego de una matrícula -----//
+    public function enviarCorreoEstudianteAlFinalizarModulo($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$estadoModulo,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto){
+        require_once("../includes/PHPMailer/class.phpmailer.php");
+        $mail = new PHPMailer();
+        $mail->IsSMTP();                                      // set mailer to use SMTP
+        $mail->Host =  "outlook.office365.com"; //"smtp.gmail.com";  // specify main and backup server
+        $mail->SMTPAuth = true;     // turn on SMTP authentication
+        $mail->Username = $correode;  // SMTP username
+        $mail->Password = $clave; 
+        $mail->Port = 587; //465;
+        $mail->SMTPSecure = "tls"; //"ssl";
+        $mail->From = $correode;
+        $mail->FromName = "CET COLSUBSIDIO - AIRBUS GROUP";
+        $mail->AddAddress($correoElectronico);                  // name is optional
+        $mail->WordWrap = 50;                                 // set word wrap to 50 characters
+        //$mail->AddAttachment("../anexos/manuales/Manual_CET_Encuestas_de_satisfaccion.pdf");         // add attachments
+        $mail->IsHTML(true);                                  // set email format to HTML
+        $mail->Subject = $asunto;
+        $mensaje = file_get_contents("../vista/html/correo_curso_finalizar_modulo.html");
+        $mensaje = str_replace("fecha", date("Y-m-d"), $mensaje);
+        $mensaje = str_replace("estudiante", $estudiante, $mensaje);
+        $mensaje = str_replace("pTipoIdentificacion", $tipoidentificacion, $mensaje);
+        $mensaje = str_replace("pNumeroIdentificacion", $cedula, $mensaje);
+        $mensaje = str_replace("cod-salon", $salon, $mensaje);
+        $mensaje = str_replace("capacitacion", $curso, $mensaje);
+        $mensaje = str_replace("ruta", $ruta, $mensaje);
+        $mensaje = str_replace("duracioncurso", $duracionCurso, $mensaje);
+        $mensaje = str_replace("diascurso", $diasCurso, $mensaje);
+        $mensaje = str_replace("finicial", $fechaInicial, $mensaje);
+        $mensaje = str_replace("ffinal", $fechaFinal, $mensaje);
+        $mensaje = str_replace("horai", $horaInicial, $mensaje);
+        $mensaje = str_replace("horaf", $horaFinal, $mensaje);
+        $mensaje = str_replace("modulo", $modulo, $mensaje);
+        $mensaje = str_replace("duracionm", $duracionModulo, $mensaje);
+        $mensaje = str_replace("modalidad", $modalidad, $mensaje);
+        $mensaje = str_replace("sede", $sede, $mensaje);
+        $mensaje = str_replace("profesor", $docente, $mensaje);
+        $mensaje = str_replace("cod_est", $estadoModulo, $mensaje);
+        $mensaje = str_replace("usuario", $usuario, $mensaje);
+        $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mail->CharSet = 'UTF-8';
+        $mail->Body = $mensaje;
+        if(!$mail->Send()){
+            $envio = 0;
+        }else{
+            $envio =- 1;
+        }
+        return $envio;
+   }
+
    //----- Funcion que envía correo a los docentes luego que son preprogramados o modificados -----//
    public function enviarCorreoDocente($docente,$correoElectronico,$salon,$codigocurso,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$intensidadhoraria,$cantidadsesiones,$modalidad,$sede,$observaciones,$estado,$usuario,$usuarioe,$correode,$clave,$asunto){
         require_once("../includes/PHPMailer/class.phpmailer.php");

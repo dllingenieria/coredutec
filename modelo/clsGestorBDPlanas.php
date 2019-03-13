@@ -30,7 +30,7 @@ class clsGestorBDPlanas {
 //            $res_gua = $this->GuardarArchivoDeLogs($err_arc,$nom_arc);
             $response .= 'No ha sido posible cargar los registros del archivo por que éste contiene errores, corríjalos en intentelo de nuevo. 
             Se ha generado un archivo con los errores encontrados.<br><br>'; 
-//            $response .= 'No ha sido posible cargar los registros del archivo por que éste contiene errores, corríjalos en intentelo de nuevo. 
+//            $response .= 'No ha sido posible cargar los registros del archivo por que éste contiene errores, corríjalos en intentelo de nuevo.
 //            Se ha generado un archivo con los errores encontrados.<br><br>' . $res_gua;
         }
         $response .= '</div>';
@@ -217,10 +217,12 @@ class clsGestorBDPlanas {
                     $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
                     if($selCarga==4){
                         $carga->InscribirSoporteEstado($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
-
                         $identificardorArchivo=$lin_txt[0];
                     }
-                   
+                    if($selCarga==6){
+                        $carga->AgregarMatriculasMasivas($numInsercion,$lin_txt, $conexion,$idTablaGeneral);
+                        $identificardorArchivo=$lin_txt[0];
+                    }
                     $numInsercion ++;
                 }
             }
@@ -295,9 +297,7 @@ class clsGestorBDPlanas {
                     $con = $con + $participante->InscribirParticipante($numInsercion,$lin_txt, $conexion,$idTablaGeneral,$actualizarTercero);
                     $numInsercion ++;
                 }
-                
             }
-
             $archivo=str_replace("../", "", $archivo);
             $archivoAutorizacion= str_replace("../", "", $archivoAutorizacion);
 
@@ -327,9 +327,9 @@ class clsGestorBDPlanas {
 		array_pop($inf_arc);
         foreach ($inf_arc as $lin_txt) {
             if($selCarga==1){ //valida si es asignaciones
-
-               $res_eva = $this->EvaluarRegistro($lin_txt);
+                $res_eva = $this->EvaluarRegistro($lin_txt);
             }
+
             if($selCarga==2){ //valida si es soporte de matriculas
                 $res_eva = $this->EvaluarRegistroMatricula($lin_txt);
             }
@@ -346,6 +346,10 @@ class clsGestorBDPlanas {
                 $res_eva = $this->EvaluarRegistroRefrigerios($lin_txt);
             }
 
+            if($selCarga==6){
+                $res_eva = $this->EvaluarRegistroMatriculas1($lin_txt);
+            }
+
             if (strlen($res_eva) > 0) {
                 $men_err .= 'Error registro ' . $num_reg . ' - ' . $res_eva . "\n".PHP_EOL;
                 $flag = false;
@@ -355,8 +359,7 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-
-     private function EvaluarRegistroMatricula($lin_txt) {
+    private function EvaluarRegistroMatricula($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
         $men_err .= $this->EsEntero($aux_lin[0],0); //IdMatricula
@@ -364,7 +367,18 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-     private function EvaluarRegistroFirma($lin_txt) {
+    private function EvaluarRegistroMatricula1($lin_txt) {
+        $aux_lin = explode(';', $lin_txt);
+        $men_err = '';
+        $men_err .= $this->EsEntero($aux_lin[1],1); //NumeroIdentificacion
+        $men_err .= $this->EsEntero($aux_lin[2],2); //Convocatoria
+        $men_err .= $this->EsEntero($aux_lin[3],3); //Ruta
+        $men_err .= $this->EsEntero($aux_lin[6],6); //Modalidad
+        $men_err .= $this->EsEntero($aux_lin[9],9); //IdCarga
+        return $men_err;
+    }
+
+    private function EvaluarRegistroFirma($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
         //$men_err .= $this->EsEntero($aux_lin[0],0); //IdPreprogramacion

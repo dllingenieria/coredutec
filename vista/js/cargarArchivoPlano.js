@@ -180,7 +180,6 @@ $(function() {
 					        tipoCarga: tipoCarga,
 					        Observaciones: observaciones
 						     }, function(data) {
-
 						     	if(data!=""){
 							        var idTablaGeneral="";
 							        idTablaGeneral= data[0]["IdTabla"];
@@ -201,55 +200,49 @@ $(function() {
 
 	               },30000);
 	}
-
-
-
-
-
 	function GuardarDocumentoRutaOriginalAutorizacion(idTablaGeneral,archivoFuente,ArchivoAutorizacion,ubicacionFuente,ubicacionAutorizacion, nombreCorto,tipoArchivo){
 			//Guarda archivo en carpeta original Fuente
 			tipoarchivoF="Fuente";
 			$.post("../../controlador/fachada.php", {
+	    	clase: 'clsArchivo',
+	        oper: 'GuardarArchivoOriginal',
+	        idTablaGeneral: idTablaGeneral,
+	        archivo: archivoFuente,
+	        ubicacion: ubicacionFuente,
+	       	nombreCorto: nombreCorto,
+	        tipoArchivo: tipoarchivoF
+		     }, function(data) {
+		     	setTimeout(function(){	
+		        if(data!=2){
+		         	archivoFuente= data;
+		         	tipoarchivoA="Autorizacion";
+		         //Guarda archivo en carpeta original autorizacion
+		         	$.post("../../controlador/fachada.php", {
 				    	clase: 'clsArchivo',
 				        oper: 'GuardarArchivoOriginal',
 				        idTablaGeneral: idTablaGeneral,
-				        archivo: archivoFuente,
-				        ubicacion: ubicacionFuente,
+				        archivo: ArchivoAutorizacion,
+				        ubicacion: ubicacionAutorizacion,
 				       	nombreCorto: nombreCorto,
-				        tipoArchivo: tipoarchivoF
+				        tipoArchivo: tipoarchivoA
 					     }, function(data) {
-
-					     	setTimeout(function(){	
 					        if(data!=2){
-					         	archivoFuente= data;
-					         	tipoarchivoA="Autorizacion";
-					         //Guarda archivo en carpeta original autorizacion
-					         	$.post("../../controlador/fachada.php", {
-							    	clase: 'clsArchivo',
-							        oper: 'GuardarArchivoOriginal',
-							        idTablaGeneral: idTablaGeneral,
-							        archivo: ArchivoAutorizacion,
-							        ubicacion: ubicacionAutorizacion,
-							       	nombreCorto: nombreCorto,
-							        tipoArchivo: tipoarchivoA
-								     }, function(data) {
-								        if(data!=2){
-								         	archivoAutorizacion= data;
-								         	setTimeout(function(){
-								        		EvaluarArchivosFuenteAutorizacion(idTablaGeneral,archivoFuente, ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, tipoArchivo);
-								       		},2000);
-								       }else{
-								       	 	jsRemoveWindowLoad();
-								        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
-								        }
-
-									}, "json");
-
+					         	archivoAutorizacion= data;
+					         	setTimeout(function(){
+					        		EvaluarArchivosFuenteAutorizacion(idTablaGeneral,archivoFuente, ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion, nombreCorto, tipoArchivo);
+					       		},2000);
 					       }else{
-					       		  jsRemoveWindowLoad();
+					       	 	jsRemoveWindowLoad();
 					        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
 					        }
-					      },30000);
+
+						}, "json");
+
+		       }else{
+		       		  jsRemoveWindowLoad();
+		        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
+		        }
+		      },30000);
 
 			}, "json");
 
@@ -257,27 +250,25 @@ $(function() {
 
 
 	function GuardarDocumentoRutaOriginal(idTablaGeneral,archivoFuente,archivoEscaneado,ubicacionFuente,ubicacionEscaneado, nombreCorto,tipoArchivo){
-			$.post("../../controlador/fachada.php", {
-				    	clase: 'clsArchivo',
-				        oper: 'GuardarArchivoOriginal',
-				        idTablaGeneral: idTablaGeneral,
-				        archivo: archivoFuente,
-				        ubicacion: ubicacionFuente,
-				        nombreCorto: nombreCorto,
-				        tipoArchivo: tipoArchivo
-					     }, function(data) {
-					        if(data!=2){
-					         	archivo = data;
-					         	setTimeout(function(){
-					        		EvaluarArchivosFuente(idTablaGeneral,archivo, ubicacionFuente,archivoEscaneado,ubicacionEscaneado, nombreCorto, tipoArchivo);
-					       		},30000);
-					       }else{
-					       		jsRemoveWindowLoad();
-					        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
-					        }
-
-			}, "json");
-
+		$.post("../../controlador/fachada.php", {
+	    	clase: 'clsArchivo',
+	        oper: 'GuardarArchivoOriginal',
+	        idTablaGeneral: idTablaGeneral,
+	        archivo: archivoFuente,
+	        ubicacion: ubicacionFuente,
+	        nombreCorto: nombreCorto,
+	        tipoArchivo: tipoArchivo
+		     }, function(data) {
+		        if(data!=2){
+		         	archivo = data;
+		         	setTimeout(function(){
+		        		EvaluarArchivosFuente(idTablaGeneral,archivo, ubicacionFuente,archivoEscaneado,ubicacionEscaneado, nombreCorto, tipoArchivo);
+		       		},30000);
+		       }else{
+		       		jsRemoveWindowLoad();
+		        	 mostrarPopUpError('Se produjo un error al subir el archivo fuente, favor intentarlo mas tarde');
+		        }
+		}, "json");
 	}
 	
 	
@@ -351,8 +342,7 @@ $(function() {
     	console.log("ubicacionFuente"+ubicacionFuente);
     	console.log("archivo"+archivo);
     	var selCarga=$("#selCarga").val();
-		if (valorSeleccionado==1)
-        {
+		if (valorSeleccionado==1){
         	// valida si es asignacion
          	EvaluarArchivo(idTablaGeneral,archivo,ubicacionFuente,archivoAutorizacion,ubicacionAutorizacion,nombreCorto,selCarga);
         }else{ 
@@ -437,7 +427,7 @@ $(function() {
 			GuardarArchivo(); 
 		}else{
 			jsRemoveWindowLoad();
-			mostrarPopUpError("Falta diligenciar campos");
+			mostrarPopUpError("Faltan campos por diligenciar");
 		}
 	});
 	

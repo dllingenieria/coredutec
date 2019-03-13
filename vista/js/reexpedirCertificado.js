@@ -114,9 +114,9 @@ $(function() {
 			{ title: "Curso" },
 			{ title: "Fecha" },
 			{ title: "Certificado por" },
-			{ title: "Curso" },
-			{ title: "Curso" },
-			{ title: "Curso" },
+			{ title: "TipoIdentificacion" },
+			{ title: "NumeroIdentificacion" },
+			{ title: "Estudiante" }
 			],
 			"paging":   false,
 			"info":     false,

@@ -353,7 +353,7 @@ public function ReporteCallcenterGestionados($param){
     }
 
 
-           /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
     public function InscribirSoporteEstado($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
         header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  
@@ -375,9 +375,30 @@ public function ReporteCallcenterGestionados($param){
          return $array;
     }
 
+    //----- Guarda las matriculas masivas -----//
+    public function AgregarMatriculasMasivas($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
+        header("Content-Type: text/html;charset=utf-8");  
+        $IdUsuario = $_SESSION['idUsuario'];  
+        $registro = explode(";", $lin_inf);
+       
+        $sql = "CALL SPAGREGARMATRICULASMASIVAS('$registro[0]',$registro[1],$registro[2],$registro[3],'$registro[4]',$registro[5],'$registro[6]','$registro[7]',$registro[8]);";
+        //print_r($sql);
+        $resultado=1;
+        $rs=null;
+        $array="";
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        $inserto = 0;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                 foreach ($filas as $fila) {
+                    $array = $fila['pIdTabla'];
+                }
+            }
+        } 
+         return $array;
+    }
 
-
-           /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
+    /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
     public function InscribirSoporteRefrigerio($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
         header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  

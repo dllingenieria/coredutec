@@ -1,1 +1,1 @@
-numInsercion,lin_txt : 0 -- 302552;711968
+numInsercion,lin_txt : 0 -- CC;75088406;14;3;701.1;71;701.1.T2;FLFR04742.T2;524232
