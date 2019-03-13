@@ -7,7 +7,8 @@ body {
 	padding-left: 1rem;
 	padding-right: 1rem;
 	padding-top: 1.5rem;
-	
+	margin-left: auto;
+    margin-right: auto;
 }
 
 .cuerpo th{
@@ -44,6 +45,7 @@ body {
 .botones {
     text-align: center;
     margin-top: 0.9rem;
+    margin-bottom: 4rem;
 }
 
 #DivAsistencia{
@@ -51,7 +53,8 @@ body {
     max-height: 100%;
     position:relative; 
     z-index: 3;
-    left:3rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .datatable{

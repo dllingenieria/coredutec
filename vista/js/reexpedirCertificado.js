@@ -197,7 +197,8 @@ $(function() {
 			if (data !== 0) {
 				if (data == -1) {
 					jsRemoveWindowLoad();
-					mostrarPopUpConfirmacion("Certificados generados de manera satisfactoria");
+					mostrarPopUpError("Certificados generados de manera satisfactoria");
+					//mostrarPopUpConfirmacion("Certificados generados de manera satisfactoria");
 					setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
@@ -223,7 +224,8 @@ $(function() {
 			if (data !== 0) {
 				if (data == -1) {
 					jsRemoveWindowLoad();
-					mostrarPopUpConfirmacion("Certificados generados de manera satisfactoria");
+					mostrarPopUpError("Certificados generados de manera satisfactoria");
+					//mostrarPopUpConfirmacion("Certificados generados de manera satisfactoria");
 					setTimeout(function() {
                         location.reload(true);
                     }, 4000); 
