@@ -147,10 +147,10 @@ $(function(){
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
 			{ title: "Estado" },
-			{data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón</a>'},
-			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
-			{data: null, className: "center", defaultContent: '<a id="refrigerios-link" class="refrigerios-link" href="#" title="Edit">Refrigerios</a>'},
-			{data: null, className: "center", defaultContent: '<a id="evaluaciones-link" class="evaluaciones-link" href="#" title="Edit">Evaluaciones</a>'}
+			{ title: "Reporte", data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón</a>'},
+			{ title: "Reporte", data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
+			{ title: "Reporte", data: null, className: "center", defaultContent: '<a id="refrigerios-link" class="refrigerios-link" href="#" title="Edit">Refrigerios</a>'},
+			{ title: "Reporte", data: null, className: "center", defaultContent: '<a id="evaluaciones-link" class="evaluaciones-link" href="#" title="Edit">Evaluaciones</a>'}
 			],
 			"paging":   true,
 			"info":     false,

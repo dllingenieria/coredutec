@@ -75,8 +75,8 @@ $(function(){
 			{ title: "Modalidad" },
 			{ title: "cantidadSesiones" },
 			{ title: "Estado" },
-			{data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
-			{data: null, className: "center", defaultContent: '<a id="certificar-link" class="edit-link" href="#" title="Edit">Certificar</a>'}
+			{ title: "Reporte", data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'},
+			{ title: "Reporte", data: null, className: "center", defaultContent: '<a id="certificar-link" class="edit-link" href="#" title="Edit">Certificar</a>'}
 			],
 			"paging":   true,
 			"info":     false,
