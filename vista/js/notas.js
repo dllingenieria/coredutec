@@ -268,7 +268,7 @@ $(function() {
 
         }
         if (noCumple == 0){
-			popUpConfirmacion1("Realmente desea cerrar el curso?", cerrarCursoPrimeraParte );
+			popUpConfirmacion1("Realmente desea cerrar el curso?", cerrarCursoPrimeraParte);
             // var cerrar =confirm("Realmente desea cerrar el curso ?");
             // if(cerrar){ 	
 			
@@ -667,126 +667,120 @@ function cerrarCursoPrimeraParte(){
 	jsShowWindowLoad(mensaje);
 	cerrarCurso=true;
 	if (cerrarCurso == true){
-                $.post("../../controlador/fachada.php",{
-                            clase : 'clsCurso',
-                            oper: 'cerrarCurso',
-                            idPreprogramacion : sessionStorage.IdPreprogramacion
-                        },
-                function (data) { 
-					jsRemoveWindowLoad();
-                                if(data.error === ""){ //console.log(data);
-									// popUpConfirmacion("Curso cerrado correctamente");
-									// window.location.href = "docente.html";
-									if (data.html != "" && data.parametros != ""){
-											//codigo para mostrar el div donde seleccionara los módulos disponibles
-											// creamos un div nuevo, con un atributo
-											 var divSeleccionModulo = $('<div>').attr({
-											 
-											 id: 'divSeleccionModulo'
-											 });
-											 
-											// agregamos nuevo div a la pagina
-											$('body').append(divSeleccionModulo);
-											
-											
-											var ancho = 600; 
-											var alto = 250;
-											
-											// fondo transparente
-											 // creamos un div nuevo, con un atributo
-											 var bgdiv = $('<div>').attr({
-											 
-											 id: 'bgtransparent'
-											 });
-											 
-											// agregamos nuevo div a la pagina
-											$('body').append(bgdiv);
-											
-											// obtenemos ancho y alto de la ventana del explorer
-											 var wscr = $(window).width();
-											 var hscr = $(window).height();
+        $.post("../../controlador/fachada.php",{
+            clase : 'clsCurso',
+            oper: 'cerrarCurso',
+            idPreprogramacion : sessionStorage.IdPreprogramacion
+        },
+        function (data) { 
+			jsRemoveWindowLoad();
+            if(data.error === ""){ //console.log(data);
+				// popUpConfirmacion("Curso cerrado correctamente");
+				// window.location.href = "docente.html";
+				if (data.html != "" && data.parametros != ""){
+					//codigo para mostrar el div donde seleccionara los módulos disponibles
+					// creamos un div nuevo, con un atributo
+					 var divSeleccionModulo = $('<div>').attr({
 					 
-											//establecemos el css para el div bgtransparent
-											$('#bgtransparent').css({'position':'fixed',
-																	'left':'0',
-																	'top':'0',
-																	'background-color':'#000',
-																	'opacity':'0.6',
-																	'filter':'alpha(opacity=60)',
-																	'z-index':' 10'																	
-																	});
-																	
-											
-											
-											//establecemos las dimensiones del fondo						
-											$('#bgtransparent').css("width", wscr);
-											$('#bgtransparent').css("height", hscr);
-											
-											
-											 // ventana modal
-											 // creamos otro div para la ventana modal y dos atributos
-											 var moddiv = $('<div>').attr({
-											 
-											 id: 'bgmodal'
-											 }); 
-											
-											// agregamos div a la pagina
-											$('body').append(moddiv);
-											
-											$('#bgmodal').css({
-												'position':'fixed', 
-												'background-image':'url("../images/popupblanco.png")',
-												'font-family': "Roboto-Bold",
-												'font-size': '16px',
-												'border-radius':'15px',
-												'overflow':'auto',
-												'color':'#000',
-												'padding':'20px',
-												'width':'354px',
-												'height':' 96px',
-												'padding': '10px 40px',
-												'text-align':'center',
-												'z-index':' 20'
-												});
-											
-											// $( "#bgmodal" ).addClass( "element_to_pop_upMensaje" );					
-											// agregamos contenido HTML a la ventana modal
-											// $('#bgmodal').append(contenidoHTML);
-											$('#bgmodal').html("");
-											$('#bgmodal').append(data.html);
-											
-											//response.html
-											// redimensionamos para que se ajuste al centro y mas
-											$(window).resize();
-											 $("button[id^=btnMatricularSiguienteModulo]").click(function(){ matricularSiguienteModulo(data.parametros); });
-											 $("button[id^=btnCerrarCursoSinModulos]").click(function(){ cerrarCursoSinSiguienteModulo(); });
-											 $("button[id^=btnCerrarModal]").click(function(){ cerrarModal(1); });
-											 
-											 $('.seleccionar').css({
-												 'width': '90px',
-												 'height': '27px',
-												 'background':'#003265', 
-												 'color': '#ffffff',
-												 'font-family': 'Roboto-Light', 
-												 'font-size': '16px', 
-												 'border-radius': '6px 6px 6px 6px'
-											 });
-											 
-											
-									}
-								}
-								else{ 
-									mostrarPopUpError(data.error);
-									if(data.noModulos != ""){
-										//setTimeout(function(){
-									//se llama otra vez a la lista de planeacion
-									//window.location.href = "docente.html";},4000);
-									}
-								}
-								
-                        },"json");
-                    }
+					 id: 'divSeleccionModulo'
+					 });
+					 
+					// agregamos nuevo div a la pagina
+					$('body').append(divSeleccionModulo);
+					
+					
+					var ancho = 600; 
+					var alto = 250;
+					
+					// fondo transparente
+					// creamos un div nuevo, con un atributo
+					var bgdiv = $('<div>').attr({
+					 
+					id: 'bgtransparent'
+					});
+					 
+					// agregamos nuevo div a la pagina
+					$('body').append(bgdiv);
+					
+					// obtenemos ancho y alto de la ventana del explorer
+					 var wscr = $(window).width();
+					 var hscr = $(window).height();
 
+					//establecemos el css para el div bgtransparent
+					$('#bgtransparent').css({'position':'fixed',
+					'left':'0',
+					'top':'0',
+					'background-color':'#000',
+					'opacity':'0.6',
+					'filter':'alpha(opacity=60)',
+					'z-index':' 10'																	
+					});
+					
+					//establecemos las dimensiones del fondo						
+					$('#bgtransparent').css("width", wscr);
+					$('#bgtransparent').css("height", hscr);
+					
+					
+					 // ventana modal
+					 // creamos otro div para la ventana modal y dos atributos
+					 var moddiv = $('<div>').attr({
+					 
+					 id: 'bgmodal'
+					 }); 
+					
+					// agregamos div a la pagina
+					$('body').append(moddiv);
+					
+					$('#bgmodal').css({
+						'position':'fixed', 
+						'background-image':'url("../images/popupblanco.png")',
+						'font-family': "Roboto-Bold",
+						'font-size': '16px',
+						'border-radius':'15px',
+						'overflow':'auto',
+						'color':'#000',
+						'padding':'20px',
+						'width':'354px',
+						'height':' 96px',
+						'padding': '10px 40px',
+						'text-align':'center',
+						'z-index':' 20'
+						});
+					
+					// $( "#bgmodal" ).addClass( "element_to_pop_upMensaje" );					
+					// agregamos contenido HTML a la ventana modal
+					// $('#bgmodal').append(contenidoHTML);
+					$('#bgmodal').html("");
+					$('#bgmodal').append(data.html);
+					
+					//response.html
+					// redimensionamos para que se ajuste al centro y mas
+					$(window).resize();
+					$("button[id^=btnMatricularSiguienteModulo]").click(function(){ matricularSiguienteModulo(data.parametros); });
+					$("button[id^=btnCerrarCursoSinModulos]").click(function(){ cerrarCursoSinSiguienteModulo(); });
+					$("button[id^=btnCerrarModal]").click(function(){ cerrarModal(1); });
+					 
+					$('.seleccionar').css({
+						'width': '90px',
+						'height': '27px',
+						'background':'#003265', 
+						'color': '#ffffff',
+						'font-family': 'Roboto-Light', 
+						'font-size': '16px', 
+						'border-radius': '6px 6px 6px 6px'
+					});
+				}
+			}
+			else{ 
+				mostrarPopUpError(data.error);
+				if(data.noModulos != ""){
+					//setTimeout(function(){
+				//se llama otra vez a la lista de planeacion
+				//window.location.href = "docente.html";},4000);
+				}
+			}		
+        },"json");
+    }
 }
 
 });
