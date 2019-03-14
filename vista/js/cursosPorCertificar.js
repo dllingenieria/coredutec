@@ -116,7 +116,7 @@ $(function () {
 			{ title: "Código Curso" },
 			{ title: "Curso" },
 			{ title: "Duración" },
-			{data: null, className: "center", defaultContent: '<a id="certificar-link" class="edit-link" href="#" title="Edit">Certificar</a>'}
+			{ title: "Certificar", data: null, className: "center", defaultContent: '<a id="certificar-link" class="edit-link" href="#" title="Edit">Certificar</a>'}
 			],
 			"paging":   true,
 			"info":     false,

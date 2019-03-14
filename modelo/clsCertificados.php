@@ -167,7 +167,7 @@ class clsCertificados {
         $IdUsuario = $_SESSION['idUsuario'];
         $rs = null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-        $sql = "CALL SPAGREGARCERTIFICADOPORCURSO($pIdCursoTemporal,".$IdUsuario.")";
+        $sql = "CALL SPAGREGARCERTIFICADOPORCURSO('$pIdCursoTemporal',".$IdUsuario.")";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
