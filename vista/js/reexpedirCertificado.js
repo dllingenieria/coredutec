@@ -50,7 +50,7 @@ $(function() {
 				if (data !== -1) {
 					var resultado = data[0].pIdCertificado;
 					var pIdCertificado = resultado.split('-');
-					if((pIdCertificado[1]) = 405){
+					if((pIdCertificado[1]) == 405){
 						enviarCorreoPorModulo(pIdCertificado[0]);
 					}else{
 						enviarCorreoPorCurso(pIdCertificado[0]);
