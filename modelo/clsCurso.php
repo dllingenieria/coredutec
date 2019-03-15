@@ -832,7 +832,7 @@ class clsCurso {
     					}	//For para recorreo la cantidad de modulossiguientes
     					
     					$data[ 'html' ] .="</select>";
-    					$data[ 'html' ] .="<br><br><button id='btnMatricularSiguienteModulo' class='seleccionar'>Confirmar</button>";
+    					$data[ 'html' ] .="<br><button id='btnMatricularSiguienteModulo' class='seleccionar'>Confirmar</button>";
     					$data[ 'html' ] .="&nbsp;&nbsp;<button id='btnCerrarModal' class='seleccionar'>Cancelar</button>";
     					$data[ 'html' ] .="</div>";
     					$data[ 'html' ] .="</div>";
@@ -840,7 +840,7 @@ class clsCurso {
     				else{											
     					//se arma el div con el formulario para mostrar con los modulos faltantes
     					$data[ 'html' ] = "<div>";
-    					$data[ 'html' ] .= "<br><label class='popup'>No se encontraron módulos para asignar, ¿desea continuar cerrando el curso?</label><br><br>";
+    					$data[ 'html' ] .= "<br><label class='popup'>No se encontraron módulos para asignar<br>¿Desea continuar cerrando el curso?</label><br><br>";
     					$data[ 'html' ] .="<div style='width:70%; margin: 0 auto;'>";
     					$data[ 'html' ] .="<button id='btnCerrarCursoSinModulos' class='seleccionar'>Confirmar</button>";
     					$data[ 'html' ] .="&nbsp;&nbsp;<button id='btnCerrarModal' class='seleccionar'>Cancelar</button>";
