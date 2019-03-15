@@ -201,7 +201,7 @@ class clsUtilidades {
    }
 
    //----- Función que envía correo luego de una matrícula -----//
-    public function enviarCorreoCertificadoCurso($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$curso,$usuario,$usuarioe,$correode,$clave,$asunto,$IdCertificado){
+    public function enviarCorreoCertificadoCurso($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$curso,$duracion,$ruta,$modalidad,$usuario,$usuarioe,$correode,$clave,$asunto,$IdCertificado){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
@@ -227,6 +227,9 @@ class clsUtilidades {
         $mensaje = str_replace("cod_cert", $IdCertificado, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mensaje = str_replace("pduracion", $duracion, $mensaje);
+        $mensaje = str_replace("pruta", $ruta, $mensaje);
+        $mensaje = str_replace("pmodalidad", $modalidad, $mensaje);
         $mail->CharSet = 'UTF-8';
         $mail->Body = $mensaje;
         if(!$mail->Send()){

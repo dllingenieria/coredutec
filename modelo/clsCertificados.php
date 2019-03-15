@@ -397,8 +397,10 @@ class clsCertificados {
                         $cedula = $array1[$i]['NumeroIdentificacion'];
                         $correoElectronico = $array1[$i]['CorreoElectronico'];
                         $curso = $array1[$i]['Curso'];
+                        $duracion = $array1[$i]['Duracion'];
+                        $ruta = explode('-',$array1[$i]['Ruta']);
                         $asunto = "EXPEDICION DE CERTIFICADO";
-                        $correo=$utilidades->enviarCorreoCertificadoCurso($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$curso,$usuario,$usuarioe,$correode,$clave,$asunto,$IdCertificado);
+                        $correo=$utilidades->enviarCorreoCertificadoCurso($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$curso,$duracion,$ruta[0],$ruta[1],$usuario,$usuarioe,$correode,$clave,$asunto,$IdCertificado);
                     }
                 }else{
                     print_r("Error2");
@@ -409,6 +411,8 @@ class clsCertificados {
                 $data["error"]="No se consultaron los correos";
                 print_r($conexion->getPDO()->errorInfo()); die();
             }
+        }else {
+            $correo = 0;
         }
         echo json_encode($correo);
     }
