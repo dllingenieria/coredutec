@@ -840,7 +840,7 @@ class clsCurso {
     				else{											
     					//se arma el div con el formulario para mostrar con los modulos faltantes
     					$data[ 'html' ] = "<div>";
-    					$data[ 'html' ] .= "<br><label class='popup'>No se encontraron mas módulos para asignar, Desea continuar cerrando el curso</label><br><br>";
+    					$data[ 'html' ] .= "<br><label class='popup'>No se encontraron módulos para asignar, ¿desea continuar cerrando el curso?</label><br><br>";
     					$data[ 'html' ] .="<div style='width:70%; margin: 0 auto;'>";
     					$data[ 'html' ] .="<button id='btnCerrarCursoSinModulos' class='seleccionar'>Confirmar</button>";
     					$data[ 'html' ] .="&nbsp;&nbsp;<button id='btnCerrarModal' class='seleccionar'>Cancelar</button>";
