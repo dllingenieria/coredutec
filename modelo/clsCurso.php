@@ -947,8 +947,9 @@ class clsCurso {
                         $sede = $array1[$i]['Sede'];
                         $docente = $array1[$i]['Docente'];
                         $estadoModulo = $array1[$i]['EstadoModulo'];
+                        $correodocente = $array1[$i]['CorreoElectronicoDocente'];
                         $asunto = "ESTADO FINAL PROCESO DE CAPACITACION";
-                        $correo=$utilidades->enviarCorreoEstudianteAlFinalizarModulo($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$estadoModulo,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto);
+                        $correo=$utilidades->enviarCorreoEstudianteAlFinalizarModulo($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$estadoModulo,$correodocente,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto);
                     }
                 }else{
                     print_r("Error2");

@@ -455,7 +455,9 @@ class clsDocente {
       $objPHPExcel->getActiveSheet()->setCellValue('H12', $Ruta); 
       $objPHPExcel->getActiveSheet()->setCellValue('V12', $CantidadAsistentes);
       $objPHPExcel->getActiveSheet()->setCellValue('X12', $EstudiantesGanando);
-      $objPHPExcel->getActiveSheet()->setCellValue('I15', 'Nota Definitiva');
+      $objPHPExcel->getActiveSheet()->setCellValue('F15', 'Estado');
+      $objPHPExcel->getActiveSheet()->setCellValue('I15', 'Horas Asistidas');
+      $objPHPExcel->getActiveSheet()->setCellValue('L15', 'Nota Definitiva');
       $arrayMasSessiones=[];  
       $baseRowDatos = 15; 
       $columnDatos=0; 
@@ -555,15 +557,16 @@ class clsDocente {
                   $idTercero=$objPHPExcel->getActiveSheet()->getCell("A".$i)->getValue(); 
                   if($idTercero!=""){
                     //Cargar notas definitivas y estados por tercero y preprogramacion   
-                    $sql3 = "CALL SPCONSULTARNOTASYESTADOSPORTERCEROYSALON($idPreprogramacion, $idTercero);"; 
+                    $sql3 = "CALL SPCONSULTARNOTASYESTADOSPORTERCEROYSALON($idPreprogramacion, $idTercero);";
                     if($rs3 = $conexion->getPDO()->query($sql3)){ 
                       if ($filas1 = $rs3->fetchAll(PDO::FETCH_ASSOC)){
                         $Estudiantes= count($filas1); 
                         $Estudiantes1=count($filas1); 
                         $row = $baseRow + $totalEstudiantes;
                         foreach ($filas1 as  $r =>$fila1) {
-                          $columnRow=5; 
-                          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila1['Estado']);  
+                          $columnRow=5;
+                          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow,   $row, $fila1['Estado']);
+                          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+3, $row, $fila1['TotalHoras']);
                           $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($columnRow=$columnRow+3, $row, $fila1['NotaDefinitiva']); 
                           $totalEstudiantes++;
                           if($totalEstudiantes>19){    
@@ -687,7 +690,7 @@ class clsDocente {
 
     //----- Coloca los nombres a las columnas -----//
     public function ArrayColummns($ini, $fin){
-        $dataColumnasDatos = array('Id','No', 'Apellidos', 'Nombres', 'Identificacion','Estado');
+        $dataColumnasDatos = array('Id','No', 'Apellidos', 'Nombres', 'Identificacion');
         array_push($dataColumnasDatos); 
         return $dataColumnasDatos;
     }

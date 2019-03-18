@@ -58,7 +58,7 @@ class clsUtilidades {
    }
 
    //----- Función que envía correo luego de una matrícula -----//
-    public function enviarCorreoEstudianteAlFinalizarModulo($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$estadoModulo,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto){
+    public function enviarCorreoEstudianteAlFinalizarModulo($estudiante,$tipoidentificacion,$cedula,$correoElectronico,$salon,$curso,$ruta,$duracionCurso,$diasCurso,$fechaInicial,$fechaFinal,$horaInicial,$horaFinal,$modulo,$duracionModulo,$modalidad,$sede,$docente,$estadoModulo,$correodocente,$IdMatricula,$usuario,$usuarioe,$correode,$clave,$asunto){
         require_once("../includes/PHPMailer/class.phpmailer.php");
         $mail = new PHPMailer();
         $mail->IsSMTP();                                      // set mailer to use SMTP
@@ -97,6 +97,7 @@ class clsUtilidades {
         $mensaje = str_replace("cod_est", $estadoModulo, $mensaje);
         $mensaje = str_replace("usuario", $usuario, $mensaje);
         $mensaje = str_replace("emailu", $usuarioe, $mensaje);
+        $mensaje = str_replace("correodocente", $correodocente, $mensaje);
         $mail->CharSet = 'UTF-8';
         $mail->Body = $mensaje;
         if(!$mail->Send()){
