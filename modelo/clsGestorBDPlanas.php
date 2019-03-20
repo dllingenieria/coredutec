@@ -367,7 +367,7 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-    private function EvaluarRegistroMatricula1($lin_txt) {
+    private function EvaluarRegistroMatriculas1($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
         $men_err .= $this->EsEntero($aux_lin[1],1); //NumeroIdentificacion
