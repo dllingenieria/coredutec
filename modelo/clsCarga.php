@@ -392,14 +392,15 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array = $fila['pIdTabla'];
-                    print_r("Id de matricula: ".$array."<br>");
                     $IdMatricula = $array;
+                    //----- Inicio envío de correos de las matriculas -----//
                     if ($IdMatricula > 0){
                         $rs1=null;
                         $array1=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
-                        $sql = "CALL SPCONSULTARDATOSCORREOMATRICULA($IdMatricula);";
-                        if ($rs1 = $conexion->getPDO()->query($sql)) {      
+                        $sql1 = "CALL SPCONSULTARDATOSCORREOMATRICULA($IdMatricula);";
+                        print_r("Consulta datos para correo: ".$sql1."<br>");
+                        if ($rs1 = $conexion->getPDO()->query($sql1)) {      
                             if ($filas = $rs1->fetchAll(PDO::FETCH_ASSOC)) {
                                //----- Inicio código para enviar el correo al estudiante luego de la matrícula -----//
                                 foreach ($filas as $fila) {
@@ -411,6 +412,7 @@ public function ReporteCallcenterGestionados($param){
                                 $array2=array();
                                 $IdTercero = $array1[0][Id];
                                 $sql2 = "CALL SPCONSULTARCORREOSESTUDIANTES($IdTercero);";
+                                print_r("Consulta datos correo estudiantes: ".$sql2."<br>");
                                 if ($rs2 = $conexion->getPDO()->query($sql2)) {
                                     if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
                                         foreach ($filas2 as $fila1) {
@@ -423,6 +425,7 @@ public function ReporteCallcenterGestionados($param){
                                     $rs3=null;
                                     $array3=array(); 
                                     $sql3 = "CALL SPCONSULTARCORREOUSUARIO($IdUsuario);";
+                                    print_r("Consulta datos correo usuario: ".$sql3."<br>");
                                     if ($rs3 = $conexion->getPDO()->query($sql3)) {
                                         if ($filas3 = $rs3->fetchAll(PDO::FETCH_ASSOC)) {
                                             foreach ($filas3 as $fila3) {
@@ -466,6 +469,7 @@ public function ReporteCallcenterGestionados($param){
                             }
                         }
                     }
+                    //----- Fin envío de correos de las matriculas -----//
                 }
                 $rs->closeCursor();
             }
