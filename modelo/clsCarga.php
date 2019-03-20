@@ -399,9 +399,9 @@ public function ReporteCallcenterGestionados($param){
                         $array1=array();
                         $conexion->getPDO()->query("SET NAMES 'utf8'");
                         $sql1 = "CALL SPCONSULTARDATOSCORREOMATRICULA($IdMatricula);";
-                        print_r("Consulta datos para correo: ".$sql1."<br>");
-                        if ($rs1 = $conexion->getPDO()->query($sql1)) {      
-                            if ($filas = $rs1->fetchAll(PDO::FETCH_ASSOC)) {
+                        if ($rs1 = $conexion->getPDO()->query($sql1)){
+                            print_r("Ingresa1 <br>");
+                            if ($filas = $rs1->fetchAll(PDO::FETCH_ASSOC)){
                                //----- Inicio código para enviar el correo al estudiante luego de la matrícula -----//
                                 foreach ($filas as $fila) {
                                     $array1[] = $fila; 
@@ -462,11 +462,13 @@ public function ReporteCallcenterGestionados($param){
                                         $data["error"]="No se encontraron correos de estudiantes";
                                     }
                                 }else{
-                                    print_r("Error3");
+                                    print_r("No consulta correo estudiante");
                                     $data["error"]="No se consultaron los correos";
                                     print_r($conexion->getPDO()->errorInfo()); die();
                                 } 
                             }
+                        }else{
+                            print_r("No consulta datos correo matricula <br>");
                         }
                     }
                     //----- Fin envío de correos de las matriculas -----//
