@@ -392,6 +392,7 @@ public function ReporteCallcenterGestionados($param){
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
                     $array = $fila['pIdTabla'];
+                    print_r("Id de matricula: ".$array."<br>");
                     $IdMatricula = $array;
                     if ($IdMatricula > 0){
                         $rs1=null;
