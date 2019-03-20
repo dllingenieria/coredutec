@@ -199,7 +199,7 @@ class clsGestorBDPlanas {
     }
 
 
-    public function CargarArchivoPlanoFuenteAutorizacion($param) {
+    public function CargarArchivoPlanoFuenteAutorizacion($param){
         $response = '<div id="men_err">';
         extract($param);
         include_once 'clsCarga.php';
@@ -367,14 +367,14 @@ class clsGestorBDPlanas {
         return $men_err;
     }
 
-    private function EvaluarRegistroMatricula1($lin_txt) {
+    private function EvaluarRegistroMatriculas1($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
         $men_err .= $this->EsEntero($aux_lin[1],1); //NumeroIdentificacion
         $men_err .= $this->EsEntero($aux_lin[2],2); //Convocatoria
         $men_err .= $this->EsEntero($aux_lin[3],3); //Ruta
-        $men_err .= $this->EsEntero($aux_lin[6],6); //Modalidad
-        $men_err .= $this->EsEntero($aux_lin[9],9); //IdCarga
+        $men_err .= $this->EsEntero($aux_lin[5],5); //Modalidad
+        $men_err .= $this->EsEntero($aux_lin[8],8); //IdCarga
         return $men_err;
     }
 

@@ -88,13 +88,13 @@ class clsMatricula {
                         $data["error"]="No se consultaron los correos";
                         print_r($conexion->getPDO()->errorInfo()); die();
                     } 
-                 }
-             }//else{
+                }
+            }//else{
             //     $IdMatricula = 0;
             //     print_r("Error1");
             //     print_r($conexion->getPDO()->errorInfo());
             // }
-         }//else{
+        }//else{
         //     print_r("La matricula no es mayor que 0");
         // }
     }else{
