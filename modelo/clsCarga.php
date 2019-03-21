@@ -411,7 +411,7 @@ public function ReporteCallcenterGestionados($param){
                         $utilidades = new clsUtilidades();
                         $rs2=null;
                         $array2=array();
-                        $IdTercero = $array1[0][Id];
+                        $IdTercero = $array1[Id];
                         $sql2 = "CALL SPCONSULTARCORREOSESTUDIANTES($IdTercero);";
                         if ($rs2 = $conexion->getPDO()->query($sql2)) {
                             if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
