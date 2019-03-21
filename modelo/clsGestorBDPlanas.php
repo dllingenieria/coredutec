@@ -199,7 +199,7 @@ class clsGestorBDPlanas {
     }
 
 
-    public function CargarArchivoPlanoFuenteAutorizacion($param) {
+    public function CargarArchivoPlanoFuenteAutorizacion($param){
         $response = '<div id="men_err">';
         extract($param);
         include_once 'clsCarga.php';
