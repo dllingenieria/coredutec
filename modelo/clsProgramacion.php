@@ -32,6 +32,23 @@ class clsProgramacion {
         //echo json_encode($array);
     }
 
+    public function CargarEstados($param) {
+        extract($param);
+        $rs=null;
+        $sql = "CALL SPCARGARESTADOSPREPROGRAMACION($pBandera);";
+        $conexion->getPDO()->query("SET NAMES 'utf8'");
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        }
+        echo json_encode($array);
+    }
+
     public function AgregarPreprogramacion($param) {
         extract($param);
         $IdUsuario = $_SESSION['idUsuario'];
@@ -200,7 +217,6 @@ class clsProgramacion {
         echo json_encode($resultado);
     } 
 
-
     public function consultarPreprogramacionDesdeFecha($param) {
         extract($param);
         $sql = "CALL SPCONSULTARPREPROGRAMACIONFECHAINICIO('2016-01-01');";
@@ -217,8 +233,6 @@ class clsProgramacion {
         }
         echo json_encode($array);
     } 
-    
-
 
     public function consultarMatriculaPorCodigo($param) {
         extract($param);
@@ -258,8 +272,6 @@ class clsProgramacion {
         echo json_encode($array);
     }
 
-    
-
     public function CargarDatosPreProgramacion($param) {
         extract($param);
         $sql = "CALL SPCONSULTARDATOSSALON($pId);";
@@ -294,7 +306,6 @@ class clsProgramacion {
         }
         echo json_encode($array);
     }
-
 
     public function eliminarPreprogramacion($param) {
         $res = '';
@@ -412,7 +423,7 @@ class clsProgramacion {
         echo json_encode($arr);
     }
 	
-	  public function cargarCuposFaltantes($param) {
+	public function cargarCuposFaltantes($param) {
         extract($param); 
         $sql = "CALL SPCONSULTARCUPOSFALTANTES ($preprogramacion);";
 		$rs=null;
@@ -449,7 +460,7 @@ class clsProgramacion {
         echo json_encode($array);
 	}
 
- public function consultarGestionPreprogramacion($param) {
+    public function consultarGestionPreprogramacion($param) {
        extract($param); 
         $sql = "CALL SPCONSULTARGESTIONPREPROGRAMACION($IdPreprogramacion);";
        $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -462,10 +473,8 @@ class clsProgramacion {
        } else {
            $array = "";
        }
-       
        echo json_encode($array);
-   }
-
+    }
 
     public function AgregarGestionPreprogramacion($param) {
        extract($param);
@@ -567,7 +576,6 @@ class clsProgramacion {
     }
 
     public function ReporteCallcenterGestionados($param){
-
          require_once dirname(__FILE__) . '/../includes/PHPExcel/PHPExcel/IOFactory.php';
 
         /*

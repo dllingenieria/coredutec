@@ -63,7 +63,7 @@
 
  $(function(){
     $("#btnMatNue").click(function(){ 
-		CargarEstados();
+		CargarEstados(1);
 		setTimeout(function() { $("#cmbEstado").val(2); }, 900);
  });
     
@@ -71,7 +71,7 @@
 		matriculaExistente = true;
 		 //se selecciona el estado inactivo para preprogramaciones nuevas
         cargarMatriculaExistente();
-		CargarEstados();
+		CargarEstados(2);
 			setTimeout(function() { $("#cmbEstado").val(2); }, 900); 
     });
 })
@@ -559,10 +559,11 @@ function CargarConvenio() {
     }, "json");
 }
 
-function CargarEstados() {
+function CargarEstados(bandera) {
     $.post("../../controlador/fachada.php", {
-        clase: 'clsMatricula',
-        oper: 'CargarEstados'
+        clase: 'clsProgramacion',
+        oper: 'CargarEstados',
+        pBandera: bandera
     }, function(data) {
         if (data !== 0) {
             formarOptionValueEstados(data);
@@ -1235,7 +1236,7 @@ function cargarInformacionEnTabla(data){
 			
         }
     });
-    $('#tablaPreprogramacion tbody').on( 'click', 'tr', function () { 
+    $('#tablaPreprogramacion tbody').on( 'click', 'tr', function (){ 
 	
 		if ( $(this).hasClass('selected')) { //alert("hi");
             $(this).removeClass('selected');
@@ -1331,9 +1332,14 @@ function cargarDatosPreprogramacion(res) {
 	$("#txtObservacion").val(res[0].Observaciones);
     $("#cmbConvenio").val(res[0].Convenio);
 	//cargar los estados
-	setTimeout(function() {CargarEstados(); 
+	setTimeout(function() {CargarEstados(2); 
 		setTimeout(function() { $("#cmbEstado").val(res[0].Estado); }, 1500);  
 	}, 1000);
+    if(res[0].Estado == 321){
+        $("#cmbEstado").attr("disabled","disabled");
+    }else{
+        $("#cmbEstado").removeAttr('disabled');
+    }
 	modoModificarOn();
 	//Deshabilita los campos que no se pueden modificar
 	var today = new Date();

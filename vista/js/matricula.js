@@ -254,15 +254,15 @@ $(function() {
             }else{
                 if (data == '0'){
                     jsRemoveWindowLoad();
-                    PopUpError("Este tercero ya se encuentra matriculado<br>");
+                    PopUpError("Este tercero ya se encuentra matriculado en el salón<br>");
                 }else{
                     if (data == '-2'){
                         jsRemoveWindowLoad();
-                        PopUpError("Este tercero tiene un módulo activo<br>");
+                        PopUpError("Este tercero se encuentra en formación en otro salón<br>con el mismo módulo o el salón no se ha cerrado<br>");
                     }else{
                          if (data == '-3'){
                             jsRemoveWindowLoad();
-                            PopUpError("Este tercero ya cursó y aprobó este módulo<br>");
+                            PopUpError("Este tercero ya cursó y aprobó el módulo<br>");
                         }else{
                             jsRemoveWindowLoad();
                             $.cookie("id_mat", data);

@@ -271,7 +271,7 @@ class clsMatricula {
         echo json_encode($array);
     }
 
-    public function CargarEstados($param) {
+    public function CargarEstados($param){
         extract($param);
     	$rs=null;
         $sql = "CALL SPCARGARESTADOS();";
