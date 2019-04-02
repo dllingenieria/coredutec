@@ -258,7 +258,7 @@ $(function() {
                 }else{
                     if (data == '-2'){
                         jsRemoveWindowLoad();
-                        PopUpError("Este tercero se encuentra en formación en otro salón<br>con el mismo módulo o el salón no se ha cerrado<br>");
+                        PopUpError("Este tercero se encuentra matriculado en otro<br>salón con el mismo módulo o el salón no se ha cerrado<br>");
                     }else{
                          if (data == '-3'){
                             jsRemoveWindowLoad();
