@@ -19,6 +19,9 @@ $(function() {
 	$("#txtFechaN").datepicker();
 	//obtenerFechaActual();
 
+	//----- Bloquea los controles al iniciar el formulario -----//
+	bloquearControles();
+
 	//----- Carga todas las listas desplegables -----//
 	cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
 	cargarListas('cmbExpedicion','SPCARGARCIUDADES');
@@ -147,6 +150,44 @@ $(function() {
 		}
 	}
 
+	//----- Bloquea todos los controles -----//
+	function bloquearControles() {
+		$("#txtNombres").attr("disabled","disabled");
+		$("#txtApellidos").attr("disabled","disabled");
+		$("#cmbExpedicion").attr("disabled","disabled");
+		$("#txtFechaN").attr("disabled","disabled");
+		$("#cmbSexo").attr("disabled","disabled");
+		$("#cmbEstadoCivil").attr("disabled","disabled");
+		$("#cmbGradoEscolaridad").attr("disabled","disabled");
+		$("#txtTelefono1").attr("disabled","disabled");
+		$("#txtTelefono2").attr("disabled","disabled");
+		$("#txtTelefono3").attr("disabled","disabled");
+		$("#txtEmail1").attr("disabled","disabled");
+		$("#txtEmail2").attr("disabled","disabled");
+		$("#txtDireccion").attr("disabled","disabled");
+		$("#cmbLocalidad").attr("disabled","disabled");
+		$("#cmbCiudad").attr("disabled","disabled");
+	}
+
+	//----- Desbloquea todos los controles -----//
+	function desbloquearControles() {
+		$("#txtNombres").removeAttr("disabled");
+		$("#txtApellidos").removeAttr("disabled");
+		$("#cmbExpedicion").removeAttr("disabled");
+		$("#txtFechaN").removeAttr("disabled");
+		$("#cmbSexo").removeAttr("disabled");
+		$("#cmbEstadoCivil").removeAttr("disabled");
+		$("#cmbGradoEscolaridad").removeAttr("disabled");
+		$("#txtTelefono1").removeAttr("disabled");
+		$("#txtTelefono2").removeAttr("disabled");
+		$("#txtTelefono3").removeAttr("disabled");
+		$("#txtEmail1").removeAttr("disabled");
+		$("#txtEmail2").removeAttr("disabled");
+		$("#txtDireccion").removeAttr("disabled");
+		$("#cmbLocalidad").removeAttr("disabled");
+		$("#cmbCiudad").removeAttr("disabled");
+	}
+
 	//----- Consulta la informacion del tercero y la coloca en el formulario -----//
 	function cargarInformacionTercero(pTipoIdentificacion,pNumeroIdentificacion) {
 		if(pTipoIdentificacion !== null){	
@@ -157,6 +198,7 @@ $(function() {
 			pTipoIdentificacion: pTipoIdentificacion
 			}, function(data) {
 				if(data !== 0){
+					desbloquearControles();
 		        	$("#txtNumeroIdentificacion").val(pNumeroIdentificacion);
 		        	$("#txtNumeroIdentificacion").attr("disabled","disabled");
 	        		$("#txtNombres").val(data[0][1]);
@@ -180,6 +222,9 @@ $(function() {
 	        		cargarValorSelected('#cmbCiudad',data[0][15],500);
 				}else{
 					mostrarPopUpError('El oferente no existe, puede continuar');
+					desbloquearControles();
+					$("#cmbTipoIdentificacion").attr("disabled","disabled");
+					$("#txtNumeroIdentificacion").attr("disabled","disabled");
 					$("#txtNombres").val('');
 	        		$("#txtApellidos").val('');
 	        		$("#txtFechaN").val('');
