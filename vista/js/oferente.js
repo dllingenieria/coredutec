@@ -235,7 +235,7 @@ $(function() {
 	        		$("#txtEmail2").val('');
 	        		$("#txtDireccion").val('');
 	        		cargarListas('cmbTipoIdentificacion','SPCARGARTIPOIDENTIFICACION');
-	        		cargarValorSelected('#cmbTipoIdentificacion','3',1000);
+	        		cargarValorSelected('#cmbTipoIdentificacion',pTipoIdentificacion,500);
 					cargarListas('cmbExpedicion','SPCARGARCIUDADES');
 					cargarListas('cmbSexo','SPCARGARSEXO');
 					cargarListas('cmbEstadoCivil','SPCARGARESTADOCIVIL');
