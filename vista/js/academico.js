@@ -226,7 +226,7 @@ $(function(){
 				if(sessionStorage.Estado == "Certificado"){
 					popUpConfirmacion("El Salón ya fue certificado");
 				}else{
-					popUpConfirmacion("El Salón no ha sido cerrado, no es posible certificarlo");
+					popUpConfirmacion("Acción ya ejecutada, revise el estado del salón");
 				}
 			}
 		}

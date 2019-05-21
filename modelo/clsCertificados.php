@@ -223,7 +223,7 @@ class clsCertificados {
             $rs2=null;
             $array2=array();
             $IdTercero = $array1[0][Id];
-            $sql2 = "CALL SPCONSULTARDATOSCORREO();";
+            $sql2 = "CALL SPCONSULTARDATOSCORREOCERTIFICADOS();";
             if ($rs2 = $conexion->getPDO()->query($sql2)){
                 if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
                     foreach ($filas2 as $fila1) {
@@ -294,7 +294,7 @@ class clsCertificados {
             $rs2=null;
             $array2=array();
             $IdTercero = $array1[0][Id];
-            $sql2 = "CALL SPCONSULTARDATOSCORREO();";
+            $sql2 = "CALL SPCONSULTARDATOSCORREOCERTIFICADOS();";
             if ($rs2 = $conexion->getPDO()->query($sql2)){
                 if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
                     foreach ($filas2 as $fila1) {
@@ -365,7 +365,7 @@ class clsCertificados {
             $rs2=null;
             $array2=array();
             $IdTercero = $array1[0][Id];
-            $sql2 = "CALL SPCONSULTARDATOSCORREO();";
+            $sql2 = "CALL SPCONSULTARDATOSCORREOCERTIFICADOS();";
             if ($rs2 = $conexion->getPDO()->query($sql2)){
                 if ($filas2 = $rs2->fetchAll(PDO::FETCH_ASSOC)) {
                     foreach ($filas2 as $fila1) {
