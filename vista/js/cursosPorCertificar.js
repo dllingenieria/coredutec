@@ -1,10 +1,18 @@
 $(function () {
 	//----- Oculta la tabla y el boton de certificados -----//
 	$("#tablaCursos").hide();
+	$("#btnNuevaConsulta").hide();
 	$("#btnCertificados").hide();
 
 	//----- Coloca la fecha actual en los datepicker -----//
 	obtenerFechaActual();
+
+	//----- Carga la lsta de cursos sin seleccionar fechas de nuevo -----//
+	if((typeof(sessionStorage.FechaInicial) !== 'undefined') && (sessionStorage.FechaInicial !== 'null')){
+		$("#txtFechaInicial").val(sessionStorage.FechaInicial);
+		$("#txtFechaFinal").val(sessionStorage.FechaFinal);
+		obtenerIdTerceroCursos();
+	}
 
 	var table;
 	var tabla;
@@ -13,7 +21,16 @@ $(function () {
 
 	//----- Direcciona al módulo de certificados -----//
 	$("#btnConsultar").click(function(){
+		sessionStorage.FechaInicial = $("#txtFechaInicial").val();
+		sessionStorage.FechaFinal = $("#txtFechaFinal").val();
 		obtenerIdTerceroCursos();
+	});
+
+	//----- Recarga la página para una nueva consulta -----//
+	$("#btnNuevaConsulta").click(function(){
+		sessionStorage.FechaInicial = null;
+		sessionStorage.FechaFinal = null;
+		location.reload(true);
 	});
 
 	//----- Direcciona al módulo de certificados -----//
@@ -85,6 +102,7 @@ $(function () {
 				if(data !== null){
 					// $("#sectCuerpo").show();
 					$("#tablaCursos").show();
+					$("#btnNuevaConsulta").show();
 					$("#btnCertificados").show();
 					$("#fechas").hide();
 					cargarInformacionEnTabla(data);

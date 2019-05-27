@@ -299,7 +299,8 @@ function cerrarSesion() {
         clase: 'clsPersona',
         oper: 'killSesion'
     }, function(data) {  
-			localStorage.clear();	  
+			localStorage.clear();
+            sessionStorage.clear(); 
 			window.location = "../../";	
 	
     }, "json");
