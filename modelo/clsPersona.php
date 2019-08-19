@@ -115,7 +115,7 @@ class clsPersona {
 
     public function consultarNombresTercero($param) {
         extract($param);
-        $sql = "CALL SPCONSULTARNOMBRESTERCERO($pIndentificacion);";
+        $sql = "CALL SPCONSULTARNOMBRESTERCERO($pTipoIndentificacion,$pIndentificacion);";
         $rs=null;
 		if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {

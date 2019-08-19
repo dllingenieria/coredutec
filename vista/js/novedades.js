@@ -20,6 +20,7 @@ $(document).ready(function() {
         cargarTiposNovedades1();
     }
     consultarEstados();
+    cargarTiposDocumentos();
 	$('#btnConsultar').hide();
     $('#btnCancelar').hide();
     $('#btnGuardar').hide();
@@ -113,10 +114,10 @@ $(document).ready(function() {
         }
         else if($("#cmbTipoDeNovedad option:selected").val()==147){
             if($("#cmbMatriculadoEnNuevo option:selected").val()!=''){
-               IdPreprogramacionNueva=$("#cmbMatriculadoEnNuevo option:selected").val();
+                IdPreprogramacionNueva=$("#cmbMatriculadoEnNuevo option:selected").val();
                 cambiarCurso(IdMatricula,IdPreprogramacionNueva);
-               modificarCantidadEstudiantesCurso(IdPreprogramacionNueva,pIdPreprogramacionAnterior);
-               limpiarCampos();
+                modificarCantidadEstudiantesCurso(IdPreprogramacionNueva,pIdPreprogramacionAnterior);
+                limpiarCampos();
              }
             else{
                 PopUpError("Seleccione en donde desea matricular el estudiante");
@@ -131,55 +132,68 @@ $(document).ready(function() {
              
     
 function consultarTercero(){
-        $.ajax({
-                   url: '../../controlador/fachada.php',
-                   type: 'POST',
-                   async : false,
-                   dataType: 'json',
-                   data: {
-                        clase: 'clsPersona',
-                        oper: 'consultarNombresTercero',
-                        pIndentificacion : $("#txtCedula").val()
-                   },
-               }).done(function(data) {
-                   if(data === null || data === 0){
-                    $("#textoError").text("Ningun resultado encontrado");
-                    $('#element_to_pop_upMen').bPopup({
-                         speed: 450,
-                         transition: 'slideDown'
-                    });               
-                    limpiarCampos();
-                } else {                    
-                    IdTercero=data[0].Id;         
-                    $("#txtNombreCompleto").val(data[0].Nombres +"  "+data[0].Apellidos );
-                }  
-               });
-    }
+    $.ajax({
+           url: '../../controlador/fachada.php',
+           type: 'POST',
+           async : false,
+           dataType: 'json',
+           data: {
+                clase: 'clsPersona',
+                oper: 'consultarNombresTercero',
+                pTipoIndentificacion : $("#cmbTipoDocumento option:selected").val(),
+                pIndentificacion : $("#txtCedula").val()
+           },
+       }).done(function(data){
+           if(data === null || data === 0){
+                $("#textoError").text("Ningun resultado encontrado");
+                $('#element_to_pop_upMen').bPopup({
+                     speed: 450,
+                     transition: 'slideDown'
+                });               
+                limpiarCampos();
+            }else{                    
+                IdTercero=data[0].Id;         
+                $("#txtNombreCompleto").val(data[0].Nombres +"  "+data[0].Apellidos );
+            }  
+        });
+}
 
 function cargarTiposNovedades() {
-        $.post("../../controlador/fachada.php", {
-            clase: 'clsNovedades',
-            oper: 'consultarTiposNovedades'
-        }, function(data) {
-            if (data !== 0) { 
-                setParametroPorDefecto("#cmbTipoDeNovedad", '', "Seleccione...");
-                formarOptionValueTipoNovedades(data);
-            }
-        }, "json");
-    }
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsNovedades',
+        oper: 'consultarTiposNovedades'
+    }, function(data) {
+        if (data !== 0) { 
+            setParametroPorDefecto("#cmbTipoDeNovedad", '', "Seleccione...");
+            formarOptionValueTipoNovedades(data);
+        }
+    }, "json");
+}
 
 function cargarTiposNovedades1() {
-        $.post("../../controlador/fachada.php", {
-            clase: 'clsNovedades',
-            oper: 'consultarTiposNovedades1'
-        }, function(data) {
-            if (data !== 0) { 
-                setParametroPorDefecto("#cmbTipoDeNovedad", '', "Seleccione...");
-                formarOptionValueTipoNovedades(data);
-            }
-        }, "json");
-    }
- 
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsNovedades',
+        oper: 'consultarTiposNovedades1'
+    }, function(data) {
+        if (data !== 0) { 
+            setParametroPorDefecto("#cmbTipoDeNovedad", '', "Seleccione...");
+            formarOptionValueTipoNovedades(data);
+        }
+    }, "json");
+}
+
+function cargarTiposDocumentos() {
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsNovedades',
+        oper: 'consultarTiposDocumentos'
+    }, function(data) {
+        if (data !== 0) { 
+            //setParametroPorDefecto("#cmbTipoDocumento", '3', "CC");
+            formarOptionValueTipoDocumentos(data);
+        }
+    }, "json");
+}
+
 function anularMatricula() {
         $.post("../../controlador/fachada.php", {
             clase: 'clsNovedades',
@@ -378,65 +392,65 @@ function cargarNuevosCursos() {
 
        
 function limpiarCampos(){
-         $("#txtCedula").val('');
-         $("#txtNombreCompleto").val('');
-         $('#derecha').hide();
-         $('#div_cc').hide();
-         $('#btnGuardar').hide();
-         $('#divNuevoEstado').hide();
-         $('#btnAnularMatricula').hide();
-		 $('#derecha1').hide();
-    }
-    
-   
-
-  
+     $("#txtCedula").val('');
+     $("#txtNombreCompleto").val('');
+     $('#derecha').hide();
+     $('#div_cc').hide();
+     $('#btnGuardar').hide();
+     $('#divNuevoEstado').hide();
+     $('#btnAnularMatricula').hide();
+	 $('#derecha1').hide();
+}
 
 function formarOptionValueMatriculasPre(matriculas) {
-        $('#cmbMatriculadoEnNuevo').find('option').remove();
-        setTimeout(function() {
-            setParametroPorDefecto("#cmbMatriculadoEnNuevo", '', 'Seleccione...');
-            for (i = 0; i < matriculas.length; i++) {
-                $('#cmbMatriculadoEnNuevo').append($('<option>', {
-                    value: matriculas[i].Id,
-                    text: matriculas[i].Salon+" - "+matriculas[i].Curso+" - "+matriculas[i].Modulo
-                }));           
-            }
-        }, 800);
+    $('#cmbMatriculadoEnNuevo').find('option').remove();
+    setTimeout(function() {
+        setParametroPorDefecto("#cmbMatriculadoEnNuevo", '', 'Seleccione...');
+        for (i = 0; i < matriculas.length; i++) {
+            $('#cmbMatriculadoEnNuevo').append($('<option>', {
+                value: matriculas[i].Id,
+                text: matriculas[i].Salon+" - "+matriculas[i].Curso+" - "+matriculas[i].Modulo
+            }));           
+        }
+    }, 800);
 
-    }
+}
     
 function formarOptionValueTipoNovedades(tiposNovedades) { 
-        for (i = 0; i < tiposNovedades.length; i++) { 
-            $('#cmbTipoDeNovedad').append($('<option>', {
-				value: tiposNovedades[i][0],
-                text: tiposNovedades[i][1]
-            }));
-        }
-    }
-
-
-
-    
-function setParametroPorDefecto(atributo, valor, texto) {
-        $(atributo).append($('<option>', {
-            value: valor,
-            text: texto
+    for (i = 0; i < tiposNovedades.length; i++) { 
+        $('#cmbTipoDeNovedad').append($('<option>', {
+			value: tiposNovedades[i][0],
+            text: tiposNovedades[i][1]
         }));
     }
+}
+ 
+function formarOptionValueTipoDocumentos(tiposDocumentos) { 
+    for (i = 0; i < tiposDocumentos.length; i++) { 
+        $('#cmbTipoDocumento').append($('<option>', {
+            value: tiposDocumentos[i][0],
+            text: tiposDocumentos[i][1]
+        }));
+    }
+}
 
+function setParametroPorDefecto(atributo, valor, texto) {
+    $(atributo).append($('<option>', {
+        value: valor,
+        text: texto
+    }));
+}
 
 function consultarEstados() {
-        $.post("../../controlador/fachada.php", {
-            clase: 'clsNovedades',
-            oper: 'consultarEstados'
-        }, function(data) {
-            if (data !== 0) {
-                
-                formarOptionValueNuevoEstado(data);
-            }
-        },"json");
-    }
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsNovedades',
+        oper: 'consultarEstados'
+    }, function(data) {
+        if (data !== 0) {                
+            formarOptionValueNuevoEstado(data);
+        }
+    },"json");
+}
 
 function formarOptionValueNuevoEstado(nuevoEstado) {
         $('#cmbNuevoEstado').find('option').remove();
@@ -448,7 +462,6 @@ function formarOptionValueNuevoEstado(nuevoEstado) {
             }));
         }
  }
-
 
 function cambiarEstado() {
         $.post("../../controlador/fachada.php", {
@@ -715,45 +728,3 @@ function utf8_encode (argString) { // eslint-disable-line camelcase
   return utftext
 }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

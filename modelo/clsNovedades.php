@@ -117,6 +117,23 @@ class clsNovedades {
         echo json_encode($array);
     }
     
+    public function consultarTiposDocumentos($param) {
+        extract($param);
+        $sql = "CALL SPCARGARTIPOIDENTIFICACION();";
+          $rs=null;
+        if ($rs = $conexion->getPDO()->query($sql)) {
+            if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($filas as $fila) {
+                    $fila = $this->CodificarEnUtf8($fila);
+                    $array[] = $fila;
+                }
+            }
+        } else {
+            $array = 0;
+        } 
+        echo json_encode($array);
+    }
+
     public function consultarNovedades($param) {
         extract($param);
         $resultado = array();

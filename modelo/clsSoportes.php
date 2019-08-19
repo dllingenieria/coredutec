@@ -35,7 +35,7 @@ class clsSoportes {
         $registro = array();
         $conexion->getPDO()->query("SET NAMES 'utf8'");
        
-        $sql = "CALL SPCONSULTARSOPORTESPORCEDULA($cedula,$tipoSoporte);";
+        $sql = "CALL SPCONSULTARSOPORTESPORCEDULA($pTipoIdentificacion,$cedula,$tipoSoporte);";
         // $sql = "CALL SPCONSULTARSOPORTESPORCEDULA($cedula);";
 	
         if ($rs = $conexion->getPDO()->query($sql)) {
@@ -133,7 +133,7 @@ class clsSoportes {
         }
 		else 
 		{
-            $resultado = 0; print_r($conexion->getPDO()->errorInfo()); 
+            $resultado = 0; print_r($conexion->getPDO()->errorInfo());
         }
 		
 		
@@ -143,17 +143,13 @@ class clsSoportes {
 	public function consultarCedulaSoportes($param) {
         extract($param);
 		$rs = null;
-        
         $conexion->getPDO()->query("SET NAMES 'utf8'");
-       
-        $sql = "CALL SPCONSULTARCEDULA($cedula);";
-		
+        $sql = "CALL SPCONSULTARCEDULA($pTipoIdentificacion,$cedula);";
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) { 
-					$resultado=$filas[0]['IdTercero']; //print_r($resultado);
-					
+				$resultado=$filas[0]['IdTercero']; //print_r($resultado);
             }
-        } else {
+        }else{
             $resultado = 0; 
 			print_r($conexion->getPDO()->errorInfo()); 
         }

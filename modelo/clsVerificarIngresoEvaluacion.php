@@ -20,7 +20,7 @@ class clsVerificarIngresoEvaluacion {
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
 		$rs=null;
-        $sql = "CALL SPBUSCARDATOSTERCEROEVALUACION('$identificacion',$IdMatricula);";        
+        $sql = "CALL SPBUSCARDATOSTERCEROEVALUACION($pTipoDocumento,'$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             $fila = $rs->fetch(PDO::FETCH_ASSOC);
 				if ($fila['Nombres'] == ""){
@@ -33,7 +33,8 @@ class clsVerificarIngresoEvaluacion {
 					$data["nombres"]=$fila['Nombres']; 
 					$data["Id"]=$fila['Id']; 
 					$data["NumeroIdentificacion"]=$fila['NumeroIdentificacion']; 
-					$data["LugarExpedicion"]=$fila['LugarExpedicion']; 
+					$data["LugarExpedicion"]=$fila['LugarExpedicion'];
+					$data["TipoIdentificacion"]=$fila['TipoIdentificacion'];
 				}
         } else {
             $data["mensaje"]="No se pudieron consultar los datos de ingreso";
@@ -93,7 +94,7 @@ class clsVerificarIngresoEvaluacion {
 		echo json_encode($array);
 	}
 	
-		public function cargarModulosVistosAevaluar($param) {
+	public function cargarModulosVistosAevaluar($param) {
 		extract($param);
 		$resultado = array();
         $registro = array();
@@ -101,7 +102,7 @@ class clsVerificarIngresoEvaluacion {
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
 		$rs=null;
-        $sql = "CALL SPCARGARMODULOSVISTOSAEVALUAR('$identificacion',$IdMatricula);";        
+        $sql = "CALL SPCARGARMODULOSVISTOSAEVALUAR($tipoIdentificacion,'$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -113,21 +114,10 @@ class clsVerificarIngresoEvaluacion {
                 }
             }
 		}
-				// else{
-					// $data["mensaje"]="No se encontraron módulos para mostrar";
-					// $data["error"]=1;
-				// }
-		
-        // } else {
-            // $data["mensaje"]="No se pudieron consultar los módulos ";
-			// $data["error"]=1;
-        // }
-		
-		
 		echo json_encode($resultado);
 	}
 	
-		public function cargarModulosVistosAcertificar($param) {
+	public function cargarModulosVistosAcertificar($param) {
 		extract($param);
 		$resultado = array();
         $registro = array();
@@ -135,7 +125,7 @@ class clsVerificarIngresoEvaluacion {
 		//Verificar fecha de nacimiento y cedula
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
 		$rs=null;
-        $sql = "CALL SPCARGARMODULOSVISTOSACERTIFICAR('$identificacion',$IdMatricula);";        
+        $sql = "CALL SPCARGARMODULOSVISTOSACERTIFICAR($tipoIdentificacion,'$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
@@ -168,7 +158,7 @@ class clsVerificarIngresoEvaluacion {
 		//cargar cursos
 		$conexion->getPDO()->query("SET NAMES 'utf8'");
 		$rs=null;
-        $sql = "CALL SPCARGARCURSOSVISTOS('$identificacion',$IdMatricula);";        
+        $sql = "CALL SPCARGARCURSOSVISTOS($tipoIdentificacion,'$identificacion',$IdMatricula);";        
         if ($rs = $conexion->getPDO()->query($sql)) {
             if ($filas = $rs->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($filas as $fila) {
