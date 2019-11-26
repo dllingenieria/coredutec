@@ -80,7 +80,7 @@ class clsGestorBDPlanas {
         $idDetalleTabla=1;
 
         if (strlen($err_arc) === 0) {
-            foreach ($inf_arc as $lin_txt) {
+            foreach ($inf_arc as $lin_txt){
                 if(strlen(trim($lin_txt))>0){
 
                     $aux .= "numInsercion,lin_txt : ".$numInsercion.' -- '.$lin_txt.PHP_EOL;
@@ -395,9 +395,9 @@ class clsGestorBDPlanas {
      private function EvaluarRegistroEstado($lin_txt) {
         $aux_lin = explode(';', $lin_txt);
         $men_err = '';
-        $men_err .= $this->EsEntero($aux_lin[0],0); //IdTercero
-        $men_err .= $this->EsEntero($aux_lin[1],1); //EstadoAnterior    
-        $men_err .= $this->EsEntero($aux_lin[2],2); //EstadoNuevo
+        $men_err .= $this->EsEntero($aux_lin[0],0); //Número de Identificación
+        $men_err .= $this->EsEntero($aux_lin[2],2); //EstadoAnterior    
+        $men_err .= $this->EsEntero($aux_lin[3],3); //EstadoNuevo
         return $men_err;
     }
 

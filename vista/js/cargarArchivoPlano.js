@@ -361,7 +361,7 @@ $(function() {
 	            $("#xerror").hide();
 	            $("#fondoerrores").show();
 	            $("#fondoerrores").empty();
-	            if (data.indexOf("<ul>") !== -1) {
+	            if (data.indexOf("<ul>") !== -1){
 	                $("#circulo").show();
 	                $("#xerror").show();
 	            }

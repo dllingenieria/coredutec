@@ -209,7 +209,6 @@ class clsPersona {
           echo json_encode($array);
         }
     }    
-
     /*
      * agregarDesdeArchivoPlano()
      * Carga un archivo plano  con la siguiente estructura
@@ -292,15 +291,15 @@ class clsPersona {
 
     public function killSesion() {
       // Destruir todas las variables de sesión.
+        $sql = "CALL SPSALIR('" . $_SESSION['nombreUsuario'] . "');";
         $_SESSION = array();
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 4200, $params["path"], $params["domain"], $params["secure"], $params["httponly"]
                 );
         }
-        session_destroy();
-        
-		 echo json_encode("cerrando !");
+        session_destroy();        
+		echo json_encode("cerrando !");
     }
 
     /*

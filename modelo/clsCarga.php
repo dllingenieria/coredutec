@@ -306,11 +306,11 @@ public function ReporteCallcenterGestionados($param){
 
 
        /// Guarda La carga general al seleccionar un TipoCarga TCARGAGENERAL
-    public function InscribirSoporteMatricula($numInsercion,$lin_inf, $conexion,$idTablaGeneral) { 
+    public function InscribirSoporteMatricula($numInsercion,$lin_inf, $conexion,$idTablaGeneral){ 
         header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
-        $sql = "CALL SPAGREGARCARGAMASIVADETALLESM($idTablaGeneral,$registro[0],$registro[1]);";
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLESM($idTablaGeneral,$registro[0],$registro[1],$registro[2]);";
         $resultado=1;
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -358,8 +358,7 @@ public function ReporteCallcenterGestionados($param){
         header("Content-Type: text/html;charset=utf-8");  
         $IdUsuario = $_SESSION['idUsuario'];  
         $registro = explode(";", $lin_inf);
-       
-        $sql = "CALL SPAGREGARCARGAMASIVADETALLECE($idTablaGeneral,$registro[0],$registro[1],$registro[2]);";
+        $sql = "CALL SPAGREGARCARGAMASIVADETALLECE($idTablaGeneral,$registro[0],$registro[1],$registro[2],$registro[3]);";
         $resultado=1;
         $rs=null;
         $array="";
@@ -541,7 +540,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
         $resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARCARGAMASIVA($busqueda);";
+        $sql = "CALL SPCONSULTARCARGAMASIVA($tipodocumento,$busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $inserto = 0;
@@ -550,7 +549,7 @@ public function ReporteCallcenterGestionados($param){
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
                          $ruta= "<a href='/".$fila['Ruta']."'>Descargar Archivo</a>";
-                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Modulo'],$fila['TipoArchivo'], $ruta ,$value);
+                          array_push($registro, $fila['TipoIdentificacion'],$fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Modulo'],$fila['TipoArchivo'], $ruta ,$value);
                         
                           array_push($registro, $value);
                     }
@@ -569,7 +568,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
         $resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARCARGAMASIVACE($busqueda);";
+        $sql = "CALL SPCONSULTARCARGAMASIVACE($tipodocumento,$busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $host= $_SERVER["HTTP_HOST"];
@@ -578,7 +577,7 @@ public function ReporteCallcenterGestionados($param){
                 foreach ($filas as $fila) {
                     foreach ($fila as $key => $value) {
                          $ruta= "<a href='/".$fila['Ruta']."'>Descargar Archivo</a>";
-                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['EstadoAnterior'],$fila['EstadoNuevo'],$fila['TipoArchivo'], $ruta ,$value);
+                          array_push($registro, $fila['TipoIdentificacion'],$fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['EstadoAnterior'],$fila['EstadoNuevo'],$fila['TipoArchivo'], $ruta ,$value);
                         
                           array_push($registro, $value);
                     }
@@ -628,7 +627,7 @@ public function ReporteCallcenterGestionados($param){
         extract($param);
          $resultado = array();
         $registro = array();
-        $sql = "CALL SPCONSULTARCARGAMASIVASM('$busqueda');";
+        $sql = "CALL SPCONSULTARCARGAMASIVASM($tipodocumento,$busqueda);";
         $rs=null;
         $conexion->getPDO()->query("SET NAMES 'utf8'");
         $host= $_SERVER["HTTP_HOST"];
@@ -638,7 +637,7 @@ public function ReporteCallcenterGestionados($param){
                     foreach ($fila as $key => $value) {
                          $rutaFuente= "<a href='/".$fila['RutaFuente']."'>Descargar Archivo Fuente</a>";
                          $rutaEscaneado= "<a href='/".$fila['RutaSoporte']."'>Descargar Archivo Soporte</a>";
-                          array_push($registro, $fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Salon'],$rutaFuente, $rutaEscaneado ,$value);
+                          array_push($registro, $fila['TipoIdentificacion'],$fila['NumeroIdentificacion'],$fila['Nombres'],$fila['Fecha'],$fila['Salon'],$rutaFuente, $rutaEscaneado ,$value);
                         
                           array_push($registro, $value);
                     }

@@ -35,7 +35,6 @@
 		<!-- FIN BARRA DE NAVEGACIÓN -->
 	</section>
 	<!-- FIN ENCABEZADO -->
-
 	<!-- CUERPO -->
 	<section class="cuerpo">
 		<div class="medio">
@@ -84,31 +83,14 @@
 			<button id="btnAsignacion" class="boton Asignacion">Asignacion</button>
 			<button id="btnOferente" class="boton Tercero">Tercero</button>
 		</div>
-	</br></br>
-	<div class="inferior">
-	</div>
-</section>
- 	<!-- Inicio Mensaje de sesion-->
-        <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
-        <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
-
-          <table id="tblPopup" width="350" align="left" border="0">
-            <tr>
-                <td align="center">
-                    <label id="textoConfirmacionSesion" class="popup"></label>
-					<br><br>
-					<input type="button" name="element_to_pop_upConf" value="Seguir Logueado" id="btnAceptar" class="b-close botonAceptar" style="width: 150px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-					
-                    <input type="button" name="element_to_pop_upConf" value="Cerrar Sesión" id="btnCerrar"  class="b-close" style="width: 120px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-                </td>
-            </tr>
-        </table>
-        </div>
-        <!-- Fin Mensaje de sesion-->
-<!-- FIN CUERPO -->
-<!-- FOOTER -->
-<footer></footer>
-		<!-- FIN FOOTER -->
+		</br></br>
+		<div class="inferior">
+		</div>
+	</section>
+	<!-- FIN CUERPO -->
+	<!-- FOOTER -->
+	<footer></footer>
+	<!-- FIN FOOTER -->
 	<!-- Inicio seccion PopUp-->	
 	<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
         <div>
@@ -122,6 +104,21 @@
                 </tr>
             </table>
         </div>
-    </div>	
-	</body>
-	</html>
+    </div>
+    <!-- Inicio Mensaje de cerrar sesion por inactividad -->
+	<div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+	<div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
+		<table id="tblPopup" width="350" align="left" border="0">
+		    <tr>
+		        <td align="center">
+		            <label id="textoConfirmacionSesion" class="popup"></label>
+					<br><br>
+					<input type="button" name="element_to_pop_upConf" value="Seguir Conectado" id="btnAceptar" class="b-close botonAceptar" style="width: 150px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+		            <input type="button" name="element_to_pop_upConf" value="Cerrar Sesión" id="btnCerrar"  class="b-close" style="width: 120px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+		        </td>
+		    </tr>
+		</table>
+	</div>
+	<!-- Fin Mensaje de sesion-->
+</body>
+</html>

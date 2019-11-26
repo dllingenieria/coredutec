@@ -1,7 +1,7 @@
 $(function(){
 	var table;
 	CargarListaCargasMasivas("#selCargaConsulta");
-
+	cargarTiposDocumentos();
 	function CargarListaCargasMasivas(SelectCarga) {  
 	    $.post("../../controlador/fachada.php", {
 	         clase: 'clsGestorBDPlanas',
@@ -27,116 +27,162 @@ $(function(){
 	    }
 	}
 
-	function SetParametroCursoPorDefecto(atributo, valor, texto) {
+	function SetParametroCursoPorDefecto(atributo, valor, texto){
 	    $(atributo).append($('<option>', {
 	        value: valor,
 	        text: texto
 	    }));
 	}
 
+	function cargarTiposDocumentos() {
+	    $.post("../../controlador/fachada.php", {
+	        clase: 'clsNovedades',
+	        oper: 'consultarTiposDocumentos'
+	    }, function(data) {
+	        if (data !== 0) { 
+	            //setParametroPorDefecto("#cmbTipoDocumento", '3', "CC");
+	            formarOptionValueTipoDocumentos(data);
+	        }
+	    }, "json");
+	}
 
-	$( "#selCargaConsulta" ).change(function() { 
-			valorSeleccionado = $("#selCargaConsulta").val();
-			
-			switch (valorSeleccionado) {
-				case "00":
-					$(".form").hide();
-					mostrarPopUpError("Debe seleccionar una opción");
-					break;
-				case "1":
-					$("#form-tercero").show();	
-					$("#form-preprogramacion").hide();
-					$("#buscar").show();				 
-					break;
-				case "2":		
-					$("#form-tercero").show();
-					$("#form-preprogramacion").hide();
-					$("#buscar").show();	
-					break;
-				case "3":
-					$("#form-preprogramacion").show();
-					$("#form-tercero").hide();
-					$("#buscar").show();	
-					break;
-				case "4":
-					$("#form-tercero").show();
-					$("#form-preprogramacion").hide();
-					$("#buscar").show();
-					break;
-				case "5":
-					$("#form-preprogramacion").show();
-					$("#form-tercero").hide();
-					$("#buscar").show();
-					break;
-				case "6":
-					$("#form-preprogramacion").show();
-					$("#form-tercero").hide();
-					$("#buscar").show();
-			}
+	function formarOptionValueTipoDocumentos(tiposDocumentos) { 
+	    for (i = 0; i < tiposDocumentos.length; i++) { 
+	        $('#cmbTipoIdentificacion').append($('<option>', {
+	            value: tiposDocumentos[i][0],
+	            text: tiposDocumentos[i][1]
+	        }));
+	    }
+	}
+
+	$("#selCargaConsulta" ).change(function() { 
+		valorSeleccionado = $("#selCargaConsulta").val();
+		
+		switch (valorSeleccionado) {
+			case "00":
+				$(".form").hide();
+				mostrarPopUpError("Debe seleccionar una opción");
+				break;
+			case "1":
+				$("#form-tercero").show();	
+				$("#form-preprogramacion").hide();
+				$("#buscar").show();				 
+				break;
+			case "2":		
+				$("#form-tercero").show();
+				$("#form-preprogramacion").hide();
+				$("#buscar").show();	
+				break;
+			case "3":
+				$("#form-preprogramacion").show();
+				$("#form-tercero").hide();
+				$("#buscar").show();	
+				break;
+			case "4":
+				$("#form-tercero").show();
+				$("#form-preprogramacion").hide();
+				$("#buscar").show();
+				break;
+			case "5":
+				$("#form-preprogramacion").show();
+				$("#form-tercero").hide();
+				$("#buscar").show();
+				break;
+			case "6":
+				$("#form-preprogramacion").show();
+				$("#form-tercero").hide();
+				$("#buscar").show();
+		}
 	});
 
 
-		$("#buscar").click(function() {
-			var selCargaConsulta = $("#selCargaConsulta").val();
-			var mensaje="Procesando la información<br>Espere por favor";
-			var busqueda="";
-	        jsShowWindowLoad(mensaje);
-	       var parametros= {};
-	       console.log(selCargaConsulta);
-	       consultarTabla="";
-	       console.log(selCargaConsulta);
-       	switch (selCargaConsulta) {
-       		case "1":
-       			console.log(busqueda);
-				busqueda=$("#identificacion").val();
-				parametros= { clase: 'clsCarga',
-						oper: 'ConsultarAsignaciones',
-						busqueda: busqueda
-						};
-				consultarTabla=cargarInformacionEnTablaAsignaciones;
-			break;
-			case "2":
-				busqueda=$("#identificacion").val(); 
-				parametros= { clase: 'clsCarga',
-						oper: 'ConsultarSoporteMatricula',
-						busqueda: busqueda
-						};
-				consultarTabla=cargarInformacionEnTablaMatricula;
-			break;
-			case "3":
-				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
-				parametros= { clase: 'clsCarga',
-						oper: 'ConsultarSoporteFirmas',
-						busqueda: busqueda
-						};
-				consultarTabla=cargarInformacionEnTablaFirmas;
-			break;
-			case "4":
-				busqueda=$("#identificacion").val(); 
-				parametros= { clase: 'clsCarga',
-						oper: 'ConsultarCambioEstados',
-						busqueda: busqueda
-						};
-				consultarTabla=cargarInformacionEnTablaEstado;
-			break;
-			case "5":
-				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
-				parametros= { clase: 'clsCarga',
-						oper: 'ConsultarSoporteRefrigerios',
-						busqueda: busqueda
-						};
-				consultarTabla=cargarInformacionEnTablaRefrigerios;
-			break;
-			case "6":
-				busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
-			break;
-
-
-       	}
-		
+	$("#buscar").click(function() {
+		var selCarga = $("#selCargaConsulta option:selected").val();
+		var selCargaConsulta = $("#selCargaConsulta option:selected").val();
+		switch (selCarga) {
+			case '1':
+		    case '2':
+		    case '4':
+		    	if($("#identificacion").val() != ''){
+		    		var mensaje="Procesando la información<br>Espere por favor";
+					var busqueda="";
+					var tipodocumento="";
+			        jsShowWindowLoad(mensaje);
+			        var parametros= {};
+			        consultarTabla="";
+			        switch (selCargaConsulta) {
+			        	case "1":
+							busqueda=$("#identificacion").val();
+							tipodocumento=$("#cmbTipoIdentificacion option:selected").val();
+							parametros= { clase: 'clsCarga',
+									oper: 'ConsultarAsignaciones',
+									tipodocumento: tipodocumento,
+									busqueda: busqueda
+									};
+							consultarTabla=cargarInformacionEnTablaAsignaciones;
+						break;
+						case "2":
+							busqueda=$("#identificacion").val();
+							tipodocumento=$("#cmbTipoIdentificacion option:selected").val();
+							parametros= { clase: 'clsCarga',
+									oper: 'ConsultarSoporteMatricula',
+									tipodocumento: tipodocumento,
+									busqueda: busqueda
+									};
+							consultarTabla=cargarInformacionEnTablaMatricula;
+						break;
+						case "4":
+							busqueda=$("#identificacion").val();
+							tipodocumento=$("#cmbTipoIdentificacion option:selected").val(); 
+							parametros= { clase: 'clsCarga',
+									oper: 'ConsultarCambioEstados',
+									tipodocumento: tipodocumento,
+									busqueda: busqueda
+									};
+							consultarTabla=cargarInformacionEnTablaEstado;
+						break;
+			        }
+		    	}else{
+		    		mostrarPopUpError("Debe escribir un número de documento");
+		    	}
+		    	break;
+		    case '3':
+		    case '5':
+		    case '6':
+		    	if($("#Preprogramacion").val() != ''){
+		    		var mensaje="Procesando la información<br>Espere por favor";
+					var busqueda="";
+			        jsShowWindowLoad(mensaje);
+			        var parametros= {};
+			        consultarTabla="";
+			       	switch (selCargaConsulta) {
+			       		case "3":
+							busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+							parametros= { clase: 'clsCarga',
+									oper: 'ConsultarSoporteFirmas',
+									busqueda: busqueda
+									};
+							consultarTabla=cargarInformacionEnTablaFirmas;
+						break;
+						case "5":
+							busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+							parametros= { clase: 'clsCarga',
+									oper: 'ConsultarSoporteRefrigerios',
+									busqueda: busqueda
+									};
+							consultarTabla=cargarInformacionEnTablaRefrigerios;
+						break;
+						case "6":
+							busqueda=$("#Preprogramacion").val(); // los que buscan por preprogramacion
+						break;
+			       	}
+		    	}else{
+		    		mostrarPopUpError("Debe escribir un código de salón");
+		    	}
+		}
 		$.post("../../controlador/fachada.php", 
-					parametros
-					, function(data) {
+			parametros
+			, function(data) {
 			if (data !== 0) {
 				if(data !== null){
 					consultarTabla(data);
@@ -145,8 +191,6 @@ $(function(){
 				}else{alert("error 1");}             
 			}else {alert("error 2");}
 		}, "json");
-		
-
  	});
 
 
@@ -161,6 +205,7 @@ $(function(){
 		table = $('#tablaContenidoGenerado').DataTable({
 			"data": data,
 			columns: [
+			{title: "TipoIdentificacion"},
 			{title: "NumeroIdentificacion"},
 			{title: "Nombres" },
 			{title: "Fecha" },
@@ -200,6 +245,7 @@ $(function(){
 		table = $('#tablaContenidoGenerado').DataTable({
 			"data": data,
 			columns: [
+			{title: "TipoIdentificacion"},
 			{title: "NumeroIdentificacion"},
 			{title: "Nombres" },
 			{title: "Fecha" },
@@ -239,6 +285,7 @@ $(function(){
 		table = $('#tablaContenidoGenerado').DataTable({
 			"data": data,
 			columns: [
+			{title: "TipoIdentificacion"},
 			{title: "NumeroIdentificacion"},
 			{title: "Nombres" },
 			{title: "Fecha" },

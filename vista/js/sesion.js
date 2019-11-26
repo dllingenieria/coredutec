@@ -1,13 +1,17 @@
+ var timer;
  $(document).on('ready',function(){
      //Inicio Cerrar Sesion
       $(document).idle({
           onIdle: function(){
-                popUpConfirmacionSesion("Su sesión se va a cerrar por inactividad!     Desea cerrar sesión?",1,cerrarSesion);
+                popUpConfirmacionSesion("Su sesión se va a cerrar por inactividad<br>en 5 minutos!",1,cerrarSesion);
+                timer = setTimeout(function() {
+                            cerrarSesion();
+                        }, 10000);
               },
               onActive: function(){
                 //$('#status').toggleClass('idle').html('Active!');
               },
-              idle: 1800000,
+              idle: 60000,
               keepTracking: true
             });    
             //Fin Cerrar Sesion   
@@ -24,9 +28,12 @@ function popUpConfirmacionSesion(msj, fn, fn1){
     /*como el id textoConfirmacion2 esta dos veces (en contenedor y en element_to_pop_upCon1)
     * se esta poniendo el texto en el de contenedor
     */
-    $("#textoConfirmacionSesion", contenedor ).text(msj);
+    $("#textoConfirmacionSesion", contenedor ).html(msj);
     $("[id=btnAceptar]:button", contenedor ).click(function(){ 
-        if( fn ) fn(); 
+        if (timer) {
+            clearTimeout(timer);
+            timer = 0;
+        }
     } );
     
     $("[id=btnCerrar]:button", contenedor ).click(function(){
@@ -302,7 +309,6 @@ function cerrarSesion() {
 			localStorage.clear();
             sessionStorage.clear(); 
 			window.location = "../../";	
-	
     }, "json");
    
 }
@@ -320,7 +326,6 @@ function capitalizar(text) {
 }
 
 function IniciarSesion() { 
-    
     if ($("#txtUsuario").val() === "docente" && $("#txtContrasena").val() === "1234") {
         window.location = "vista/html/docente.html";
     }else{
@@ -330,23 +335,28 @@ function IniciarSesion() {
             pNic_usu: $("#txtUsuario").val(),
             pCon_usu: $("#txtContrasena").val()
         }, function(data) {
-            if (data !== null) {   
-				ObtSesion(1); 
-                setTimeout(function(){
-                var roles = data[0].Roles.split(",");
-                sessionStorage.esAdministrador=roles[0];
-                sessionStorage.esDocente=roles[1];
-                sessionStorage.esMatriculador=roles[2];
-                sessionStorage.esCallCenter=roles[3];
-				sessionStorage.esAlimentacion=roles[4];
-				sessionStorage.esAcademico=roles[5]; 
-				sessionStorage.esCalidad=roles[6];
-                sessionStorage.esSAcademica=roles[7];
-                sessionStorage.esAvanzado=roles[8];
-                window.location = "vista/html/iniciarSesion.html";
-                },1000);
+            if (data !== 0) {
+                if(data[0].Ingresado === "S"){
+                    $("#textoError").html("El Usuario tiene otra sesión activa desde<br>"+data[0].FechaIngreso);
+                    $('#element_to_pop_upMen').bPopup({speed: 450,transition: 'slideDown'});
+                }else{
+                    ObtSesion(1); 
+                    setTimeout(function(){
+                    var roles = data[0].Roles.split(",");
+                    sessionStorage.esAdministrador=roles[0];
+                    sessionStorage.esDocente=roles[1];
+                    sessionStorage.esMatriculador=roles[2];
+                    sessionStorage.esCallCenter=roles[3];
+                    sessionStorage.esAlimentacion=roles[4];
+                    sessionStorage.esAcademico=roles[5]; 
+                    sessionStorage.esCalidad=roles[6];
+                    sessionStorage.esSAcademica=roles[7];
+                    sessionStorage.esAvanzado=roles[8];
+                    window.location = "vista/html/iniciarSesion.html";
+                    },1000);
+                }
             }else {
-                $("#textoError").text("Usuario o Contraseña incorrectos");
+                $("#textoError").html("Usuario o Contraseña incorrectos");
                 $('#element_to_pop_upMen').bPopup({speed: 450,transition: 'slideDown'});
             }}, "json");
     }

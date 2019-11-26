@@ -23,7 +23,7 @@ class clsParticipante {
      * @param  [string] $param [id de preprogramación]
      * @return [array]        [array con los datos y notas asociadas a cada estudiante]
      */
-     public function consultarNotasPorSalon($param){
+    public function consultarNotasPorSalon($param){
    		extract($param);
         $resp = null;
 		$usuario = $_SESSION['idUsuario'];
@@ -224,8 +224,6 @@ class clsParticipante {
         echo json_encode($array);
     }
 
-
-
     public function consultarEstudiantesPorSalonFormatoFirmas($param) {
 		extract($param); 
         $array=array();
@@ -244,7 +242,6 @@ class clsParticipante {
         echo json_encode($array);
     }
 
-
     public function consultarEstudiantesPorSalon($param) {
 		extract($param); 
         $array=array();
@@ -262,8 +259,6 @@ class clsParticipante {
         } //print_r($array); die();
         echo json_encode($array);
     }
-
-
 
     public function activarParticipante($param){
         
@@ -370,7 +365,6 @@ class clsParticipante {
         echo json_encode($array);
     }
 
-
     public function consultarEstudiantesPorSalonDadoSalon($param){
 		extract($param);
         $conexion->getPDO()->query("SET NAMES 'utf8'");
@@ -407,11 +401,9 @@ class clsParticipante {
             }
         } //print_r($array);
         echo json_encode($array);
-
     }
 
-
-     public function consultarCargaEstudiantesPorSalonDocente($param) {
+    public function consultarCargaEstudiantesPorSalonDocente($param) {
 		extract($param);
         $resultado = array();
         $registro = array();
@@ -433,7 +425,6 @@ class clsParticipante {
         }
             echo json_encode($resultado);
     }
-
 
     public function ConsultarParticipante($param) {
 		extract($param);

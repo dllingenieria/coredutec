@@ -46,36 +46,35 @@
 	<!-- CUERPO -->
 	<section class="cuerpo">
 		<div class="derecha" style="margin-top: 20px;">
-
-				<div id="seleccionCargaConsulta">
+			<div id="seleccionCargaConsulta">
 				<div class="LblCapturaConsulta">Seleccione la carga</div>
-		        <select id="selCargaConsulta" class="selectCargaConsulta">
-				<select/><br><br>
-		<div id="form-tercero" style="display:none">
-				<label class="titulo">Tercero</label>
-				<span class="modulosDisponibles">
-				<input id="identificacion" type="text" class="cedula" placeholder="Ingrese la cédula">
-				</span><br><br>
+		        <select id="selCargaConsulta" class="selectCargaConsulta"></select><br><br>
+				<div id="form-tercero" style="display:none">
+					<label id="lblTipoIdentificacion" class="titulo">Tipo Identificación</label>
+					<select id="cmbTipoIdentificacion" class="cedula"></select><br><br>
+					<label class="titulo">Número Identificación</label>
+					<span class="modulosDisponibles">
+					<input id="identificacion" type="text" class="cedula" placeholder="Ingrese la cédula">
+					</span><br><br>
+				</div>
+				<div id="form-preprogramacion" style="display:none">
+						<label id="lblPreprogramacion" class="titulo">Preprogramación</label>
+						<span class="modulosDisponibles">
+						<input id="Preprogramacion" type="text" class="Preprogramacion" placeholder="Ingrese Preprogramación">
+						</span><br><br>
+				</div>
+				<div id="botones" style="display:block">
+					<button id="buscar" class="boton">Buscar</button>
+				</div>
+			</div>
+			<table id="tablaContenidoGenerado" class="display" cellspacing="0" width="100%"></table>
 		</div>
-
-		<div id="form-preprogramacion" style="display:none">
-				<label class="titulo">Preprogramación</label>
-				<span class="modulosDisponibles">
-				<input id="Preprogramacion" type="text" class="Preprogramacion" placeholder="Ingrese Preprogramación">
-				</span><br><br>
-		</div>
-
-				<button id="buscar" class="boton" style="display:none">Buscar</button>	
-		</div>
-		<table id="tablaContenidoGenerado" class="display" cellspacing="0" width="100%"></table>
-
 	</section>
 
 	<!-- Inicio Mensaje de sesion-->
-        <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
-        <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
-
-          <table id="tblPopup" width="350" align="left" border="0">
+    <div id="contenedor" class="element_to_pop_upMensaje" style="display:none;"></div>
+    <div id="element_to_pop_upConSesion" class="element_to_pop_upMensaje">
+        <table id="tblPopup" width="350" align="left" border="0">
             <tr>
                 <td align="center">
                     <label id="textoConfirmacionSesion" class="popup"></label>
@@ -86,36 +85,34 @@
                 </td>
             </tr>
         </table>
-        </div>
-        <!-- Fin Mensaje de sesion-->
+    </div>
+    <!-- Fin Mensaje de sesion-->
         
 	<div id="element_to_pop_upCon" class="element_to_pop_upMensaje">
-    <div>
-        <table id="tblPopup" width="300" align="left" border="0">
-            <tr>
-                <td align="center">
-                    <label id="textoConfirmacion1" class="popup"></label>
-                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-                </td>
-            </tr>
-        </table>
-    </div>
-		</div>
-		<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
-    <div>
-
-        <table id="tblPopup" width="410" align="left" border="0">
-            <tr>
-                <td align="center">
-                    <label id="textoError" class="popup"></label>
-                    <br><br>
-                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
-                </td>
-            </tr>
-        </table>
-    </div>
-
-		</div> 
+	    <div>
+	        <table id="tblPopup" width="300" align="left" border="0">
+	            <tr>
+	                <td align="center">
+	                    <label id="textoConfirmacion1" class="popup"></label>
+	                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnDireccion"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+	                </td>
+	            </tr>
+	        </table>
+	    </div>
+	</div>
+	<div id="element_to_pop_upMen" class="element_to_pop_upMensaje">
+	    <div>
+	        <table id="tblPopup" width="410" align="left" border="0">
+	            <tr>
+	                <td align="center">
+	                    <label id="textoError" class="popup"></label>
+	                    <br><br>
+	                    <input type="button" name="element_to_pop_upConf" value="Aceptar" id="btnAcePop"  class="b-close" style="width: 96px; height: 27px; 		background:#003265; color: #ffffff; font-family: 'Roboto-Light'; font-size: 16px; border-radius: 6px 6px 6px 6px;" />
+	                </td>
+	            </tr>
+	        </table>
+	    </div>
+	</div> 
 	<!-- FIN CUERPO -->
 	<!-- FOOTER -->
 	<footer></footer>
