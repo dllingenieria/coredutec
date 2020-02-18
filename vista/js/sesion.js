@@ -1,17 +1,36 @@
  var timer;
+ var tiempo_sesion1;
+ var tiempo_sesion2;
  $(document).on('ready',function(){
      //Inicio Cerrar Sesion
-      $(document).idle({
-          onIdle: function(){
-                popUpConfirmacionSesion("Su sesión se va a cerrar por inactividad<br>en 5 minutos!",1,cerrarSesion);
+    $.ajax({
+        url: '../../controlador/fachada.php',
+        type: 'POST',
+        dataType: 'json',
+        async :false,
+        data: {
+            clase: 'clsUtilidades',
+            oper: 'consultarTiempoSesion',
+            pVariableX: 1,
+            }
+    }).done(function(data) {
+        if(data[0].tiempo !== null){
+            tiempo_sesion1 = data[0].tiempo;
+            tiempo_sesion2 = data[1].tiempo;
+        }
+        
+    }); 
+    $(document).idle({
+        onIdle: function(){
+                popUpConfirmacionSesion("Su sesión se va a cerrar por inactividad<br>en "+tiempo_sesion2+" minutos!",1);
                 timer = setTimeout(function() {
-                            cerrarSesion();
-                        }, 10000);
+                            actualizarBandera();
+                        }, (tiempo_sesion2 * 60000));
               },
               onActive: function(){
                 //$('#status').toggleClass('idle').html('Active!');
               },
-              idle: 60000,
+              idle: (tiempo_sesion1 * 60000),
               keepTracking: true
             });    
             //Fin Cerrar Sesion   
@@ -20,7 +39,7 @@
 
 
 //para el confirm
-function popUpConfirmacionSesion(msj, fn, fn1){
+function popUpConfirmacionSesion(msj, fn){
     //contenedor vacion
      var contenedor = $("#contenedor");
      //se le envia a contenedor el contenido de element_to_pop_upCon1
@@ -37,7 +56,7 @@ function popUpConfirmacionSesion(msj, fn, fn1){
     } );
     
     $("[id=btnCerrar]:button", contenedor ).click(function(){
-        if( fn1 ) fn1(); 
+        actualizarBandera();
     } );
     
     //se muestra el conetenedor 
@@ -97,7 +116,7 @@ $(function(){
 
 	
     $("#cerrarSesion").click(function() {
-        cerrarSesion();
+        actualizarBandera();
     });
     $("#cambiarRol").click(function() {
         cambiarRol();
@@ -301,14 +320,26 @@ function mostrarVistas(vistasPermitidas){
     }
 }
 
-function cerrarSesion() { 
+function actualizarBandera() {
+    $.post("../../controlador/fachada.php", {
+        clase: 'clsPersona',
+        oper: 'salir',
+        pVariable1: 1
+    }, function(data){
+            if(data === 'A'){
+                cerrarSesion(); 
+            }
+    }, "json");
+}
+
+function cerrarSesion() {
     $.post("../../controlador/fachada.php", {
         clase: 'clsPersona',
         oper: 'killSesion'
     }, function(data) {  
-			localStorage.clear();
+            localStorage.clear();
             sessionStorage.clear(); 
-			window.location = "../../";	
+            window.location = "../../";   
     }, "json");
    
 }
@@ -316,7 +347,6 @@ function cerrarSesion() {
 function cambiarRol() {
     window.location = "iniciarSesion.html";
 }
-
 
 function capitalizar(text) {
     newText = text.split(" ").map(function(word){
